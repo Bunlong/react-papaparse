@@ -36,7 +36,15 @@ var csv = jsonToCSV(jsonData)
   inputRef={this.fileInput}
   style={{display: 'none'}}
   onError={this.handleOnError}
-/>`}</code></pre>
+/>
+
+// Stream big file in worker thread
+readRemoteFile(bigFileURL, {
+  worker: true,
+  step: function(results) {
+    console.log('Row:', results.data)
+  }
+})`}</code></pre>
                 </div>
               </div>
             </div>
@@ -105,18 +113,21 @@ var csv = jsonToCSV(jsonData)
                 <li>CSV&#8594;JSON and <a href="#unparse">JSON&#8594;CSV</a></li>
                 <li>Auto-detect <a href="#delimiter">delimiter</a></li>
                 <li><a href="#local-files">Open local files</a></li>
+                <li><a href="#remote-files">Download remote files</a></li>
               </div>
 
               <div className="grid-33">
                 <li><a href="#stream">Stream</a> local and remote files</li>
                 <li><a href="#worker">Multi-threaded</a></li>
+                <li><a href="#header">Header row</a> support</li>
                 <li><a href="#type-conversion">Type conversion</a></li>
               </div>
 
               <div className="grid-33">
                 <li>Skip <a href="#comments">commented lines</a></li>
-                <li><a href="#header">Header row</a> support</li>
+                <li>Fast mode</li>
                 <li>Graceful <a href="#errors">error</a> handling</li>
+                <li>Easy to use</li>
               </div>
 
               <div className="clear" /><br/><br/>
@@ -127,6 +138,22 @@ var csv = jsonToCSV(jsonData)
                 <a href="/docs" className="button gray">
                   <i className="fa fa-book"></i>&nbsp; Documentation
                 </a>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <div className="grid-container narrow-grid">
+              <div className="grid-100">
+                <h3>Frameworks</h3>
+                <p>
+                  react-papaparse strongly support <a href="https://nextjs.org" target="blank">Next</a>, <a href="https://create-react-app.dev" target="blank">Create React App</a> and other React frameworks. react-papaparse is the fastest React CSV parser for the browser (only works in the browser), so you need to set the component with no SSR (server-side render) <b>in case you use <code>readRemoteFile</code> function</b>.
+                </p>
+                <p>
+                  <ul>
+                    <li><a href="https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr" target="blank">Next — component with no SSR</a></li>
+                  </ul>
+                </p>
               </div>
             </div>
           </section>
@@ -244,6 +271,23 @@ export default App
             </div>
           </section>
 
+          <section id="remote-files">
+            <div className="grid-container narrow-grid">
+              <div className="grid-100">
+                <h4>Remote Files</h4>
+                <h5>"No &mdash; I mean, the file isn't on my computer."</h5>
+                <p>Oh, well then just pass in the URL and &mdash; of course &mdash; a callback.</p>
+
+                <pre><code className="language-javascript">{`readRemoteFile('http://example.com/file.csv', {
+  download: true,
+  complete: function(results) {
+    console.log(results);
+  }
+})`}</code></pre>
+              </div>
+            </div>
+          </section>
+
           <section id="stream">
             <div className="grid-container narrow-grid">
               <div className="grid-100">
@@ -252,16 +296,14 @@ export default App
 
                 <p>That's what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won't load the whole file into memory and crash the browser.</p>
 
-                <pre><code className="language-javascript">{`<CSVReader
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-  configOptions={
-    step: function(row) {
-      console.log("Row:", row.data);
-    }
+                <pre><code className="language-javascript">{`readRemoteFile('http://example.com/big.csv', {
+  step: function(row) {
+    console.log('Row:', row.data);
+  },
+  complete: function() {
+    console.log('All done!');
   }
-/>`}</code></pre>
+})`}</code></pre>
               </div>
             </div>
           </section>
@@ -274,17 +316,15 @@ export default App
 
                 <p>That happens when a long-running script is executing in the same thread as the page. Use a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker">Worker</a> thread by specifying <code>worker: true</code>. It may take slightly longer, but your page will stay reactive.</p>
 
-                <pre><code className="language-javascript">{`<CSVReader
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-  configOptions={
-    worker: true,
-    step: function(row) {
-      console.log("Row:", row.data);
-    }
+                <pre><code className="language-javascript">{`readRemoteFile(bigFileURL, {
+  worker: true,
+  step: function(row) {
+    console.log('Row:', row.data);
+  },
+  complete: function() {
+    console.log('All done!');
   }
-/>`}</code></pre>
+})`}</code></pre>
               </div>
             </div>
           </section>

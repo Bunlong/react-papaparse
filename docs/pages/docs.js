@@ -44,6 +44,7 @@ export default class Docs extends Component {
                   <ul>
                     <li><a href="#strings">readString</a></li>
                     <li><a href="#local-files">Parse local file</a></li>
+                    <li><a href="#remote-files">readRemoteFile</a></li>
                   </ul>
                 </li>
                 <li><a href="#json-to-csv">Convert JSON to CSV</a></li>
@@ -112,6 +113,25 @@ export default class Docs extends Component {
                   <li><code>configOptions</code> is a <a href="#config">config object</a> which contains a callback.</li>
                   <li><code><a href="https://reactjs.org/docs/refs-and-the-dom.html" target="_blank">inputRef</a></code> is a way to access/get files from <code>{`<input type="file">`}</code> element.</li>
                   <li><code>style</code> is some styles to be applied to the <code>{`<input>`}</code> element.</li>
+                  <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
+                </ul>
+              </div>
+
+              <div class="grid-100">
+                <h5 id="remote-files">Parse remote file</h5>
+              </div>
+
+              <div class="grid-50">
+                <pre><code className="language-javascript">{`readRemoteFile(url, {
+  // rest of config ...
+})
+`}</code></pre>
+              </div>
+
+              <div class="grid-50">
+                <ul>
+                  <li><code>url</code> is the path or URL to the file to download.</li>
+                  <li>The second argument is a <a href="#config">config object</a>.</li>
                   <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
                 </ul>
               </div>
