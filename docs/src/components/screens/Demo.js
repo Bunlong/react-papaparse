@@ -6,20 +6,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
 export default class Demo extends Component {
 
-  componentDidMount() {
-    readRemoteFile(
-      'http://localhost:3000/static/csv/normal.csv',
-      {
-        step: function(row) {
-          console.log("Row:", row.data);
-        },
-        complete: function() {
-          console.log("All done!");
-        }
-      }
-    )
-  }
-
   constructor(props) {
     super(props);
     this.fileInput = React.createRef();
@@ -32,6 +18,7 @@ export default class Demo extends Component {
 3-1,3-2,3-3,3-4
 4,5,6,7`,
       csvData: null,
+      url: '',
       jsonData: `[
   {
       "Column 1": "1-1",
@@ -81,7 +68,7 @@ export default class Demo extends Component {
       console.log('Results: ', results)
       console.log('Synchronous results: ', results)
       console.log('--------------------------------------------------')
-    } else if (index ===1) {
+    } else if (index === 1) {
       let results = this.state.csvData
       if (results) {
         console.log('--------------------------------------------------')
@@ -92,15 +79,38 @@ export default class Demo extends Component {
         console.log('Synchronous results: ', results)
         console.log('--------------------------------------------------')
       } else {
-        console.log('--------------------------------------------------')
-        console.error('Please upload csv file!')
-        console.log('--------------------------------------------------')
+        alert('Please choose at least one file to parse.')
+        return
       }
+    } else if (index === 2) {
+      if (this.state.url === '') {
+        alert('Please enter the URL of a file to download and parse.')
+        return
+      }
+      readRemoteFile(
+        this.state.url,
+        {
+          complete: function(results) {
+            console.log('--------------------------------------------------')
+            console.log('Parse complete!')
+            console.log('Row count: ', results.data.length)
+            console.log('Errors: ', results.errors.length)
+            console.log('Results: ', results)
+            console.log('Synchronous results: ', results)
+            console.log('--------------------------------------------------')
+          }
+        }
+      )
     } else {
-      let results = jsonToCSV(this.state.jsonData)
-      console.log('--------------------------------------------------')
-      console.log(results)
-      console.log('--------------------------------------------------')
+      try {
+        let results = jsonToCSV(this.state.jsonData)
+        console.log('--------------------------------------------------')
+        console.log(results)
+        console.log('--------------------------------------------------')
+      } catch (e) {
+        alert('Please enter valid JSON.')
+        return
+      }
     }
   }
 
@@ -114,6 +124,14 @@ export default class Demo extends Component {
 
   handleJsonDataChange = (event) => {
     this.setState({jsonData: event.target.value})
+  }
+
+  handleURLChange = (event) => {
+    this.setState({url: event.target.value})
+  }
+
+  setURL = (url) => {
+    this.setState({url})
   }
 
   render() {
@@ -156,6 +174,7 @@ export default class Demo extends Component {
                 <TabList>
                   <Tab>String</Tab>
                   <Tab>Local File(s)</Tab>
+                  <Tab>Remote File</Tab>
                   <Tab>JSON to CSV</Tab>
                 </TabList>
                 <TabPanel>
@@ -193,6 +212,33 @@ export default class Demo extends Component {
                         </li>
                         <li>
                           <a href="/static/csv/big.csv" id="local-malformed-file">Malformed file</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                  <div className="input-area" id="input-string">
+                    <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                      <a href='https://github.com/themodernjavascript/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
+                    </div>
+                    <div>
+                      <div className="text-center">
+                        Type the URL of the file to be downloaded and parsed.
+                        <br/>
+                        <small>(cross-origin requests require Access-Control-Allow-Origin header)</small>
+                      </div>
+                      <input type="text" id="url" placeholder="URL" value={this.state.url} onChange={this.handleURLChange} />
+                      Sample remote files:
+                      <ul>
+                        <li>
+                          <a id="local-normal-file" onClick={() => this.setURL('/static/csv/normal.csv')} style={{cursor: 'pointer'}}>Normal file</a>
+                        </li>
+                        <li>
+                          <a id="local-large-file" onClick={() => this.setURL('/static/csv/big.csv')} style={{cursor: 'pointer'}}>Large file</a>
+                        </li>
+                        <li>
+                          <a id="local-malformed-file" onClick={() => this.setURL('/static/csv/malformed.csv')} style={{cursor: 'pointer'}}>Malformed file</a>
                         </li>
                       </ul>
                     </div>
