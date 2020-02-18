@@ -19,7 +19,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+package-lock.json
+
 /docs/node_modules
 /docs/.next
+/docs/package-lock.json
 
 example
