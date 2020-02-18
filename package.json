@@ -1,7 +1,7 @@
 {
   "name": "react-papaparse",
-  "version": "2.0.1",
-  "description": "The fastest in-browser CSV (or delimited text) parser for React.",
+  "version": "2.2.0",
+  "description": "Fast and powerful React CSV parser for the browser that supports web workers and streaming large files. Converts CSV to JSON and JSON to CSV.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
   "repository": "https://github.com/Bunlong/react-papaparse.git",
@@ -30,7 +30,14 @@
     "threading",
     "multi-thread",
     "multi-threaded",
-    "preact"
+    "preact",
+    "delimited",
+    "text",
+    "auto-detect",
+    "comma",
+    "tab",
+    "pipe",
+    "workers"
   ],
   "homepage": "https://react-papaparse.github.io",
   "main": "dist/index.js",
