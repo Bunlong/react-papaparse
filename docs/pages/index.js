@@ -281,7 +281,7 @@ export default App
                 <pre><code className="language-javascript">{`readRemoteFile('http://example.com/file.csv', {
   download: true,
   complete: function(results) {
-    console.log(results);
+    console.log(results)
   }
 })`}</code></pre>
               </div>
@@ -298,10 +298,10 @@ export default App
 
                 <pre><code className="language-javascript">{`readRemoteFile('http://example.com/big.csv', {
   step: function(row) {
-    console.log('Row:', row.data);
+    console.log('Row:', row.data)
   },
   complete: function() {
-    console.log('All done!');
+    console.log('All done!')
   }
 })`}</code></pre>
               </div>
@@ -319,10 +319,10 @@ export default App
                 <pre><code className="language-javascript">{`readRemoteFile(bigFileURL, {
   worker: true,
   step: function(row) {
-    console.log('Row:', row.data);
+    console.log('Row:', row.data)
   },
   complete: function() {
-    console.log('All done!');
+    console.log('All done!')
   }
 })`}</code></pre>
               </div>

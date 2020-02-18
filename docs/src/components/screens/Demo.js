@@ -220,7 +220,7 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/ReadRemoteFile.js'>Source code</a>
                     </div>
                     <div>
                       <div className="text-center">

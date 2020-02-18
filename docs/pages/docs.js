@@ -117,18 +117,18 @@ export default class Docs extends Component {
                 </ul>
               </div>
 
-              <div class="grid-100">
+              <div className="grid-100">
                 <h5 id="remote-files">Parse remote file</h5>
               </div>
 
-              <div class="grid-50">
+              <div className="grid-50">
                 <pre><code className="language-javascript">{`readRemoteFile(url, {
   // rest of config ...
 })
 `}</code></pre>
               </div>
 
-              <div class="grid-50">
+              <div className="grid-50">
                 <ul>
                   <li><code>url</code> is the path or URL to the file to download.</li>
                   <li>The second argument is a <a href="#config">config object</a>.</li>
