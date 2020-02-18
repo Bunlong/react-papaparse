@@ -87,6 +87,7 @@ export default class Demo extends Component {
         alert('Please enter the URL of a file to download and parse.')
         return
       }
+      console.log('Running!')
       readRemoteFile(
         this.state.url,
         {
