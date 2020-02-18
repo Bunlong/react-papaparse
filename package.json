@@ -4,9 +4,9 @@
   "description": "The fastest in-browser CSV (or delimited text) parser for React.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/themodernjavascript/react-papaparse.git",
+  "repository": "https://github.com/Bunlong/react-papaparse.git",
   "bugs": {
-    "url": "https://github.com/themodernjavascript/react-papaparse.git/issues"
+    "url": "https://github.com/Bunlong/react-papaparse.git/issues"
   },
   "keywords": [
     "react",

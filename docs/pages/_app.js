@@ -90,7 +90,7 @@ class CustomApp extends App {
 
               <div className="grid-15 mobile-grid-50 links">
                 <h5>Project</h5>
-                <a href="https://github.com/themodernjavascript/react-papaparse">GitHub</a>
+                <a href="https://github.com/Bunlong/react-papaparse">GitHub</a>
               </div>
             </div>
           </div>

@@ -26,7 +26,7 @@ export default class Docs extends Component {
               </div>
               <div className="grid-40 mobile-grid-50 text-right">
                 <div className="links">
-                  <a href="https://github.com/themodernjavascript/react-papaparse">
+                  <a href="https://github.com/Bunlong/react-papaparse">
                     <i className="fa fa-github fa-lg"></i> GitHub
                   </a>
                 </div>

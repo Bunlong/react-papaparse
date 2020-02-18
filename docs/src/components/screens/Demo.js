@@ -158,7 +158,7 @@ export default class Demo extends Component {
               </div>
               <div className="grid-40 mobile-grid-50 text-right">
                 <div className="links">
-                  <a href="https://github.com/themodernjavascript/react-papaparse">
+                  <a href="https://github.com/Bunlong/react-papaparse">
                     <i className="fa fa-github fa-lg"></i> GitHub
                   </a>
                 </div>
@@ -180,7 +180,7 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{float: 'right', marginBottom: 14}}>
-                      <a href='https://github.com/themodernjavascript/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
+                      <a href='https://github.com/B/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
                     </div>
                     <textarea id="input" placeholder="String input" onChange={this.handleStrChange} value={this.state.str} />
                   </div>
@@ -188,7 +188,7 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-                      <a href='https://github.com/themodernjavascript/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
                     </div>
                     <div>
                       <div className="text-center">
@@ -220,7 +220,7 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-                      <a href='https://github.com/themodernjavascript/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
                     </div>
                     <div>
                       <div className="text-center">
@@ -247,7 +247,7 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{float: 'right', marginBottom: 14}}>
-                      <a href='https://github.com/themodernjavascript/react-papaparse/blob/master/demo/JsonToCSV.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/JsonToCSV.js'>Source code</a>
                     </div>
                     <div>
                        <textarea id="json" placeholder="JSON string" value={this.state.jsonData} onChange={this.handleJsonDataChange} />

@@ -68,7 +68,7 @@ readRemoteFile(bigFileURL, {
               </div>
               <div className="grid-40 mobile-grid-50 text-right">
                 <div className="links">
-                  <a href="https://github.com/themodernjavascript/react-papaparse">
+                  <a href="https://github.com/Bunlong/react-papaparse">
                     <i className="fa fa-github fa-lg"></i> GitHub
                   </a>
                 </div>
@@ -132,7 +132,7 @@ readRemoteFile(bigFileURL, {
 
               <div className="clear" /><br/><br/>
               <div className="grid-100 text-center">
-                <a href="https://github.com/themodernjavascript/react-papaparse" className="button">
+                <a href="https://github.com/Bunlong/react-papaparse" className="button">
                   <i className="fa fa-github"></i>&nbsp; GitHub
                 </a>
                 <a href="/docs" className="button gray">
@@ -430,7 +430,7 @@ var csv = jsonToCSV(jsonData)
               <div className="grid-100 text-center">
                 <br/><br/>
 
-                <a href="https://github.com/themodernjavascript/react-papaparse" className="button">
+                <a href="https://github.com/Bunlong/react-papaparse" className="button">
                   <i className="fa fa-github"></i>&nbsp; GitHub
                 </a>
                 <a href="/demo" className="button red">
