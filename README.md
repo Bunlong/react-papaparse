@@ -2,13 +2,14 @@
 
 The fastest in-browser CSV (or delimited text) parser for React.
 
-[![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) [![Build Status](https://travis-ci.com/themodernjavascript/react-papaparse.svg?branch=master)](https://travis-ci.com/themodernjavascript/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) [![Build Status](https://travis-ci.com/Bunlong/react-papaparse.svg?branch=master)](https://travis-ci.com/Bunlong/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## 🎁 Features
 
 * Easy to use
-* Fast mode by default
-* Stream large files
+* Fast mode (is really fast)
+* Parse CSV files directly (local or over the network)
+* Stream large files (even via HTTP)
 * Reverse parsing (converts JSON to CSV)
 * Auto-detect delimiter
 * Worker threads to keep your web page reactive
@@ -44,8 +45,9 @@ To learn how to use react-papaparse:
 ## 📚 Functions & Component Document
 
 * [readString](https://react-papaparse.github.io/docs#strings)
-* [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv)
 * [CSVReader](https://react-papaparse.github.io/docs#local-files)
+* [readRemoteFile](https://react-papaparse.github.io/docs#remote-files)
+* [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv)
 
 ## 💡 Usage
 
@@ -61,41 +63,6 @@ var str = `Column 1,Column 2,Column 3,Column 4
 4,5,6,7`
 
 var results = readString(str)
-```
-
-### 🎀 jsonToCSV
-
-```javascript
-import { jsonToCSV } from 'react-papaparse'
-
-var jsonData = `[
-  {
-      "Column 1": "1-1",
-      "Column 2": "1-2",
-      "Column 3": "1-3",
-      "Column 4": "1-4"
-  },
-  {
-      "Column 1": "2-1",
-      "Column 2": "2-2",
-      "Column 3": "2-3",
-      "Column 4": "2-4"
-  },
-  {
-      "Column 1": "3-1",
-      "Column 2": "3-2",
-      "Column 3": "3-3",
-      "Column 4": "3-4"
-  },
-  {
-      "Column 1": 4,
-      "Column 2": 5,
-      "Column 3": 6,
-      "Column 4": 7
-  }
-]`
-
-var results = jsonToCSV(jsonData)
 ```
 
 ### 🎀 CSVReader
@@ -141,6 +108,56 @@ class App extends Component {
 export default App
 ```
 
+### 🎀 readRemoteFile
+
+```javascript
+import { readRemoteFile } from 'react-papaparse'
+
+readRemoteFile(
+  url,
+  {
+    complete: function(results) {
+      console.log('Results:', results)
+    }
+  }
+)
+```
+
+### 🎀 jsonToCSV
+
+```javascript
+import { jsonToCSV } from 'react-papaparse'
+
+var jsonData = `[
+  {
+      "Column 1": "1-1",
+      "Column 2": "1-2",
+      "Column 3": "1-3",
+      "Column 4": "1-4"
+  },
+  {
+      "Column 1": "2-1",
+      "Column 2": "2-2",
+      "Column 3": "2-3",
+      "Column 4": "2-4"
+  },
+  {
+      "Column 1": "3-1",
+      "Column 2": "3-2",
+      "Column 3": "3-3",
+      "Column 4": "3-4"
+  },
+  {
+      "Column 1": 4,
+      "Column 2": 5,
+      "Column 3": 6,
+      "Column 4": 7
+  }
+]`
+
+var results = jsonToCSV(jsonData)
+```
+
 #### Header row support
 
 If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.
@@ -160,17 +177,14 @@ If you tell react-papaparse there is a header row, each row will be organized by
 That's what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won't load the whole file into memory and crash the browser.
 
 ```javascript
-<CSVReader
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-  configOptions={{
-    header: true,
-    step: function(row) { /* Stream */
-      console.log("Row:", row.data)
-    },
-  }}
-/>
+readRemoteFile('http://example.com/big.csv', {
+  step: function(row) {
+    console.log('Row:', row.data)
+  },
+  complete: function() {
+    console.log('All done!')
+  }
+})
 ```
 
 ## 💖 Wrap Up
