@@ -176,17 +176,14 @@ If you tell react-papaparse there is a header row, each row will be organized by
 That's what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won't load the whole file into memory and crash the browser.
 
 ```javascript
-<CSVReader
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-  configOptions={{
-    header: true,
-    step: function(row) { /* Stream */
-      console.log("Row:", row.data)
-    },
-  }}
-/>
+readRemoteFile('http://example.com/big.csv', {
+  step: function(row) {
+    console.log('Row:', row.data)
+  },
+  complete: function() {
+    console.log('All done!')
+  }
+})
 ```
 
 ## 💖 Wrap Up
