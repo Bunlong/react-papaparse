@@ -18,11 +18,17 @@ export default class Draft extends Component {
   render() {
     return (
       <>
-        <CSVReaderDraft 
-          label='Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region'
-          inputRef={this.fileInput}
-          onFileLoaded={this.handleReadCSV}
-        />
+        <main>
+          <div className="grid-container">
+            <div className="grid-66">
+              <CSVReaderDraft 
+                label='Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region'
+                inputRef={this.fileInput}
+                onFileLoaded={this.handleReadCSV}
+              />
+            </div>
+          </div>
+        </main>
       </>
     )
   }

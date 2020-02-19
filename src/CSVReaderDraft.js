@@ -14,12 +14,12 @@ export default class CSVReaderDraft extends Component {
   }
 
   dropAreaRef = React.createRef()
-  progressBarRef = React.createRef()
   fileNameRef = React.createRef()
   uploadProgress = []
 
   state = {
-    dropAreaStyle: styles.dropArea
+    dropAreaStyle: styles.dropArea,
+    progressBar: 0
   }
 
   componentDidMount = () => {
@@ -79,12 +79,14 @@ export default class CSVReaderDraft extends Component {
     reader.readAsDataURL(file)
     reader.onloadend = () => {
       console.log(this.fileNameRef.current)
-      this.fileNameRef.current.html = file.name
+      this.fileNameRef.current.innerHTML = file.name + ' - ' + file.size
+
+      console.log(file)
     }
   }
 
   initializeProgress = (numFiles) => {
-    this.progressBarRef.current.value = 0
+    this.setState({progressBar: 0})
     this.uploadProgress = []
 
     for(let i = numFiles; i > 0; i--) {
@@ -95,7 +97,7 @@ export default class CSVReaderDraft extends Component {
   updateProgress = (fileNumber, percent) => {
     this.uploadProgress[fileNumber] = percent
     let total = this.uploadProgress.reduce((tot, curr) => tot + curr, 0) / this.uploadProgress.length
-    this.progressBarRef.current.value = total
+    this.setState({progressBar: total})
   }
 
   uploadFile = (file, index) => {
@@ -158,16 +160,20 @@ export default class CSVReaderDraft extends Component {
     
     return (
       <div style={this.state.dropAreaStyle} ref={this.dropAreaRef} onClick={this.handleClick}>
-          <p>{label}</p>
+        <p>{label}</p>
+        <input
+          type='file'
+          accept='text/csv'
+          ref={inputRef}
+          style={styles.inputFile}
+          onChange={e => this.handleDrop(e)}
+        />
+        <div style={styles.dropFile}>
           <div ref={this.fileNameRef}></div>
-          <input
-            type='file'
-            accept='text/csv'
-            ref={inputRef}
-            style={styles.file}
-            onChange={e => this.handleDrop(e)}
-          />
-          <progress ref={this.progressBarRef} max={100} value={0}></progress>
+          <div style={styles.progressBar}>
+            <span style={Object.assign({}, styles.progressBarFill, {width: `${this.state.progressBar}%`})}></span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -177,12 +183,12 @@ let styles = {
   dropArea: {
     border: '2px dashed #ccc',
     borderRadius: 20,
-    width: 480,
+    width: '100%',
     margin: '50 auto',
     padding: 20,
     cursor: 'pointer',
   },
-  file: {
+  inputFile: {
     display: 'none',
   },
   highlight: {
@@ -191,4 +197,28 @@ let styles = {
   unhighlight: {
     borderColor: '#ccc',
   },
+  dropFile: {
+    borderRadius: 20,
+    background: 'linear-gradient(to bottom, #eee, #ddd)',
+    width: 120,
+    height: 120,
+    position: 'relative',
+    display: 'block',
+    zIndex: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  progressBar: {
+    width: '100%',
+    backgroundColor: '#e0e0e0',
+    borderRadius: 3,
+    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
+  },
+  progressBarFill: {
+    display: 'block',
+    height: 17,
+    backgroundColor: '#659cef',
+    borderRadius: 3,
+    transition: 'width 500ms ease-in-out',
+  }
 }
