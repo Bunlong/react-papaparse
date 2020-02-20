@@ -14,13 +14,15 @@ export default class CSVReaderDraft extends Component {
   }
 
   dropAreaRef = React.createRef()
-  fileInfoRef = React.createRef()
   progressBarRefFill = React.createRef()
+  fileSizeInfoRef = React.createRef()
+  fileNameInfoRef = React.createRef()
 
   state = {
     dropAreaStyle: styles.dropArea,
     progressBar: 0,
-    progressBarStatus: 'none'
+    progressBarStatus: 'none',
+    hasFiles: false,
   }
 
   componentDidMount = () => {
@@ -36,13 +38,9 @@ export default class CSVReaderDraft extends Component {
       dropAreaRefDom.addEventListener(item, this.highlight, false)
     })
 
-    // const unhighlightDrags = ['dragleave', 'drop']
-    // unhighlightDrags.forEach(item => {
-    //   dropAreaRefDom.addEventListener(item, this.unhighlight, false)
-    // })
-
+    dropAreaRefDom.addEventListener('dragleave', this.unhighlight, false)
     dropAreaRefDom.addEventListener('drop', this.unhighlight, false)
-
+    dropAreaRefDom.addEventListener('drop', this.visibleProgressBar, false)
     dropAreaRefDom.addEventListener('drop', this.handleDrop, false)
   }
 
@@ -57,7 +55,6 @@ export default class CSVReaderDraft extends Component {
   }
 
   unhighlight = (e) => {
-    this.setState({progressBarStatus: 'block'})
     this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight)})
   }
 
@@ -87,12 +84,14 @@ export default class CSVReaderDraft extends Component {
     this.setState({progressBar: percent})
   }
 
-  clearProgress = () => {
-
+  displayFileInfo = (file) => {
+    this.fileSizeInfoRef.current.innerHTML = file.size
+    this.fileNameInfoRef.current.innerHTML = file.name
   }
 
   uploadFile = (file, index) => {
-    this.fileInfoRef.current.innerHTML = file.name + ' - ' + file.size
+    this.setState({hasFiles: true})
+    this.displayFileInfo(file)
 
     const {
       onFileLoaded,
@@ -148,7 +147,7 @@ export default class CSVReaderDraft extends Component {
     }
 
     reader.onloadend = (e) => {
-      this.fileInfoRef.current.innerHTML = file.name + ' - ' + file.size
+      setTimeout(() => { this.disableProgressBar() }, 2000)
     }
 
     reader.readAsText(file, configOptions.encoding || 'utf-8')
@@ -156,6 +155,14 @@ export default class CSVReaderDraft extends Component {
 
   handleClick = () => {
     this.props.inputRef.current.click()
+  }
+
+  visibleProgressBar = () => {
+    this.setState({progressBarStatus: 'block'})
+  }
+
+  disableProgressBar = () => {
+    this.setState({progressBarStatus: 'none'})
   }
 
   render() {
@@ -170,7 +177,6 @@ export default class CSVReaderDraft extends Component {
         ref={this.dropAreaRef}
         onClick={this.handleClick}
       >
-        <p>{label}</p>
         <input
           type='file'
           accept='text/csv'
@@ -178,24 +184,33 @@ export default class CSVReaderDraft extends Component {
           style={styles.inputFile}
           onChange={e => this.handleDrop(e)}
         />
-        <div style={styles.dropFile}>
-          <div ref={this.fileInfoRef} />
-          <div style={styles.progressBar}>
-            <span 
-              style={
-                Object.assign(
-                  {},
-                  styles.progressBarFill,
-                  {
-                    width: `${this.state.progressBar}%`,
-                    display: this.state.progressBarStatus
+        {
+          this.state.hasFiles ? (
+            <div style={Object.assign({}, styles.dropFile, styles.column)}>
+              <div style={styles.column}>
+                <div ref={this.fileSizeInfoRef} />
+                <div style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
+              </div>
+              <div style={styles.progressBar}>
+                <span 
+                  style={
+                    Object.assign(
+                      {},
+                      styles.progressBarFill,
+                      {
+                        width: `${this.state.progressBar}%`,
+                        display: this.state.progressBarStatus
+                      }
+                    )
                   }
-                )
-              }
-              ref={this.progressBarRefFill}
-            />
-          </div>
-        </div>
+                  ref={this.progressBarRefFill}
+                />
+              </div>
+            </div>
+          ) : (
+            <p>{label}</p>
+          )
+        }
       </div>
     )
   }
@@ -222,24 +237,37 @@ let styles = {
   dropFile: {
     borderRadius: 20,
     background: 'linear-gradient(to bottom, #eee, #ddd)',
-    width: 120,
+    width: 100,
     height: 120,
     position: 'relative',
     display: 'block',
     zIndex: 10,
     paddingLeft: 10,
     paddingRight: 10,
+    position: 'relative',
+  },
+  column: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   progressBar: {
-    width: '100%',
+    width: '80%',
     backgroundColor: '#e0e0e0',
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
+    bottom: 0,
+    position: 'absolute',
+    bottom: 19,
   },
   progressBarFill: {
-    height: 17,
+    height: 10,
     backgroundColor: '#659cef',
     borderRadius: 3,
     transition: 'width 500ms ease-in-out',
-  }
+  },
+  fileNameInfo: {
+    fontSize: 14,
+  },
 }

@@ -22,7 +22,7 @@ export default class Draft extends Component {
           <div className="grid-container">
             <div className="grid-66">
               <CSVReaderDraft 
-                label='Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region'
+                label='Drop CSV file here or click to upload.'
                 inputRef={this.fileInput}
                 onFileLoaded={this.handleReadCSV}
               />
