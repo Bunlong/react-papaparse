@@ -14,12 +14,13 @@ export default class CSVReaderDraft extends Component {
   }
 
   dropAreaRef = React.createRef()
-  fileNameRef = React.createRef()
-  uploadProgress = []
+  fileInfoRef = React.createRef()
+  progressBarRefFill = React.createRef()
 
   state = {
     dropAreaStyle: styles.dropArea,
-    progressBar: 0
+    progressBar: 0,
+    progressBarStatus: 'none'
   }
 
   componentDidMount = () => {
@@ -35,10 +36,12 @@ export default class CSVReaderDraft extends Component {
       dropAreaRefDom.addEventListener(item, this.highlight, false)
     })
 
-    const unhighlightDrags = ['dragleave', 'drop']
-    unhighlightDrags.forEach(item => {
-      dropAreaRefDom.addEventListener(item, this.unhighlight, false)
-    })
+    // const unhighlightDrags = ['dragleave', 'drop']
+    // unhighlightDrags.forEach(item => {
+    //   dropAreaRefDom.addEventListener(item, this.unhighlight, false)
+    // })
+
+    dropAreaRefDom.addEventListener('drop', this.unhighlight, false)
 
     dropAreaRefDom.addEventListener('drop', this.handleDrop, false)
   }
@@ -50,9 +53,11 @@ export default class CSVReaderDraft extends Component {
 
   highlight = (e) => {
     this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight)})
+    this.initializeProgress()
   }
 
   unhighlight = (e) => {
+    this.setState({progressBarStatus: 'block'})
     this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight)})
   }
 
@@ -65,42 +70,30 @@ export default class CSVReaderDraft extends Component {
       files = e.target.files
     }
     this.handleFiles(files)
+    console.log(this.state.progressBar)
   }
 
   handleFiles = (files) => {
     files = [...files]
-    this.initializeProgress(files.length)
-    files.forEach(this.uploadFile)
-    files.forEach(this.previewFile)
-  }
-
-  previewFile = (file) => {
-    let reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onloadend = () => {
-      console.log(this.fileNameRef.current)
-      this.fileNameRef.current.innerHTML = file.name + ' - ' + file.size
-
-      console.log(file)
-    }
-  }
-
-  initializeProgress = (numFiles) => {
     this.setState({progressBar: 0})
-    this.uploadProgress = []
-
-    for(let i = numFiles; i > 0; i--) {
-      this.uploadProgress.push(0)
-    }
+    files.forEach(this.uploadFile)
   }
 
-  updateProgress = (fileNumber, percent) => {
-    this.uploadProgress[fileNumber] = percent
-    let total = this.uploadProgress.reduce((tot, curr) => tot + curr, 0) / this.uploadProgress.length
-    this.setState({progressBar: total})
+  initializeProgress = () => {
+    this.setState({progressBar: 0})
+  }
+
+  updateProgress = (percent) => {
+    this.setState({progressBar: percent})
+  }
+
+  clearProgress = () => {
+
   }
 
   uploadFile = (file, index) => {
+    this.fileInfoRef.current.innerHTML = file.name + ' - ' + file.size
+
     const {
       onFileLoaded,
       onError,
@@ -123,10 +116,23 @@ export default class CSVReaderDraft extends Component {
       delete configOptions['complete']
     }
 
+    let size = file.size
+    let percent = 0
+
     if (onFileLoaded) {
-      options = Object.assign({complete: function (results) {
-        onFileLoaded(results)
-      }}, options)
+      let self = this
+      options = Object.assign({
+        complete: function (results) {
+          onFileLoaded(results)
+        },
+        step: function (row) {
+          let progress = row.meta.cursor;
+          let newPercent = Math.round(progress / size * 100);
+          if (newPercent === percent) return;
+          percent = newPercent;
+          self.updateProgress(percent)
+        }
+      }, options)
     }
 
     if (onError) {
@@ -137,12 +143,12 @@ export default class CSVReaderDraft extends Component {
       options = Object.assign(configOptions, options)
     }
 
-    reader.onprogress = (e) => {
-      this.updateProgress(index, (e.loaded * 100.0 / e.total) || 100)
-    }
-
     reader.onload = (e) => {
       PapaParse.parse(e.target.result, options)
+    }
+
+    reader.onloadend = (e) => {
+      this.fileInfoRef.current.innerHTML = file.name + ' - ' + file.size
     }
 
     reader.readAsText(file, configOptions.encoding || 'utf-8')
@@ -157,9 +163,13 @@ export default class CSVReaderDraft extends Component {
       label,
       inputRef,
     } = this.props
-    
+
     return (
-      <div style={this.state.dropAreaStyle} ref={this.dropAreaRef} onClick={this.handleClick}>
+      <div 
+        style={this.state.dropAreaStyle}
+        ref={this.dropAreaRef}
+        onClick={this.handleClick}
+      >
         <p>{label}</p>
         <input
           type='file'
@@ -169,9 +179,21 @@ export default class CSVReaderDraft extends Component {
           onChange={e => this.handleDrop(e)}
         />
         <div style={styles.dropFile}>
-          <div ref={this.fileNameRef}></div>
+          <div ref={this.fileInfoRef} />
           <div style={styles.progressBar}>
-            <span style={Object.assign({}, styles.progressBarFill, {width: `${this.state.progressBar}%`})}></span>
+            <span 
+              style={
+                Object.assign(
+                  {},
+                  styles.progressBarFill,
+                  {
+                    width: `${this.state.progressBar}%`,
+                    display: this.state.progressBarStatus
+                  }
+                )
+              }
+              ref={this.progressBarRefFill}
+            />
           </div>
         </div>
       </div>
@@ -215,7 +237,6 @@ let styles = {
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
   },
   progressBarFill: {
-    display: 'block',
     height: 17,
     backgroundColor: '#659cef',
     borderRadius: 3,
