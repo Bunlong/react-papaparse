@@ -60,14 +60,13 @@ export default class CSVReaderDraft extends Component {
 
   handleDrop = (e) => {
     let files = {}
-    if (e.target.files === undefined) {
+    if (e.files === undefined) {
       const dt = e.dataTransfer
       files = dt.files
     } else {
-      files = e.target.files
+      files = e.files
     }
-    this.handleFiles(files)
-    console.log(this.state.progressBar)
+    this.setState({hasFiles: true}, () => {this.handleFiles(files)})
   }
 
   handleFiles = (files) => {
@@ -90,7 +89,6 @@ export default class CSVReaderDraft extends Component {
   }
 
   uploadFile = (file, index) => {
-    this.setState({hasFiles: true})
     this.displayFileInfo(file)
 
     const {
@@ -117,20 +115,22 @@ export default class CSVReaderDraft extends Component {
 
     let size = file.size
     let percent = 0
+    let data = []
 
     if (onFileLoaded) {
       let self = this
       options = Object.assign({
-        complete: function (results) {
-          onFileLoaded(results)
+        complete: () => {
+          onFileLoaded(data)
         },
-        step: function (row) {
+        step: row => {
+          data.push(row)
           let progress = row.meta.cursor;
           let newPercent = Math.round(progress / size * 100);
           if (newPercent === percent) return;
           percent = newPercent;
           self.updateProgress(percent)
-        }
+        },
       }, options)
     }
 
@@ -147,7 +147,7 @@ export default class CSVReaderDraft extends Component {
     }
 
     reader.onloadend = (e) => {
-      setTimeout(() => { this.disableProgressBar() }, 2000)
+      const timeout = setTimeout(() => { this.disableProgressBar() }, 2000)
     }
 
     reader.readAsText(file, configOptions.encoding || 'utf-8')
@@ -163,6 +163,11 @@ export default class CSVReaderDraft extends Component {
 
   disableProgressBar = () => {
     this.setState({progressBarStatus: 'none'})
+  }
+
+  handleInputFileChange = (e) => {
+    const { target } = e
+    this.setState({progressBarStatus: 'block'}, () => {this.handleDrop(target)})
   }
 
   render() {
@@ -182,7 +187,7 @@ export default class CSVReaderDraft extends Component {
           accept='text/csv'
           ref={inputRef}
           style={styles.inputFile}
-          onChange={e => this.handleDrop(e)}
+          onChange={e => this.handleInputFileChange(e)}
         />
         {
           this.state.hasFiles ? (
@@ -224,6 +229,8 @@ let styles = {
     margin: '50 auto',
     padding: 20,
     cursor: 'pointer',
+    display: 'flex',
+    justifyContent: 'center',
   },
   inputFile: {
     display: 'none',
