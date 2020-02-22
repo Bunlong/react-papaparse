@@ -3,6 +3,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
 
+import getSize from './util'
+
 export default class CSVReaderDraft extends Component {
 
   static propTypes = {
@@ -84,7 +86,7 @@ export default class CSVReaderDraft extends Component {
   }
 
   displayFileInfo = (file) => {
-    this.fileSizeInfoRef.current.innerHTML = file.size
+    this.fileSizeInfoRef.current.innerHTML = getSize(file.size)
     this.fileNameInfoRef.current.innerHTML = file.name
   }
 
@@ -193,8 +195,8 @@ export default class CSVReaderDraft extends Component {
           this.state.hasFiles ? (
             <div style={Object.assign({}, styles.dropFile, styles.column)}>
               <div style={styles.column}>
-                <div ref={this.fileSizeInfoRef} />
-                <div style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
+                <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
+                <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
               </div>
               <div style={styles.progressBar}>
                 <span 
@@ -213,7 +215,7 @@ export default class CSVReaderDraft extends Component {
               </div>
             </div>
           ) : (
-            <p>{label}</p>
+            <div>{label || 'Drop CSV file here or click to upload.'}</div>
           )
         }
       </div>
@@ -226,11 +228,12 @@ let styles = {
     border: '2px dashed #ccc',
     borderRadius: 20,
     width: '100%',
-    margin: '50 auto',
     padding: 20,
     cursor: 'pointer',
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+    height: 240,
   },
   inputFile: {
     display: 'none',
@@ -266,7 +269,7 @@ let styles = {
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     bottom: 0,
     position: 'absolute',
-    bottom: 19,
+    bottom: 14,
   },
   progressBarFill: {
     height: 10,
@@ -274,7 +277,18 @@ let styles = {
     borderRadius: 3,
     transition: 'width 500ms ease-in-out',
   },
+  fileSizeInfo: {
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    padding: '0 0.4em',
+    borderRadius: 3,
+    lineHeight: 1,
+    marginBottom: '0.5em',
+  },
   fileNameInfo: {
     fontSize: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    padding: '0 0.4em',
+    borderRadius: 3,
+    lineHeight: 1,
   },
 }
