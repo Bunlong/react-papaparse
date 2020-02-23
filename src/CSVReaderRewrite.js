@@ -5,62 +5,71 @@ import PapaParse from 'papaparse'
 
 import getSize from './util'
 
-export default class CSVReaderDraft extends Component {
+export default class CSVReaderRewrite extends Component {
 
-  static propTypes = {
-    onFileLoaded: PropTypes.func,
-    onError: PropTypes.func,
-    inputRef: PropTypes.object,
-    configOptions: PropTypes.object,
-    style: PropTypes.object
-  }
-
+  inputFileRef = React.createRef()
   dropAreaRef = React.createRef()
-  progressBarRefFill = React.createRef()
   fileSizeInfoRef = React.createRef()
   fileNameInfoRef = React.createRef()
+  progressBarFillRef = React.createRef()
+
+  static propTypes = {
+    children: PropTypes.any.isRequired,
+    onDrop: PropTypes.func,
+    onError: PropTypes.func,
+    configOptions: PropTypes.object,
+    style: PropTypes.object,
+    noClick: PropTypes.bool,
+    noDrag: PropTypes.bool,
+  }
 
   state = {
     dropAreaStyle: styles.dropArea,
-    progressBar: 0,
-    progressBarStatus: 'none',
     hasFiles: false,
+    progressBar: 0,
+    displayProgressBarStatus: 'none',
   }
 
   componentDidMount = () => {
-    const dropAreaRefDom = this.dropAreaRef.current
+    const currentDropAreaRef = this.dropAreaRef.current
 
-    const fourDrags = ['dragenter', 'dragover', 'dragleave', 'drop']
-    fourDrags.forEach(item => {
-      dropAreaRefDom.addEventListener(item, this.preventDefaults, false)
+    const fourDragsEvent = ['dragenter', 'dragover', 'dragleave', 'drop']
+    fourDragsEvent.forEach(item => {
+      currentDropAreaRef.addEventListener(item, this._preventDefaults, false)
     })
 
-    const highlightDrags = ['dragenter', 'dragover']
-    highlightDrags.forEach(item => {
-      dropAreaRefDom.addEventListener(item, this.highlight, false)
-    })
+    if (!this.props.noDrag) {
+      const highlightDragsEvent = ['dragenter', 'dragover']
+      highlightDragsEvent.forEach(item => {
+        currentDropAreaRef.addEventListener(item, this._highlight, false)
+      })
 
-    dropAreaRefDom.addEventListener('dragleave', this.unhighlight, false)
-    dropAreaRefDom.addEventListener('drop', this.unhighlight, false)
-    dropAreaRefDom.addEventListener('drop', this.visibleProgressBar, false)
-    dropAreaRefDom.addEventListener('drop', this.handleDrop, false)
+      currentDropAreaRef.addEventListener('dragleave', this._unhighlight, false)
+      currentDropAreaRef.addEventListener('drop', this._unhighlight, false)
+      currentDropAreaRef.addEventListener('drop', this._visibleProgressBar, false)
+      currentDropAreaRef.addEventListener('drop', this._handleDrop, false)
+    }
   }
 
-  preventDefaults = (e) => {
+  _preventDefaults = (e) => {
     e.preventDefault()
     e.stopPropagation()
   }
 
-  highlight = (e) => {
+  _highlight = (e) => {
     this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight)})
-    this.initializeProgress()
+    this._initializeProgress()
   }
 
-  unhighlight = (e) => {
+  _unhighlight = (e) => {
     this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight)})
   }
 
-  handleDrop = (e) => {
+  _visibleProgressBar = () => {
+    this.setState({displayProgressBarStatus: 'block'})
+  }
+
+  _handleDrop = (e) => {
     let files = {}
     if (e.files === undefined) {
       const dt = e.dataTransfer
@@ -68,33 +77,28 @@ export default class CSVReaderDraft extends Component {
     } else {
       files = e.files
     }
-    this.setState({hasFiles: true}, () => {this.handleFiles(files)})
+    this.setState({hasFiles: true}, () => {this._handleFiles(files)})
   }
 
-  handleFiles = (files) => {
+  _handleFiles = (files) => {
+    this.setState({progressBar: 0})
     files = [...files]
-    this.setState({progressBar: 0})
-    files.forEach(this.uploadFile)
+    files.forEach(this._uploadFile)
   }
 
-  initializeProgress = () => {
-    this.setState({progressBar: 0})
-  }
-
-  updateProgress = (percent) => {
+  _updateProgress = (percent) => {
     this.setState({progressBar: percent})
   }
 
-  displayFileInfo = (file) => {
-    this.fileSizeInfoRef.current.innerHTML = getSize(file.size)
-    this.fileNameInfoRef.current.innerHTML = file.name
+  _disableProgressBar = () => {
+    this.setState({displayProgressBarStatus: 'none'})
   }
 
-  uploadFile = (file, index) => {
-    this.displayFileInfo(file)
+  _uploadFile = (file, index) => {
+    this._displayFileInfo(file)
 
     const {
-      onFileLoaded,
+      onDrop,
       onError,
       configOptions = {}
     } = this.props
@@ -115,23 +119,23 @@ export default class CSVReaderDraft extends Component {
       delete configOptions['complete']
     }
 
-    let size = file.size
+    const size = file.size
     let percent = 0
     let data = []
 
-    if (onFileLoaded) {
-      let self = this
+    if (onDrop) {
+      const self = this
       options = Object.assign({
         complete: () => {
-          onFileLoaded(data)
+          onDrop(data)
         },
         step: row => {
           data.push(row)
-          let progress = row.meta.cursor;
-          let newPercent = Math.round(progress / size * 100);
-          if (newPercent === percent) return;
-          percent = newPercent;
-          self.updateProgress(percent)
+          const progress = row.meta.cursor;
+          const newPercent = Math.round(progress / size * 100)
+          if (newPercent === percent) return
+          percent = newPercent
+          self._updateProgress(percent)
         },
       }, options)
     }
@@ -149,50 +153,67 @@ export default class CSVReaderDraft extends Component {
     }
 
     reader.onloadend = (e) => {
-      const timeout = setTimeout(() => { this.disableProgressBar() }, 2000)
+      const timeout = setTimeout(() => { this._disableProgressBar() }, 2000)
     }
 
     reader.readAsText(file, configOptions.encoding || 'utf-8')
   }
 
-  handleClick = () => {
-    this.props.inputRef.current.click()
+  _displayFileInfo = (file) => {
+    if (!this._childrenIsFunction()) {
+      this.fileSizeInfoRef.current.innerHTML = getSize(file.size)
+      this.fileNameInfoRef.current.innerHTML = file.name
+    }
   }
 
-  visibleProgressBar = () => {
-    this.setState({progressBarStatus: 'block'})
-  }
-
-  disableProgressBar = () => {
-    this.setState({progressBarStatus: 'none'})
-  }
-
-  handleInputFileChange = (e) => {
+  _handleInputFileChange = (e) => {
     const { target } = e
-    this.setState({progressBarStatus: 'block'}, () => {this.handleDrop(target)})
+    this.setState({displayProgressBarStatus: 'block'}, () => {this._handleDrop(target)})
+  }
+
+  _initializeProgress = () => {
+    this.setState({progressBar: 0})
+  }
+
+  open = (e) => {
+    if (e) {
+      e.stopPropagation();
+      this.inputFileRef.current.click()
+    }
+  }
+
+  renderChildren = () => {
+    const {children} = this.props
+    return this._childrenIsFunction() ? children({ file: 'file', onClick: this.onClick }) : children
+  }
+
+  _childrenIsFunction = () => {
+    const {children} = this.props
+    return typeof children === 'function'
   }
 
   render() {
     const {
-      label,
-      inputRef,
+      style,
+      noClick,
     } = this.props
 
     return (
-      <div 
-        style={this.state.dropAreaStyle}
+      <div
         ref={this.dropAreaRef}
-        onClick={this.handleClick}
+        style={Object.assign({}, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
+        onClick={noClick ? () => {} : this.open}
       >
         <input
           type='file'
           accept='text/csv'
-          ref={inputRef}
+          ref={this.inputFileRef}
           style={styles.inputFile}
-          onChange={e => this.handleInputFileChange(e)}
+          onChange={e => this._handleInputFileChange(e)}
         />
+
         {
-          this.state.hasFiles ? (
+          this.state.hasFiles && !this._childrenIsFunction() ? (
             <div style={Object.assign({}, styles.dropFile, styles.column)}>
               <div style={styles.column}>
                 <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
@@ -206,16 +227,16 @@ export default class CSVReaderDraft extends Component {
                       styles.progressBarFill,
                       {
                         width: `${this.state.progressBar}%`,
-                        display: this.state.progressBarStatus
+                        display: this.state.displayProgressBarStatus
                       }
                     )
                   }
-                  ref={this.progressBarRefFill}
+                  ref={this.progressBarFillRef}
                 />
               </div>
             </div>
           ) : (
-            <div>{label || 'Drop CSV file here or click to upload.'}</div>
+            this.renderChildren()
           )
         }
       </div>
@@ -223,17 +244,17 @@ export default class CSVReaderDraft extends Component {
   }
 }
 
-let styles = {
+const styles = {
   dropArea: {
     border: '2px dashed #ccc',
     borderRadius: 20,
     width: '100%',
     height: '100%',
     padding: 20,
-    cursor: 'pointer',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    flexDirection: 'column',
   },
   inputFile: {
     display: 'none',
@@ -290,5 +311,11 @@ let styles = {
     padding: '0 0.4em',
     borderRadius: 3,
     lineHeight: 1,
+  },
+  defaultCursor: {
+    cursor: 'default',
+  },
+  pointerCursor: {
+    cursor: 'pointer',
   },
 }
