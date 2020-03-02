@@ -4,7 +4,7 @@ import { CSVReader } from 'react-papaparse'
 
 const buttonRef = React.createRef()
 
-export default class Them2 extends Component {
+export default class Theme2 extends Component {
 
   constructor(props) {
     super(props)
