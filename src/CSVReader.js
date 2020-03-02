@@ -273,7 +273,6 @@ const styles = {
   dropArea: {
     border: '2px dashed #ccc',
     borderRadius: 20,
-    width: '100%',
     height: '100%',
     padding: 20,
     display: 'flex',
