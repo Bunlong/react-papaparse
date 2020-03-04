@@ -207,9 +207,9 @@ export default class Demo extends Component {
                         <h5>Basic Upload</h5>
                         <CSVReader
                           onDrop={this.onDrop}
-                          noClick={true}
-                          noDrag={true}
                           ref={buttonRef}
+                          noClick
+                          noDrag
                           config={{}}
                         >
                           {({file}) => (
@@ -250,17 +250,41 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{margin: 50,}}>
-                        <h5>Click ( No Drag ) Upload</h5>
+                      <div style={{marginTop: 50,}}>
+                        <h5>Click and Drag Upload</h5>
                         <CSVReader 
                           onDrop={this.onDrop}
                           onError={this.onError}
-                          noClick={false}
-                          noDrag={true}
                           style={{}}
                           config={{}}
                         >
                           <span>Drop CSV file here or click to upload.</span>
+                        </CSVReader>
+                      </div>
+
+                      <div style={{marginTop: 50,}}>
+                        <h5>Drag ( No Click ) Upload</h5>
+                        <CSVReader
+                          onDrop={this.onDrop}
+                          onError={this.onError}
+                          noClick
+                          style={{}}
+                          config={{}}
+                        >
+                          <span>Drop to upload.</span>
+                        </CSVReader>
+                      </div>
+
+                      <div style={{marginTop: 50, marginBottom: 55}}>
+                        <h5>Click ( No Drag ) Upload</h5>
+                        <CSVReader 
+                          onDrop={this.onDrop}
+                          onError={this.onError}
+                          noDrag
+                          style={{}}
+                          config={{}}
+                        >
+                          <span>Click to upload.</span>
                         </CSVReader>
                       </div>
                       
