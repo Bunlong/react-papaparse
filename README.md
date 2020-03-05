@@ -223,6 +223,45 @@ export default class CSVReader extends Component {
 }
 ```
 
+#### Click ( No Drag ) Upload
+
+![click-no-drag-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader4.png)
+
+```javascript
+import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader
+          onDrop={this.onDrop}
+          onError={this.onError}
+          noDrag
+          style={{}}
+          config={{}}
+        >
+          <span>Click to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
+```
+
 ### 🎀 readRemoteFile
 
 ```javascript
