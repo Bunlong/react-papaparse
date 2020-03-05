@@ -27,7 +27,8 @@ export default {
   plugins: [
     external(),
     postcss({
-      modules: true
+      modules: true,
+      extensions: ['.css']
     }),
     url({ exclude: ['**/*.svg'] }),
     svgr(),
