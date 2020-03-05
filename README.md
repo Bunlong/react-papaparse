@@ -1,5 +1,3 @@
-![react-papaparse](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
-
 # react-papaparse
 
 The fastest in-browser CSV (or delimited text) parser for React.
@@ -68,6 +66,10 @@ var results = readString(str)
 ```
 
 ### 🎀 CSVReader
+
+#### Basic Upload
+
+![react-papaparse](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
 
 ```javascript
 import React, { Component } from 'react'
