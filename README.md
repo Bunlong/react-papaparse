@@ -152,7 +152,7 @@ export default class CSVReader extends Component {
 
 #### Click and Drag Upload
 
-![basic-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader2.png)
+![click-and-drag-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader2.png)
 
 ```javascript
 import React, { Component } from 'react'
@@ -179,6 +179,43 @@ export default class CSVReader extends Component {
           onError={this.onError}
         >
           <span>Drop CSV file here or click to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
+```
+
+#### Drag ( No Click ) Upload
+
+![drag-no-click-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader3.png)
+
+```javascript
+import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader
+          onDrop={this.onDrop}
+          onError={this.onError}
+          noClick
+        >
+          <span>Drop CSV file here to upload.</span>
         </CSVReader>
       </>
     )
