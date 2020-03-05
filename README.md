@@ -69,47 +69,121 @@ var results = readString(str)
 
 #### Basic Upload
 
-![react-papaparse](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
+![basic-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
 
 ```javascript
 import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.fileInput = React.createRef()
-  }
+const buttonRef = React.createRef()
 
-  handleReadCSV = (data) => {
+export default class CSVReader extends Component {
+
+  onFileLoad = (data) => {
+    console.log('--------------------------------------------------')
     console.log(data)
+    console.log('--------------------------------------------------')
   }
 
-  handleOnError = (err, file, inputElem, reason) => {
+  onError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
-  handleImportOffer = () => {
-    this.fileInput.current.click()
+  openDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point 
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
   }
 
   render() {
     return (
       <>
         <CSVReader
-          onFileLoaded={this.handleReadCSV}
-          inputRef={this.fileInput}
-          style={{display: 'none'}}
-          onError={this.handleOnError}
-        />
-        <button onClick={this.handleImportOffer}>Import</button>
+          ref={buttonRef}
+          onFileLoad={this.onFileLoad}
+          onError={this.onError}
+          noClick
+          noDrag
+        >
+          {({file}) => (
+            <>
+              <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
+                <button
+                  type="button"
+                  onClick={this.openDialog}
+                  style={{
+                    width: '40%',
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                  }}
+                >
+                  Browe file
+                </button>
+                <div
+                  style={{
+                    width: '60%',
+                    height: 45,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderColor: '#ccc',
+                    marginTop: 5,
+                    marginBottom: 5,
+                    paddingLeft: 13,
+                    paddingTop: 3,
+                    lineHeight: 2.2,
+                  }}
+                >
+                  {file.name}
+                </div>
+              </aside>
+            </>
+          )}
+        </CSVReader>
       </>
     )
   }
 }
+```
 
-export default App
+#### Click and Drag Upload
+
+![basic-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader2.png)
+
+```javascript
+import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader 
+          onDrop={this.onDrop}
+          onError={this.onError}
+        >
+          <span>Drop CSV file here or click to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
 ```
 
 ### 🎀 readRemoteFile
