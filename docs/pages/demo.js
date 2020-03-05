@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../src/components/screens/Demo'),
-  { ssr: true }
+  { ssr: false }
 )
 
 export default class Demo extends Component {

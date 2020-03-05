@@ -16,7 +16,7 @@ export default class CSVReader2 extends Component {
 
   render() {
     return (
-      <div style={{marginTop: 50, marginBottom: 60}}>
+      <>
         <h5>Click and Drag Upload</h5>
         <CSVReader 
           onDrop={this.onDrop}
@@ -26,7 +26,7 @@ export default class CSVReader2 extends Component {
         >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
-      </div>
+      </>
     )
   }
 }

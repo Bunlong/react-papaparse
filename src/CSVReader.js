@@ -16,11 +16,13 @@ export default class CSVReaderRewrite extends Component {
   static propTypes = {
     children: PropTypes.any.isRequired,
     onDrop: PropTypes.func,
+    onFileLoad: PropTypes.func,
     onError: PropTypes.func,
     config: PropTypes.object,
     style: PropTypes.object,
     noClick: PropTypes.bool,
     noDrag: PropTypes.bool,
+    progressBarColor: PropTypes.string,
   }
 
   state = {
@@ -101,6 +103,7 @@ export default class CSVReaderRewrite extends Component {
 
     const {
       onDrop,
+      onFileLoad,
       onError,
       config = {}
     } = this.props
@@ -125,11 +128,15 @@ export default class CSVReaderRewrite extends Component {
     let data = []
     let percent = 0
 
-    if (onDrop) {
+    if (onDrop || onFileLoad) {
       const self = this
       options = Object.assign({
         complete: () => {
-          onDrop(data)
+          if (!onDrop) {
+            onFileLoad(data)
+          } else {
+            onDrop(data)
+          }
         },
         step: (row, parser) => {
           data.push(row)
@@ -198,6 +205,7 @@ export default class CSVReaderRewrite extends Component {
       style,
       noClick,
       children,
+      progressBarColor,
     } = this.props
 
     return (
@@ -213,7 +221,7 @@ export default class CSVReaderRewrite extends Component {
           !this._childrenIsFunction() ? (
             <div
               ref={this.dropAreaRef}
-              style={Object.assign({}, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
+              style={Object.assign({}, style, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
               onClick={noClick ? () => {} : this.open}
             >
               {
@@ -253,6 +261,7 @@ export default class CSVReaderRewrite extends Component {
                     Object.assign(
                       {},
                       styles.progressBarFill,
+                      {backgroundColor: progressBarColor || '#659cef'},
                       {
                         width: `${this.state.progressBar}%`,
                         display: this.state.displayProgressBarStatus
@@ -310,7 +319,6 @@ const styles = {
   },
   progressBar: {
     width: '80%',
-    backgroundColor: '#e0e0e0',
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     bottom: 0,

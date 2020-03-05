@@ -16,9 +16,9 @@ export default class CSVReader4 extends Component {
 
   render() {
     return (
-      <div style={{marginTop: 50, marginBottom: 60}}>
+      <>
         <h5>Click ( No Drag ) Upload</h5>
-        <CSVReader 
+        <CSVReader
           onDrop={this.onDrop}
           onError={this.onError}
           noDrag
@@ -27,7 +27,7 @@ export default class CSVReader4 extends Component {
         >
           <span>Click to upload.</span>
         </CSVReader>
-      </div>
+      </>
     )
   }
 }

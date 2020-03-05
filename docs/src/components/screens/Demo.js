@@ -207,7 +207,7 @@ export default class Demo extends Component {
                         </div>
                         <CSVReader
                           ref={buttonRef}
-                          onDrop={this.onDrop}
+                          onFileLoad={this.onDrop}
                           onError={this.onError}
                           noClick
                           noDrag

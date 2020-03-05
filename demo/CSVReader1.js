@@ -6,7 +6,7 @@ const buttonRef = React.createRef()
 
 export default class CSVReader1 extends Component {
 
-  onDrop = (data) => {
+  onFileLoad = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
     console.log('--------------------------------------------------')
@@ -25,14 +25,11 @@ export default class CSVReader1 extends Component {
 
   render() {
     return (
-      <div style={{marginTop: 60, marginBottom: 60}}>
+      <>
         <h5>Basic Upload</h5>
-        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js'>Source code</a>
-        </div>
         <CSVReader
           ref={buttonRef}
-          onDrop={this.onDrop}
+          onFileLoad={this.onFileLoad}
           onError={this.onError}
           noClick
           noDrag
@@ -75,7 +72,7 @@ export default class CSVReader1 extends Component {
             </>
           )}
         </CSVReader>
-      </div>
+      </>
     )
   }
 }
