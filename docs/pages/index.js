@@ -238,7 +238,7 @@ console.log(results.meta.delimiter)
                 </div>
 
                 <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 14}}>
-                  <a href='/docs#basic-upload'>Document</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+                  <a href='/docs#basic-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
                 </div>
 
                 <pre><code className="language-javascript">{`import React, { Component } from 'react'
