@@ -1,8 +1,10 @@
+![react-papaparse](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
+
 # react-papaparse
 
-The fastest in-browser CSV (or delimited text) parser for React. [![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) [![Build Status](https://api.travis-ci.com/Bunlong/react-papaparse.svg?branch=master)](https://travis-ci.com/Bunlong/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+The fastest in-browser CSV (or delimited text) parser for React.
 
-![react-papaparse](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
+[![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) [![Build Status](https://api.travis-ci.com/Bunlong/react-papaparse.svg?branch=master)](https://travis-ci.com/Bunlong/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## 🎁 Features
 
