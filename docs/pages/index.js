@@ -31,12 +31,13 @@ var data = readString(csvString)
 var csv = jsonToCSV(jsonData)
 
 // Parse local CSV file
-<CSVReader
-  onFileLoaded={this.handleReadCSV}
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-/>
+<CSVReader 
+  onDrop={this.onDrop}
+  onError={this.onError}
+  noDrag
+>
+  <span>Click to upload.</span>
+</CSVReader>
 
 // Stream big file in worker thread
 readRemoteFile(bigFileURL, {
@@ -227,46 +228,238 @@ console.log(results.meta.delimiter)
 
                 <p>Then use CSVReader component instead of readString method. Since file parsing is asynchronous, don't forget callback methods.</p>
 
-                <pre><code className="language-javascript">{`
-import React, { Component } from 'react'
+                <div id="drag-no-click-upload" style={{fontSize: 20, marginTop: 10,}}>
+                  Basic Upload
+                </div>
+
+                <div style={{textAlign: 'center', paddingTop: 50, paddingBottom: 50, }}>
+                  <img src='/static/images/csvreader1.png' alt='Basic Upload' style={{maxWidth: '100%', height: 
+                'auto'}} />
+                </div>
+
+                <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 14}}>
+                  <a href='/docs#basic-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+                </div>
+
+                <pre><code className="language-javascript">{`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.fileInput = React.createRef()
-  }
+const buttonRef = React.createRef()
 
-  handleReadCSV = (data) => {
+export default class CSVReader extends Component {
+
+  onFileLoad = (data) => {
+    console.log('--------------------------------------------------')
     console.log(data)
+    console.log('--------------------------------------------------')
   }
 
-  handleOnError = (err, file, inputElem, reason) => {
+  onError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
-  handleImportOffer = () => {
-    this.fileInput.current.click()
+  openDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point 
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
   }
 
   render() {
     return (
-      <div>
+      <>
         <CSVReader
-          onFileLoaded={this.handleReadCSV}
-          inputRef={this.fileInput}
-          style={{display: 'none'}}
-          onError={this.handleOnError}
-        />
-        <button onClick={this.handleImportOffer}>Import</button>
-      </div>
+          ref={buttonRef}
+          onFileLoad={this.onFileLoad}
+          onError={this.onError}
+          noClick
+          noDrag
+          config={{}}
+        >
+          {({file}) => (
+            <>
+              <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
+                <button
+                  type="button"
+                  onClick={this.openDialog}
+                  style={{
+                    width: '40%',
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                  }}
+                >
+                  Browe file
+                </button>
+                <div
+                  style={{
+                    width: '60%',
+                    height: 45,
+                    borderWidth: 1,
+                    borderStyle: 'solid',
+                    borderColor: '#ccc',
+                    marginTop: 5,
+                    marginBottom: 5,
+                    paddingLeft: 13,
+                    paddingTop: 3,
+                    lineHeight: 2.2,
+                  }}
+                >
+                  {file.name}
+                </div>
+              </aside>
+            </>
+          )}
+        </CSVReader>
+      </>
     )
   }
 }
-
-export default App
 `}</code></pre>
+
+              <div id="drag-no-click-upload" style={{fontSize: 20, marginTop: 35,}}>
+                Click and Drag Upload
+              </div>
+
+              <div style={{textAlign: 'center', paddingTop: 50, paddingBottom: 50, }}>
+                <img src='/static/images/csvreader2.png' alt='Click and Drag Upload' style={{maxWidth: '100%', height: 
+              'auto'}} />
+              </div>
+
+              <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 14}}>
+                <a href='/docs#click-and-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+              </div>
+
+              <pre><code className="language-javascript">{`import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader 
+          onDrop={this.onDrop}
+          onError={this.onError}
+          style={{}}
+          config={{}}
+        >
+          <span>Drop CSV file here or click to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
+`}</code></pre>
+
+                <div id="drag-no-click-upload" style={{fontSize: 20, marginTop: 35,}}>
+                  Drag ( No Click ) Upload
+                </div>
+
+                <div style={{textAlign: 'center', paddingTop: 50, paddingBottom: 50, }}>
+                  <img src='/static/images/csvreader3.png' alt='Drag ( No Click ) Upload' style={{maxWidth: '100%', height: 
+                'auto'}} />
+                </div>
+
+                <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 14}}>
+                  <a href='/docs#drag-no-click-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+                </div>
+
+                <pre><code className="language-javascript">{`import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader
+          onDrop={this.onDrop}
+          onError={this.onError}
+          noClick
+          style={{}}
+          config={{}}
+        >
+          <span>Drop CSV file here to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
+`}</code></pre>
+              
+                <div id="drag-no-click-upload" style={{fontSize: 20, marginTop: 35,}}>
+                  Click ( No Drag ) Upload
+                </div>
+
+                <div style={{textAlign: 'center', paddingTop: 50, paddingBottom: 50, }}>
+                  <img src='/static/images/csvreader4.png' alt='Click ( No Drag ) Upload' style={{maxWidth: '100%', height: 
+                'auto'}} />
+                </div>
+
+                <div style={{display: 'flex', justifyContent: 'flex-end', marginBottom: 14}}>
+                  <a href='/docs#click-no-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+                </div>
+
+                <pre><code className="language-javascript">{`import React, { Component } from 'react'
+
+import { CSVReader } from 'react-papaparse'
+
+export default class CSVReader extends Component {
+
+  onDrop = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  render() {
+    return (
+      <>
+        <CSVReader
+          onDrop={this.onDrop}
+          onError={this.onError}
+          noDrag
+          style={{}}
+          config={{}}
+        >
+          <span>Click to upload.</span>
+        </CSVReader>
+      </>
+    )
+  }
+}
+`}</code></pre>
+
               </div>
             </div>
           </section>

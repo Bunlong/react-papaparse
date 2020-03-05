@@ -4,11 +4,12 @@ import { CSVReader, readString, jsonToCSV, readRemoteFile, BAD_DELIMITERS } from
 
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 
+const buttonRef = React.createRef()
+
 export default class Demo extends Component {
 
   constructor(props) {
-    super(props);
-    this.fileInput = React.createRef();
+    super(props)
 
     this.state = {
       tabIndex: 0,
@@ -48,14 +49,6 @@ export default class Demo extends Component {
     }
   }
 
-  handleReadCSV = (data) => {
-    this.setState({csvData: data})
-  }
-
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  }
-
   handleImportOffer = () => {
     const index = this.state.tabIndex
 
@@ -73,8 +66,7 @@ export default class Demo extends Component {
       if (results) {
         console.log('--------------------------------------------------')
         console.log('Parse complete!')
-        console.log('Row count: ', results.data.length)
-        console.log('Errors: ', results.errors.length)
+        console.log('Row count: ', results.length)
         console.log('Results: ', results)
         console.log('Synchronous results: ', results)
         console.log('--------------------------------------------------')
@@ -135,6 +127,21 @@ export default class Demo extends Component {
     this.setState({url})
   }
 
+  onDrop = (data) => {
+    this.setState({csvData: data})
+  }
+
+  onError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  openDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point 
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
+  }
+
   render() {
     return (
       <>
@@ -181,26 +188,116 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{float: 'right', marginBottom: 14}}>
-                      <a href='https://github.com/B/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
                     </div>
                     <textarea id="input" placeholder="String input" onChange={this.handleStrChange} value={this.state.str} />
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <div className="input-area" id="input-string">
-                    <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
-                    </div>
                     <div>
                       <div className="text-center">
                         Choose one or more delimited text files for react-papaparse to parse.
                       </div>
 
-                      <CSVReader
-                        onFileLoaded={this.handleReadCSV}
-                        inputRef={this.fileInput}
-                        onError={this.handleOnError}
-                      />
+                      <div style={{marginTop: 60, marginBottom: 46}}>
+                        <h5>Basic Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js'>Source code</a>
+                        </div>
+                        <CSVReader
+                          ref={buttonRef}
+                          onFileLoad={this.onDrop}
+                          onError={this.onError}
+                          noClick
+                          noDrag
+                          config={{}}
+                        >
+                          {({file}) => (
+                            <>
+                              <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
+                                <button
+                                  type="button"
+                                  onClick={this.openDialog}
+                                  style={{
+                                    width: '40%',
+                                    borderRadius: 0,
+                                    marginLeft: 0,
+                                    marginRight: 0,
+                                    paddingLeft: 0,
+                                    paddingRight: 0,
+                                  }}
+                                >
+                                  Browe file
+                                </button>
+                                <div
+                                  style={{
+                                    width: '60%',
+                                    height: 45,
+                                    borderWidth: 1,
+                                    borderStyle: 'solid',
+                                    borderColor: '#ccc',
+                                    marginTop: 5,
+                                    marginBottom: 5,
+                                    paddingLeft: 13,
+                                    paddingTop: 3,
+                                    lineHeight: 2.2,
+                                  }}
+                                >
+                                  {file.name}
+                                </div>
+                              </aside>
+                            </>
+                          )}
+                        </CSVReader>
+                      </div>
+
+                      <div style={{marginTop: 50, marginBottom: 46}}>
+                        <h5>Click and Drag Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js'>Source code</a>
+                        </div>
+                        <CSVReader 
+                          onDrop={this.onDrop}
+                          onError={this.onError}
+                          style={{}}
+                          config={{}}
+                        >
+                          <span>Drop CSV file here or click to upload.</span>
+                        </CSVReader>
+                      </div>
+
+                      <div style={{marginTop: 50, marginBottom: 46}}>
+                        <h5>Drag ( No Click ) Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js'>Source code</a>
+                        </div>
+                        <CSVReader
+                          onDrop={this.onDrop}
+                          onError={this.onError}
+                          noClick
+                          style={{}}
+                          config={{}}
+                        >
+                          <span>Drop CSV file here to upload.</span>
+                        </CSVReader>
+                      </div>
+
+                      <div style={{marginTop: 50, marginBottom: 46}}>
+                        <h5>Click ( No Drag ) Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js'>Source code</a>
+                        </div>
+                        <CSVReader 
+                          onDrop={this.onDrop}
+                          onError={this.onError}
+                          noDrag
+                          style={{}}
+                          config={{}}
+                        >
+                          <span>Click to upload.</span>
+                        </CSVReader>
+                      </div>
                       
                       Sample files:
 
@@ -209,10 +306,10 @@ export default class Demo extends Component {
                           <a href="/static/csv/normal.csv" id="local-normal-file">Normal file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/malformed.csv" id="local-large-file">Large file</a>
+                          <a href="/static/csv/big.csv" id="local-large-file">Large file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/big.csv" id="local-malformed-file">Malformed file</a>
+                          <a href="/static/csv/malformed.csv" id="local-malformed-file">Malformed file</a>
                         </li>
                       </ul>
                     </div>
