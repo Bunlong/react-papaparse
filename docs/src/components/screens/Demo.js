@@ -188,26 +188,27 @@ export default class Demo extends Component {
                 <TabPanel>
                   <div className="input-area" id="input-string">
                     <div style={{float: 'right', marginBottom: 14}}>
-                      <a href='https://github.com/B/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
+                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
                     </div>
                     <textarea id="input" placeholder="String input" onChange={this.handleStrChange} value={this.state.str} />
                   </div>
                 </TabPanel>
                 <TabPanel>
                   <div className="input-area" id="input-string">
-                    <div style={{marginBottom: 14, textAlignLast: 'end'}}>
-                      <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader.js'>Source code</a>
-                    </div>
                     <div>
                       <div className="text-center">
                         Choose one or more delimited text files for react-papaparse to parse.
                       </div>
 
-                      <div style={{margin: 50,}}>
+                      <div style={{marginTop: 60, marginBottom: 46}}>
                         <h5>Basic Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js'>Source code</a>
+                        </div>
                         <CSVReader
-                          onDrop={this.onDrop}
                           ref={buttonRef}
+                          onDrop={this.onDrop}
+                          onError={this.onError}
                           noClick
                           noDrag
                           config={{}}
@@ -229,7 +230,8 @@ export default class Demo extends Component {
                                 >
                                   Browe file
                                 </button>
-                                <div style={{
+                                <div
+                                  style={{
                                     width: '60%',
                                     height: 45,
                                     borderWidth: 1,
@@ -250,8 +252,11 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50,}}>
+                      <div style={{marginTop: 50, marginBottom: 46}}>
                         <h5>Click and Drag Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js'>Source code</a>
+                        </div>
                         <CSVReader 
                           onDrop={this.onDrop}
                           onError={this.onError}
@@ -262,8 +267,11 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50,}}>
+                      <div style={{marginTop: 50, marginBottom: 46}}>
                         <h5>Drag ( No Click ) Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js'>Source code</a>
+                        </div>
                         <CSVReader
                           onDrop={this.onDrop}
                           onError={this.onError}
@@ -271,12 +279,15 @@ export default class Demo extends Component {
                           style={{}}
                           config={{}}
                         >
-                          <span>Drop to upload.</span>
+                          <span>Drop CSV file here to upload.</span>
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50, marginBottom: 55}}>
+                      <div style={{marginTop: 50, marginBottom: 46}}>
                         <h5>Click ( No Drag ) Upload</h5>
+                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                          <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js'>Source code</a>
+                        </div>
                         <CSVReader 
                           onDrop={this.onDrop}
                           onError={this.onError}
@@ -295,10 +306,10 @@ export default class Demo extends Component {
                           <a href="/static/csv/normal.csv" id="local-normal-file">Normal file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/malformed.csv" id="local-large-file">Large file</a>
+                          <a href="/static/csv/big.csv" id="local-large-file">Large file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/big.csv" id="local-malformed-file">Malformed file</a>
+                          <a href="/static/csv/malformed.csv" id="local-malformed-file">Malformed file</a>
                         </li>
                       </ul>
                     </div>
