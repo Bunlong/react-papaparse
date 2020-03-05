@@ -69,7 +69,7 @@ var results = readString(str)
 
 #### Basic Upload
 
-![basic-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader1.png)
+![basic-upload](https://github.com/Bunlong/react-papaparse/blob/master/docs/static/images/csvreader1.png)
 
 ```javascript
 import React, { Component } from 'react'
@@ -152,7 +152,7 @@ export default class CSVReader extends Component {
 
 #### Click and Drag Upload
 
-![click-and-drag-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader2.png)
+![click-and-drag-upload](https://github.com/Bunlong/react-papaparse/blob/master/docs/static/images/csvreader2.png)
 
 ```javascript
 import React, { Component } from 'react'
@@ -188,7 +188,7 @@ export default class CSVReader extends Component {
 
 #### Drag ( No Click ) Upload
 
-![drag-no-click-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader3.png)
+![drag-no-click-upload](https://github.com/Bunlong/react-papaparse/blob/master/docs/static/images/csvreader3.png)
 
 ```javascript
 import React, { Component } from 'react'
@@ -225,7 +225,7 @@ export default class CSVReader extends Component {
 
 #### Click ( No Drag ) Upload
 
-![click-no-drag-upload](https://github.com/Bunlong/react-papaparse/blob/2.0.3/docs/static/images/csvreader4.png)
+![click-no-drag-upload](https://github.com/Bunlong/react-papaparse/blob/master/docs/static/images/csvreader4.png)
 
 ```javascript
 import React, { Component } from 'react'
