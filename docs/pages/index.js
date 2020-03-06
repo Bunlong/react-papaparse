@@ -78,7 +78,7 @@ readRemoteFile(bigFileURL, {
           </header>
 
           <div className="insignia">
-            <div className="firefox-hack"><div id="version-intro">Version</div><div id="version">2.0</div></div>
+            <div className="firefox-hack"><div id="version-intro">Version</div><div id="version">2.1</div></div>
           </div>
 
           <section style={{paddingTop: 0}}>
