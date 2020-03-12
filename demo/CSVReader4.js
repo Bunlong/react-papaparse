@@ -22,8 +22,6 @@ export default class CSVReader4 extends Component {
           onDrop={this.onDrop}
           onError={this.onError}
           noDrag
-          style={{}}
-          config={{}}
         >
           <span>Click to upload.</span>
         </CSVReader>

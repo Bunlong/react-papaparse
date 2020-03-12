@@ -33,7 +33,6 @@ export default class CSVReader1 extends Component {
           onError={this.onError}
           noClick
           noDrag
-          config={{}}
         >
           {({file}) => (
             <>

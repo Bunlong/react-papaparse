@@ -21,8 +21,6 @@ export default class CSVReader2 extends Component {
         <CSVReader 
           onDrop={this.onDrop}
           onError={this.onError}
-          style={{}}
-          config={{}}
         >
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>

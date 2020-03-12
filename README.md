@@ -251,8 +251,6 @@ export default class CSVReader extends Component {
           onDrop={this.onDrop}
           onError={this.onError}
           noDrag
-          style={{}}
-          config={{}}
         >
           <span>Click to upload.</span>
         </CSVReader>
@@ -317,13 +315,9 @@ var results = jsonToCSV(jsonData)
 If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.
 
 ```javascript
-<CSVReader
-  onFileLoaded={this.handleReadCSV}
-  inputRef={this.fileInput}
-  style={{display: 'none'}}
-  onError={this.handleOnError}
-  configOptions={{header: true /* Header row support */ }}
-/>
+var results = readString(csvString {
+  header: true
+})
 ```
 
 #### Stream
