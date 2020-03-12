@@ -24,7 +24,7 @@ export default class Index extends Component {
                   </a>
                 </div>
                 <div id="title-code">
-                  <pre><code className="language-javascript">{`// Parse CSV string
+                  <pre><code className='language-javascript'>{`// Parse CSV string
 var data = readString(csvString)
 
 // Convert back to CSV
@@ -180,7 +180,7 @@ readRemoteFile(bigFileURL, {
 
                 <p>react-papaparse does it right. Just pass in the CSV string with an optional <a href="/docs#config">configuration</a>.</p>
 
-                <pre><code className="language-javascript">{`
+                <pre><code className='language-javascript'>{`
 import { readString } from 'react-papaparse'
 
 var results = readString(csvString, config)
@@ -205,7 +205,7 @@ var results = readString(csvString, config)
 
                 <p>That's okay. react-papaparse will scan the first few rows to find the right delimiter.</p>
 
-                <pre><code className="language-javascript">{`
+                <pre><code className='language-javascript'>{`
 import { readString } from 'react-papaparse'
 
 var results = readString(csvString)
@@ -241,7 +241,7 @@ console.log(results.meta.delimiter)
                   <a href='/docs#basic-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
                 </div>
 
-                <pre><code className="language-javascript">{`import React, { Component } from 'react'
+                <pre><code className='language-javascript'>{`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
@@ -332,7 +332,7 @@ export default class CSVReader extends Component {
                 <a href='/docs#click-and-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
               </div>
 
-              <pre><code className="language-javascript">{`import React, { Component } from 'react'
+              <pre><code className='language-javascript'>{`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
@@ -376,7 +376,7 @@ export default class CSVReader extends Component {
                   <a href='/docs#drag-no-click-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
                 </div>
 
-                <pre><code className="language-javascript">{`import React, { Component } from 'react'
+                <pre><code className='language-javascript'>{`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
@@ -421,7 +421,7 @@ export default class CSVReader extends Component {
                   <a href='/docs#click-no-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
                 </div>
 
-                <pre><code className="language-javascript">{`import React, { Component } from 'react'
+                <pre><code className='language-javascript'>{`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
 
@@ -464,7 +464,7 @@ export default class CSVReader extends Component {
                 <h5>"No &mdash; I mean, the file isn't on my computer."</h5>
                 <p>Oh, well then just pass in the URL and &mdash; of course &mdash; a callback.</p>
 
-                <pre><code className="language-javascript">{`readRemoteFile('http://example.com/file.csv', {
+                <pre><code className='language-javascript'>{`readRemoteFile('http://example.com/file.csv', {
   download: true,
   complete: function(results) {
     console.log(results)
@@ -482,7 +482,7 @@ export default class CSVReader extends Component {
 
                 <p>That's what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won't load the whole file into memory and crash the browser.</p>
 
-                <pre><code className="language-javascript">{`readRemoteFile('http://example.com/big.csv', {
+                <pre><code className='language-javascript'>{`readRemoteFile('http://example.com/big.csv', {
   step: function(row) {
     console.log('Row:', row.data)
   },
@@ -502,7 +502,7 @@ export default class CSVReader extends Component {
 
                 <p>That happens when a long-running script is executing in the same thread as the page. Use a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker">Worker</a> thread by specifying <code>worker: true</code>. It may take slightly longer, but your page will stay reactive.</p>
 
-                <pre><code className="language-javascript">{`readRemoteFile(bigFileURL, {
+                <pre><code className='language-javascript'>{`readRemoteFile(bigFileURL, {
   worker: true,
   step: function(row) {
     console.log('Row:', row.data)
@@ -523,7 +523,7 @@ export default class CSVReader extends Component {
 
                 <p>If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.</p>
 
-                <pre><code className="language-javascript">{`// Key data by field name instead of index/position
+                <pre><code className='language-javascript'>{`// Key data by field name instead of index/position
 var results = readString(csvString {
   header: true
 })`}</code></pre>
@@ -539,7 +539,7 @@ var results = readString(csvString {
 
                 <p><i>Everything</i> is parsed as strings. If you want numbers and booleans, you can enable dynamic typing to do the conversion for you.</p>
 
-                <pre><code className="language-javascript">{`// Converts numeric/boolean data
+                <pre><code className='language-javascript'>{`// Converts numeric/boolean data
 var results = readString(csvString {
   dynamicTyping: true
 })`}</code></pre>
@@ -555,7 +555,7 @@ var results = readString(csvString {
 
                 <p>Okay, first off: that's really weird. But fortunately, you can skip those lines... just specify the comment string.</p>
 
-                <pre><code className="language-javascript">{`// Mostly found in academia, some CSV files
+                <pre><code className='language-javascript'>{`// Mostly found in academia, some CSV files
 // may have commented lines in them
 var results = readString(csvString {
   comments: "#"
@@ -572,7 +572,7 @@ var results = readString(csvString {
 
                 <p>react-papaparse handles errors pretty well. The <a href="http://tools.ietf.org/html/rfc4180">CSV standard</a> is somewhat <strike>loose</strike> ambiguous, so react-papaparse is designed for edge cases. For example, mismatched fields won't break parsing.</p>
 
-                <pre><code className="language-javascript">{`// Example error:
+                <pre><code className='language-javascript'>{`// Example error:
 {
   type: "FieldMismatch",
   code: "TooManyFields",
@@ -591,7 +591,7 @@ var results = readString(csvString {
 
                 <p>Use <code>jsonToCSV()</code> function, passing in your array of arrays or array of objects. react-papaparse will figure it out.</p>
 
-                <pre><code className="language-javascript">{`// Output is a properly-formatted CSV string.
+                <pre><code className='language-javascript'>{`// Output is a properly-formatted CSV string.
 var csv = jsonToCSV(jsonData)
 `}</code></pre>
               </div>

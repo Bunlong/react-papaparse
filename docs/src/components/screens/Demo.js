@@ -54,22 +54,20 @@ export default class Demo extends Component {
 
     if (index === 0) {
       let results = readString(this.state.str)
-      console.log('--------------------------------------------------')
+      console.log('---------------------------')
       console.log('Parse complete!')
       console.log('Row count: ', results.data.length)
       console.log('Errors: ', results.errors.length)
       console.log('Results: ', results)
-      console.log('Synchronous results: ', results)
-      console.log('--------------------------------------------------')
+      console.log('---------------------------')
     } else if (index === 1) {
       let results = this.state.csvData
       if (results) {
-        console.log('--------------------------------------------------')
+        console.log('---------------------------')
         console.log('Parse complete!')
         console.log('Row count: ', results.length)
         console.log('Results: ', results)
-        console.log('Synchronous results: ', results)
-        console.log('--------------------------------------------------')
+        console.log('---------------------------')
       } else {
         alert('Please choose at least one file to parse.')
         return
@@ -84,22 +82,21 @@ export default class Demo extends Component {
         this.state.url,
         {
           complete: function(results) {
-            console.log('--------------------------------------------------')
+            console.log('---------------------------')
             console.log('Parse complete!')
             console.log('Row count: ', results.data.length)
             console.log('Errors: ', results.errors.length)
             console.log('Results: ', results)
-            console.log('Synchronous results: ', results)
-            console.log('--------------------------------------------------')
+            console.log('---------------------------')
           }
         }
       )
     } else {
       try {
         let results = jsonToCSV(this.state.jsonData)
-        console.log('--------------------------------------------------')
+        console.log('---------------------------')
         console.log(results)
-        console.log('--------------------------------------------------')
+        console.log('---------------------------')
       } catch (e) {
         alert('Please enter valid JSON.')
         return
