@@ -211,7 +211,6 @@ export default class Demo extends Component {
                           onError={this.onError}
                           noClick
                           noDrag
-                          config={{}}
                         >
                           {({file}) => (
                             <>
@@ -260,8 +259,6 @@ export default class Demo extends Component {
                         <CSVReader 
                           onDrop={this.onDrop}
                           onError={this.onError}
-                          style={{}}
-                          config={{}}
                         >
                           <span>Drop CSV file here or click to upload.</span>
                         </CSVReader>
@@ -276,8 +273,6 @@ export default class Demo extends Component {
                           onDrop={this.onDrop}
                           onError={this.onError}
                           noClick
-                          style={{}}
-                          config={{}}
                         >
                           <span>Drop CSV file here to upload.</span>
                         </CSVReader>
@@ -292,8 +287,6 @@ export default class Demo extends Component {
                           onDrop={this.onDrop}
                           onError={this.onError}
                           noDrag
-                          style={{}}
-                          config={{}}
                         >
                           <span>Click to upload.</span>
                         </CSVReader>

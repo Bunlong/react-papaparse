@@ -51,11 +51,10 @@
     "build": "rollup -c",
     "start": "rollup -c -w",
     "prepare": "npm run build",
-    "predeploy": "cd example && npm install && npm run build",
-    "deploy": "gh-pages -d example/build"
+    "predeploy": "cd docs && npm install && npm run build",
+    "deploy": "gh-pages -d docs/build"
   },
   "peerDependencies": {
-    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
@@ -108,6 +107,7 @@
     "dist"
   ],
   "dependencies": {
-    "papaparse": "^5.1.1"
+    "papaparse": "^5.1.1",
+    "prop-types": "^15.7.2"
   }
 }
