@@ -22,7 +22,7 @@ export default class Docs extends Component {
                 </div>
               </div>
               <div className="grid-20 hide-on-mobile text-center">
-                <a href="/" className="text-logo">react-papaparse 2</a>
+                <a href="/" className="text-logo">react-papaparse 3</a>
               </div>
               <div className="grid-40 mobile-grid-50 text-right">
                 <div className="links">

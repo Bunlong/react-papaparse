@@ -65,7 +65,7 @@ readRemoteFile(bigFileURL, {
                 </div>
               </div>
               <div className="grid-20 hide-on-mobile text-center">
-                <a href="/" className="text-logo">react-papaparse 2</a>
+                <a href="/" className="text-logo">react-papaparse 3</a>
               </div>
               <div className="grid-40 mobile-grid-50 text-right">
                 <div className="links">
@@ -78,7 +78,7 @@ readRemoteFile(bigFileURL, {
           </header>
 
           <div className="insignia">
-            <div className="firefox-hack"><div id="version-intro">Version</div><div id="version">2.1</div></div>
+            <div className="firefox-hack"><div id="version-intro">Version</div><div id="version">3</div></div>
           </div>
 
           <section style={{paddingTop: 0}}>

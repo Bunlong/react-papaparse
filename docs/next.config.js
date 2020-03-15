@@ -1,4 +1,4 @@
-const isProduction = false // true
+const isProduction = true // true
 
 module.exports = {
   webpack: (config) => {
