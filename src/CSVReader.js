@@ -22,7 +22,7 @@ export default class CSVReaderRewrite extends Component {
     style: PropTypes.object,
     noClick: PropTypes.bool,
     noDrag: PropTypes.bool,
-    progressBarColor: PropTypes.string,
+    progressBarColor: PropTypes.string
   }
 
   state = {
@@ -30,7 +30,7 @@ export default class CSVReaderRewrite extends Component {
     hasFiles: false,
     progressBar: 0,
     displayProgressBarStatus: 'none',
-    file: '',
+    file: ''
   }
 
   componentDidMount = () => {
@@ -60,16 +60,16 @@ export default class CSVReaderRewrite extends Component {
   }
 
   _highlight = (e) => {
-    this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight)})
+    this.setState({ dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight) })
     this._initializeProgress()
   }
 
   _unhighlight = (e) => {
-    this.setState({dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight)})
+    this.setState({ dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight) })
   }
 
   _visibleProgressBar = () => {
-    this.setState({displayProgressBarStatus: 'block'})
+    this.setState({ displayProgressBarStatus: 'block' })
   }
 
   _handleDrop = (e) => {
@@ -80,26 +80,26 @@ export default class CSVReaderRewrite extends Component {
     } else {
       files = e.files
     }
-    this.setState({hasFiles: true}, () => {this._handleFiles(files)})
+    this.setState({ hasFiles: true }, () => { this._handleFiles(files) })
   }
 
   _handleFiles = (files) => {
-    this.setState({progressBar: 0})
+    this.setState({ progressBar: 0 })
     files = [...files]
     files.forEach(this._uploadFile)
   }
 
   _updateProgress = (percent) => {
-    this.setState({progressBar: percent})
+    this.setState({ progressBar: percent})
   }
 
   _disableProgressBar = () => {
-    this.setState({displayProgressBarStatus: 'none'})
+    this.setState({ displayProgressBarStatus: 'none' })
   }
 
   _uploadFile = (file, index) => {
     this._displayFileInfo(file)
-    this.setState({file})
+    this.setState({ file })
 
     const {
       onDrop,
@@ -113,19 +113,19 @@ export default class CSVReaderRewrite extends Component {
     let options = {}
 
     if (config.error) {
-      delete config['error']
+      delete config.error
     }
 
     if (config.step) {
-      delete config['step']
+      delete config.step
     }
 
     if (config.complete) {
-      delete config['complete']
+      delete config.complete
     }
 
     const size = file.size
-    let data = []
+    const data = []
     let percent = 0
 
     if (onDrop || onFileLoad) {
@@ -145,7 +145,7 @@ export default class CSVReaderRewrite extends Component {
           if (newPercent === percent) return
           percent = newPercent
           self._updateProgress(percent)
-        },
+        }
       }, options)
     }
 
@@ -177,22 +177,22 @@ export default class CSVReaderRewrite extends Component {
 
   _handleInputFileChange = (e) => {
     const { target } = e
-    this.setState({displayProgressBarStatus: 'block'}, () => {this._handleDrop(target)})
+    this.setState({ displayProgressBarStatus: 'block' }, () => { this._handleDrop(target) })
   }
 
   _initializeProgress = () => {
-    this.setState({progressBar: 0})
+    this.setState({ progressBar: 0 })
   }
 
   open = (e) => {
     if (e) {
-      e.stopPropagation();
+      e.stopPropagation()
       this.inputFileRef.current.click()
     }
   }
 
   renderChildren = () => {
-    return this._childrenIsFunction() ? this.props.children({file: this.state.file}) : this.props.children
+    return this._childrenIsFunction() ? this.props.children({ file: this.state.file }) : this.props.children
   }
 
   _childrenIsFunction = () => {
@@ -200,12 +200,11 @@ export default class CSVReaderRewrite extends Component {
   }
 
   render() {
-    
     const {
       style,
       noClick,
       children,
-      progressBarColor,
+      progressBarColor
     } = this.props
 
     return (
@@ -232,7 +231,7 @@ export default class CSVReaderRewrite extends Component {
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
                     </div>
                     <div style={styles.progressBar}>
-                      <span 
+                      <span
                         style={
                           Object.assign(
                             {},
@@ -240,8 +239,7 @@ export default class CSVReaderRewrite extends Component {
                             {
                               width: `${this.state.progressBar}%`,
                               display: this.state.displayProgressBarStatus
-                            }
-                          )
+                            })
                         }
                         ref={this.progressBarFillRef}
                       />
@@ -255,18 +253,17 @@ export default class CSVReaderRewrite extends Component {
           ) : (
             <div ref={this.dropAreaRef}>
               {this.renderChildren()}
-              <div style={Object.assign({}, styles.progressBar, {position: 'inherit', width: '100%'})}>
+              <div style={Object.assign({}, styles.progressBar, { position: 'inherit', width: '100%' })}>
                 <span
                   style={
                     Object.assign(
                       {},
                       styles.progressBarFill,
-                      {backgroundColor: progressBarColor || '#659cef'},
+                      { backgroundColor: progressBarColor || '#659cef' },
                       {
                         width: `${this.state.progressBar}%`,
                         display: this.state.displayProgressBarStatus
-                      }
-                    )
+                      })
                   }
                   ref={this.progressBarFillRef}
                 />
@@ -288,16 +285,16 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   inputFile: {
-    display: 'none',
+    display: 'none'
   },
   highlight: {
-    borderColor: 'purple',
+    borderColor: 'purple'
   },
   unhighlight: {
-    borderColor: '#ccc',
+    borderColor: '#ccc'
   },
   dropFile: {
     borderRadius: 20,
@@ -308,47 +305,46 @@ const styles = {
     display: 'block',
     zIndex: 10,
     paddingLeft: 10,
-    paddingRight: 10,
-    position: 'relative',
+    paddingRight: 10
   },
   column: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   progressBar: {
     width: '80%',
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
-    bottom: 0,
+    // bottom: 0,
     position: 'absolute',
-    bottom: 14,
+    bottom: 14
   },
   progressBarFill: {
     height: 10,
     backgroundColor: '#659cef',
     borderRadius: 3,
-    transition: 'width 500ms ease-in-out',
+    transition: 'width 500ms ease-in-out'
   },
   fileSizeInfo: {
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: '0 0.4em',
     borderRadius: 3,
     lineHeight: 1,
-    marginBottom: '0.5em',
+    marginBottom: '0.5em'
   },
   fileNameInfo: {
     fontSize: 14,
     backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: '0 0.4em',
     borderRadius: 3,
-    lineHeight: 1,
+    lineHeight: 1
   },
   defaultCursor: {
-    cursor: 'default',
+    cursor: 'default'
   },
   pointerCursor: {
-    cursor: 'pointer',
-  },
+    cursor: 'pointer'
+  }
 }
