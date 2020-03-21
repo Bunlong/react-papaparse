@@ -1,12 +1,82 @@
 import React, { Component } from 'react'
-
 import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
 
 import getSize from './util'
 
-export default class CSVReaderRewrite extends Component {
+const styles = {
+  dropArea: {
+    border: '2px dashed #ccc',
+    borderRadius: 20,
+    height: '100%',
+    padding: 20,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  inputFile: {
+    display: 'none'
+  },
+  highlight: {
+    borderColor: 'purple'
+  },
+  unhighlight: {
+    borderColor: '#ccc'
+  },
+  dropFile: {
+    borderRadius: 20,
+    background: 'linear-gradient(to bottom, #eee, #ddd)',
+    width: 100,
+    height: 120,
+    position: 'relative',
+    display: 'block',
+    zIndex: 10,
+    paddingLeft: 10,
+    paddingRight: 10
+  },
+  column: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column'
+  },
+  progressBar: {
+    width: '80%',
+    borderRadius: 3,
+    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
+    position: 'absolute',
+    bottom: 14
+  },
+  progressBarFill: {
+    height: 10,
+    backgroundColor: '#659cef',
+    borderRadius: 3,
+    transition: 'width 500ms ease-in-out'
+  },
+  fileSizeInfo: {
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    padding: '0 0.4em',
+    borderRadius: 3,
+    lineHeight: 1,
+    marginBottom: '0.5em'
+  },
+  fileNameInfo: {
+    fontSize: 14,
+    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    padding: '0 0.4em',
+    borderRadius: 3,
+    lineHeight: 1
+  },
+  defaultCursor: {
+    cursor: 'default'
+  },
+  pointerCursor: {
+    cursor: 'pointer'
+  }
+}
 
+export default class CSVReaderRewrite extends Component {
   inputFileRef = React.createRef()
   dropAreaRef = React.createRef()
   fileSizeInfoRef = React.createRef()
@@ -150,7 +220,7 @@ export default class CSVReaderRewrite extends Component {
     }
 
     if (onError) {
-      options = Object.assign({error: onError}, options)
+      options = Object.assign({ error: onError }, options)
     }
 
     if (config) {
@@ -163,6 +233,7 @@ export default class CSVReaderRewrite extends Component {
 
     reader.onloadend = (e) => {
       const timeout = setTimeout(() => { this._disableProgressBar() }, 2000)
+      clearTimeout(timeout)
     }
 
     reader.readAsText(file, config.encoding || 'utf-8')
@@ -273,78 +344,5 @@ export default class CSVReaderRewrite extends Component {
         }
       </>
     )
-  }
-}
-
-const styles = {
-  dropArea: {
-    border: '2px dashed #ccc',
-    borderRadius: 20,
-    height: '100%',
-    padding: 20,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  inputFile: {
-    display: 'none'
-  },
-  highlight: {
-    borderColor: 'purple'
-  },
-  unhighlight: {
-    borderColor: '#ccc'
-  },
-  dropFile: {
-    borderRadius: 20,
-    background: 'linear-gradient(to bottom, #eee, #ddd)',
-    width: 100,
-    height: 120,
-    position: 'relative',
-    display: 'block',
-    zIndex: 10,
-    paddingLeft: 10,
-    paddingRight: 10
-  },
-  column: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column'
-  },
-  progressBar: {
-    width: '80%',
-    borderRadius: 3,
-    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
-    // bottom: 0,
-    position: 'absolute',
-    bottom: 14
-  },
-  progressBarFill: {
-    height: 10,
-    backgroundColor: '#659cef',
-    borderRadius: 3,
-    transition: 'width 500ms ease-in-out'
-  },
-  fileSizeInfo: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    padding: '0 0.4em',
-    borderRadius: 3,
-    lineHeight: 1,
-    marginBottom: '0.5em'
-  },
-  fileNameInfo: {
-    fontSize: 14,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
-    padding: '0 0.4em',
-    borderRadius: 3,
-    lineHeight: 1
-  },
-  defaultCursor: {
-    cursor: 'default'
-  },
-  pointerCursor: {
-    cursor: 'pointer'
   }
 }
