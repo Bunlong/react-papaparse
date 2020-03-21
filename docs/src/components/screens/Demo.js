@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 
-import { CSVReader, readString, jsonToCSV, readRemoteFile, BAD_DELIMITERS } from 'react-papaparse'
+import {
+  CSVReader,
+  readString,
+  jsonToCSV,
+  readRemoteFile
+} from 'react-papaparse'
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import {
+  Tab,
+  Tabs,
+  TabList,
+  TabPanel
+} from 'react-tabs'
 
 const buttonRef = React.createRef()
 
 export default class Demo extends Component {
-
   constructor(props) {
     super(props)
-
     this.state = {
       tabIndex: 0,
       str: `Column 1,Column 2,Column 3,Column 4
@@ -45,7 +53,7 @@ export default class Demo extends Component {
       "Column 3": 6,
       "Column 4": 7
   }
-]`,
+]`
     }
   }
 
@@ -53,7 +61,7 @@ export default class Demo extends Component {
     const index = this.state.tabIndex
 
     if (index === 0) {
-      let results = readString(this.state.str)
+      const results = readString(this.state.str)
       console.log('---------------------------')
       console.log('Parse complete!')
       console.log('Row count: ', results.data.length)
@@ -61,7 +69,7 @@ export default class Demo extends Component {
       console.log('Results: ', results)
       console.log('---------------------------')
     } else if (index === 1) {
-      let results = this.state.csvData
+      const results = this.state.csvData
       if (results) {
         console.log('---------------------------')
         console.log('Parse complete!')
@@ -69,11 +77,12 @@ export default class Demo extends Component {
         console.log('Results: ', results)
         console.log('---------------------------')
       } else {
+        // eslint-disable-next-line no-undef
         alert('Please choose at least one file to parse.')
-        return
       }
     } else if (index === 2) {
       if (this.state.url === '') {
+        // eslint-disable-next-line no-undef
         alert('Please enter the URL of a file to download and parse.')
         return
       }
@@ -93,39 +102,39 @@ export default class Demo extends Component {
       )
     } else {
       try {
-        let results = jsonToCSV(this.state.jsonData)
+        const results = jsonToCSV(this.state.jsonData)
         console.log('---------------------------')
         console.log(results)
         console.log('---------------------------')
       } catch (e) {
+        // eslint-disable-next-line no-undef
         alert('Please enter valid JSON.')
-        return
       }
     }
   }
 
   setTabIndex = (index) => {
-    this.setState({tabIndex: index})
+    this.setState({ tabIndex: index })
   }
 
   handleStrChange = (event) => {
-    this.setState({str: event.target.value})
+    this.setState({ str: event.target.value })
   }
 
   handleJsonDataChange = (event) => {
-    this.setState({jsonData: event.target.value})
+    this.setState({ jsonData: event.target.value })
   }
 
   handleURLChange = (event) => {
-    this.setState({url: event.target.value})
+    this.setState({ url: event.target.value })
   }
 
   setURL = (url) => {
-    this.setState({url})
+    this.setState({ url })
   }
 
   onDrop = (data) => {
-    this.setState({csvData: data})
+    this.setState({ csvData: data })
   }
 
   onError = (err, file, inputElem, reason) => {
@@ -144,27 +153,27 @@ export default class Demo extends Component {
       <>
         <main>
           <header>
-            <div className="grid-container">
-              <div className="grid-40 mobile-grid-50">
-                <div className="links">
-                  <a href="/">
-                    <i className="fa fa-home fa-lg"></i> Home
+            <div className='grid-container'>
+              <div className='grid-40 mobile-grid-50'>
+                <div className='links'>
+                  <a href='/'>
+                    <i className='fa fa-home fa-lg' /> Home
                   </a>
-                  <a href="/demo">
-                    <i className="fa fa-magic fa-lg"></i> Demo
+                  <a href='/demo'>
+                    <i className='fa fa-magic fa-lg' /> Demo
                   </a>
-                  <a href="/docs">
-                    <i className="fa fa-book fa-lg"></i> Docs
+                  <a href='/docs'>
+                    <i className='fa fa-book fa-lg' /> Docs
                   </a>
                 </div>
               </div>
-              <div className="grid-20 hide-on-mobile text-center">
-                <a href="/" className="text-logo">react-papaparse 3</a>
+              <div className='grid-20 hide-on-mobile text-center'>
+                <a href='/' className='text-logo'>react-papaparse 3</a>
               </div>
-              <div className="grid-40 mobile-grid-50 text-right">
-                <div className="links">
-                  <a href="https://github.com/Bunlong/react-papaparse">
-                    <i className="fa fa-github fa-lg"></i> GitHub
+              <div className='grid-40 mobile-grid-50 text-right'>
+                <div className='links'>
+                  <a href='https://github.com/Bunlong/react-papaparse'>
+                    <i className='fa fa-github fa-lg' /> GitHub
                   </a>
                 </div>
               </div>
@@ -172,9 +181,9 @@ export default class Demo extends Component {
           </header>
 
           <h1>Choose a Demo</h1>
-            
-          <div className="grid-container">
-            <div className="grid-66">
+
+          <div className='grid-container'>
+            <div className='grid-66'>
               <Tabs onSelect={index => this.setTabIndex(index)}>
                 <TabList>
                   <Tab>String</Tab>
@@ -183,23 +192,23 @@ export default class Demo extends Component {
                   <Tab>JSON to CSV</Tab>
                 </TabList>
                 <TabPanel>
-                  <div className="input-area" id="input-string">
-                    <div style={{float: 'right', marginBottom: 14}}>
+                  <div className='input-area' id='input-string'>
+                    <div style={{ float: 'right', marginBottom: 14 }}>
                       <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/ReadString.js'>Source code</a>
                     </div>
-                    <textarea id="input" placeholder="String input" onChange={this.handleStrChange} value={this.state.str} />
+                    <textarea id='input' placeholder='String input' onChange={this.handleStrChange} value={this.state.str} />
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div className="input-area" id="input-string">
+                  <div className='input-area' id='input-string'>
                     <div>
-                      <div className="text-center">
+                      <div className='text-center'>
                         Choose one or more delimited text files for react-papaparse to parse.
                       </div>
 
-                      <div style={{marginTop: 60, marginBottom: 46}}>
+                      <div style={{ marginTop: 60, marginBottom: 46 }}>
                         <h5>Basic Upload</h5>
-                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                        <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js'>Source code</a>
                         </div>
                         <CSVReader
@@ -209,11 +218,11 @@ export default class Demo extends Component {
                           noClick
                           noDrag
                         >
-                          {({file}) => (
+                          {({ file }) => (
                             <>
-                              <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
+                              <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
                                 <button
-                                  type="button"
+                                  type='button'
                                   onClick={this.openDialog}
                                   style={{
                                     width: '40%',
@@ -253,7 +262,7 @@ export default class Demo extends Component {
                         <div style={{marginBottom: 14, textAlignLast: 'end'}}>
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js'>Source code</a>
                         </div>
-                        <CSVReader 
+                        <CSVReader
                           onDrop={this.onDrop}
                           onError={this.onError}
                         >
@@ -261,9 +270,9 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50, marginBottom: 46}}>
+                      <div style={{ marginTop: 50, marginBottom: 46 }}>
                         <h5>Drag ( No Click ) Upload</h5>
-                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                        <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js'>Source code</a>
                         </div>
                         <CSVReader
@@ -275,12 +284,12 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50, marginBottom: 46}}>
+                      <div style={{ marginTop: 50, marginBottom: 46 }}>
                         <h5>Click ( No Drag ) Upload</h5>
-                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                        <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js'>Source code</a>
                         </div>
-                        <CSVReader 
+                        <CSVReader
                           onDrop={this.onDrop}
                           onError={this.onError}
                           noDrag
@@ -288,67 +297,67 @@ export default class Demo extends Component {
                           <span>Click to upload.</span>
                         </CSVReader>
                       </div>
-                      
+
                       Sample files:
 
                       <ul>
                         <li>
-                          <a href="/static/csv/normal.csv" id="local-normal-file">Normal file</a>
+                          <a href='/static/csv/normal.csv' id='local-normal-file'>Normal file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/big.csv" id="local-large-file">Large file</a>
+                          <a href='/static/csv/big.csv' id='local-large-file'>Large file</a>
                         </li>
                         <li>
-                          <a href="/static/csv/malformed.csv" id="local-malformed-file">Malformed file</a>
+                          <a href='/static/csv/malformed.csv' id='local-malformed-file'>Malformed file</a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div className="input-area" id="input-string">
-                    <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                  <div className='input-area' id='input-string'>
+                    <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
                       <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/ReadRemoteFile.js'>Source code</a>
                     </div>
                     <div>
-                      <div className="text-center">
+                      <div className='text-center'>
                         Type the URL of the file to be downloaded and parsed.
-                        <br/>
+                        <br />
                         <small>(cross-origin requests require Access-Control-Allow-Origin header)</small>
                       </div>
-                      <input type="text" id="url" placeholder="URL" value={this.state.url} onChange={this.handleURLChange} />
+                      <input type='text' id='url' placeholder='URL' value={this.state.url} onChange={this.handleURLChange} />
                       Sample remote files:
                       <ul>
                         <li>
-                          <a id="local-normal-file" onClick={() => this.setURL('/static/csv/normal.csv')} style={{cursor: 'pointer'}}>Normal file</a>
+                          <a id='local-normal-file' onClick={() => this.setURL('/static/csv/normal.csv')} style={{ cursor: 'pointer' }}>Normal file</a>
                         </li>
                         <li>
-                          <a id="local-large-file" onClick={() => this.setURL('/static/csv/big.csv')} style={{cursor: 'pointer'}}>Large file</a>
+                          <a id='local-large-file' onClick={() => this.setURL('/static/csv/big.csv')} style={{ cursor: 'pointer' }}>Large file</a>
                         </li>
                         <li>
-                          <a id="local-malformed-file" onClick={() => this.setURL('/static/csv/malformed.csv')} style={{cursor: 'pointer'}}>Malformed file</a>
+                          <a id='local-malformed-file' onClick={() => this.setURL('/static/csv/malformed.csv')} style={{ cursor: 'pointer' }}>Malformed file</a>
                         </li>
                       </ul>
                     </div>
                   </div>
                 </TabPanel>
                 <TabPanel>
-                  <div className="input-area" id="input-string">
-                    <div style={{float: 'right', marginBottom: 14}}>
+                  <div className='input-area' id='input-string'>
+                    <div style={{ float: 'right', marginBottom: 14 }}>
                       <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/JsonToCSV.js'>Source code</a>
                     </div>
                     <div>
-                       <textarea id="json" placeholder="JSON string" value={this.state.jsonData} onChange={this.handleJsonDataChange} />
+                      <textarea id='json' placeholder='JSON string' value={this.state.jsonData} onChange={this.handleJsonDataChange} />
                     </div>
                   </div>
                 </TabPanel>
               </Tabs>
 
-              <div className="text-center">
-                <div className="see-results">
+              <div className='text-center'>
+                <div className='see-results'>
                   Results will appear in the console of your browser's inspector tools
                 </div>
-                <button id="submit" className="green" onClick={this.handleImportOffer}>Parse</button>
+                <button id='submit' className='green' onClick={this.handleImportOffer}>Parse</button>
               </div>
             </div>
           </div>
