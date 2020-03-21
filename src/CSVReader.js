@@ -226,11 +226,11 @@ export default class CSVReaderRewrite extends Component {
       options = Object.assign(config, options)
     }
 
-    reader.onload = (e) => {
+    reader.onload = e => {
       PapaParse.parse(e.target.result, options)
     }
 
-    reader.onloadend = (e) => {
+    reader.onloadend = e => {
       const timeout = setTimeout(() => { this.disableProgressBar() }, 2000)
       clearTimeout(timeout)
     }
