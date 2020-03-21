@@ -11,7 +11,7 @@ export default class ReadString extends Component {
 4,5,6,7`
 
     var results = readString(str)
-    
+
     console.log('--------------------------------------------------')
     console.log(results)
     console.log('--------------------------------------------------')
