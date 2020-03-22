@@ -1,4 +1,4 @@
-const isProduction = true // true
+const isProduction = false // true
 
 module.exports = {
   webpack: (config) => {
@@ -8,15 +8,14 @@ module.exports = {
         use: 'raw-loader'
       }
     )
-
     return config
   },
   exportPathMap: function () {
     return {
       '/': { page: '/' },
       '/demo': { page: '/demo' },
-      '/docs': { page: '/docs' },
+      '/docs': { page: '/docs' }
     }
   },
-  assetPrefix: isProduction ? 'https://react-papaparse.github.io' : '',
+  assetPrefix: isProduction ? 'https://react-papaparse.github.io' : ''
 }
