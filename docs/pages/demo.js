@@ -7,7 +7,6 @@ const DynamicComponentWithNoSSR = dynamic(
 )
 
 export default class Demo extends Component {
-  
   render() {
     return (
       <>
