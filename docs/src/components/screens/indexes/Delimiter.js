@@ -1,6 +1,6 @@
 import React from 'react'
 
-const DelimiterDetection = () => {
+const Delimiter = () => {
   return (
     <>
       <section id='delimiter'>
@@ -28,4 +28,4 @@ console.log(results.meta.delimiter)
   )
 }
 
-export default DelimiterDetection
+export default Delimiter

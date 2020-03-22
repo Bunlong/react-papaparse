@@ -2,15 +2,30 @@ import React from 'react'
 
 const Download = () => {
   return (
-    <section>
+    <section id='download'>
       <div className='grid-container'>
+        <div className='grid-100'>
+          <h3>Install</h3>
+        </div>
+        <div className='prefix-30 grid-40 suffix-30'>
+          <b style={{ display: 'block', textAlign: 'center' }}>npm</b>
+          <pre><code className='language-bash'>$ npm install --save react-papaparse</code></pre>
+          <br />
+          <b style={{ display: 'block', textAlign: 'center' }}>yarn</b>
+          <pre><code className='language-bash'>$ yarn add react-papaparse</code></pre>
+        </div>
+        <div className='clear' />
         <div className='grid-100 text-center'>
-          <h3>People <i className='fa fa-heart' /> react-papaparse</h3>
-          <p>
-            <a href='https://www.npmjs.com/package/react-papaparse'>
-              <img src='https://img.shields.io/npm/dm/react-papaparse.svg' alt='react-papaparse' />
-            </a>
-          </p>
+          <br /><br />
+          <a href='https://github.com/Bunlong/react-papaparse' className='button'>
+            <i className='fa fa-github' />&nbsp; GitHub
+          </a>
+          <a href='/demo' className='button red'>
+            <i className='fa fa-magic' />&nbsp; Demo
+          </a>
+          <a href='/docs' className='button gray'>
+            <i className='fa fa-book' />&nbsp; Documentation
+          </a>
         </div>
       </div>
     </section>
