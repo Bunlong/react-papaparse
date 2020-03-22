@@ -6,7 +6,6 @@ import {
   jsonToCSV,
   readRemoteFile
 } from 'react-papaparse'
-
 import {
   Tab,
   Tabs,
@@ -133,16 +132,16 @@ export default class Demo extends Component {
     this.setState({ url })
   }
 
-  onDrop = (data) => {
+  handleOnDrop = (data) => {
     this.setState({ csvData: data })
   }
 
-  onError = (err, file, inputElem, reason) => {
+  handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
-  openDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
+  handleOpenDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
@@ -213,8 +212,8 @@ export default class Demo extends Component {
                         </div>
                         <CSVReader
                           ref={buttonRef}
-                          onFileLoad={this.onDrop}
-                          onError={this.onError}
+                          onFileLoad={this.handleOnDrop}
+                          onError={this.handleOnError}
                           noClick
                           noDrag
                         >
@@ -223,14 +222,14 @@ export default class Demo extends Component {
                               <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
                                 <button
                                   type='button'
-                                  onClick={this.openDialog}
+                                  onClick={this.handleOpenDialog}
                                   style={{
                                     width: '40%',
                                     borderRadius: 0,
                                     marginLeft: 0,
                                     marginRight: 0,
                                     paddingLeft: 0,
-                                    paddingRight: 0,
+                                    paddingRight: 0
                                   }}
                                 >
                                   Browe file
@@ -246,7 +245,7 @@ export default class Demo extends Component {
                                     marginBottom: 5,
                                     paddingLeft: 13,
                                     paddingTop: 3,
-                                    lineHeight: 2.2,
+                                    lineHeight: 2.2
                                   }}
                                 >
                                   {file.name}
@@ -257,14 +256,14 @@ export default class Demo extends Component {
                         </CSVReader>
                       </div>
 
-                      <div style={{marginTop: 50, marginBottom: 46}}>
+                      <div style={{ marginTop: 50, marginBottom: 46 }}>
                         <h5>Click and Drag Upload</h5>
-                        <div style={{marginBottom: 14, textAlignLast: 'end'}}>
+                        <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js'>Source code</a>
                         </div>
                         <CSVReader
-                          onDrop={this.onDrop}
-                          onError={this.onError}
+                          onDrop={this.handleOnDrop}
+                          onError={this.handleOnError}
                         >
                           <span>Drop CSV file here or click to upload.</span>
                         </CSVReader>
@@ -276,8 +275,8 @@ export default class Demo extends Component {
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js'>Source code</a>
                         </div>
                         <CSVReader
-                          onDrop={this.onDrop}
-                          onError={this.onError}
+                          onDrop={this.handleOnDrop}
+                          onError={this.handleOnError}
                           noClick
                         >
                           <span>Drop CSV file here to upload.</span>
@@ -290,8 +289,8 @@ export default class Demo extends Component {
                           <a href='https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js'>Source code</a>
                         </div>
                         <CSVReader
-                          onDrop={this.onDrop}
-                          onError={this.onError}
+                          onDrop={this.handleOnDrop}
+                          onError={this.handleOnError}
                           noDrag
                         >
                           <span>Click to upload.</span>
