@@ -19,9 +19,7 @@ export default class ReadString extends Component {
 
   render() {
     return (
-      <>
-        <button onClick={this.handleClick}>readString</button>
-      </>
+      <button onClick={this.handleClick}>readString</button>
     )
   }
 }

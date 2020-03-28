@@ -13,9 +13,7 @@ export default class ReadRemoteFile extends Component {
 
   render() {
     return (
-      <>
-        <button onClick={this.handleClick}>readRemoteFile</button>
-      </>
+      <button onClick={this.handleClick}>readRemoteFile</button>
     )
   }
 }

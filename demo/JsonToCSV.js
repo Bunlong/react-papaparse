@@ -40,9 +40,7 @@ export default class JsonToCSV extends Component {
 
   render() {
     return (
-      <>
-        <button onClick={this.handleClick}>jsonToCSV</button>
-      </>
+      <button onClick={this.handleClick}>jsonToCSV</button>
     )
   }
 }
