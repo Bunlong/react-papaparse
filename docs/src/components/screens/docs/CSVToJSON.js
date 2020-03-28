@@ -37,33 +37,31 @@ const CSVToJSON = () => {
             <code className='language-javascript'>
               {`<CSVReader
   ref={buttonRef}
-  onFileLoad={this.onFileLoad}
-  onError={this.onError}
+  onFileLoad={this.handleOnFileLoad}
+  onError={this.handleOnError}
   noClick
   noDrag
   config={{}}
   style={{}}
 >
   {({file}) => (
-    <>
-      <aside
-        style={{
-          display: 'flex',
-          flexDirection: 'row',
-          marginBottom: 10,
-        }}
+    <aside
+      style={{
+        display: 'flex',
+        flexDirection: 'row',
+        marginBottom: 10,
+      }}
+    >
+      <button
+        type="button"
+        onClick={this.handleOpenDialog}
       >
-        <button
-          type="button"
-          onClick={this.openDialog}
-        >
-          Browe file
-        </button>
-        <div>
-          {file.name}
-        </div>
-      </aside>
-    </>
+        Browe file
+      </button>
+      <div>
+        {file.name}
+      </div>
+    </aside>
   )}
 </CSVReader>
 `}
@@ -94,8 +92,8 @@ const CSVToJSON = () => {
           <pre>
             <code className='language-javascript'>
               {`<CSVReader 
-  onDrop={this.onDrop}
-  onError={this.onError}
+  onDrop={this.handleOnDrop}
+  onError={this.handleOnError}
   style={{}}
   config={{}}
 >
@@ -126,8 +124,8 @@ const CSVToJSON = () => {
           <pre>
             <code className='language-javascript'>
               {`<CSVReader
-  onDrop={this.onDrop}
-  onError={this.onError}
+  onDrop={this.handleOnDrop}
+  onError={this.handleOnError}
   noClick
   style={{}}
   config={{}}
@@ -160,8 +158,8 @@ const CSVToJSON = () => {
           <pre>
             <code className='language-javascript'>
               {`<CSVReader 
-  onDrop={this.onDrop}
-  onError={this.onError}
+  onDrop={this.handleOnDrop}
+  onError={this.handleOnError}
   noDrag
   style={{}}
   config={{}}

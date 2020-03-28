@@ -138,7 +138,7 @@ const JSONToCSV = () => {
           <pre>
             <code className='language-javascript'>
               {`// Two-line, comma-delimited file
-var csv = jsonToCSV([
+const csv = jsonToCSV([
   ["1-1", "1-2", "1-3"],
   ["2-1", "2-2", "2-3"]
 ])`}
@@ -150,7 +150,7 @@ var csv = jsonToCSV([
             <code className='language-javascript'>
               {`// With implicit header row
 // (keys of first object populate header row)
-var csv = jsonToCSV([
+const csv = jsonToCSV([
   {
     "Column 1": "foo",
     "Column 2": "bar"
@@ -167,7 +167,7 @@ var csv = jsonToCSV([
           <pre>
             <code className='language-javascript'>
               {`// Specifying fields and data explicitly
-var csv = jsonToCSV({
+const csv = jsonToCSV({
   "fields": ["Column 1", "Column 2"],
   "data": [
     ["foo", "bar"],
