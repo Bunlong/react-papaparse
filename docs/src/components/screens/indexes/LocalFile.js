@@ -207,7 +207,7 @@ export default class CSVReader extends Component {
             <img
               src='/static/images/csvreader4.png'
               alt='Click ( No Drag ) Upload'
-              style={{ maxWidth: '100%', height: 'auto '}}
+              style={{ maxWidth: '100%', height: 'auto ' }}
             />
           </div>
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
