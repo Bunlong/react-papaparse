@@ -156,7 +156,7 @@ const Config = () => {
                   To <a href='/faq#streaming'>stream</a> the input, define a callback function:
                   <pre>
                     <code className='language-javascript'>
-                      step: function(<a href='#results'>results</a>{`, parser) {
+                      step: (<a href='#results'>results</a>{`, parser) => {
   console.log("Row data:", results.data)
   console.log("Row errors:", results.errors)
 }`}
@@ -173,7 +173,7 @@ const Config = () => {
                   The callback to execute when parsing is complete. It receives the parse <a href='#results'>results</a>. If parsing a local file, the <a href='https://developer.mozilla.org/en-US/docs/Web/API/File'>File</a> is passed in, too:
                   <pre>
                     <code className='language-javascript'>
-                      {`complete: function(results, file) {
+                      {`complete: (results, file) => {
   console.log("Parsing complete:", results, file)
 }`}
                     </code>

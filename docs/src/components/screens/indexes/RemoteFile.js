@@ -12,7 +12,7 @@ const RemoteFile = () => {
             <code className='language-javascript'>
               {`readRemoteFile('http://example.com/file.csv', {
   download: true,
-  complete: function(results) {
+  complete: (results) => {
     console.log(results)
   }
 })`}

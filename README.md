@@ -254,7 +254,7 @@ import { readRemoteFile } from 'react-papaparse'
 readRemoteFile(
   url,
   {
-    complete: function(results) {
+    complete: (results) => {
       console.log('Results:', results)
     }
   }
@@ -312,10 +312,10 @@ That's what streaming is for. Specify a step callback to receive the results row
 
 ```javascript
 readRemoteFile('http://example.com/big.csv', {
-  step: function(row) {
+  step: (row) => {
     console.log('Row:', row.data)
   },
-  complete: function() {
+  complete: () => {
     console.log('All done!')
   }
 })

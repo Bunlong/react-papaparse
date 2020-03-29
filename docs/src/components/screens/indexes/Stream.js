@@ -11,10 +11,10 @@ const Stream = () => {
           <pre>
             <code className='language-javascript'>
               {`readRemoteFile('http://example.com/big.csv', {
-  step: function(row) {
+  step: (row) => {
     console.log('Row:', row.data)
   },
-  complete: function() {
+  complete: () => {
     console.log('All done!')
   }
 })`}

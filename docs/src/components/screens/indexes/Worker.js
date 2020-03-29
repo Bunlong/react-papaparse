@@ -12,10 +12,10 @@ const Worker = () => {
             <code className='language-javascript'>
               {`readRemoteFile(bigFileURL, {
   worker: true,
-  step: function(row) {
+  step: (row) => {
     console.log('Row:', row.data)
   },
-  complete: function() {
+  complete: () => {
     console.log('All done!')
   }
 })`}

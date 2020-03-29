@@ -89,7 +89,7 @@ export default class Demo extends Component {
       readRemoteFile(
         this.state.url,
         {
-          complete: function(results) {
+          complete: (results) => {
             console.log('---------------------------')
             console.log('Parse complete!')
             console.log('Row count: ', results.data.length)
