@@ -11,7 +11,7 @@ const Unparse = () => {
           <pre>
             <code className='language-javascript'>
               {`// Output is a properly-formatted CSV string.
-var csv = jsonToCSV(jsonData)
+const csv = jsonToCSV(jsonData)
 `}
             </code>
           </pre>

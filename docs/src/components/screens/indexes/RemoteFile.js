@@ -11,10 +11,10 @@ const RemoteFile = () => {
           <pre>
             <code className='language-javascript'>
               {`readRemoteFile('http://example.com/file.csv', {
-download: true,
-complete: function(results) {
-  console.log(results)
-}
+  download: true,
+  complete: function(results) {
+    console.log(results)
+  }
 })`}
             </code>
           </pre>

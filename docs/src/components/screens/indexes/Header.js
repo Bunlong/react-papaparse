@@ -11,7 +11,7 @@ const Header = () => {
           <pre>
             <code className='language-javascript'>
               {`// Key data by field name instead of index/position
-var results = readString(csvString {
+const results = readString(csvString {
   header: true
 })`}
             </code>

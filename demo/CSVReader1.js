@@ -16,7 +16,7 @@ export default class CSVReader1 extends Component {
   }
 
   handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
+    // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
@@ -44,7 +44,7 @@ export default class CSVReader1 extends Component {
                   marginLeft: 0,
                   marginRight: 0,
                   paddingLeft: 0,
-                  paddingRight: 0,
+                  paddingRight: 0
                 }}
               >
                 Browe file
@@ -60,7 +60,7 @@ export default class CSVReader1 extends Component {
                   marginBottom: 5,
                   paddingLeft: 13,
                   paddingTop: 3,
-                  lineHeight: 2.2,
+                  lineHeight: 2.2
                 }}
               >
                 {file.name}

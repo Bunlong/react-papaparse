@@ -11,7 +11,7 @@ const TypeConversion = () => {
           <pre>
             <code className='language-javascript'>
               {`// Converts numeric/boolean data
-var results = readString(csvString {
+const results = readString(csvString {
   dynamicTyping: true
 })`}
             </code>

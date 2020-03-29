@@ -28,26 +28,26 @@ const Welcome = () => {
               <pre>
                 <code className='language-javascript'>
                   {`// Parse CSV string
-var data = readString(csvString)
+const data = readString(csvString)
 
 // Convert back to CSV
-var csv = jsonToCSV(jsonData)
+const csv = jsonToCSV(jsonData)
 
 // Parse local CSV file
 <CSVReader 
-onDrop={this.onDrop}
-onError={this.onError}
-noDrag
+  onDrop={this.handleOnDrop}
+  onError={this.handleOnError}
+  noDrag
 >
-<span>Click to upload.</span>
+  <span>Click to upload.</span>
 </CSVReader>
 
 // Stream big file in worker thread
 readRemoteFile(bigFileURL, {
-worker: true,
-step: function(results) {
-  console.log('Row:', results.data)
-}
+  worker: true,
+  step: function(results) {
+    console.log('Row:', results.data)
+  }
 })`}
                 </code>
               </pre>

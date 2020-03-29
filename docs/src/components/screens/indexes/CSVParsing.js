@@ -16,9 +16,9 @@ const results = readString(csvString, config)
 
 /*
 results = {
-data: [ ... ],    // parsed data
-errors: [ ... ],  // errors encountered
-meta: { ... }     // extra parse info
+  data: [ ... ],    // parsed data
+  errors: [ ... ],  // errors encountered
+  meta: { ... }     // extra parse info
 }
 */`}
             </code>
