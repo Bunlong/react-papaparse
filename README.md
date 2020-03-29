@@ -56,13 +56,13 @@ To learn how to use react-papaparse:
 ```javascript
 import { readString } from 'react-papaparse'
 
-var str = `Column 1,Column 2,Column 3,Column 4
+const str = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
 3-1,3-2,3-3,3-4
 4,5,6,7`
 
-var results = readString(str)
+const results = readString(str)
 ```
 
 ### 🎀 CSVReader
@@ -79,18 +79,17 @@ import { CSVReader } from 'react-papaparse'
 const buttonRef = React.createRef()
 
 export default class CSVReader extends Component {
-
-  onFileLoad = (data) => {
+  handleOnFileLoad = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
     console.log('--------------------------------------------------')
   }
 
-  onError = (err, file, inputElem, reason) => {
+  handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
-  openDialog = (e) => {
+  handleOpenDialog = (e) => {
     // Note that the ref is set async, so it might be null at some point 
     if (buttonRef.current) {
       buttonRef.current.open(e)
@@ -99,52 +98,48 @@ export default class CSVReader extends Component {
 
   render() {
     return (
-      <>
-        <CSVReader
-          ref={buttonRef}
-          onFileLoad={this.onFileLoad}
-          onError={this.onError}
-          noClick
-          noDrag
-        >
-          {({file}) => (
-            <>
-              <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
-                <button
-                  type="button"
-                  onClick={this.openDialog}
-                  style={{
-                    width: '40%',
-                    borderRadius: 0,
-                    marginLeft: 0,
-                    marginRight: 0,
-                    paddingLeft: 0,
-                    paddingRight: 0,
-                  }}
-                >
-                  Browe file
-                </button>
-                <div
-                  style={{
-                    width: '60%',
-                    height: 45,
-                    borderWidth: 1,
-                    borderStyle: 'solid',
-                    borderColor: '#ccc',
-                    marginTop: 5,
-                    marginBottom: 5,
-                    paddingLeft: 13,
-                    paddingTop: 3,
-                    lineHeight: 2.2,
-                  }}
-                >
-                  {file.name}
-                </div>
-              </aside>
-            </>
-          )}
-        </CSVReader>
-      </>
+      <CSVReader
+        ref={buttonRef}
+        onFileLoad={this.handleOnFileLoad}
+        onError={this.handleOnError}
+        noClick
+        noDrag
+      >
+        {({file}) => (
+          <aside style={{display: 'flex', flexDirection: 'row', marginBottom: 10}}>
+            <button
+              type="button"
+              onClick={this.handleOpenDialog}
+              style={{
+                width: '40%',
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+              }}
+            >
+              Browe file
+            </button>
+            <div
+              style={{
+                width: '60%',
+                height: 45,
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderColor: '#ccc',
+                marginTop: 5,
+                marginBottom: 5,
+                paddingLeft: 13,
+                paddingTop: 3,
+                lineHeight: 2.2,
+              }}
+            >
+              {file.name}
+            </div>
+          </aside>
+        )}
+      </CSVReader>
     )
   }
 }
@@ -160,27 +155,24 @@ import React, { Component } from 'react'
 import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
-
-  onDrop = (data) => {
+  handleOnDrop = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
     console.log('--------------------------------------------------')
   }
 
-  onError = (err, file, inputElem, reason) => {
+  handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
   render() {
     return (
-      <>
-        <CSVReader 
-          onDrop={this.onDrop}
-          onError={this.onError}
-        >
-          <span>Drop CSV file here or click to upload.</span>
-        </CSVReader>
-      </>
+      <CSVReader 
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+      >
+        <span>Drop CSV file here or click to upload.</span>
+      </CSVReader>
     )
   }
 }
@@ -196,28 +188,25 @@ import React, { Component } from 'react'
 import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
-
-  onDrop = (data) => {
+  handleOnDrop = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
     console.log('--------------------------------------------------')
   }
 
-  onError = (err, file, inputElem, reason) => {
+  handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
   render() {
     return (
-      <>
-        <CSVReader
-          onDrop={this.onDrop}
-          onError={this.onError}
-          noClick
-        >
-          <span>Drop CSV file here to upload.</span>
-        </CSVReader>
-      </>
+      <CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noClick
+      >
+        <span>Drop CSV file here to upload.</span>
+      </CSVReader>
     )
   }
 }
@@ -233,28 +222,25 @@ import React, { Component } from 'react'
 import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
-
-  onDrop = (data) => {
+  handleOnDrop = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
     console.log('--------------------------------------------------')
   }
 
-  onError = (err, file, inputElem, reason) => {
+  handleOnError = (err, file, inputElem, reason) => {
     console.log(err)
   }
 
   render() {
     return (
-      <>
-        <CSVReader
-          onDrop={this.onDrop}
-          onError={this.onError}
-          noDrag
-        >
-          <span>Click to upload.</span>
-        </CSVReader>
-      </>
+      <CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noDrag
+      >
+        <span>Click to upload.</span>
+      </CSVReader>
     )
   }
 }
@@ -280,7 +266,7 @@ readRemoteFile(
 ```javascript
 import { jsonToCSV } from 'react-papaparse'
 
-var jsonData = `[
+const jsonData = `[
   {
       "Column 1": "1-1",
       "Column 2": "1-2",
@@ -307,7 +293,7 @@ var jsonData = `[
   }
 ]`
 
-var results = jsonToCSV(jsonData)
+const results = jsonToCSV(jsonData)
 ```
 
 #### Header row support
@@ -315,7 +301,7 @@ var results = jsonToCSV(jsonData)
 If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.
 
 ```javascript
-var results = readString(csvString {
+const results = readString(csvString {
   header: true
 })
 ```

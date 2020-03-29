@@ -4,7 +4,7 @@ import { jsonToCSV } from 'react-papaparse'
 
 export default class JsonToCSV extends Component {
   handleClick = () => {
-    let jsonData = `[
+    const jsonData = `[
   {
     "Column 1": "1-1",
     "Column 2": "1-2",
@@ -31,8 +31,8 @@ export default class JsonToCSV extends Component {
   }
 ]`
 
-    var results = jsonToCSV(jsonData)
-    
+    const results = jsonToCSV(jsonData)
+
     console.log('--------------------------------------------------')
     console.log(results)
     console.log('--------------------------------------------------')
@@ -40,9 +40,7 @@ export default class JsonToCSV extends Component {
 
   render() {
     return (
-      <>
-        <button onClick={this.handleClick}>jsonToCSV</button>
-      </>
+      <button onClick={this.handleClick}>jsonToCSV</button>
     )
   }
 }
