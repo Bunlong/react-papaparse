@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
-
 import getSize from './util'
 
 const styles = {
@@ -100,7 +99,8 @@ export default class CSVReaderRewrite extends Component {
     hasFiles: false,
     progressBar: 0,
     displayProgressBarStatus: 'none',
-    file: ''
+    file: '',
+    timeout: null
   }
 
   componentDidMount = () => {
@@ -231,8 +231,8 @@ export default class CSVReaderRewrite extends Component {
     }
 
     reader.onloadend = e => {
-      const timeout = setTimeout(() => { this.disableProgressBar() }, 2000)
-      clearTimeout(timeout)
+      clearTimeout(this.state.timeout)
+      this.setState({ timeout: setTimeout(() => { this.disableProgressBar() }, 2000) })
     }
 
     reader.readAsText(file, config.encoding || 'utf-8')
