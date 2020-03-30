@@ -45,7 +45,7 @@ const csv = jsonToCSV(jsonData)
 // Stream big file in worker thread
 readRemoteFile(bigFileURL, {
   worker: true,
-  step: function(results) {
+  step: (results) => {
     console.log('Row:', results.data)
   }
 })`}
