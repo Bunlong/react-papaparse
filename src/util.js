@@ -5,7 +5,9 @@ export default function getSize(size) {
   const sizeTerra = sizeGb * sizeKb
 
   if (size < sizeMb) {
-    return (size / sizeKb).toFixed(0) + ' KB'
+    const calculatedSizeMb = (size / sizeKb).toFixed(0)
+    if (calculatedSizeMb <= 0) return  size + ' B'
+    return calculatedSizeMb + ' KB'
   } else if (size < sizeGb) {
     return (size / sizeMb).toFixed(0) + ' MB'
   } else if (size < sizeTerra) {
