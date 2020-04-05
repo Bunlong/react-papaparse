@@ -1,5 +1,4 @@
 import expect from 'expect'
-
 import { readString } from '../src/readString'
 
 // eslint-disable-next-line no-undef
@@ -18,9 +17,7 @@ describe('readString', () => {
       ['3-1', '3-2', '3-3', '3-4'],
       ['4', '5', '6', '7']
     ]
-
     const actual = readString(fixtures)
-
     expect(Array.isArray(actual.data)).toBe(true)
     expect(actual.data).toEqual(expected)
   })
