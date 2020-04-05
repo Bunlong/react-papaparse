@@ -1,10 +1,13 @@
 {
   "name": "react-papaparse",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Fast and powerful React CSV parser for the browser that supports web workers and streaming large files. Converts CSV to JSON and JSON to CSV.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
-  "repository": "https://github.com/Bunlong/react-papaparse.git",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bunlong/react-papaparse.git"
+  },
   "bugs": {
     "url": "https://github.com/Bunlong/react-papaparse.git/issues"
   },
@@ -50,9 +53,7 @@
   "scripts": {
     "test": "mocha --require @babel/register",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "prepare": "npm run build",
-    "predeploy": "cd docs && npm install && npm run build"
+    "dev": "rollup -c -w"
   },
   "peerDependencies": {
     "react": "^16.4.1",
