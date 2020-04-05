@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { jsonToCSV } from 'react-papaparse'
 
 export default class JsonToCSV extends Component {

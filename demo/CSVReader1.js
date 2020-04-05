@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { CSVReader } from 'react-papaparse'
 
 const buttonRef = React.createRef()
@@ -60,7 +59,7 @@ export default class CSVReader1 extends Component {
                   marginBottom: 5,
                   paddingLeft: 13,
                   paddingTop: 3,
-                  lineHeight: 2.2
+                  lineHeight: 2.5
                 }}
               >
                 {file.name}

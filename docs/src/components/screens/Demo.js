@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-
-import {
-  CSVReader,
-  readString,
-  jsonToCSV,
-  readRemoteFile
-} from 'react-papaparse'
 import {
   Tab,
   Tabs,
   TabList,
   TabPanel
 } from 'react-tabs'
+import {
+  CSVReader,
+  readString,
+  jsonToCSV,
+  readRemoteFile
+} from 'react-papaparse'
 
 const buttonRef = React.createRef()
 
@@ -244,7 +243,7 @@ export default class Demo extends Component {
                                   marginBottom: 5,
                                   paddingLeft: 13,
                                   paddingTop: 3,
-                                  lineHeight: 2.2
+                                  lineHeight: 2.5
                                 }}
                               >
                                 {file.name}

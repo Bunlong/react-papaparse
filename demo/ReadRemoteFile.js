@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { readRemoteFile } from 'react-papaparse'
 
 export default class ReadRemoteFile extends Component {
