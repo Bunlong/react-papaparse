@@ -87,7 +87,7 @@ export default class CSVReader extends Component {
                 marginBottom: 5,
                 paddingLeft: 13,
                 paddingTop: 3,
-                lineHeight: 2.2,
+                lineHeight: 2.5,
               }}
             >
               {file.name}
