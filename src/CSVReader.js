@@ -1,11 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
 import getSize from './util'
 
+const GREY = '#ccc'
+const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
+
 const styles = {
   dropArea: {
-    border: '2px dashed #ccc',
+    borderWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: GREY,
     borderRadius: 20,
     height: '100%',
     padding: 20,
@@ -21,11 +26,11 @@ const styles = {
     borderColor: 'purple'
   },
   unhighlight: {
-    borderColor: '#ccc'
+    borderColor: GREY
   },
   dropFile: {
-    borderRadius: 20,
     background: 'linear-gradient(to bottom, #eee, #ddd)',
+    borderRadius: 20,
     width: 100,
     height: 120,
     position: 'relative',
@@ -41,28 +46,28 @@ const styles = {
     flexDirection: 'column'
   },
   progressBar: {
+    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     width: '80%',
     borderRadius: 3,
-    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     position: 'absolute',
     bottom: 14
   },
   progressBarFill: {
+    transition: 'width 500ms ease-in-out',
     height: 10,
     backgroundColor: '#659cef',
-    borderRadius: 3,
-    transition: 'width 500ms ease-in-out'
+    borderRadius: 3
   },
   fileSizeInfo: {
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
+    backgroundColor: GREY_LIGHT,
     padding: '0 0.4em',
     borderRadius: 3,
     lineHeight: 1,
     marginBottom: '0.5em'
   },
   fileNameInfo: {
+    backgroundColor: GREY_LIGHT,
     fontSize: 14,
-    backgroundColor: 'rgba(255, 255, 255, 0.4)',
     padding: '0 0.4em',
     borderRadius: 3,
     lineHeight: 1
@@ -75,7 +80,7 @@ const styles = {
   }
 }
 
-export default class CSVReaderRewrite extends Component {
+export default class CSVReader extends React.Component {
   inputFileRef = React.createRef()
   dropAreaRef = React.createRef()
   fileSizeInfoRef = React.createRef()
@@ -128,12 +133,16 @@ export default class CSVReaderRewrite extends Component {
     e.stopPropagation()
   }
 
-  highlight = e => {
+  highlight = () => {
     this.setState({ dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight) })
     this.initializeProgress()
   }
 
-  unhighlight = e => {
+  initializeProgress = () => {
+    this.setState({ progressBar: 0 })
+  }
+
+  unhighlight = () => {
     this.setState({ dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight) })
   }
 
@@ -156,14 +165,6 @@ export default class CSVReaderRewrite extends Component {
     this.setState({ progressBar: 0 })
     files = [...files]
     files.forEach(this.uploadFile)
-  }
-
-  updateProgress = percent => {
-    this.setState({ progressBar: percent })
-  }
-
-  disableProgressBar = () => {
-    this.setState({ displayProgressBarStatus: 'none' })
   }
 
   uploadFile = (file, index) => {
@@ -245,13 +246,21 @@ export default class CSVReaderRewrite extends Component {
     }
   }
 
+  updateProgress = percent => {
+    this.setState({ progressBar: percent })
+  }
+
+  disableProgressBar = () => {
+    this.setState({ displayProgressBarStatus: 'none' })
+  }
+
+  childrenIsFunction = () => {
+    return typeof this.props.children === 'function'
+  }
+
   handleInputFileChange = e => {
     const { target } = e
     this.setState({ displayProgressBarStatus: 'block' }, () => { this.handleDrop(target) })
-  }
-
-  initializeProgress = () => {
-    this.setState({ progressBar: 0 })
   }
 
   open = e => {
@@ -265,10 +274,6 @@ export default class CSVReaderRewrite extends Component {
     return this.childrenIsFunction()
       ? this.props.children({ file: this.state.file })
       : this.props.children
-  }
-
-  childrenIsFunction = () => {
-    return typeof this.props.children === 'function'
   }
 
   render() {
