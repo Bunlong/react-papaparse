@@ -102,11 +102,11 @@ export default class CSVReader extends React.Component {
 
   state = {
     dropAreaStyle: styles.dropArea,
-    hasFiles: false,
     progressBar: 0,
     displayProgressBarStatus: 'none',
     file: '',
-    timeout: null
+    timeout: null,
+    files: null
   }
 
   componentDidMount = () => {
@@ -159,12 +159,13 @@ export default class CSVReader extends React.Component {
     } else {
       files = e.files
     }
-    this.setState({ hasFiles: true }, () => { this.handleFiles(files) })
+    this.setState({ files }, () => { this.handleFiles() })
   }
 
-  handleFiles = files => {
+  handleFiles = () => {
     this.setState({ progressBar: 0 })
-    files = [...files]
+    let files = null
+    files = [...this.state.files]
     files.forEach(this.uploadFile)
   }
 
@@ -280,7 +281,8 @@ export default class CSVReader extends React.Component {
   removeFile = e => {
     if (e) {
       e.stopPropagation()
-      console.log('Remove')
+      this.setState({ files: null })
+      // this.props.onRemove(null)
     }
   }
 
@@ -315,7 +317,7 @@ export default class CSVReader extends React.Component {
               }}
             >
               {
-                this.state.hasFiles ? (
+                this.state.files !== null ? (
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
                     <div style={styles.column}>
                       <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
