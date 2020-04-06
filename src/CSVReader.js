@@ -96,7 +96,8 @@ export default class CSVReader extends React.Component {
     style: PropTypes.object,
     noClick: PropTypes.bool,
     noDrag: PropTypes.bool,
-    progressBarColor: PropTypes.string
+    progressBarColor: PropTypes.string,
+    removable: PropTypes.bool
   }
 
   state = {
@@ -276,12 +277,20 @@ export default class CSVReader extends React.Component {
       : this.props.children
   }
 
+  removeFile = e => {
+    if (e) {
+      e.stopPropagation()
+      console.log('Remove')
+    }
+  }
+
   render() {
     const {
       style,
       noClick,
       children,
-      progressBarColor
+      progressBarColor,
+      removable
     } = this.props
 
     return (
@@ -298,7 +307,12 @@ export default class CSVReader extends React.Component {
             <div
               ref={this.dropAreaRef}
               style={Object.assign({}, style, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
-              onClick={noClick ? () => {} : this.open}
+              onClick={noClick ? () => {} : () => {
+                this.open()
+                if (removable) {
+                  this.removeFile()
+                }
+              }}
             >
               {
                 this.state.hasFiles ? (

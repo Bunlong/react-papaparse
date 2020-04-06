@@ -146,6 +146,13 @@ export default class Demo extends Component {
     }
   }
 
+  handleRemoveFile = (e) => {
+    // Note that the ref is set async, so it might be null at some point
+    if (buttonRef.current) {
+      buttonRef.current.removeFile(e)
+    }
+  }
+
   render() {
     return (
       <>
@@ -215,6 +222,7 @@ export default class Demo extends Component {
                           onError={this.handleOnError}
                           noClick
                           noDrag
+                          removable
                         >
                           {({ file }) => (
                             <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
@@ -232,6 +240,7 @@ export default class Demo extends Component {
                               >
                                 Browe file
                               </button>
+                              <button onClick={this.handleRemoveFile}>Remove file</button>
                               <div
                                 style={{
                                   width: '60%',
