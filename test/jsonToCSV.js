@@ -1,5 +1,4 @@
 import expect from 'expect'
-
 import { jsonToCSV } from '../src/jsonToCSV'
 
 // eslint-disable-next-line no-undef
@@ -37,9 +36,7 @@ describe('jsonToCSV', () => {
 2-1,2-2,2-3,2-4
 3-1,3-2,3-3,3-4
 4,5,6,7`
-
     const actual = jsonToCSV(fixtures)
-
     expect(typeof actual).toBe('string')
     expect(actual.split('\r\n').join('')).toEqual(expected.split('\n').join(''))
   })

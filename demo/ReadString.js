@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { readString } from 'react-papaparse'
 
 export default class ReadString extends Component {

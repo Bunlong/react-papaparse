@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-
 import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader4 extends Component {
