@@ -153,6 +153,10 @@ export default class Demo extends Component {
     }
   }
 
+  handleOnRemove = (data) => {
+    this.setState({ csvData: data })
+  }
+
   render() {
     return (
       <>
@@ -223,6 +227,7 @@ export default class Demo extends Component {
                           noClick
                           noDrag
                           removable
+                          onRemove={this.handleOnRemove}
                         >
                           {({ file }) => (
                             <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
@@ -230,32 +235,42 @@ export default class Demo extends Component {
                                 type='button'
                                 onClick={this.handleOpenDialog}
                                 style={{
-                                  width: '40%',
                                   borderRadius: 0,
                                   marginLeft: 0,
                                   marginRight: 0,
+                                  width: '40%',
                                   paddingLeft: 0,
                                   paddingRight: 0
                                 }}
                               >
                                 Browe file
                               </button>
-                              <button onClick={this.handleRemoveFile}>Remove file</button>
                               <div
                                 style={{
-                                  width: '60%',
-                                  height: 45,
                                   borderWidth: 1,
                                   borderStyle: 'solid',
                                   borderColor: '#ccc',
+                                  height: 45,
+                                  lineHeight: 2.5,
                                   marginTop: 5,
                                   marginBottom: 5,
                                   paddingLeft: 13,
                                   paddingTop: 3,
-                                  lineHeight: 2.5
+                                  width: '60%'
                                 }}
                               >
-                                {file.name}
+                                {file && file.name}
+                                <span
+                                  style={{
+                                    color: '#ccc',
+                                    cursor: 'pointer',
+                                    float: 'right',
+                                    marginRight: 12
+                                  }}
+                                  onClick={this.handleRemoveFile}
+                                >
+                                  remove
+                                </span>
                               </div>
                             </aside>
                           )}

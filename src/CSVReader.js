@@ -2,22 +2,23 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
 import getSize from './util'
+import RemoveIcon from './RemoveIcon'
 
 const GREY = '#ccc'
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
 
 const styles = {
   dropArea: {
-    borderWidth: 2,
-    borderStyle: 'dashed',
-    borderColor: GREY,
-    borderRadius: 20,
-    height: '100%',
-    padding: 20,
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    borderColor: GREY,
+    borderStyle: 'dashed',
+    borderWidth: 2,
+    borderRadius: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+    padding: 20
   },
   inputFile: {
     display: 'none'
@@ -31,46 +32,46 @@ const styles = {
   dropFile: {
     background: 'linear-gradient(to bottom, #eee, #ddd)',
     borderRadius: 20,
-    width: 100,
-    height: 120,
-    position: 'relative',
     display: 'block',
-    zIndex: 10,
+    height: 120,
+    width: 100,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    position: 'relative',
+    zIndex: 10
   },
   column: {
-    display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'column'
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center'
   },
   progressBar: {
-    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
-    width: '80%',
     borderRadius: 3,
+    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
+    bottom: 14,
     position: 'absolute',
-    bottom: 14
+    width: '80%'
   },
   progressBarFill: {
-    transition: 'width 500ms ease-in-out',
-    height: 10,
     backgroundColor: '#659cef',
-    borderRadius: 3
+    borderRadius: 3,
+    height: 10,
+    transition: 'width 500ms ease-in-out'
   },
   fileSizeInfo: {
     backgroundColor: GREY_LIGHT,
-    padding: '0 0.4em',
     borderRadius: 3,
     lineHeight: 1,
-    marginBottom: '0.5em'
+    marginBottom: '0.5em',
+    padding: '0 0.4em'
   },
   fileNameInfo: {
     backgroundColor: GREY_LIGHT,
-    fontSize: 14,
-    padding: '0 0.4em',
     borderRadius: 3,
-    lineHeight: 1
+    fontSize: 14,
+    lineHeight: 1,
+    padding: '0 0.4em'
   },
   defaultCursor: {
     cursor: 'default'
@@ -97,16 +98,18 @@ export default class CSVReader extends React.Component {
     noClick: PropTypes.bool,
     noDrag: PropTypes.bool,
     progressBarColor: PropTypes.string,
-    removable: PropTypes.bool
+    removable: PropTypes.bool,
+    onRemove: PropTypes.func
   }
 
   state = {
     dropAreaStyle: styles.dropArea,
     progressBar: 0,
     displayProgressBarStatus: 'none',
-    file: '',
+    file: null,
     timeout: null,
-    files: null
+    files: null,
+    removeIconColor: GREY
   }
 
   componentDidMount = () => {
@@ -204,7 +207,7 @@ export default class CSVReader extends React.Component {
       const self = this
       options = Object.assign({
         complete: () => {
-          if (!onDrop) {
+          if (!onDrop) {GREY_LIGHT
             onFileLoad(data)
           } else {
             onDrop(data)
@@ -281,8 +284,14 @@ export default class CSVReader extends React.Component {
   removeFile = e => {
     if (e) {
       e.stopPropagation()
-      this.setState({ files: null })
-      // this.props.onRemove(null)
+      this.setState({ files: null, file: null })
+      this.props.onRemove(null)
+    }
+  }
+
+  changeRemoveIconColor = (color) => {
+    if (color) {
+      this.setState({ removeIconColor: color })
     }
   }
 
@@ -309,34 +318,52 @@ export default class CSVReader extends React.Component {
             <div
               ref={this.dropAreaRef}
               style={Object.assign({}, style, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
-              onClick={noClick ? () => {} : () => {
-                this.open()
+              onClick={noClick ? () => {} : (e) => {
+                this.open(e)
                 if (removable) {
-                  this.removeFile()
+                  this.removeFile(e)
                 }
               }}
             >
               {
                 this.state.files !== null ? (
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 10,
+                        right: 10,
+                        width: 15,
+                        height: 15
+                      }}
+                      onClick={(e) => this.removeFile(e)}
+                      onMouseOver={() => this.changeRemoveIconColor(GREY_LIGHT)}
+                      onMouseOut={() => this.changeRemoveIconColor(GREY)}
+                    >
+                      <RemoveIcon color={this.state.removeIconColor} />
+                    </div>
                     <div style={styles.column}>
                       <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
                     </div>
-                    <div style={styles.progressBar}>
-                      <span
-                        style={
-                          Object.assign(
-                            {},
-                            styles.progressBarFill,
-                            {
-                              width: `${this.state.progressBar}%`,
-                              display: this.state.displayProgressBarStatus
-                            })
-                        }
-                        ref={this.progressBarFillRef}
-                      />
-                    </div>
+                    {
+                      this.state.files && this.state.files.length > 0 && (
+                        <div style={styles.progressBar}>
+                          <span
+                            style={
+                              Object.assign(
+                                {},
+                                styles.progressBarFill,
+                                {
+                                  width: `${this.state.progressBar}%`,
+                                  display: this.state.displayProgressBarStatus
+                                })
+                            }
+                            ref={this.progressBarFillRef}
+                          />
+                        </div>
+                      )
+                    }
                   </div>
                 ) : (
                   children
@@ -346,21 +373,25 @@ export default class CSVReader extends React.Component {
           ) : (
             <div ref={this.dropAreaRef}>
               {this.renderChildren()}
-              <div style={Object.assign({}, styles.progressBar, { position: 'inherit', width: '100%' })}>
-                <span
-                  style={
-                    Object.assign(
-                      {},
-                      styles.progressBarFill,
-                      { backgroundColor: progressBarColor || '#659cef' },
-                      {
-                        width: `${this.state.progressBar}%`,
-                        display: this.state.displayProgressBarStatus
-                      })
-                  }
-                  ref={this.progressBarFillRef}
-                />
-              </div>
+              {
+                this.state.files && this.state.files.length > 0 && (
+                  <div style={Object.assign({}, styles.progressBar, { position: 'inherit', width: '100%' })}>
+                    <span
+                      style={
+                        Object.assign(
+                          {},
+                          styles.progressBarFill,
+                          { backgroundColor: progressBarColor || '#659cef' },
+                          {
+                            width: `${this.state.progressBar}%`,
+                            display: this.state.displayProgressBarStatus
+                          })
+                      }
+                      ref={this.progressBarFillRef}
+                    />
+                  </div>
+                )
+              }
             </div>
           )
         }
