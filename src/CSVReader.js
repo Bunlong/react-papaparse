@@ -207,7 +207,7 @@ export default class CSVReader extends React.Component {
       const self = this
       options = Object.assign({
         complete: () => {
-          if (!onDrop) {GREY_LIGHT
+          if (!onDrop) {
             onFileLoad(data)
           } else {
             onDrop(data)
@@ -330,11 +330,11 @@ export default class CSVReader extends React.Component {
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
                     <div
                       style={{
+                        height: 23,
                         position: 'absolute',
-                        top: 10,
-                        right: 10,
-                        width: 15,
-                        height: 15
+                        right: 6,
+                        top: 6,
+                        width: 23
                       }}
                       onClick={(e) => this.removeFile(e)}
                       onMouseOver={() => this.changeRemoveIconColor(GREY_LIGHT)}

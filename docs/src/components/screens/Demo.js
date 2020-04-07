@@ -260,18 +260,20 @@ export default class Demo extends Component {
                                 }}
                               >
                                 {file && file.name}
-                                <span
-                                  style={{
-                                    color: '#ccc',
-                                    cursor: 'pointer',
-                                    float: 'right',
-                                    marginRight: 12
-                                  }}
-                                  onClick={this.handleRemoveFile}
-                                >
-                                  remove
-                                </span>
                               </div>
+                              <button
+                                className='button red'
+                                style={{
+                                  borderRadius: 0,
+                                  marginLeft: 0,
+                                  marginRight: 0,
+                                  paddingLeft: 20,
+                                  paddingRight: 20
+                                }}
+                                onClick={this.handleRemoveFile}
+                              >
+                                Remove
+                              </button>
                             </aside>
                           )}
                         </CSVReader>

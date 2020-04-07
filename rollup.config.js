@@ -25,7 +25,9 @@ export default {
     babel({
       exclude: 'node_modules/**'
     }),
-    resolve({ preferBuiltins: true }),
+    resolve({
+      preferBuiltins: true
+    }),
     commonjs(),
     terser(),
     external()
