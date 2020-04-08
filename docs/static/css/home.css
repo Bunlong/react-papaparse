@@ -22,7 +22,7 @@
 h1 {
 	text-align: left;
 	font-family: Arvo;
-	font-size: 100px;
+	font-size: 5.41vw;
 	line-height: 1em;
 	margin-top: 8%;
 	margin-bottom: 40px;
@@ -175,10 +175,10 @@ footer {
 	margin-top: 0;
 }
 
-
 @media (max-width: 1150px) {
 	#title-main h1 {
-		font-size: 85px;
+		font-size: 5.41vw;
+		letter-spacing: -2px;
 	}
 
 	#title-main h2 {

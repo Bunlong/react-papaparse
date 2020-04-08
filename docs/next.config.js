@@ -17,5 +17,5 @@ module.exports = {
       '/docs': { page: '/docs' }
     }
   },
-  assetPrefix: isProduction ? 'https://react-papaparse.github.io' : ''
+  assetPrefix: isProduction ? 'https://react-papaparse.js.org' : ''
 }

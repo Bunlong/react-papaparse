@@ -42,7 +42,7 @@
     "pipe",
     "workers"
   ],
-  "homepage": "https://react-papaparse.github.io",
+  "homepage": "https://react-papaparse.js.org",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "jsnext:main": "dist/index.es.js",
