@@ -287,6 +287,8 @@ export default class Demo extends Component {
                         <CSVReader
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Drop CSV file here or click to upload.</span>
                         </CSVReader>
@@ -301,6 +303,8 @@ export default class Demo extends Component {
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
                           noClick
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Drop CSV file here to upload.</span>
                         </CSVReader>
@@ -316,6 +320,7 @@ export default class Demo extends Component {
                           onError={this.handleOnError}
                           noDrag
                           addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Click to upload.</span>
                         </CSVReader>

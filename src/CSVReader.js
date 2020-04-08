@@ -324,30 +324,33 @@ export default class CSVReader extends React.Component {
             <div
               ref={this.dropAreaRef}
               style={Object.assign({}, style, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
-              onClick={noClick ? () => {} : (e) => {
-                this.open(e)
-                if (addRemoveButton) {
-                  this.removeFile(e)
+              onClick={(e) => {
+                if (!noClick) {
+                  this.open(e)
                 }
               }}
             >
               {
                 this.state.files && this.state.files.length > 0 ? (
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
-                    <div
-                      style={{
-                        height: 23,
-                        position: 'absolute',
-                        right: 6,
-                        top: 6,
-                        width: 23
-                      }}
-                      onClick={(e) => this.removeFile(e)}
-                      onMouseOver={() => this.changeRemoveIconColor(GREY_LIGHT)}
-                      onMouseOut={() => this.changeRemoveIconColor(GREY)}
-                    >
-                      <RemoveIcon color={this.state.removeIconColor} />
-                    </div>
+                    {
+                      addRemoveButton && (
+                        <div
+                          style={{
+                            height: 23,
+                            position: 'absolute',
+                            right: 6,
+                            top: 6,
+                            width: 23
+                          }}
+                          onClick={(e) => this.removeFile(e)}
+                          onMouseOver={() => this.changeRemoveIconColor(GREY_LIGHT)}
+                          onMouseOut={() => this.changeRemoveIconColor(GREY)}
+                        >
+                          <RemoveIcon color={this.state.removeIconColor} />
+                        </div>
+                      )
+                    }
                     <div style={styles.column}>
                       <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
