@@ -146,14 +146,14 @@ export default class Demo extends Component {
     }
   }
 
-  handleRemoveFile = (e) => {
+  removeFile = (e) => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.removeFile(e)
     }
   }
 
-  handleOnRemove = (data) => {
+  handleOnRemoveFile = (data) => {
     this.setState({ csvData: data })
   }
 
@@ -226,8 +226,8 @@ export default class Demo extends Component {
                           onError={this.handleOnError}
                           noClick
                           noDrag
-                          removable
-                          onRemove={this.handleOnRemove}
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           {({ file }) => (
                             <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
@@ -270,7 +270,7 @@ export default class Demo extends Component {
                                   paddingLeft: 20,
                                   paddingRight: 20
                                 }}
-                                onClick={this.handleRemoveFile}
+                                onClick={(e) => this.removeFile(e)}
                               >
                                 Remove
                               </button>
@@ -315,6 +315,7 @@ export default class Demo extends Component {
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
                           noDrag
+                          addRemoveButton
                         >
                           <span>Click to upload.</span>
                         </CSVReader>
