@@ -268,6 +268,7 @@ export default class CSVReader extends React.Component {
   open = e => {
     if (e) {
       e.stopPropagation()
+      this.inputFileRef.current.value = null
       this.inputFileRef.current.click()
     }
   }
