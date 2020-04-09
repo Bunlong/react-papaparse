@@ -4,6 +4,13 @@ import { CSVReader } from 'react-papaparse'
 const buttonRef = React.createRef()
 
 export default class CSVReader1 extends Component {
+  handleOpenDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point 
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
+  }
+
   handleOnFileLoad = (data) => {
     console.log('--------------------------------------------------')
     console.log(data)
@@ -14,10 +21,16 @@ export default class CSVReader1 extends Component {
     console.log(err)
   }
 
-  handleOpenDialog = (e) => {
+  handleOnRemoveFile = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
+  handleRemoveFile = (e) => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
-      buttonRef.current.open(e)
+      buttonRef.current.removeFile(e)
     }
   }
 
@@ -27,21 +40,29 @@ export default class CSVReader1 extends Component {
         <h5>Basic Upload</h5>
         <CSVReader
           ref={buttonRef}
-          onFileLoad={this.handleOnFileLoad}
+          onFileLoad={this.handleOnDrop}
           onError={this.handleOnError}
           noClick
           noDrag
+          addRemoveButton
+          onRemoveFile={this.handleOnRemoveFile}
         >
           {({ file }) => (
-            <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+            <aside
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginBottom: 10
+              }}
+            >
               <button
                 type='button'
                 onClick={this.handleOpenDialog}
                 style={{
-                  width: '40%',
                   borderRadius: 0,
                   marginLeft: 0,
                   marginRight: 0,
+                  width: '40%',
                   paddingLeft: 0,
                   paddingRight: 0
                 }}
@@ -50,20 +71,32 @@ export default class CSVReader1 extends Component {
               </button>
               <div
                 style={{
-                  width: '60%',
-                  height: 45,
                   borderWidth: 1,
                   borderStyle: 'solid',
                   borderColor: '#ccc',
+                  height: 45,
+                  lineHeight: 2.5,
                   marginTop: 5,
                   marginBottom: 5,
                   paddingLeft: 13,
                   paddingTop: 3,
-                  lineHeight: 2.5
+                  width: '60%'
                 }}
               >
-                {file.name}
+                {file && file.name}
               </div>
+              <button
+                style={{
+                  borderRadius: 0,
+                  marginLeft: 0,
+                  marginRight: 0,
+                  paddingLeft: 20,
+                  paddingRight: 20
+                }}
+                onClick={this.handleRemoveFile}
+              >
+                Remove
+              </button>
             </aside>
           )}
         </CSVReader>

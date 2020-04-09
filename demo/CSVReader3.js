@@ -12,6 +12,12 @@ export default class CSVReader3 extends Component {
     console.log(err)
   }
 
+  handleOnRemoveFile = (data) => {
+    console.log('--------------------------------------------------')
+    console.log(data)
+    console.log('--------------------------------------------------')
+  }
+
   render() {
     return (
       <>
@@ -20,6 +26,8 @@ export default class CSVReader3 extends Component {
           onDrop={this.handleOnDrop}
           onError={this.handleOnError}
           noClick
+          addRemoveButton
+          onRemoveFile={this.handleOnRemoveFile}
         >
           <span>Drop CSV file here to upload.</span>
         </CSVReader>

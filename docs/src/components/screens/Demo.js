@@ -146,7 +146,7 @@ export default class Demo extends Component {
     }
   }
 
-  removeFile = (e) => {
+  handleRemoveFile = (e) => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.removeFile(e)
@@ -230,7 +230,13 @@ export default class Demo extends Component {
                           onRemoveFile={this.handleOnRemoveFile}
                         >
                           {({ file }) => (
-                            <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+                            <aside
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                marginBottom: 10
+                              }}
+                            >
                               <button
                                 type='button'
                                 onClick={this.handleOpenDialog}
@@ -270,7 +276,7 @@ export default class Demo extends Component {
                                   paddingLeft: 20,
                                   paddingRight: 20
                                 }}
-                                onClick={(e) => this.removeFile(e)}
+                                onClick={this.handleRemoveFile}
                               >
                                 Remove
                               </button>
