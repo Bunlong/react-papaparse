@@ -6,6 +6,8 @@ import RemoveIcon from './RemoveIcon'
 
 const GREY = '#ccc'
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
+const RED = '#A01919'
+const RED_LIGHT = '#DD2222'
 
 const styles = {
   dropArea: {
@@ -109,7 +111,8 @@ export default class CSVReader extends React.Component {
     file: null,
     timeout: null,
     files: null,
-    removeIconColor: GREY
+    removeIconColor: RED,
+    isCanceled: false
   }
 
   componentDidMount = () => {
@@ -156,13 +159,18 @@ export default class CSVReader extends React.Component {
 
   handleDrop = e => {
     let files = {}
+    let isCanceled = false
     if (e.files === undefined) {
       const dt = e.dataTransfer
       files = dt.files
     } else {
       files = e.files
     }
-    this.setState({ files }, () => { this.handleFiles() })
+    if (files.length === 0) {
+      files = this.state.files
+      isCanceled = true
+    }
+    this.setState({ files, isCanceled }, () => { this.handleFiles() })
   }
 
   handleFiles = () => {
@@ -344,8 +352,8 @@ export default class CSVReader extends React.Component {
                             width: 23
                           }}
                           onClick={(e) => this.removeFile(e)}
-                          onMouseOver={() => this.changeRemoveIconColor(GREY_LIGHT)}
-                          onMouseOut={() => this.changeRemoveIconColor(GREY)}
+                          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
+                          onMouseOut={() => this.changeRemoveIconColor(RED)}
                         >
                           <RemoveIcon color={this.state.removeIconColor} />
                         </div>
@@ -356,7 +364,7 @@ export default class CSVReader extends React.Component {
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
                     </div>
                     {
-                      this.state.files && this.state.files.length > 0 && (
+                      this.state.files && this.state.files.length > 0 && !this.state.isCanceled && (
                         <div style={styles.progressBar}>
                           <span
                             style={
@@ -383,7 +391,7 @@ export default class CSVReader extends React.Component {
             <div ref={this.dropAreaRef}>
               {this.renderChildren()}
               {
-                this.state.files && this.state.files.length > 0 && (
+                this.state.files && this.state.files.length > 0 && !this.state.isCanceled && (
                   <div style={Object.assign({}, styles.progressBar, { position: 'inherit', width: '100%' })}>
                     <span
                       style={
