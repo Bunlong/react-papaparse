@@ -8,6 +8,7 @@ const GREY = '#ccc'
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
 const RED = '#A01919'
 const RED_LIGHT = '#DD2222'
+const DEFAULT_PROGRESS_BAR_COLOR = '#659cef'
 
 const styles = {
   dropArea: {
@@ -56,7 +57,7 @@ const styles = {
     width: '80%'
   },
   progressBarFill: {
-    backgroundColor: '#659cef',
+    backgroundColor: DEFAULT_PROGRESS_BAR_COLOR,
     borderRadius: 3,
     height: 10,
     transition: 'width 500ms ease-in-out'
@@ -80,6 +81,17 @@ const styles = {
   },
   pointerCursor: {
     cursor: 'pointer'
+  },
+  buttonProgressBar: {
+    position: 'inherit',
+    width: '100%'
+  },
+  dropFileRemoveButton: {
+    height: 23,
+    position: 'absolute',
+    right: 6,
+    top: 6,
+    width: 23
   }
 }
 
@@ -142,10 +154,6 @@ export default class CSVReader extends React.Component {
 
   highlight = () => {
     this.setState({ dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight) })
-    this.initializeProgress()
-  }
-
-  initializeProgress = () => {
     this.setState({ progressBar: 0 })
   }
 
@@ -160,16 +168,19 @@ export default class CSVReader extends React.Component {
   handleDrop = e => {
     let files = {}
     let isCanceled = false
+
     if (e.files === undefined) {
       const dt = e.dataTransfer
       files = dt.files
     } else {
       files = e.files
     }
+
     if (files.length === 0) {
       files = this.state.files
       isCanceled = true
     }
+
     this.setState({ files, isCanceled }, () => { this.handleFiles() })
   }
 
@@ -227,7 +238,7 @@ export default class CSVReader extends React.Component {
           const newPercent = Math.round(progress / size * 100)
           if (newPercent === percent) return
           percent = newPercent
-          self.updateProgress(percent)
+          self.setState({ progressBar: percent })
         }
       }, options)
     }
@@ -259,10 +270,6 @@ export default class CSVReader extends React.Component {
     }
   }
 
-  updateProgress = percent => {
-    this.setState({ progressBar: percent })
-  }
-
   disableProgressBar = () => {
     this.setState({ displayProgressBarStatus: 'none' })
   }
@@ -271,7 +278,7 @@ export default class CSVReader extends React.Component {
     return typeof this.props.children === 'function'
   }
 
-  handleInputFileChange = e => {
+  fileChange = e => {
     const { target } = e
     this.setState({ displayProgressBarStatus: 'block' }, () => { this.handleDrop(target) })
   }
@@ -303,7 +310,7 @@ export default class CSVReader extends React.Component {
     }
   }
 
-  changeRemoveIconColor = (color) => {
+  changeRemoveIconColor = color => {
     if (color) {
       this.setState({ removeIconColor: color })
     }
@@ -318,6 +325,15 @@ export default class CSVReader extends React.Component {
       addRemoveButton
     } = this.props
 
+    const {
+      dropAreaStyle,
+      files,
+      removeIconColor,
+      isCanceled,
+      progressBar,
+      displayProgressBarStatus
+    } = this.state
+
     return (
       <>
         <input
@@ -325,13 +341,13 @@ export default class CSVReader extends React.Component {
           accept='text/csv'
           ref={this.inputFileRef}
           style={styles.inputFile}
-          onChange={e => this.handleInputFileChange(e)}
+          onChange={e => this.fileChange(e)}
         />
         {
           !this.childrenIsFunction() ? (
             <div
               ref={this.dropAreaRef}
-              style={Object.assign({}, style, this.state.dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
+              style={Object.assign({}, style, dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
               onClick={(e) => {
                 if (!noClick) {
                   this.open(e)
@@ -339,23 +355,17 @@ export default class CSVReader extends React.Component {
               }}
             >
               {
-                this.state.files && this.state.files.length > 0 ? (
+                files && files.length > 0 ? (
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
                     {
                       addRemoveButton && (
                         <div
-                          style={{
-                            height: 23,
-                            position: 'absolute',
-                            right: 6,
-                            top: 6,
-                            width: 23
-                          }}
+                          style={styles.dropFileRemoveButton}
                           onClick={(e) => this.removeFile(e)}
                           onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
                           onMouseOut={() => this.changeRemoveIconColor(RED)}
                         >
-                          <RemoveIcon color={this.state.removeIconColor} />
+                          <RemoveIcon color={removeIconColor} />
                         </div>
                       )
                     }
@@ -364,7 +374,7 @@ export default class CSVReader extends React.Component {
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
                     </div>
                     {
-                      this.state.files && this.state.files.length > 0 && !this.state.isCanceled && (
+                      files && files.length > 0 && !isCanceled && (
                         <div style={styles.progressBar}>
                           <span
                             style={
@@ -372,8 +382,8 @@ export default class CSVReader extends React.Component {
                                 {},
                                 styles.progressBarFill,
                                 {
-                                  width: `${this.state.progressBar}%`,
-                                  display: this.state.displayProgressBarStatus
+                                  width: `${progressBar}%`,
+                                  display: displayProgressBarStatus
                                 })
                             }
                             ref={this.progressBarFillRef}
@@ -391,17 +401,17 @@ export default class CSVReader extends React.Component {
             <div ref={this.dropAreaRef}>
               {this.renderChildren()}
               {
-                this.state.files && this.state.files.length > 0 && !this.state.isCanceled && (
-                  <div style={Object.assign({}, styles.progressBar, { position: 'inherit', width: '100%' })}>
+                files && files.length > 0 && !isCanceled && (
+                  <div style={Object.assign({}, styles.progressBar, styles.buttonProgressBar)}>
                     <span
                       style={
                         Object.assign(
                           {},
                           styles.progressBarFill,
-                          { backgroundColor: progressBarColor || '#659cef' },
+                          { backgroundColor: progressBarColor || DEFAULT_PROGRESS_BAR_COLOR },
                           {
-                            width: `${this.state.progressBar}%`,
-                            display: this.state.displayProgressBarStatus
+                            width: `${progressBar}%`,
+                            display: displayProgressBarStatus
                           })
                       }
                       ref={this.progressBarFillRef}
