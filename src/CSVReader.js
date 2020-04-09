@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import PapaParse from 'papaparse'
 import getSize from './util'
 import RemoveIcon from './RemoveIcon'
+import ProgressBar from './ProgressBar'
 
 const GREY = '#ccc'
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
 const RED = '#A01919'
 const RED_LIGHT = '#DD2222'
-const DEFAULT_PROGRESS_BAR_COLOR = '#659cef'
 
 const styles = {
   dropArea: {
@@ -49,19 +49,6 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center'
   },
-  progressBar: {
-    borderRadius: 3,
-    boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
-    bottom: 14,
-    position: 'absolute',
-    width: '80%'
-  },
-  progressBarFill: {
-    backgroundColor: DEFAULT_PROGRESS_BAR_COLOR,
-    borderRadius: 3,
-    height: 10,
-    transition: 'width 500ms ease-in-out'
-  },
   fileSizeInfo: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
@@ -82,10 +69,6 @@ const styles = {
   pointerCursor: {
     cursor: 'pointer'
   },
-  buttonProgressBar: {
-    position: 'inherit',
-    width: '100%'
-  },
   dropFileRemoveButton: {
     height: 23,
     position: 'absolute',
@@ -100,7 +83,6 @@ export default class CSVReader extends React.Component {
   dropAreaRef = React.createRef()
   fileSizeInfoRef = React.createRef()
   fileNameInfoRef = React.createRef()
-  progressBarFillRef = React.createRef()
 
   static propTypes = {
     children: PropTypes.any.isRequired,
@@ -375,20 +357,11 @@ export default class CSVReader extends React.Component {
                     </div>
                     {
                       files && files.length > 0 && !isCanceled && (
-                        <div style={styles.progressBar}>
-                          <span
-                            style={
-                              Object.assign(
-                                {},
-                                styles.progressBarFill,
-                                {
-                                  width: `${progressBar}%`,
-                                  display: displayProgressBarStatus
-                                })
-                            }
-                            ref={this.progressBarFillRef}
-                          />
-                        </div>
+                        <ProgressBar
+                          progressBarColor={progressBarColor}
+                          progressBar={progressBar}
+                          displayProgressBarStatus={displayProgressBarStatus}
+                        />
                       )
                     }
                   </div>
@@ -402,21 +375,12 @@ export default class CSVReader extends React.Component {
               {this.renderChildren()}
               {
                 files && files.length > 0 && !isCanceled && (
-                  <div style={Object.assign({}, styles.progressBar, styles.buttonProgressBar)}>
-                    <span
-                      style={
-                        Object.assign(
-                          {},
-                          styles.progressBarFill,
-                          { backgroundColor: progressBarColor || DEFAULT_PROGRESS_BAR_COLOR },
-                          {
-                            width: `${progressBar}%`,
-                            display: displayProgressBarStatus
-                          })
-                      }
-                      ref={this.progressBarFillRef}
-                    />
-                  </div>
+                  <ProgressBar
+                    progressBarColor={progressBarColor}
+                    progressBar={progressBar}
+                    displayProgressBarStatus={displayProgressBarStatus}
+                    isButtonProgressBar
+                  />
                 )
               }
             </div>
