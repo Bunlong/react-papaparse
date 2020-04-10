@@ -44,7 +44,6 @@ export default class CSVReader1 extends Component {
           onError={this.handleOnError}
           noClick
           noDrag
-          addRemoveButton
           onRemoveFile={this.handleOnRemoveFile}
         >
           {({ file }) => (

@@ -268,6 +268,7 @@ export default class CSVReader extends React.Component {
   open = e => {
     const { displayProgressBarStatus } = this.state
     if (e && displayProgressBarStatus === 'none') {
+      e.preventDefault()
       e.stopPropagation()
       this.inputFileRef.current.value = null
       this.inputFileRef.current.click()
@@ -307,24 +308,25 @@ export default class CSVReader extends React.Component {
       displayProgressBarStatus
     } = this.state
 
-    if (addRemoveButton && displayProgressBarStatus === 'none') {
+    if (addRemoveButton) {
+      if (addRemoveButton && displayProgressBarStatus === 'none') {
+        return (
+          <div
+            style={styles.dropFileRemoveButton}
+            onClick={(e) => this.removeFile(e)}
+            onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
+            onMouseOut={() => this.changeRemoveIconColor(RED)}
+          >
+            <RemoveIcon color={removeIconColor} />
+          </div>
+        )
+      }
       return (
-        <div
-          style={styles.dropFileRemoveButton}
-          onClick={(e) => this.removeFile(e)}
-          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
-          onMouseOut={() => this.changeRemoveIconColor(RED)}
-        >
-          <RemoveIcon color={removeIconColor} />
+        <div style={styles.dropFileRemoveButton}>
+          <RemoveIcon color={RED} />
         </div>
       )
     }
-
-    return (
-      <div style={styles.dropFileRemoveButton}>
-        <RemoveIcon color={RED} />
-      </div>
-    )
   }
 
   render() {
