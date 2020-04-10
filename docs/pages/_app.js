@@ -75,7 +75,7 @@ class CustomApp extends App {
           <div className='footer-main'>
             <div className='grid-container'>
               <div className='grid-40 text-center'>
-                <div className='logo'>P</div>
+                <div className='logo' />
                 <br /><br />
                 react-papaparse by <a href='https://github.com/bunlong'>Bunlong</a>
                 <br />

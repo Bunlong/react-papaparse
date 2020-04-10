@@ -188,17 +188,11 @@ export default class CSVReader extends React.Component {
 
     let options = {}
 
-    if (config.error) {
-      delete config.error
-    }
+    if (config.error) delete config.error
 
-    if (config.step) {
-      delete config.step
-    }
+    if (config.step) delete config.step
 
-    if (config.complete) {
-      delete config.complete
-    }
+    if (config.complete) delete config.complete
 
     const size = file.size
     const data = []
@@ -225,13 +219,9 @@ export default class CSVReader extends React.Component {
       }, options)
     }
 
-    if (onError) {
-      options = Object.assign({ error: onError }, options)
-    }
+    if (onError) options = Object.assign({ error: onError }, options)
 
-    if (config) {
-      options = Object.assign(config, options)
-    }
+    if (config) options = Object.assign(config, options)
 
     reader.onload = e => {
       PapaParse.parse(e.target.result, options)
@@ -296,9 +286,7 @@ export default class CSVReader extends React.Component {
   }
 
   changeRemoveIconColor = color => {
-    if (color) {
-      this.setState({ removeIconColor: color })
-    }
+    if (color) this.setState({ removeIconColor: color })
   }
 
   renderDropFileRemoveButton = () => {
@@ -308,19 +296,20 @@ export default class CSVReader extends React.Component {
       displayProgressBarStatus
     } = this.state
 
+    if (addRemoveButton && displayProgressBarStatus === 'none') {
+      return (
+        <div
+          style={styles.dropFileRemoveButton}
+          onClick={(e) => this.removeFile(e)}
+          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
+          onMouseOut={() => this.changeRemoveIconColor(RED)}
+        >
+          <RemoveIcon color={removeIconColor} />
+        </div>
+      )
+    }
+
     if (addRemoveButton) {
-      if (addRemoveButton && displayProgressBarStatus === 'none') {
-        return (
-          <div
-            style={styles.dropFileRemoveButton}
-            onClick={(e) => this.removeFile(e)}
-            onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
-            onMouseOut={() => this.changeRemoveIconColor(RED)}
-          >
-            <RemoveIcon color={removeIconColor} />
-          </div>
-        )
-      }
       return (
         <div style={styles.dropFileRemoveButton}>
           <RemoveIcon color={RED} />
