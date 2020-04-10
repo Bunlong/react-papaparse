@@ -32,9 +32,9 @@ export default class JsonToCSV extends Component {
 
     const results = jsonToCSV(jsonData)
 
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(results)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {

@@ -87,9 +87,9 @@ export default class CSVReader extends Component {
   }
   
   handleOnFileLoad = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -97,9 +97,9 @@ export default class CSVReader extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleRemoveFile = (e) => {
@@ -189,9 +189,9 @@ import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
   handleOnDrop = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -199,9 +199,9 @@ export default class CSVReader extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {
@@ -230,9 +230,9 @@ import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
   handleOnDrop = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -240,9 +240,9 @@ export default class CSVReader extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {
@@ -272,9 +272,9 @@ import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader extends Component {
   handleOnDrop = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -282,9 +282,9 @@ export default class CSVReader extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {

@@ -5,16 +5,16 @@ const buttonRef = React.createRef()
 
 export default class CSVReader1 extends Component {
   handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
+    // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
   }
 
   handleOnFileLoad = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -22,9 +22,9 @@ export default class CSVReader1 extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleRemoveFile = (e) => {

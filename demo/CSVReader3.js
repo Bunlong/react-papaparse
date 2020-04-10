@@ -3,9 +3,9 @@ import { CSVReader } from 'react-papaparse'
 
 export default class CSVReader3 extends Component {
   handleOnDrop = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   handleOnError = (err, file, inputElem, reason) => {
@@ -13,9 +13,9 @@ export default class CSVReader3 extends Component {
   }
 
   handleOnRemoveFile = (data) => {
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(data)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {

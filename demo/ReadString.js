@@ -11,9 +11,9 @@ export default class ReadString extends Component {
 
     const results = readString(str)
 
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
     console.log(results)
-    console.log('--------------------------------------------------')
+    console.log('---------------------------')
   }
 
   render() {
