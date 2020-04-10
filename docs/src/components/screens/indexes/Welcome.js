@@ -38,6 +38,8 @@ const csv = jsonToCSV(jsonData)
   onDrop={this.handleOnDrop}
   onError={this.handleOnError}
   noDrag
+  addRemoveButton
+  onRemoveFile={this.handleOnRemoveFile}
 >
   <span>Click to upload.</span>
 </CSVReader>
