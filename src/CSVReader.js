@@ -266,7 +266,8 @@ export default class CSVReader extends React.Component {
   }
 
   open = e => {
-    if (e) {
+    const { displayProgressBarStatus } = this.state
+    if (e && displayProgressBarStatus === 'none') {
       e.stopPropagation()
       this.inputFileRef.current.value = null
       this.inputFileRef.current.click()
@@ -299,19 +300,43 @@ export default class CSVReader extends React.Component {
     }
   }
 
+  renderDropFileRemoveButton = () => {
+    const { addRemoveButton } = this.props
+    const {
+      removeIconColor,
+      displayProgressBarStatus
+    } = this.state
+
+    if (addRemoveButton && displayProgressBarStatus === 'none') {
+      return (
+        <div
+          style={styles.dropFileRemoveButton}
+          onClick={(e) => this.removeFile(e)}
+          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
+          onMouseOut={() => this.changeRemoveIconColor(RED)}
+        >
+          <RemoveIcon color={removeIconColor} />
+        </div>
+      )
+    }
+
+    return (
+      <div style={styles.dropFileRemoveButton}>
+        <RemoveIcon color={RED} />
+      </div>
+    )
+  }
+
   render() {
     const {
       style,
       noClick,
       children,
-      progressBarColor,
-      addRemoveButton
+      progressBarColor
     } = this.props
-
     const {
       dropAreaStyle,
       files,
-      removeIconColor,
       isCanceled,
       progressBar,
       displayProgressBarStatus
@@ -330,28 +355,19 @@ export default class CSVReader extends React.Component {
           !this.childrenIsFunction() ? (
             <div
               ref={this.dropAreaRef}
-              style={Object.assign({}, style, dropAreaStyle, noClick ? styles.defaultCursor : styles.pointerCursor)}
-              onClick={(e) => {
-                if (!noClick) {
-                  this.open(e)
-                }
-              }}
+              style={Object.assign(
+                {},
+                style,
+                dropAreaStyle,
+                (noClick !== undefined || displayProgressBarStatus === 'block')
+                  ? styles.defaultCursor : styles.pointerCursor
+              )}
+              onClick={(e) => { if (!noClick) this.open(e) }}
             >
               {
                 files && files.length > 0 ? (
                   <div style={Object.assign({}, styles.dropFile, styles.column)}>
-                    {
-                      addRemoveButton && (
-                        <div
-                          style={styles.dropFileRemoveButton}
-                          onClick={(e) => this.removeFile(e)}
-                          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
-                          onMouseOut={() => this.changeRemoveIconColor(RED)}
-                        >
-                          <RemoveIcon color={removeIconColor} />
-                        </div>
-                      )
-                    }
+                    {this.renderDropFileRemoveButton()}
                     <div style={styles.column}>
                       <span style={styles.fileSizeInfo} ref={this.fileSizeInfoRef} />
                       <span style={styles.fileNameInfo} ref={this.fileNameInfoRef} />
