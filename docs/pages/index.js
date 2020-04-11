@@ -1,5 +1,4 @@
 import React from 'react'
-
 import Welcome from '../src/components/screens/indexes/Welcome'
 import Navbar from '../src/components/screens/indexes/Navbar'
 import Feature from '../src/components/screens/indexes/Feature'

@@ -57,7 +57,6 @@ export default class Demo extends Component {
 
   handleImportOffer = () => {
     const index = this.state.tabIndex
-
     if (index === 0) {
       const results = readString(this.state.str)
       console.log('---------------------------')
@@ -111,49 +110,49 @@ export default class Demo extends Component {
     }
   }
 
-  setTabIndex = (index) => {
+  setTabIndex = index => {
     this.setState({ tabIndex: index })
   }
 
-  handleStrChange = (event) => {
-    this.setState({ str: event.target.value })
+  handleStrChange = e => {
+    this.setState({ str: e.target.value })
   }
 
-  handleJsonDataChange = (event) => {
-    this.setState({ jsonData: event.target.value })
+  handleJsonDataChange = e => {
+    this.setState({ jsonData: e.target.value })
   }
 
-  handleURLChange = (event) => {
-    this.setState({ url: event.target.value })
+  handleURLChange = e => {
+    this.setState({ url: e.target.value })
   }
 
-  setURL = (url) => {
+  setURL = url => {
     this.setState({ url })
   }
 
-  handleOnDrop = (data) => {
+  handleOnDrop = data => {
     this.setState({ csvData: data })
   }
 
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
+  handleOnError = (error, file, inputElem, reason) => {
+    console.log(error)
   }
 
-  handleOpenDialog = (e) => {
+  handleOpenDialog = e => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
   }
 
-  handleRemoveFile = (e) => {
+  handleRemoveFile = e => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.removeFile(e)
     }
   }
 
-  handleOnRemoveFile = (data) => {
+  handleOnRemoveFile = data => {
     this.setState({ csvData: data })
   }
 
