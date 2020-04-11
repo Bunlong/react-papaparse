@@ -37,30 +37,26 @@ const CSVToJSON = () => {
             <code className='language-javascript'>
               {`<CSVReader
   ref={buttonRef}
-  onFileLoad={this.handleOnFileLoad}
+  onFileLoad={this.handleOnDrop}
   onError={this.handleOnError}
   noClick
   noDrag
   config={{}}
   style={{}}
->
-  {({file}) => (
-    <aside
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        marginBottom: 10,
-      }}
-    >
+  onRemoveFile={this.handleOnRemoveFile}
+  >
+  {({ file }) => (
+    <aside>
       <button
-        type="button"
+        type='button'
         onClick={this.handleOpenDialog}
       >
-        Browe file
+          Browe file
       </button>
       <div>
-        {file.name}
+        {file && file.name}
       </div>
+      <button onClick={this.handleRemoveFile}>Remove</button>
     </aside>
   )}
 </CSVReader>
@@ -91,11 +87,13 @@ const CSVToJSON = () => {
         <div className='grid-50'>
           <pre>
             <code className='language-javascript'>
-              {`<CSVReader 
+              {`<CSVReader
   onDrop={this.handleOnDrop}
   onError={this.handleOnError}
   style={{}}
   config={{}}
+  addRemoveButton
+  onRemoveFile={this.handleOnRemoveFile}
 >
   <span>Drop CSV file here or click to upload.</span>
 </CSVReader>
@@ -111,6 +109,7 @@ const CSVToJSON = () => {
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
+            <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
         </div>
@@ -129,6 +128,8 @@ const CSVToJSON = () => {
   noClick
   style={{}}
   config={{}}
+  addRemoveButton
+  onRemoveFile={this.handleOnRemoveFile}
 >
   <span>Drop CSV file here to upload.</span>
 </CSVReader>
@@ -145,6 +146,7 @@ const CSVToJSON = () => {
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
+            <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
         </div>
@@ -163,6 +165,8 @@ const CSVToJSON = () => {
   noDrag
   style={{}}
   config={{}}
+  addRemoveButton
+  onRemoveFile={this.handleOnRemoveFile}
 >
   <span>Click to upload.</span>
 </CSVReader>
@@ -179,6 +183,7 @@ const CSVToJSON = () => {
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
+            <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
         </div>

@@ -57,7 +57,6 @@ export default class Demo extends Component {
 
   handleImportOffer = () => {
     const index = this.state.tabIndex
-
     if (index === 0) {
       const results = readString(this.state.str)
       console.log('---------------------------')
@@ -111,39 +110,50 @@ export default class Demo extends Component {
     }
   }
 
-  setTabIndex = (index) => {
+  setTabIndex = index => {
     this.setState({ tabIndex: index })
   }
 
-  handleStrChange = (event) => {
-    this.setState({ str: event.target.value })
+  handleStrChange = e => {
+    this.setState({ str: e.target.value })
   }
 
-  handleJsonDataChange = (event) => {
-    this.setState({ jsonData: event.target.value })
+  handleJsonDataChange = e => {
+    this.setState({ jsonData: e.target.value })
   }
 
-  handleURLChange = (event) => {
-    this.setState({ url: event.target.value })
+  handleURLChange = e => {
+    this.setState({ url: e.target.value })
   }
 
-  setURL = (url) => {
+  setURL = url => {
     this.setState({ url })
   }
 
-  handleOnDrop = (data) => {
+  handleOnDrop = data => {
     this.setState({ csvData: data })
   }
 
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
+  handleOnError = (error, file, inputElem, reason) => {
+    console.log(error)
   }
 
-  handleOpenDialog = (e) => {
+  handleOpenDialog = e => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
+  }
+
+  handleRemoveFile = e => {
+    // Note that the ref is set async, so it might be null at some point
+    if (buttonRef.current) {
+      buttonRef.current.removeFile(e)
+    }
+  }
+
+  handleOnRemoveFile = data => {
+    this.setState({ csvData: data })
   }
 
   render() {
@@ -215,17 +225,24 @@ export default class Demo extends Component {
                           onError={this.handleOnError}
                           noClick
                           noDrag
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           {({ file }) => (
-                            <aside style={{ display: 'flex', flexDirection: 'row', marginBottom: 10 }}>
+                            <aside
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                marginBottom: 10
+                              }}
+                            >
                               <button
                                 type='button'
                                 onClick={this.handleOpenDialog}
                                 style={{
-                                  width: '40%',
                                   borderRadius: 0,
                                   marginLeft: 0,
                                   marginRight: 0,
+                                  width: '40%',
                                   paddingLeft: 0,
                                   paddingRight: 0
                                 }}
@@ -234,20 +251,33 @@ export default class Demo extends Component {
                               </button>
                               <div
                                 style={{
-                                  width: '60%',
-                                  height: 45,
                                   borderWidth: 1,
                                   borderStyle: 'solid',
                                   borderColor: '#ccc',
+                                  height: 45,
+                                  lineHeight: 2.5,
                                   marginTop: 5,
                                   marginBottom: 5,
                                   paddingLeft: 13,
                                   paddingTop: 3,
-                                  lineHeight: 2.5
+                                  width: '60%'
                                 }}
                               >
-                                {file.name}
+                                {file && file.name}
                               </div>
+                              <button
+                                className='button red'
+                                style={{
+                                  borderRadius: 0,
+                                  marginLeft: 0,
+                                  marginRight: 0,
+                                  paddingLeft: 20,
+                                  paddingRight: 20
+                                }}
+                                onClick={this.handleRemoveFile}
+                              >
+                                Remove
+                              </button>
                             </aside>
                           )}
                         </CSVReader>
@@ -261,6 +291,8 @@ export default class Demo extends Component {
                         <CSVReader
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Drop CSV file here or click to upload.</span>
                         </CSVReader>
@@ -275,6 +307,8 @@ export default class Demo extends Component {
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
                           noClick
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Drop CSV file here to upload.</span>
                         </CSVReader>
@@ -289,6 +323,8 @@ export default class Demo extends Component {
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
                           noDrag
+                          addRemoveButton
+                          onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Click to upload.</span>
                         </CSVReader>

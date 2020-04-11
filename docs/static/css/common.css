@@ -78,12 +78,12 @@ h4 {
 }
 
 h5, footer h4 {
-    font-size: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: #242627;
-    line-height: 1em;
-    margin: 50px auto;
+	font-size: 20px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	color: #242627;
+	line-height: 1em;
+	margin: 50px auto;
 }
 
 h6 {
@@ -91,7 +91,6 @@ h6 {
 	text-align: left;
 	margin: 40px auto 5px;
 }
-
 
 /*
 	Neat hack! http://css-tricks.com/hash-tag-links-padding/
@@ -410,13 +409,17 @@ footer hr {
 	font-family: Arvo;
 	font-size: 90px;
 	line-height: 1em;
-	background: #EFEFEF;
 	border-radius: 100px;
 	padding: 10px 30px;
+	/* background: #EFEFEF; */
+	background: url("/static/images/logo.png") no-repeat top left;
+	width: 90px;
+	height: 90px;
+	background-size: cover;
+	clear: both;
+	padding: 0px;
+	margin: 0px;
 }
-
-
-
 
 .stuck {
 	position: fixed;
@@ -425,11 +428,6 @@ footer hr {
 	border-top-width: 0;
 	border-bottom-width: 1px;
 }
-
-
-
-
-
 
 @media (max-width: 1100px) {
 	.text-logo {
