@@ -68,7 +68,7 @@ export default class CSVReader extends Component {
     return (
       <CSVReader
         ref={buttonRef}
-        onFileLoad={this.handleOnDrop}
+        onFileLoad={this.handleOnFileLoad}
         onError={this.handleOnError}
         noClick
         noDrag
