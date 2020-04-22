@@ -203,9 +203,9 @@ export default class CSVReader extends React.Component {
       options = Object.assign({
         complete: () => {
           if (!onDrop) {
-            onFileLoad(data)
+            onFileLoad(data, file)
           } else {
-            onDrop(data)
+            onDrop(data, file)
           }
         },
         step: (row, parser) => {
