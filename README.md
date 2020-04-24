@@ -394,7 +394,7 @@ How to contribute:
 - Spread the word
 - Reach out with any feedback
 
-## Contributors ✨
+## ✨ Contributors
 
 Thanks goes to these wonderful people:
 
