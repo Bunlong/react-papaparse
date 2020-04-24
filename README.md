@@ -394,6 +394,33 @@ How to contribute:
 - Spread the word
 - Reach out with any feedback
 
+## Contributors ✨
+
+Thanks goes to these wonderful people:
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Bunlong">
+        <img src="https://avatars0.githubusercontent.com/u/1308397?s=400&u=945dc6b97571e2b98b659d34b1c81ae2514046bf&v=4" width="100px;" alt="Bunlong" />
+        <br />
+        <sub>
+          <b>Bunlong</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/timtutt">
+        <img src="https://avatars0.githubusercontent.com/u/1517492?s=400&u=5aa483a9df5cdeb0824dd9db92348dbda483df22&v=4" width="100px;" alt="Tim Tutt" />
+        <br />
+        <sub>
+          <b>Tim Tutt</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
 ## ⚖️ License
 
 The MIT License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
