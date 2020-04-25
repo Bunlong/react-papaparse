@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Fast and powerful React CSV parser for the browser that supports web workers and streaming large files. Converts CSV to JSON and JSON to CSV.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
