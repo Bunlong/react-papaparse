@@ -295,7 +295,7 @@ export default class CSVReader extends React.Component {
       return (
         <div
           style={styles.dropFileRemoveButton}
-          onClick={(e) => this.removeFile(e)}
+          onClick={e => this.removeFile(e)}
           onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
           onMouseOut={() => this.changeRemoveIconColor(RED)}
         >
