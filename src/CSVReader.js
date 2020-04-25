@@ -5,7 +5,7 @@ import getSize from './util'
 import RemoveIcon from './RemoveIcon'
 import ProgressBar from './ProgressBar'
 
-const GREY = '#ccc'
+const GREY = '#CCC'
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)'
 const RED = '#A01919'
 const RED_LIGHT = '#DD2222'
@@ -183,15 +183,11 @@ export default class CSVReader extends React.Component {
       onError,
       config = {}
     } = this.props
-
     const reader = new window.FileReader()
-
     let options = {}
 
     if (config.error) delete config.error
-
     if (config.step) delete config.step
-
     if (config.complete) delete config.complete
 
     const size = file.size
@@ -220,7 +216,6 @@ export default class CSVReader extends React.Component {
     }
 
     if (onError) options = Object.assign({ error: onError }, options)
-
     if (config) options = Object.assign(config, options)
 
     reader.onload = e => {
