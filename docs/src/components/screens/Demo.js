@@ -226,9 +226,6 @@ export default class Demo extends Component {
                           noClick
                           noDrag
                           onRemoveFile={this.handleOnRemoveFile}
-                          config={{
-                            preview: 1135
-                          }}
                         >
                           {({ file }) => (
                             <aside
@@ -296,9 +293,6 @@ export default class Demo extends Component {
                           onError={this.handleOnError}
                           addRemoveButton
                           onRemoveFile={this.handleOnRemoveFile}
-                          config={{
-                            preview: 100
-                          }}
                         >
                           <span>Drop CSV file here or click to upload.</span>
                         </CSVReader>
