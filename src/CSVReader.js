@@ -129,6 +129,26 @@ export default class CSVReader extends React.Component {
     }
   }
 
+  componentWillUnmount = () => {
+    const currentDropAreaRef = this.dropAreaRef.current
+
+    const fourDragsEvent = ['dragenter', 'dragover', 'dragleave', 'drop']
+    fourDragsEvent.forEach(item => {
+      currentDropAreaRef.removeEventListener(item, this.preventDefaults, false)
+    })
+
+    if (!this.props.noDrag) {
+      const highlightDragsEvent = ['dragenter', 'dragover']
+      highlightDragsEvent.forEach(item => {
+        currentDropAreaRef.removeEventListener(item, this.highlight, false)
+      })
+      currentDropAreaRef.removeEventListener('dragleave', this.unhighlight, false)
+      currentDropAreaRef.removeEventListener('drop', this.unhighlight, false)
+      currentDropAreaRef.removeEventListener('drop', this.visibleProgressBar, false)
+      currentDropAreaRef.removeEventListener('drop', this.handleDrop, false)
+    }
+  }
+
   preventDefaults = e => {
     e.preventDefault()
     e.stopPropagation()
@@ -253,8 +273,7 @@ export default class CSVReader extends React.Component {
   open = e => {
     const { displayProgressBarStatus } = this.state
     if (e && displayProgressBarStatus === 'none') {
-      e.preventDefault()
-      e.stopPropagation()
+      this.preventDefaults(e)
       this.inputFileRef.current.value = null
       this.inputFileRef.current.click()
     }
@@ -348,7 +367,7 @@ export default class CSVReader extends React.Component {
                 (noClick !== undefined || displayProgressBarStatus === 'block')
                   ? styles.defaultCursor : styles.pointerCursor
               )}
-              onClick={(e) => { if (!noClick) this.open(e) }}
+              onClick={e => { if (!noClick) this.open(e) }}
             >
               {
                 files && files.length > 0 ? (
