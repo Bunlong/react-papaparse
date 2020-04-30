@@ -226,10 +226,22 @@ export default class CSVReader extends React.Component {
         },
         step: (row, parser) => {
           data.push(row)
-          const progress = row.meta.cursor
-          const newPercent = Math.round(progress / size * 100)
-          if (newPercent === percent) return
-          percent = newPercent
+          if (config && config.preview) {
+            percent = Math.round((data.length / config.preview) * 100)
+            self.setState({ progressBar: percent })
+            if (data.length === config.preview) {
+              if (!onDrop) {
+                onFileLoad(data, file)
+              } else {
+                onDrop(data, file)
+              }
+            }
+          } else {
+            const progress = row.meta.cursor
+            const newPercent = Math.round(progress / size * 100)
+            if (newPercent === percent) return
+            percent = newPercent
+          }
           self.setState({ progressBar: percent })
         }
       }, options)
