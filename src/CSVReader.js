@@ -168,7 +168,7 @@ export default class CSVReader extends React.Component {
   }
 
   handleDrop = e => {
-    let files = {}
+    let files = null
     let isCanceled = false
 
     if (e.files === undefined) {
