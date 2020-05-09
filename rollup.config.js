@@ -1,5 +1,5 @@
 import typescript from 'rollup-plugin-typescript2';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import builtins from 'builtin-modules'
@@ -42,7 +42,7 @@ export default {
       clean: true,
     }),
     babel({
-      exclude: 'node_modules/**',
+      exclude: 'node_modules/**'
     }),
     resolve({
       preferBuiltins: true
