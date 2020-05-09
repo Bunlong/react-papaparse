@@ -25,4 +25,10 @@ package-lock.json
 /docs/.next
 /docs/package-lock.json
 
-example
+/supports/default/node_modules
+/supports/default/.next
+/supports/default/package-lock.json
+
+/supports/typescript/node_modules
+/supports/typescript/.next
+/supports/typescript/package-lock.json
