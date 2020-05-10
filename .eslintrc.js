@@ -33,7 +33,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['*.test.ts', '*.test.tsx'],
+      files: ['*.spec.ts', '*.spec.tsx'],
       rules: {
         // Allow testing runtime errors to suppress TS errors
         '@typescript-eslint/ban-ts-ignore': 'off',

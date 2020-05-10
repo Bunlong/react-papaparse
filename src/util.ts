@@ -6,7 +6,9 @@ export default function getSize(size: number) {
 
   if (size < sizeMb) {
     const calculatedSizeMb = Number((size / sizeKb).toFixed(0));
-    if (calculatedSizeMb <= 0) { return size + ' B'; }
+    if (calculatedSizeMb <= 0) {
+      return size + ' B';
+    }
     return calculatedSizeMb + ' KB';
   } else if (size < sizeGb) {
     return (size / sizeMb).toFixed(0) + ' MB';

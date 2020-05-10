@@ -230,9 +230,15 @@ export default class CSVReader extends React.Component<Props, State> {
     const reader = new window.FileReader();
     let options = {};
 
-    if (config.error) { delete config.error; }
-    if (config.step) { delete config.step; }
-    if (config.complete) { delete config.complete; }
+    if (config.error) {
+      delete config.error;
+    }
+    if (config.step) {
+      delete config.step;
+    }
+    if (config.complete) {
+      delete config.complete;
+    }
 
     const size = file.size;
     const data: any = [];
@@ -264,7 +270,9 @@ export default class CSVReader extends React.Component<Props, State> {
             } else {
               const progress = row.meta.cursor;
               const newPercent = Math.round((progress / size) * 100);
-              if (newPercent === percent) { return; }
+              if (newPercent === percent) {
+                return;
+              }
               percent = newPercent;
             }
             self.setState({ progressBar: percent });
@@ -274,8 +282,12 @@ export default class CSVReader extends React.Component<Props, State> {
       );
     }
 
-    if (onError) { options = Object.assign({ error: onError }, options); }
-    if (config) { options = Object.assign(config, options); }
+    if (onError) {
+      options = Object.assign({ error: onError }, options);
+    }
+    if (config) {
+      options = Object.assign(config, options);
+    }
 
     reader.onload = (e: any) => {
       PapaParse.parse(e.target.result, options);
@@ -345,7 +357,9 @@ export default class CSVReader extends React.Component<Props, State> {
   };
 
   changeRemoveIconColor = (color: string) => {
-    if (color) { this.setState({ removeIconColor: color }); }
+    if (color) {
+      this.setState({ removeIconColor: color });
+    }
   };
 
   renderDropFileRemoveButton = () => {
@@ -373,7 +387,7 @@ export default class CSVReader extends React.Component<Props, State> {
       );
     }
 
-    return (<></>)
+    return <></>;
   };
 
   render() {
@@ -407,7 +421,9 @@ export default class CSVReader extends React.Component<Props, State> {
                 : styles.pointerCursor,
             )}
             onClick={(e) => {
-              if (!noClick) { this.open(e); }
+              if (!noClick) {
+                this.open(e);
+              }
             }}
           >
             {files && files.length > 0 ? (

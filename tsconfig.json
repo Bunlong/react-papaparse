@@ -68,6 +68,7 @@
     "test",
     "dist",
     "docs",
-    "supports"
+    "supports",
+    "setup.ts"
   ]
 }
