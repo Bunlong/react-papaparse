@@ -1,35 +1,55 @@
-import babel from 'rollup-plugin-babel'
-import { terser } from 'rollup-plugin-terser'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import external from 'rollup-plugin-peer-deps-external'
+import typescript from 'rollup-plugin-typescript2';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 import builtins from 'builtin-modules'
-import pkg from './package.json'
+import { terser } from "rollup-plugin-terser";
+import pkg from './package.json';
 
 export default {
-  input: 'src/index.js',
+  input: 'src/react-papaparse.ts',
   output: [
     {
       file: pkg.main,
       format: 'cjs',
-      sourcemap: true
+      exports: 'named',
     },
     {
       file: pkg.module,
-      format: 'es',
-      sourcemap: true
-    }
+      format: 'esm',
+      exports: 'named',
+    },
+    // {
+    //   file: `dist/${pkg.name}.min.es.js`,
+    //   format: 'es',
+    //   exports: 'named',
+    //   sourcemap: true
+    // },
+    // {
+    //   name: 'ReactPapaparse',
+    //   file: `dist/${pkg.name}.umd.js`,
+    //   format: 'umd',
+    //   exports: 'named',
+    //   globals: {
+    //     react: 'React',
+    //   },
+    // },
   ],
   external: builtins,
   plugins: [
+    typescript({
+      tsconfig: './tsconfig.json',
+      clean: true,
+    }),
     babel({
       exclude: 'node_modules/**'
     }),
     resolve({
       preferBuiltins: true
     }),
-    commonjs(),
-    terser(),
-    external()
-  ]
-}
+    commonjs({
+      extensions: ['.js', '.ts', '.tsx']
+    }),
+    terser()
+  ],
+};
