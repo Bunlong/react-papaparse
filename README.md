@@ -381,7 +381,7 @@ readRemoteFile('http://example.com/big.csv', {
 
 Try our family:
 
-* [https://github.com/bunlong/react-hook-qrcode](react-hook-qrcode) – React hooks for generating QR code.
+* [react-hook-qrcode](https://github.com/bunlong/react-hook-qrcode) – React hooks for generating QR code.
 
 ## 💖 Wrap Up
 
