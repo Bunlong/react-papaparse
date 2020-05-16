@@ -377,6 +377,12 @@ readRemoteFile('http://example.com/big.csv', {
 })
 ```
 
+## 👨‍👩‍👦 Family
+
+Try our family:
+
+* [https://github.com/bunlong/react-hook-qrcode](react-hook-qrcode) – React hooks for generating QR code.
+
 ## 💖 Wrap Up
 
 If you think any of the `react-papaparse` can be improved, please do open a PR with any updates and submit any issues. Also, I will continue to improve this, so you might want to watch/star this repository to revisit.
