@@ -17,7 +17,6 @@ The fastest in-browser CSV (or delimited text) parser for React.
 * Pause, resume, abort
 * Can convert numbers and booleans to their types
 * One of the only parsers that correctly handles line-breaks and quotations
-* Integration to get files from `<input type="file">` using `inputRef`
 
 ## 🔧 Install
 
@@ -419,6 +418,33 @@ How to contribute:
         <br />
         <sub>
           <b>Tim Tutt</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/pkuppens">
+        <img src="https://avatars2.githubusercontent.com/u/8671392?s=460&u=fe33bd06c7fd8bb7637a7dbe9681932b065f29f6&v=4" width="100px;" alt="Pieter Kuppens" />
+        <br />
+        <sub>
+          <b>Pieter Kuppens</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/bugzpodder">
+        <img src="https://avatars1.githubusercontent.com/u/14841421?s=460&u=9e9735544217bc05e7ac7f94c398d98924089fb1&v=4" width="100px;" alt="Jack Zhao" />
+        <br />
+        <sub>
+          <b>Jack Zhao</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/pablo-menichini">
+        <img src="https://avatars3.githubusercontent.com/u/52842336?s=460&v=4" width="100px;" alt="Pablo Mnichini" />
+        <br />
+        <sub>
+          <b>Pablo Mnichini</b>
         </sub>
       </a>
     </td>
