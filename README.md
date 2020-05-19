@@ -6,6 +6,7 @@ The fastest in-browser CSV (or delimited text) parser for React.
 
 ## 🎁 Features
 
+* Compatible with both JavaScript and TypeScript
 * Easy to use
 * Fast mode (is really fast)
 * Parse CSV files directly (local or over the network)
