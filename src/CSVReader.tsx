@@ -89,6 +89,7 @@ interface Props {
   progressBarColor?: string;
   addRemoveButton?: boolean;
   onRemoveFile?: (data: any) => void;
+  noProgressBar?: boolean;
 }
 
 interface State {
@@ -439,13 +440,16 @@ export default class CSVReader extends React.Component<Props, State> {
                     ref={this.fileNameInfoRef}
                   />
                 </div>
-                {files && files.length > 0 && !isCanceled && (
-                  <ProgressBar
-                    progressBarColor={progressBarColor || ''}
-                    progressBar={progressBar}
-                    displayProgressBarStatus={displayProgressBarStatus}
-                  />
-                )}
+                {files &&
+                  files.length > 0 &&
+                  !isCanceled &&
+                  !this.props.noProgressBar && (
+                    <ProgressBar
+                      progressBarColor={progressBarColor || ''}
+                      progressBar={progressBar}
+                      displayProgressBarStatus={displayProgressBarStatus}
+                    />
+                  )}
               </div>
             ) : (
               children
@@ -454,14 +458,17 @@ export default class CSVReader extends React.Component<Props, State> {
         ) : (
           <div ref={this.dropAreaRef}>
             {this.renderChildren()}
-            {files && files.length > 0 && !isCanceled && (
-              <ProgressBar
-                progressBarColor={progressBarColor || ''}
-                progressBar={progressBar}
-                displayProgressBarStatus={displayProgressBarStatus}
-                isButtonProgressBar
-              />
-            )}
+            {files &&
+              files.length > 0 &&
+              !isCanceled &&
+              !this.props.noProgressBar && (
+                <ProgressBar
+                  progressBarColor={progressBarColor || ''}
+                  progressBar={progressBar}
+                  displayProgressBarStatus={displayProgressBarStatus}
+                  isButtonProgressBar
+                />
+              )}
           </div>
         )}
       </>
