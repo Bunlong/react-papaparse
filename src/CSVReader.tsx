@@ -1,13 +1,11 @@
 import React, { CSSProperties } from 'react';
 import PapaParse from 'papaparse';
-import getSize from './util';
+import getSize, { lightenDarkenColor } from './util';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
-const RED = '#A01919';
-const RED_LIGHT = '#DD2222';
 
 const styles = {
   dropArea: {
@@ -90,6 +88,7 @@ interface Props {
   addRemoveButton?: boolean;
   onRemoveFile?: (data: any) => void;
   noProgressBar?: boolean;
+  removeButtonColor?: string;
 }
 
 interface State {
@@ -110,6 +109,9 @@ export default class CSVReader extends React.Component<Props, State> {
   fileSizeInfoRef: any = React.createRef<HTMLDivElement>();
   fileNameInfoRef: any = React.createRef<HTMLDivElement>();
 
+  REMOVE_ICON_COLOR = this.props.removeButtonColor || '#A01919';
+  REMOVE_ICON_COLOR_LIGHT = lightenDarkenColor(this.REMOVE_ICON_COLOR, 40);
+
   state = {
     dropAreaStyle: styles.dropArea,
     progressBar: 0,
@@ -117,7 +119,7 @@ export default class CSVReader extends React.Component<Props, State> {
     file: null,
     timeout: null,
     files: null,
-    removeIconColor: RED,
+    removeIconColor: this.REMOVE_ICON_COLOR,
     isCanceled: false,
   } as State;
 
@@ -372,8 +374,10 @@ export default class CSVReader extends React.Component<Props, State> {
         <div
           style={styles.dropFileRemoveButton}
           onClick={(e) => this.removeFile(e)}
-          onMouseOver={() => this.changeRemoveIconColor(RED_LIGHT)}
-          onMouseOut={() => this.changeRemoveIconColor(RED)}
+          onMouseOver={() =>
+            this.changeRemoveIconColor(this.REMOVE_ICON_COLOR_LIGHT)
+          }
+          onMouseOut={() => this.changeRemoveIconColor(this.REMOVE_ICON_COLOR)}
         >
           <RemoveIcon color={removeIconColor} />
         </div>
@@ -383,12 +387,12 @@ export default class CSVReader extends React.Component<Props, State> {
     if (addRemoveButton) {
       return (
         <div style={styles.dropFileRemoveButton}>
-          <RemoveIcon color={RED} />
+          <RemoveIcon color={this.REMOVE_ICON_COLOR} />
         </div>
       );
     }
 
-    return <></>;
+    return null;
   };
 
   render() {

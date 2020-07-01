@@ -1,3 +1,7 @@
+<p align="center">
+  ⭐️ Please support react-papaparse by giving a star! ⭐️
+</p>
+
 # react-papaparse
 
 The fastest in-browser CSV (or delimited text) parser for React.
@@ -209,6 +213,7 @@ export default class CSVReader extends Component {
         onDrop={this.handleOnDrop}
         onError={this.handleOnError}
         addRemoveButton
+        removeButtonColor='#659cef'
         onRemoveFile={this.handleOnRemoveFile}
       >
         <span>Drop CSV file here or click to upload.</span>

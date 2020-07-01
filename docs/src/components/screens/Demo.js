@@ -292,6 +292,7 @@ export default class Demo extends Component {
                           onDrop={this.handleOnDrop}
                           onError={this.handleOnError}
                           addRemoveButton
+                          removeButtonColor='#659cef'
                           onRemoveFile={this.handleOnRemoveFile}
                         >
                           <span>Drop CSV file here or click to upload.</span>
