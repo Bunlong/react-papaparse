@@ -386,8 +386,7 @@ readRemoteFile('http://example.com/big.csv', {
 
 You might be interested in:
 
-* [create-next-app](https://create-next-app.js.org) – The easiest way to create a Next app by running one command.
-* [react-hook-qrcode](https://github.com/bunlong/react-hook-qrcode) – React hooks for generating QR code.
+* [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
 
 ## 💖 Wrap Up
 
