@@ -1,3 +1,7 @@
+<p align="center">
+  ⭐️ Please support react-papaparse by giving a star! ⭐️
+</p>
+
 # react-papaparse
 
 The fastest in-browser CSV (or delimited text) parser for React.

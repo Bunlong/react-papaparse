@@ -111,6 +111,7 @@ const CSVToJSON = () => {
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
             <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
+            <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
@@ -149,6 +150,7 @@ const CSVToJSON = () => {
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
             <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
+            <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
@@ -187,6 +189,7 @@ const CSVToJSON = () => {
             <li><code>progressBarColor</code> is a property to be used to set the color of progress bar (for example, <code>progressBarColor='#659cef'</code>).</li>
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
             <li><code>addRemoveButton</code> If true, this will add a button to remove or cancel (if already uploading) the file.</li>
+            <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
           </ul>
