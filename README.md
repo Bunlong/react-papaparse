@@ -454,6 +454,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/mysticaltech">
+        <img src="https://avatars0.githubusercontent.com/u/518555?s=400&u=0537eaf44c5fe646aa0831d88d726c10ccdc317f&v=4" width="100px;" alt="Mystical Tech" />
+        <br />
+        <sub>
+          <b>Mystical Tech</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
