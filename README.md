@@ -1,5 +1,5 @@
 <p align="center">
-  ⭐️ Please support react-papaparse by giving a star! ⭐️
+  ⭐️ If you like react-papaparse, give it a star! ⭐️
 </p>
 
 # react-papaparse
