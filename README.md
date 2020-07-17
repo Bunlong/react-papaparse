@@ -464,6 +464,26 @@ How to contribute:
       </a>
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/takebo">
+        <img src="https://avatars1.githubusercontent.com/u/5289210?s=400&u=0d0abca823b6e45d07eb521bcdfad5287b9cfb3e&v=4" width="100px;" alt="Bruno" />
+        <br />
+        <sub>
+          <b>Bruno</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/glinkot">
+        <img src="https://avatars0.githubusercontent.com/u/13640691?s=400&v=4" width="100px;" alt="glinkot" />
+        <br />
+        <sub>
+          <b>glinkot</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
 </table>
 
 ## ⚖️ License
