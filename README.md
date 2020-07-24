@@ -388,6 +388,8 @@ You might be interested in:
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
 
+* [react-webspeech](https://github.com/Bunlong/react-webspeech) – Official WebSpeech for React.
+
 ## 💖 Wrap Up
 
 If you think any of the `react-papaparse` can be improved, please do open a PR with any updates and submit any issues. Also, I will continue to improve this, so you might want to watch/star this repository to revisit.
