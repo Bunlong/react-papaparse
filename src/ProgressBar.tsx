@@ -23,7 +23,7 @@ const styles = {
 };
 
 interface Props {
-  progressBarColor: string;
+  style: any;
   progressBar: number;
   displayProgressBarStatus: string;
   isButtonProgressBar?: boolean;
@@ -32,7 +32,7 @@ interface Props {
 export default class ProgressBar extends React.Component<Props> {
   render() {
     const {
-      progressBarColor,
+      style,
       progressBar,
       displayProgressBarStatus,
       isButtonProgressBar,
@@ -47,15 +47,10 @@ export default class ProgressBar extends React.Component<Props> {
         )}
       >
         <span
-          style={Object.assign(
-            {},
-            styles.progressBarFill,
-            { backgroundColor: progressBarColor || DEFAULT_PROGRESS_BAR_COLOR },
-            {
-              width: `${progressBar}%`,
-              display: displayProgressBarStatus,
-            },
-          )}
+          style={Object.assign({}, styles.progressBarFill, style, {
+            width: `${progressBar}%`,
+            display: displayProgressBarStatus,
+          })}
         />
       </div>
     );
