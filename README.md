@@ -1,6 +1,6 @@
-<!-- <p align="center">
+<p align="center">
   ⭐️ If you like react-papaparse, give it a star! ⭐️
-</p> -->
+</p>
 
 # react-papaparse
 
