@@ -109,7 +109,11 @@ export default class CSVReader extends React.Component<Props, State> {
   fileSizeInfoRef: any = React.createRef<HTMLDivElement>();
   fileNameInfoRef: any = React.createRef<HTMLDivElement>();
 
-  REMOVE_ICON_COLOR = this.props.removeButtonColor || '#A01919';
+  // TODO - Delete this.props.removeButtonColor
+  REMOVE_ICON_COLOR =
+    this.props.removeButtonColor ||
+    this.props.style?.dropFile?.removeButton?.color ||
+    '#A01919';
   REMOVE_ICON_COLOR_LIGHT = lightenDarkenColor(this.REMOVE_ICON_COLOR, 40);
 
   state = {
@@ -432,15 +436,30 @@ export default class CSVReader extends React.Component<Props, State> {
             }}
           >
             {files && files.length > 0 ? (
-              <div style={Object.assign({}, styles.dropFile, styles.column)}>
+              <div
+                style={Object.assign(
+                  {},
+                  styles.dropFile,
+                  styles.column,
+                  style?.dropFile,
+                )}
+              >
                 {this.renderDropFileRemoveButton()}
                 <div style={styles.column}>
                   <span
-                    style={styles.fileSizeInfo}
+                    style={Object.assign(
+                      {},
+                      styles.fileSizeInfo,
+                      style?.dropFile?.fileSizeInfo,
+                    )}
                     ref={this.fileSizeInfoRef}
                   />
                   <span
-                    style={styles.fileNameInfo}
+                    style={Object.assign(
+                      {},
+                      styles.fileNameInfo,
+                      style?.dropFile?.fileNameInfo,
+                    )}
                     ref={this.fileNameInfoRef}
                   />
                 </div>
@@ -449,7 +468,14 @@ export default class CSVReader extends React.Component<Props, State> {
                   !isCanceled &&
                   !this.props.noProgressBar && (
                     <ProgressBar
-                      progressBarColor={progressBarColor || ''}
+                      // TODO - Delete progressBar
+                      style={Object.assign(
+                        {},
+                        progressBarColor
+                          ? { backgroundColor: progressBarColor }
+                          : {},
+                        this.props.style?.dropFile?.progressBar,
+                      )}
                       progressBar={progressBar}
                       displayProgressBarStatus={displayProgressBarStatus}
                     />
@@ -467,7 +493,14 @@ export default class CSVReader extends React.Component<Props, State> {
               !isCanceled &&
               !this.props.noProgressBar && (
                 <ProgressBar
-                  progressBarColor={progressBarColor || ''}
+                  // TODO - Delete progressBar
+                  style={Object.assign(
+                    {},
+                    progressBarColor
+                      ? { backgroundColor: progressBarColor }
+                      : {},
+                    this.props.style?.dropFile?.progressBar,
+                  )}
                   progressBar={progressBar}
                   displayProgressBarStatus={displayProgressBarStatus}
                   isButtonProgressBar
