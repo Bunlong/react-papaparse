@@ -1,6 +1,6 @@
-<p align="center">
+<!-- <p align="center">
   ⭐️ If you like react-papaparse, give it a star! ⭐️
-</p>
+</p> -->
 
 # react-papaparse
 
@@ -45,6 +45,10 @@ yarn add react-papaparse
 To learn how to use react-papaparse:
 
 * [Documentation](https://react-papaparse.github.io/docs)
+
+Wiki:
+
+* [How to customize CSVReader (Drag Upload) dropFile Style?](https://github.com/Bunlong/react-papaparse/wiki/CSVReader-Drag-Upload-dropFile-Style)
 
 ## 📚 Functions & Component Document
 
