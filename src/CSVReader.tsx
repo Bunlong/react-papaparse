@@ -435,7 +435,7 @@ export default class CSVReader extends React.Component<Props, State> {
               noClick !== undefined || displayProgressBarStatus === 'block'
                 ? styles.defaultCursor
                 : styles.pointerCursor,
-              // TODO
+              style?.dropArea,
             )}
             onClick={(e) => {
               if (!noClick) {
