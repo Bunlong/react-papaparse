@@ -42,7 +42,15 @@
     "pipe",
     "workers",
     "typescript",
-    "csvreader"
+    "csvreader",
+    "jsontocsv",
+    "browsercsv",
+    "csvtojson",
+    "multithread",
+    "csv-reader",
+    "json-to-csv",
+    "browser-csv",
+    "csv-to-json"
   ],
   "homepage": "https://react-papaparse.js.org",
   "main": "dist/react-papaparse.js",
