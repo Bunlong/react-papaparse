@@ -58,20 +58,6 @@ Wiki:
 
 ## 💡 Usage
 
-### 🎀 readString
-
-```javascript
-import { readString } from 'react-papaparse'
-
-const str = `Column 1,Column 2,Column 3,Column 4
-1-1,1-2,1-3,1-4
-2-1,2-2,2-3,2-4
-3-1,3-2,3-3,3-4
-4,5,6,7`
-
-const results = readString(str)
-```
-
 ### 🎀 CSVReader
 
 #### Basic Upload
@@ -310,6 +296,20 @@ export default class CSVReader extends Component {
 }
 ```
 
+### 🎀 readString
+
+```javascript
+import { readString } from 'react-papaparse'
+
+const str = `Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+2-1,2-2,2-3,2-4
+3-1,3-2,3-3,3-4
+4,5,6,7`
+
+const results = readString(str)
+```
+
 ### 🎀 readRemoteFile
 
 ```javascript
@@ -390,8 +390,9 @@ readRemoteFile('http://example.com/big.csv', {
 You might be interested in:
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
-
-* [react-webspeech](https://github.com/Bunlong/react-webspeech) – Official WebSpeech for React.
+* [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
+* [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
+* [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
 
 ## 💖 Wrap Up
 
