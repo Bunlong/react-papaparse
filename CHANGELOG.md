@@ -22,3 +22,8 @@ Contributors and Issue:
 Committers:
 
 * Bunlong [@Bunlong](https://github.com/Bunlong)
+
+Contributors and Issue:
+
+* Bruno [@takebo](https://github.com/takebo)
+* Glinkot [@glinkot](https://github.com/glinkot)
