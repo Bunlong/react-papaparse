@@ -1,6 +1,7 @@
-<!-- <p align="center">
+<p align="center">
   ⭐️ If you like react-papaparse, give it a star! ⭐️
-</p> -->
+</p>
+
 # react-papaparse
 
 react-papaparse is the fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, readString, jsonToCSV, readRemoteFile, ... etc.
