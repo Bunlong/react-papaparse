@@ -1,5 +1,5 @@
 import expect from 'expect'
-import getSize from '../src/util'
+import getSize from '../src/utils'
 
 // eslint-disable-next-line no-undef
 describe('util', () => {

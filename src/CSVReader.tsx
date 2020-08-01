@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import PapaParse from 'papaparse';
-import getSize, { lightenDarkenColor } from './util';
+import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
 
@@ -344,9 +344,10 @@ export default class CSVReader extends React.Component<Props, State> {
   };
 
   renderChildren = () => {
+    const { children } = this.props;
     return this.childrenIsFunction()
-      ? this.props.children({ file: this.state.file })
-      : this.props.children;
+      ? children({ file: this.state.file })
+      : children;
   };
 
   removeFile = (e: any) => {
@@ -400,7 +401,13 @@ export default class CSVReader extends React.Component<Props, State> {
   };
 
   render() {
-    const { style, noClick, children, progressBarColor } = this.props;
+    const {
+      style,
+      noClick,
+      children,
+      noProgressBar,
+      progressBarColor,
+    } = this.props;
     const {
       dropAreaStyle,
       files,
@@ -428,6 +435,7 @@ export default class CSVReader extends React.Component<Props, State> {
               noClick !== undefined || displayProgressBarStatus === 'block'
                 ? styles.defaultCursor
                 : styles.pointerCursor,
+              style?.dropArea,
             )}
             onClick={(e) => {
               if (!noClick) {
@@ -463,23 +471,20 @@ export default class CSVReader extends React.Component<Props, State> {
                     ref={this.fileNameInfoRef}
                   />
                 </div>
-                {files &&
-                  files.length > 0 &&
-                  !isCanceled &&
-                  !this.props.noProgressBar && (
-                    <ProgressBar
-                      // TODO - Delete progressBar
-                      style={Object.assign(
-                        {},
-                        progressBarColor
-                          ? { backgroundColor: progressBarColor }
-                          : {},
-                        this.props.style?.dropFile?.progressBar,
-                      )}
-                      progressBar={progressBar}
-                      displayProgressBarStatus={displayProgressBarStatus}
-                    />
-                  )}
+                {files && files.length > 0 && !isCanceled && !noProgressBar && (
+                  <ProgressBar
+                    // TODO - Delete progressBar
+                    style={Object.assign(
+                      {},
+                      progressBarColor
+                        ? { backgroundColor: progressBarColor }
+                        : {},
+                      style?.dropFile?.progressBar,
+                    )}
+                    progressBar={progressBar}
+                    displayProgressBarStatus={displayProgressBarStatus}
+                  />
+                )}
               </div>
             ) : (
               children
@@ -488,24 +493,19 @@ export default class CSVReader extends React.Component<Props, State> {
         ) : (
           <div ref={this.dropAreaRef}>
             {this.renderChildren()}
-            {files &&
-              files.length > 0 &&
-              !isCanceled &&
-              !this.props.noProgressBar && (
-                <ProgressBar
-                  // TODO - Delete progressBar
-                  style={Object.assign(
-                    {},
-                    progressBarColor
-                      ? { backgroundColor: progressBarColor }
-                      : {},
-                    this.props.style?.dropFile?.progressBar,
-                  )}
-                  progressBar={progressBar}
-                  displayProgressBarStatus={displayProgressBarStatus}
-                  isButtonProgressBar
-                />
-              )}
+            {files && files.length > 0 && !isCanceled && !noProgressBar && (
+              <ProgressBar
+                // TODO - Delete progressBar
+                style={Object.assign(
+                  {},
+                  progressBarColor ? { backgroundColor: progressBarColor } : {},
+                  style?.dropFile?.progressBar,
+                )}
+                progressBar={progressBar}
+                displayProgressBarStatus={displayProgressBarStatus}
+                isButtonProgressBar
+              />
+            )}
           </div>
         )}
       </>
