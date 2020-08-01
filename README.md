@@ -4,7 +4,7 @@
 
 # react-papaparse
 
-The fastest in-browser CSV (or delimited text) parser for React.
+react-papaparse is the fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, readString, jsonToCSV, readRemoteFile, ... etc.
 
 [![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) ![npm bundle size](https://img.shields.io/bundlephobia/min/react-papaparse) [![Build Status](https://api.travis-ci.com/Bunlong/react-papaparse.svg?branch=master)](https://travis-ci.com/Bunlong/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -12,8 +12,8 @@ The fastest in-browser CSV (or delimited text) parser for React.
 
 * Compatible with both JavaScript and TypeScript
 * Easy to use
-* Fast mode (is really fast)
 * Parse CSV files directly (local or over the network)
+* Fast mode (is really fast)
 * Stream large files (even via HTTP)
 * Reverse parsing (converts JSON to CSV)
 * Auto-detect delimiter
@@ -37,9 +37,8 @@ react-papaparse is available on yarn as well. It can be installed with the follo
 yarn add react-papaparse
 ```
 
-## 📖 Homepage & Demo
+## 📖 Demo & Documentation
 
-* [Homepage](https://react-papaparse.github.io)
 * [Demo](https://react-papaparse.github.io/demo)
 
 To learn how to use react-papaparse:
@@ -48,14 +47,14 @@ To learn how to use react-papaparse:
 
 Wiki:
 
-* [How to customize CSVReader (Drag Upload) dropFile style?](https://github.com/Bunlong/react-papaparse/wiki/CSVReader-Drag-Upload-dropFile-Style)
+* [How to customize CSVReader (Drop to Upload) style?](https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drop-to-Upload)-Style)
 
-## 📚 Functions & Component Document
+## 📚 Useful Features
 
-* [readString](https://react-papaparse.github.io/docs#strings)
-* [CSVReader](https://react-papaparse.github.io/docs#local-files)
-* [readRemoteFile](https://react-papaparse.github.io/docs#remote-files)
-* [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv)
+* [CSVReader](https://react-papaparse.github.io/docs#local-files) – React component that handles csv files input and returns its content as array.
+* [readString](https://react-papaparse.github.io/docs#strings) – The function that read CSV comma separated string and returns its content as array.
+* [readRemoteFile](https://react-papaparse.github.io/docs#remote-files) – The function that read remote CSV files and returns its content as array.
+* [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv) – The function that read an array of object (json) and returns its content as CSV comma separated string.
 
 ## 💡 Usage
 
