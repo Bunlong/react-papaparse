@@ -481,6 +481,15 @@ How to contribute:
       </a>
     </td>
     <td align="center">
+      <a href="https://github.com/samuelhulla">
+        <img src="https://avatars0.githubusercontent.com/u/17268815?s=400&u=dbfc4d951f2df4a202ec037794b6e3dfa1bac88e&v=4" width="100px;" alt="Samuel Hulla" />
+        <br />
+        <sub>
+          <b>Samuel Hulla</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
       <a href="https://github.com/glinkot">
         <img src="https://avatars0.githubusercontent.com/u/13640691?s=400&v=4" width="100px;" alt="glinkot" />
         <br />
