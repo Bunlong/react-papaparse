@@ -346,7 +346,7 @@ export default class CSVReader extends React.Component<Props, State> {
   renderChildren = () => {
     const { children } = this.props;
     return this.childrenIsFunction()
-      ? children({ file: this.state.file })
+      ? children({ file: this.state.file, progress: this.state.progressBar })
       : children;
   };
 
