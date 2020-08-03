@@ -417,7 +417,7 @@ How to contribute:
   <tr>
     <td align="center">
       <a href="https://github.com/Bunlong">
-        <img src="https://avatars0.githubusercontent.com/u/1308397?s=400&u=945dc6b97571e2b98b659d34b1c81ae2514046bf&v=4" width="100px;" alt="Bunlong" />
+        <img src="https://avatars0.githubusercontent.com/u/1308397?s=400&u=945dc6b97571e2b98b659d34b1c81ae2514046bf&v=4" width="100" alt="Bunlong" />
         <br />
         <sub>
           <b>Bunlong</b>
@@ -426,7 +426,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/timtutt">
-        <img src="https://avatars0.githubusercontent.com/u/1517492?s=400&u=5aa483a9df5cdeb0824dd9db92348dbda483df22&v=4" width="100px;" alt="Tim Tutt" />
+        <img src="https://avatars0.githubusercontent.com/u/1517492?s=400&u=5aa483a9df5cdeb0824dd9db92348dbda483df22&v=4" width="100" alt="Tim Tutt" />
         <br />
         <sub>
           <b>Tim Tutt</b>
@@ -435,7 +435,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/pkuppens">
-        <img src="https://avatars2.githubusercontent.com/u/8671392?s=460&u=fe33bd06c7fd8bb7637a7dbe9681932b065f29f6&v=4" width="100px;" alt="Pieter Kuppens" />
+        <img src="https://avatars2.githubusercontent.com/u/8671392?s=460&u=fe33bd06c7fd8bb7637a7dbe9681932b065f29f6&v=4" width="100" alt="Pieter Kuppens" />
         <br />
         <sub>
           <b>Pieter Kuppens</b>
@@ -444,7 +444,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/bugzpodder">
-        <img src="https://avatars1.githubusercontent.com/u/14841421?s=460&u=9e9735544217bc05e7ac7f94c398d98924089fb1&v=4" width="100px;" alt="Jack Zhao" />
+        <img src="https://avatars1.githubusercontent.com/u/14841421?s=460&u=9e9735544217bc05e7ac7f94c398d98924089fb1&v=4" width="100" alt="Jack Zhao" />
         <br />
         <sub>
           <b>Jack Zhao</b>
@@ -453,7 +453,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/pablo-menichini">
-        <img src="https://avatars3.githubusercontent.com/u/52842336?s=460&v=4" width="100px;" alt="Pablo Mnichini" />
+        <img src="https://avatars3.githubusercontent.com/u/52842336?s=460&v=4" width="100" alt="Pablo Mnichini" />
         <br />
         <sub>
           <b>Pablo Mnichini</b>
@@ -462,7 +462,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/mysticaltech">
-        <img src="https://avatars0.githubusercontent.com/u/518555?s=400&u=0537eaf44c5fe646aa0831d88d726c10ccdc317f&v=4" width="100px;" alt="Mystical Tech" />
+        <img src="https://avatars0.githubusercontent.com/u/518555?s=400&u=0537eaf44c5fe646aa0831d88d726c10ccdc317f&v=4" width="100" alt="Mystical Tech" />
         <br />
         <sub>
           <b>Mystical Tech</b>
@@ -473,7 +473,7 @@ How to contribute:
   <tr>
     <td align="center">
       <a href="https://github.com/takebo">
-        <img src="https://avatars1.githubusercontent.com/u/5289210?s=400&u=0d0abca823b6e45d07eb521bcdfad5287b9cfb3e&v=4" width="100px;" alt="Bruno" />
+        <img src="https://avatars1.githubusercontent.com/u/5289210?s=400&u=0d0abca823b6e45d07eb521bcdfad5287b9cfb3e&v=4" width="100" alt="Bruno" />
         <br />
         <sub>
           <b>Bruno</b>
@@ -482,7 +482,7 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/samuelhulla">
-        <img src="https://avatars0.githubusercontent.com/u/17268815?s=400&u=dbfc4d951f2df4a202ec037794b6e3dfa1bac88e&v=4" width="100px;" alt="Samuel Hulla" />
+        <img src="https://avatars0.githubusercontent.com/u/17268815?s=400&u=dbfc4d951f2df4a202ec037794b6e3dfa1bac88e&v=4" width="100" alt="Samuel Hulla" />
         <br />
         <sub>
           <b>Samuel Hulla</b>
@@ -491,10 +491,28 @@ How to contribute:
     </td>
     <td align="center">
       <a href="https://github.com/glinkot">
-        <img src="https://avatars0.githubusercontent.com/u/13640691?s=400&v=4" width="100px;" alt="glinkot" />
+        <img src="https://avatars0.githubusercontent.com/u/13640691?s=400&v=4" width="100" alt="glinkot" />
         <br />
         <sub>
           <b>glinkot</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/pleavitt">
+        <img src="https://avatars2.githubusercontent.com/u/33077532?s=400&u=ecfdf7ac6e89d66329fb409b7b0c5c3c2e7494ca&v=4" width="100" alt="Paul Leavitt" />
+        <br />
+        <sub>
+          <b>Paul Leavitt</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/gtupak">
+        <img src="https://avatars2.githubusercontent.com/u/5834876?s=400&u=8c38f633c231b53f58d8f4d091994cf9ec98f594&v=4" width="100" alt="Gabriel" />
+        <br />
+        <sub>
+          <b>Gabriel</b>
         </sub>
       </a>
     </td>
