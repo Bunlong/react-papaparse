@@ -28,7 +28,7 @@ react-papaparse is the fastest in-browser CSV (or delimited text) parser for Rea
 react-papaparse is available on npm. It can be installed with the following command:
 
 ```
-npm install --save react-papaparse
+npm install react-papaparse --save
 ```
 
 react-papaparse is available on yarn as well. It can be installed with the following command:

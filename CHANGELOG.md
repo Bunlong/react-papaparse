@@ -1,3 +1,15 @@
+## 3.7.0 (2020-08-04)
+
+#### ✨ Enhancement
+
+* Pass progress value to render function
+* Make CSVReader nested class position/ordering to be flexible
+
+Credits
+
+* Samuel Hulla [@samuelhulla](https://github.com/samuelhulla)
+* Bunlong [@bunlong](https://github.com/Bunlont)
+
 ## 3.6.0 (2020-08-01)
 
 #### ✨ Enhancement
