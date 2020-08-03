@@ -112,7 +112,9 @@ export default class CSVReader extends React.Component<Props, State> {
   // TODO - Delete this.props.removeButtonColor
   REMOVE_ICON_COLOR =
     this.props.removeButtonColor ||
+    this.props.style?.dropArea?.dropFile?.removeButton?.color ||
     this.props.style?.dropFile?.removeButton?.color ||
+    this.props.style?.removeButton?.color ||
     '#A01919';
   REMOVE_ICON_COLOR_LIGHT = lightenDarkenColor(this.REMOVE_ICON_COLOR, 40);
 
@@ -345,8 +347,9 @@ export default class CSVReader extends React.Component<Props, State> {
 
   renderChildren = () => {
     const { children } = this.props;
+    const { file, progressBar } = this.state;
     return this.childrenIsFunction()
-      ? children({ file: this.state.file })
+      ? children({ file, progressBar })
       : children;
   };
 
@@ -449,7 +452,7 @@ export default class CSVReader extends React.Component<Props, State> {
                   {},
                   styles.dropFile,
                   styles.column,
-                  style?.dropFile,
+                  style?.dropArea?.dropFile || style?.dropFile,
                 )}
               >
                 {this.renderDropFileRemoveButton()}
@@ -458,7 +461,9 @@ export default class CSVReader extends React.Component<Props, State> {
                     style={Object.assign(
                       {},
                       styles.fileSizeInfo,
-                      style?.dropFile?.fileSizeInfo,
+                      style?.dropArea?.dropFile?.fileSizeInfo ||
+                        style?.dropArea?.fileSizeInfo ||
+                        style?.fileSizeInfo,
                     )}
                     ref={this.fileSizeInfoRef}
                   />
@@ -466,7 +471,9 @@ export default class CSVReader extends React.Component<Props, State> {
                     style={Object.assign(
                       {},
                       styles.fileNameInfo,
-                      style?.dropFile?.fileNameInfo,
+                      style?.dropArea?.dropFile?.fileNameInfo ||
+                        style?.dropFile?.fileNameInfo ||
+                        style?.fileNameInfo,
                     )}
                     ref={this.fileNameInfoRef}
                   />
@@ -479,7 +486,9 @@ export default class CSVReader extends React.Component<Props, State> {
                       progressBarColor
                         ? { backgroundColor: progressBarColor }
                         : {},
-                      style?.dropFile?.progressBar,
+                      style?.dropArea?.dropFile?.progressBar ||
+                        style?.dropFile?.progressBar ||
+                        style?.progressBar,
                     )}
                     progressBar={progressBar}
                     displayProgressBarStatus={displayProgressBarStatus}
@@ -499,7 +508,9 @@ export default class CSVReader extends React.Component<Props, State> {
                 style={Object.assign(
                   {},
                   progressBarColor ? { backgroundColor: progressBarColor } : {},
-                  style?.dropFile?.progressBar,
+                  style?.dropArea?.dropFile?.progressBar ||
+                    style?.dropFile?.progressBar ||
+                    style?.progressBar,
                 )}
                 progressBar={progressBar}
                 displayProgressBarStatus={displayProgressBarStatus}
