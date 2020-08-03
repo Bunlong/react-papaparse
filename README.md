@@ -8,6 +8,8 @@ react-papaparse is the fastest in-browser CSV (or delimited text) parser for Rea
 
 [![NPM](https://img.shields.io/npm/v/react-papaparse.svg)](https://www.npmjs.com/package/react-papaparse) [![downloads](https://img.shields.io/npm/dm/react-papaparse.svg?style=flat-square)](https://www.npmjs.com/package/react-papaparse) ![npm bundle size](https://img.shields.io/bundlephobia/min/react-papaparse) [![Build Status](https://api.travis-ci.com/Bunlong/react-papaparse.svg?branch=master)](https://travis-ci.com/Bunlong/react-papaparse) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+[Changelog](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md)
+
 ## 🎁 Features
 
 * Compatible with both JavaScript and TypeScript
