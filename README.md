@@ -516,6 +516,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/sakkie6yster">
+        <img src="https://avatars0.githubusercontent.com/u/20445565?s=400&u=9db346c3217e36514bda7af2cd66a08146608757&v=4" width="100" alt="Izaak" />
+        <br />
+        <sub>
+          <b>Izaak</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
