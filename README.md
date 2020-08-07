@@ -526,6 +526,17 @@ How to contribute:
       </a>
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Olovorr">
+        <img src="https://avatars0.githubusercontent.com/u/15366622?s=400&u=deb7491f406673d6dffbf7f2d16554b5155c08ab&v=4" width="100" alt="Oliver" />
+        <br />
+        <sub>
+          <b>Oliver</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
 </table>
 
 ## ⚖️ License
