@@ -2,7 +2,7 @@
 
 #### ✨ Bug
 
-* Fix: Failed to minify CRA code due to this package
+* Fix: Failed to minify CRA code due to the es module version
 
 Credits
 
