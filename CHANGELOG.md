@@ -1,3 +1,13 @@
+## 3.7.1 (2020-08-08)
+
+#### ✨ Bug
+
+* Fix: Failed to minify CRA code due to this package
+
+Credits
+
+* Oliver [@olovorr](https://github.com/Olovorr)
+
 ## 3.7.0 (2020-08-04)
 
 #### ✨ Enhancement
