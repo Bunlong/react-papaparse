@@ -393,6 +393,7 @@ You might be interested in:
 * [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
 * [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
 * [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
+* [next-share](https://github.com/Bunlong/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
 
 ## 💖 Wrap Up
 
