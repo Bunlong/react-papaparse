@@ -10,21 +10,24 @@ const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const styles = {
   dropArea: {
     alignItems: 'center',
-    borderColor: GREY,
     borderStyle: 'dashed',
     borderWidth: 2,
     borderRadius: 20,
+    borderColor: GREY,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     justifyContent: 'center',
     padding: 20,
   } as CSSProperties,
+  dropAreaDefaultBorderColor: {
+    borderColor: GREY,
+  },
   inputFile: {
     display: 'none',
   } as CSSProperties,
   highlight: {
-    borderColor: 'purple',
+    borderColor: '#686868',
   },
   unhighlight: {
     borderColor: GREY,
@@ -92,7 +95,7 @@ interface Props {
 }
 
 interface State {
-  dropAreaStyle: any;
+  dropAreaCustom: any;
   progressBar: number;
   displayProgressBarStatus: string;
   file: any;
@@ -119,7 +122,7 @@ export default class CSVReader extends React.Component<Props, State> {
   REMOVE_ICON_COLOR_LIGHT = lightenDarkenColor(this.REMOVE_ICON_COLOR, 40);
 
   state = {
-    dropAreaStyle: styles.dropArea,
+    dropAreaCustom: {},
     progressBar: 0,
     displayProgressBarStatus: 'none',
     file: null,
@@ -187,15 +190,36 @@ export default class CSVReader extends React.Component<Props, State> {
   };
 
   highlight = () => {
+    const { style } = this.props;
     this.setState({
-      dropAreaStyle: Object.assign({}, styles.dropArea, styles.highlight),
+      dropAreaCustom: Object.assign(
+        {},
+        style?.dropAreaActive
+          ? style?.dropAreaActive.borderColor
+            ? style?.dropAreaActive
+            : Object.assign({}, style?.dropAreaActive, styles.highlight)
+          : style?.dropArea?.dropAreaActive
+          ? style?.dropArea?.dropAreaActive.borderColor
+            ? style?.dropArea?.dropAreaActive
+            : Object.assign(
+                {},
+                style?.dropArea?.dropAreaActive,
+                styles.highlight,
+              )
+          : styles.highlight,
+      ),
     });
     this.setState({ progressBar: 0 });
   };
 
   unhighlight = () => {
     this.setState({
-      dropAreaStyle: Object.assign({}, styles.dropArea, styles.unhighlight),
+      dropAreaCustom: Object.assign(
+        {},
+        this.props.style?.dropArea?.borderColor
+          ? {}
+          : styles.dropAreaDefaultBorderColor,
+      ),
     });
   };
 
@@ -412,7 +436,7 @@ export default class CSVReader extends React.Component<Props, State> {
       progressBarColor,
     } = this.props;
     const {
-      dropAreaStyle,
+      dropAreaCustom,
       files,
       isCanceled,
       progressBar,
@@ -433,12 +457,12 @@ export default class CSVReader extends React.Component<Props, State> {
             ref={this.dropAreaRef}
             style={Object.assign(
               {},
-              style,
-              dropAreaStyle,
+              styles.dropArea,
+              style.dropArea,
+              dropAreaCustom,
               noClick !== undefined || displayProgressBarStatus === 'block'
                 ? styles.defaultCursor
                 : styles.pointerCursor,
-              style?.dropArea,
             )}
             onClick={(e) => {
               if (!noClick) {
