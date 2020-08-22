@@ -7,6 +7,7 @@ import ProgressBar from './ProgressBar';
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const REMOVE_ICON_DEFAULT_COLOR = '#A01919';
+const GREY_DIM = '#686868';
 
 const styles = {
   dropArea: {
@@ -28,13 +29,13 @@ const styles = {
     display: 'none',
   } as CSSProperties,
   highlight: {
-    borderColor: '#686868',
+    borderColor: GREY_DIM,
   },
   unhighlight: {
     borderColor: GREY,
   } as CSSProperties,
   dropFile: {
-    background: 'linear-gradient(to bottom, #eee, #ddd)',
+    background: 'linear-gradient(to bottom, #EEE, #DDD)',
     borderRadius: 20,
     display: 'block',
     height: 120,
