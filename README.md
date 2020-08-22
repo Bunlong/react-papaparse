@@ -537,6 +537,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/OleSkaar">
+        <img src="https://avatars0.githubusercontent.com/u/5891010?s=400&u=bf64ec4f21d9ec2373829e053886b6dd09ed63dc&v=4" width="100" alt="Ole Skaar" />
+        <br />
+        <sub>
+          <b>Ole Skaar</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
