@@ -386,7 +386,6 @@ export default class Index extends React.Component {
           onRemoveFile={this.handleOnRemoveFile}
           style={{
             dropArea: {
-              borderStyle: 'dashed',
               borderColor: 'pink',
               borderRadius: 20,
             },
