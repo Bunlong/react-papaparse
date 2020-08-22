@@ -390,10 +390,10 @@ readRemoteFile('http://example.com/big.csv', {
 You might be interested in:
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
+* [next-share](https://github.com/Bunlong/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
 * [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
 * [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
 * [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
-* [next-share](https://github.com/Bunlong/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
 
 ## 💖 Wrap Up
 
@@ -534,6 +534,15 @@ How to contribute:
         <br />
         <sub>
           <b>Oliver</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/OleSkaar">
+        <img src="https://avatars0.githubusercontent.com/u/5891010?s=400&u=bf64ec4f21d9ec2373829e053886b6dd09ed63dc&v=4" width="100" alt="Ole Skaar" />
+        <br />
+        <sub>
+          <b>Ole Skaar</b>
         </sub>
       </a>
     </td>

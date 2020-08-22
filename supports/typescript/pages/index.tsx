@@ -381,36 +381,43 @@ export default class Index extends React.Component {
         <CSVReader
           onDrop={this.handleOnDrop}
           onError={this.handleOnError}
-          noDrag
+          // noDrag
           addRemoveButton
           onRemoveFile={this.handleOnRemoveFile}
           style={{
+            dropArea: {
+              borderColor: 'pink',
+              borderRadius: 20,
+            },
+            dropAreaActive: {
+              borderColor: 'red',
+            },
             dropFile: {
               width: 100,
               height: 120,
-              background: 'red',
-              fileSizeInfo: {
-                color: '#fff',
-                backgroundColor: '#000',
-                borderRadius: 3,
-                lineHeight: 1,
-                marginBottom: '0.5em',
-                padding: '0 0.4em',
-              },
-              fileNameInfo: {
-                color: '#fff',
-                backgroundColor: '#eee',
-                borderRadius: 3,
-                fontSize: 14,
-                lineHeight: 1,
-                padding: '0 0.4em',
-              },
-              removeButton: {
-                color: 'blue',
-              },
-              progressBar: {
-                backgroundColor: 'pink',
-              }
+              background: '#ccc',
+            },
+            fileSizeInfo: {
+              color: '#fff',
+              backgroundColor: '#000',
+              borderRadius: 3,
+              lineHeight: 1,
+              marginBottom: '0.5em',
+              padding: '0 0.4em',
+            },
+            fileNameInfo: {
+              color: '#fff',
+              backgroundColor: '#eee',
+              borderRadius: 3,
+              fontSize: 14,
+              lineHeight: 1,
+              padding: '0 0.4em',
+            },
+            removeButton: {
+              color: 'blue',
+            },
+            progressBar: {
+              backgroundColor: 'pink',
             },
           }}
         >
