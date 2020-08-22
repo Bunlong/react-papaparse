@@ -1,3 +1,13 @@
+## 3.7.2 (2020-08-23)
+
+#### ✨ Bug
+
+* Fix: CSVReader styles
+
+Credits
+
+* Ole Skaar [@OleSkaar](https://github.com/OleSkaar)
+
 ## 3.7.1 (2020-08-08)
 
 #### ✨ Bug
