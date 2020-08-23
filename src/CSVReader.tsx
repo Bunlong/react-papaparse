@@ -460,7 +460,7 @@ export default class CSVReader extends React.Component<Props, State> {
             style={Object.assign(
               {},
               styles.dropArea,
-              style.dropArea,
+              style?.dropArea,
               dropAreaCustom,
               noClick !== undefined || displayProgressBarStatus === 'block'
                 ? styles.defaultCursor
