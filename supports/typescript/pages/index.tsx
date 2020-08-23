@@ -353,14 +353,93 @@
 import React from 'react'
 import { CSVReader } from 'react-papaparse'
 
-export default class Index extends React.Component {
-  handleOnDrop = (data: any) => {
+
+// export function Index {
+//   handleOnDrop = (data: any) => {
+//     console.log('---------------------------')
+//     console.log(data)
+//     console.log('---------------------------')
+//   }
+
+//   handleOnError = (
+//     err: any,
+//     // file,
+//     // inputElem,
+//     // reason
+//   ) => {
+//     console.log(err)
+//   }
+
+//   handleOnRemoveFile = (data: any) => {
+//     console.log('---------------------------')
+//     console.log(data)
+//     console.log('---------------------------')
+//   }
+
+//   render() {
+//     return (
+//       <>
+//         <CSVReader
+//           onDrop={this.handleOnDrop}
+//           onError={this.handleOnError}
+//           // noDrag
+//           addRemoveButton
+//           onRemoveFile={this.handleOnRemoveFile}
+//           style={{
+//             dropArea: {
+//               borderColor: 'pink',
+//               borderRadius: 20,
+//             },
+//             dropAreaActive: {
+//               borderColor: 'red',
+//             },
+//             dropFile: {
+//               width: 100,
+//               height: 120,
+//               background: '#ccc',
+//             },
+//             fileSizeInfo: {
+//               color: '#fff',
+//               backgroundColor: '#000',
+//               borderRadius: 3,
+//               lineHeight: 1,
+//               marginBottom: '0.5em',
+//               padding: '0 0.4em',
+//             },
+//             fileNameInfo: {
+//               color: '#fff',
+//               backgroundColor: '#eee',
+//               borderRadius: 3,
+//               fontSize: 14,
+//               lineHeight: 1,
+//               padding: '0 0.4em',
+//             },
+//             removeButton: {
+//               color: 'blue',
+//             },
+//             progressBar: {
+//               backgroundColor: 'pink',
+//             },
+//           }}
+//         >
+//           <span>Click to upload.</span>
+//         </CSVReader>
+//       </>
+//     )
+//   }
+// }
+
+// ======================================================
+
+
+const Index = () => {
+  const handleOnDrop = (data: any) => {
     console.log('---------------------------')
     console.log(data)
     console.log('---------------------------')
   }
 
-  handleOnError = (
+  const handleOnError = (
     err: any,
     // file,
     // inputElem,
@@ -369,63 +448,61 @@ export default class Index extends React.Component {
     console.log(err)
   }
 
-  handleOnRemoveFile = (data: any) => {
+  const handleOnRemoveFile = (data: any) => {
     console.log('---------------------------')
     console.log(data)
     console.log('---------------------------')
   }
 
-  render() {
-    return (
-      <>
-        <CSVReader
-          onDrop={this.handleOnDrop}
-          onError={this.handleOnError}
-          // noDrag
-          addRemoveButton
-          onRemoveFile={this.handleOnRemoveFile}
-          style={{
-            dropArea: {
-              borderColor: 'pink',
-              borderRadius: 20,
-            },
-            dropAreaActive: {
-              borderColor: 'red',
-            },
-            dropFile: {
-              width: 100,
-              height: 120,
-              background: '#ccc',
-            },
-            fileSizeInfo: {
-              color: '#fff',
-              backgroundColor: '#000',
-              borderRadius: 3,
-              lineHeight: 1,
-              marginBottom: '0.5em',
-              padding: '0 0.4em',
-            },
-            fileNameInfo: {
-              color: '#fff',
-              backgroundColor: '#eee',
-              borderRadius: 3,
-              fontSize: 14,
-              lineHeight: 1,
-              padding: '0 0.4em',
-            },
-            removeButton: {
-              color: 'blue',
-            },
-            progressBar: {
-              backgroundColor: 'pink',
-            },
-          }}
-        >
-          <span>Click to upload.</span>
-        </CSVReader>
-      </>
-    )
-  }
+  return (
+    <>
+      <CSVReader
+        onDrop={handleOnDrop}
+        onError={handleOnError}
+        // noDrag
+        addRemoveButton
+        onRemoveFile={handleOnRemoveFile}
+        style={{
+          dropArea: {
+            borderColor: 'pink',
+            borderRadius: 20,
+          },
+          dropAreaActive: {
+            borderColor: 'red',
+          },
+          dropFile: {
+            width: 100,
+            height: 120,
+            background: '#ccc',
+          },
+          fileSizeInfo: {
+            color: '#fff',
+            backgroundColor: '#000',
+            borderRadius: 3,
+            lineHeight: 1,
+            marginBottom: '0.5em',
+            padding: '0 0.4em',
+          },
+          fileNameInfo: {
+            color: '#fff',
+            backgroundColor: '#eee',
+            borderRadius: 3,
+            fontSize: 14,
+            lineHeight: 1,
+            padding: '0 0.4em',
+          },
+          removeButton: {
+            color: 'blue',
+          },
+          progressBar: {
+            backgroundColor: 'pink',
+          },
+        }}
+      >
+        <span>Click to upload.</span>
+      </CSVReader>
+    </>
+  )
 }
 
-// ======================================================
+export default Index
