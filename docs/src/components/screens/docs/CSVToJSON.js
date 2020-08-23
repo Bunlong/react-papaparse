@@ -77,6 +77,7 @@ const CSVToJSON = () => {
             <li><code>style</code> is some styles to be applied to the <code>{'<input>'}</code> element.</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
+            <li><a href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style" target="_blank">How to customize CSVReader (Drag to upload) style?</a></li>
           </ul>
         </div>
 
@@ -114,6 +115,7 @@ const CSVToJSON = () => {
             <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
+            <li><a href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style" target="_blank">How to customize CSVReader (Drag to upload) style?</a></li>
           </ul>
         </div>
 
@@ -153,6 +155,7 @@ const CSVToJSON = () => {
             <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
+            <li><a href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style" target="_blank">How to customize CSVReader (Drag to upload) style?</a></li>
           </ul>
         </div>
 
@@ -192,6 +195,7 @@ const CSVToJSON = () => {
             <li><code>removeButtonColor</code> is a property to be used to set the color of remove button (for example, <code>removeButtonColor='#659cef'</code>).</li>
             <li><code>config</code> is a <a href='#config'>config object</a> which contains a callback.</li>
             <li>Doesn't return anything. Results are provided asynchronously to a callback function.</li>
+            <li><a href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style" target="_blank">How to customize CSVReader (Drag to upload) style?</a></li>
           </ul>
         </div>
 
