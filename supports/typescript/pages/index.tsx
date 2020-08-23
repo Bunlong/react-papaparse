@@ -350,9 +350,8 @@
 
 // ======================================================
 
-import React from 'react'
-import { CSVReader } from 'react-papaparse'
-
+// import React from 'react'
+// import { CSVReader } from 'react-papaparse'
 
 // export function Index {
 //   handleOnDrop = (data: any) => {
@@ -431,6 +430,8 @@ import { CSVReader } from 'react-papaparse'
 
 // ======================================================
 
+import React from 'react'
+import { CSVReader } from 'react-papaparse'
 
 const Index = () => {
   const handleOnDrop = (data: any) => {
