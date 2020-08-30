@@ -546,6 +546,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/des09">
+        <img src="https://avatars3.githubusercontent.com/u/3218179?s=400&v=4" width="100" alt="Des" />
+        <br />
+        <sub>
+          <b>Des</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
