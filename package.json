@@ -50,7 +50,8 @@
     "csv-reader",
     "json-to-csv",
     "browser-csv",
-    "csv-to-json"
+    "csv-to-json",
+    "csvdownloader"
   ],
   "homepage": "https://react-papaparse.js.org",
   "main": "dist/react-papaparse.js",
