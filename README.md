@@ -396,11 +396,15 @@ You might be interested in:
 * [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
 * [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
 
-## 💖 Wrap Up
+## 📜 Changelog
+
+Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
+
+## ❗ Issues
 
 If you think any of the `react-papaparse` can be improved, please do open a PR with any updates and submit any issues. Also, I will continue to improve this, so you might want to watch/star this repository to revisit.
 
-## 🌟 Contribution
+## 💪 Contribution
 
 We'd love to have your helping hand on contributions to `react-papaparse` by forking and sending a pull request!
 
