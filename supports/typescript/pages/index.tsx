@@ -430,10 +430,16 @@
 
 // ======================================================
 
-import React from 'react'
+import React, { useState } from 'react'
 import { CSVReader, CSVDownloader } from 'react-papaparse'
 
 const Index = () => {
+  const [isReset, setIsReset] = useState<boolean>(false);
+
+  const handleReset = () => {
+    setIsReset(!isReset)
+  }
+
   const handleOnDrop = (data: any) => {
     console.log('---------------------------')
     console.log(data)
@@ -458,6 +464,7 @@ const Index = () => {
   return (
     <>
       <CSVReader
+        isReset={isReset}
         onDrop={handleOnDrop}
         onError={handleOnError}
         // noDrag
@@ -544,6 +551,7 @@ const Index = () => {
       >
         Download
       </CSVDownloader>
+      <button onClick={() => handleReset()}>Reset</button>
     </>
   )
 }
