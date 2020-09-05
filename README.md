@@ -45,9 +45,10 @@ To learn how to use react-papaparse:
 
 * [Documentation](https://react-papaparse.github.io/docs)
 
-Wiki:
+FAQ:
 
 * [How to customize CSVReader (Drag to upload) style?](https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style)
+* [How to reset CSVReader?](https://react-papaparse.js.org/docs#local-files)
 
 ## 📚 Useful Features
 
