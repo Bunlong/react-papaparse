@@ -629,10 +629,6 @@ How to contribute:
   </tr>
 </table>
 
-## ⚖️ License
-
-The MIT License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ## 👨‍👩‍👦 Family
 
 You might be interested in:
@@ -643,5 +639,9 @@ You might be interested in:
 * [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
 * [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
 * [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
+
+## ⚖️ License
+
+The MIT License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <!-- https://github.com/siddharthkp/bundlesize -->
