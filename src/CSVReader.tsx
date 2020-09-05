@@ -109,7 +109,11 @@ interface State {
 }
 
 export default class CSVReader extends React.Component<Props, State> {
-  static defaultProps = { isReset: false };
+  static defaultProps: Partial<Props> = {
+    isReset: false,
+  };
+
+  // TODO
   // inputFileRef: React.RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>()
   inputFileRef: any = React.createRef<HTMLDivElement>();
   dropAreaRef: any = React.createRef<HTMLDivElement>();
@@ -140,7 +144,7 @@ export default class CSVReader extends React.Component<Props, State> {
     if (this.props.isReset !== prevProps.isReset) {
       this.removeFile();
     }
-  }
+  };
 
   componentDidMount = () => {
     const currentDropAreaRef = this.dropAreaRef.current;
@@ -403,7 +407,7 @@ export default class CSVReader extends React.Component<Props, State> {
     }
 
     this.inputFileRef.current.value = null;
-  }
+  };
 
   changeRemoveIconColor = (color: string) => {
     if (color) {

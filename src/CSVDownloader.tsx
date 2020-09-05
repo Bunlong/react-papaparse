@@ -1,11 +1,5 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import PapaParse from 'papaparse';
-
-const styles = {
-  pointerCursor: {
-    cursor: 'pointer',
-  } as CSSProperties,
-};
 
 interface Props {
   children: any;
@@ -17,7 +11,7 @@ interface Props {
 }
 
 export default class CSVDownloader extends React.Component<Props> {
-  public static defaultProps: Partial<Props> = {
+  static defaultProps: Partial<Props> = {
     type: 'link',
   };
 
@@ -41,7 +35,6 @@ export default class CSVDownloader extends React.Component<Props> {
 
   render() {
     const { children, data, filename, type, className, style } = this.props;
-    const defaultStyle = Object.assign({}, styles.pointerCursor, style);
 
     return (
       <>
@@ -49,7 +42,7 @@ export default class CSVDownloader extends React.Component<Props> {
           <a
             onClick={() => this.download(data, filename)}
             className={className}
-            style={defaultStyle}
+            style={style}
           >
             {children}
           </a>
@@ -57,7 +50,7 @@ export default class CSVDownloader extends React.Component<Props> {
           <button
             onClick={() => this.download(data, filename)}
             className={className}
-            style={defaultStyle}
+            style={style}
           >
             {children}
           </button>

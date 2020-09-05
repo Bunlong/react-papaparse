@@ -509,6 +509,7 @@ const Index = () => {
       >
         <span>Click to upload.</span>
       </CSVReader>
+      <button onClick={() => handleReset()}>Reset</button>
       <CSVDownloader
         data={[
           {
@@ -551,7 +552,6 @@ const Index = () => {
       >
         Download
       </CSVDownloader>
-      <button onClick={() => handleReset()}>Reset</button>
     </>
   )
 }
