@@ -53,7 +53,7 @@ FAQ:
 ## 📚 Useful Features
 
 * [CSVReader](https://react-papaparse.github.io/docs#local-files) – React component that handles csv files input and returns its content as array.
-* [CSVDownloader](https://github.com/bunlong/react-papaparse#-csvdownloader) – React component that render a download csv file button/link. (TODO => https://docs.reactioncommerce.com/docs/csvdownload)
+* [CSVDownloader](https://github.com/bunlong/react-papaparse#-csvdownloader) – React component that render the link/button which is clicked to download the data provided in CSV format.
 * [readString](https://react-papaparse.github.io/docs#strings) – The function that read CSV comma separated string and returns its content as array.
 * [readRemoteFile](https://react-papaparse.github.io/docs#remote-files) – The function that read remote CSV files and returns its content as array.
 * [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv) – The function that read an array of object (json) and returns its content as CSV comma separated string.
