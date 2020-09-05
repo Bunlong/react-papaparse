@@ -94,6 +94,7 @@ interface Props {
   onRemoveFile?: (data: any) => void;
   noProgressBar?: boolean;
   removeButtonColor?: string;
+  isReset?: boolean;
 }
 
 interface State {
@@ -108,6 +109,11 @@ interface State {
 }
 
 export default class CSVReader extends React.Component<Props, State> {
+  static defaultProps: Partial<Props> = {
+    isReset: false,
+  };
+
+  // TODO
   // inputFileRef: React.RefObject<HTMLDivElement> = React.createRef<HTMLDivElement>()
   inputFileRef: any = React.createRef<HTMLDivElement>();
   dropAreaRef: any = React.createRef<HTMLDivElement>();
@@ -133,6 +139,12 @@ export default class CSVReader extends React.Component<Props, State> {
     removeIconColor: this.REMOVE_ICON_COLOR,
     isCanceled: false,
   } as State;
+
+  componentDidUpdate = (prevProps: any) => {
+    if (this.props.isReset !== prevProps.isReset) {
+      this.removeFile();
+    }
+  };
 
   componentDidMount = () => {
     const currentDropAreaRef = this.dropAreaRef.current;
@@ -379,18 +391,22 @@ export default class CSVReader extends React.Component<Props, State> {
       : children;
   };
 
-  removeFile = (e: any) => {
+  handleRemoveFile = (e: any) => {
     if (e) {
       e.stopPropagation();
-      this.setState({ files: null, file: null });
-
-      const { onRemoveFile } = this.props;
-      if (onRemoveFile) {
-        onRemoveFile(null);
-      }
-
-      this.inputFileRef.current.value = null;
+      this.removeFile();
     }
+  };
+
+  removeFile = () => {
+    this.setState({ files: null, file: null });
+
+    const { onRemoveFile } = this.props;
+    if (onRemoveFile) {
+      onRemoveFile(null);
+    }
+
+    this.inputFileRef.current.value = null;
   };
 
   changeRemoveIconColor = (color: string) => {
@@ -407,7 +423,7 @@ export default class CSVReader extends React.Component<Props, State> {
       return (
         <div
           style={styles.dropFileRemoveButton}
-          onClick={(e) => this.removeFile(e)}
+          onClick={(e) => this.handleRemoveFile(e)}
           onMouseOver={() =>
             this.changeRemoveIconColor(this.REMOVE_ICON_COLOR_LIGHT)
           }

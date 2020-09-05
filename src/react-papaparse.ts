@@ -9,6 +9,7 @@ export const LocalChunkSize = PapaParse.LocalChunkSize;
 export const DefaultDelimiter = PapaParse.DefaultDelimiter;
 
 export { default as CSVReader } from './CSVReader';
+export { default as CSVDownloader } from './CSVDownloader';
 export { readString } from './readString';
 export { readRemoteFile } from './readRemoteFile';
 export { jsonToCSV } from './jsonToCSV';

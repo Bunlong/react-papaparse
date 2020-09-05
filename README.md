@@ -52,6 +52,7 @@ Wiki:
 ## 📚 Useful Features
 
 * [CSVReader](https://react-papaparse.github.io/docs#local-files) – React component that handles csv files input and returns its content as array.
+* [CSVDownloader](https://github.com/bunlong/react-papaparse#-csvdownloader) – React component that render a download csv file button/link. (TODO => https://docs.reactioncommerce.com/docs/csvdownload)
 * [readString](https://react-papaparse.github.io/docs#strings) – The function that read CSV comma separated string and returns its content as array.
 * [readRemoteFile](https://react-papaparse.github.io/docs#remote-files) – The function that read remote CSV files and returns its content as array.
 * [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv) – The function that read an array of object (json) and returns its content as CSV comma separated string.
@@ -291,6 +292,81 @@ export default class CSVReader extends Component {
       >
         <span>Click to upload.</span>
       </CSVReader>
+    )
+  }
+}
+```
+
+### 🎀 CSVReader
+
+#### Button
+
+```javascript
+import React, { Component } from 'react'
+
+import { CSVDownloader } from 'react-papaparse'
+
+export default class CSVDownloader extends Component {
+  render() {
+    return (
+      <CSVDownloader
+        data={[
+          {
+            "Column 1": "1-1",
+            "Column 2": "1-2",
+            "Column 3": "1-3",
+            "Column 4": "1-4",
+          },
+          {
+            "Column 1": "2-1",
+            "Column 2": "2-2",
+            "Column 3": "2-3",
+            "Column 4": "2-4",
+          },
+          {
+            "Column 1": "3-1",
+            "Column 2": "3-2",
+            "Column 3": "3-3",
+            "Column 4": "3-4",
+          },
+          {
+            "Column 1": 4,
+            "Column 2": 5,
+            "Column 3": 6,
+            "Column 4": 7,
+          },
+        ]}
+        type="button"
+        filename={'filename'}
+      >
+        Download
+      </CSVDownloader>
+    )
+  }
+}
+```
+
+#### Link
+
+```javascript
+import React, { Component } from 'react'
+
+import { CSVDownloader } from 'react-papaparse'
+
+export default class CSVDownloader extends Component {
+  render() {
+    return (
+      <CSVDownloader
+        data={`Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+2-1,2-2,2-3,2-4
+3-1,3-2,3-3,3-4
+4,5,6,7`}
+        filename={'filename'}
+        type={'link'}
+      >
+        Download
+      </CSVDownloader>
     )
   }
 }
