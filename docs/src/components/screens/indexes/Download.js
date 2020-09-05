@@ -9,7 +9,7 @@ const Download = () => {
         </div>
         <div className='prefix-30 grid-40 suffix-30'>
           <b style={{ display: 'block', textAlign: 'center' }}>npm</b>
-          <pre><code className='language-bash'>$ npm install --save react-papaparse</code></pre>
+          <pre><code className='language-bash'>$ npm install react-papaparse --save</code></pre>
           <br />
           <b style={{ display: 'block', textAlign: 'center' }}>yarn</b>
           <pre><code className='language-bash'>$ yarn add react-papaparse</code></pre>
