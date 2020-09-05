@@ -1,3 +1,16 @@
+## 3.8.0 (2020-09-06)
+
+#### ✨ Enhancement
+
+* CSVDownloader
+* isReset? – Is used to reset CSVReader or remove file in CSVReader
+
+Credits
+
+* [Des](https://github.com/des09)
+* [Mystical Tech](https://github.com/mysticaltech)
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.7.3 (2020-08-23)
 
 #### ✨ Bug
