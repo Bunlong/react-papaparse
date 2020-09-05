@@ -462,17 +462,6 @@ readRemoteFile('http://example.com/big.csv', {
 })
 ```
 
-## 👨‍👩‍👦 Family
-
-You might be interested in:
-
-* [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
-* [next-share](https://github.com/next-boilerplate/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
-* [react-fullscreen-html](https://github.com/Bunlong/react-fullscreen-html) – The React component allows its children to enter the browser's fullscreen viewing mode using the Fullscreen HTML5.
-* [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
-* [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
-* [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
-
 ## 📜 Changelog
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
@@ -643,5 +632,16 @@ How to contribute:
 ## ⚖️ License
 
 The MIT License [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## 👨‍👩‍👦 Family
+
+You might be interested in:
+
+* [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
+* [next-share](https://github.com/next-boilerplate/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
+* [react-fullscreen-html](https://github.com/Bunlong/react-fullscreen-html) – The React component allows its children to enter the browser's fullscreen viewing mode using the Fullscreen HTML5.
+* [react-webspeech](https://github.com/Bunlong/react-webspeech) – The official WebSpeech for React.
+* [react-barcodes](https://github.com/Bunlong/react-barcodes) – React hooks for generating barcodes.
+* [react-qrcodes](https://github.com/Bunlong/react-qrcodes) – React hooks for generating qrcodes.
 
 <!-- https://github.com/siddharthkp/bundlesize -->
