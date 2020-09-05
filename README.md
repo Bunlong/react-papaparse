@@ -298,7 +298,7 @@ export default class CSVReader extends Component {
 }
 ```
 
-### 🎀 CSVReader
+### 🎀 CSVDownloader
 
 #### Button
 
