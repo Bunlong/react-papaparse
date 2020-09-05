@@ -299,7 +299,7 @@ export default class CSVReader extends Component {
 
 ### 🎀 CSVReader
 
-#### CSVReader that render the button
+#### Button
 
 ```javascript
 import React, { Component } from 'react'
@@ -346,7 +346,7 @@ export default class CSVDownloader extends Component {
 }
 ```
 
-#### CSVReader that render the link
+#### Link
 
 ```javascript
 import React, { Component } from 'react'
