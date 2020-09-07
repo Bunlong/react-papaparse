@@ -476,7 +476,7 @@ Details changes for each release are documented in the [CHANGELOG.md](https://gi
 ### 🆕 v4.0.x
 
   * Improve code performance
-  * Rewriting any existing based components to hooks
+  * Rewrite any existing based components to hooks
 
 ## ❗ Issues
 
