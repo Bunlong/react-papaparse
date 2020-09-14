@@ -66,7 +66,7 @@ export default class CSVReader1 extends Component {
                   paddingRight: 0
                 }}
               >
-                Browe file
+                Browse file
               </button>
               <div
                 style={{
