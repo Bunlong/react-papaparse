@@ -76,12 +76,12 @@ const buttonRef = React.createRef()
 
 export default class CSVReader extends Component {
   handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
+    // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
       buttonRef.current.open(e)
     }
   }
-  
+
   handleOnFileLoad = (data) => {
     console.log('---------------------------')
     console.log(data)
@@ -301,6 +301,8 @@ export default class CSVReader extends Component {
 
 ### 🎀 CSVDownloader
 
+If you want to open your CSV-file in Excel, you might want to set `bom={true}`, default is `false`. This option adds the so called BOM byte `'\ufeff'` to the beginning of your CSV-file and tells Excel that the encoding is UTF8.
+
 #### Button
 
 ```javascript
@@ -340,6 +342,7 @@ export default class CSVDownloader extends Component {
         ]}
         type="button"
         filename={'filename'}
+        bom={false}
       >
         Download
       </CSVDownloader>
@@ -366,6 +369,7 @@ export default class CSVDownloader extends Component {
 4,5,6,7`}
         filename={'filename'}
         type={'link'}
+        bom={false}
       >
         Download
       </CSVDownloader>
