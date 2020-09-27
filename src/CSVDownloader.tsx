@@ -8,6 +8,7 @@ interface Props {
   type?: string;
   style?: any;
   className?: string;
+  bom?: boolean;
 }
 
 export default class CSVDownloader extends React.Component<Props> {
@@ -15,7 +16,8 @@ export default class CSVDownloader extends React.Component<Props> {
     type: 'link',
   };
 
-  download = (data: any, filename: string) => {
+  download = (data: any, filename: string, bom: boolean) => {
+    const bomCode = bom !== false ? '\ufeff' : '';
     let csvContent = null;
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data);
@@ -24,8 +26,9 @@ export default class CSVDownloader extends React.Component<Props> {
     }
 
     const encodedDataUrl = encodeURI(
-      `data:text/csv;charset=utf8,${csvContent}`,
+      `data:text/csv;charset=utf8,${bomCode}${csvContent}`,
     );
+
     const link = document.createElement('a');
     link.setAttribute('href', encodedDataUrl);
     link.setAttribute('download', `${filename}.csv`);
@@ -34,13 +37,21 @@ export default class CSVDownloader extends React.Component<Props> {
   };
 
   render() {
-    const { children, data, filename, type, className, style } = this.props;
+    const {
+      children,
+      data,
+      filename,
+      type,
+      className,
+      style,
+      bom = false,
+    } = this.props;
 
     return (
       <>
         {type === 'link' ? (
           <a
-            onClick={() => this.download(data, filename)}
+            onClick={() => this.download(data, filename, bom)}
             className={className}
             style={style}
           >
@@ -48,7 +59,7 @@ export default class CSVDownloader extends React.Component<Props> {
           </a>
         ) : (
           <button
-            onClick={() => this.download(data, filename)}
+            onClick={() => this.download(data, filename, bom)}
             className={className}
             style={style}
           >
