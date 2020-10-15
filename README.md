@@ -468,11 +468,11 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
-
 Latest version 3.9.0 (2020-10-15):
 
   * Add BOM byte to CSVDownloader
+
+Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
