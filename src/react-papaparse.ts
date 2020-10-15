@@ -1,6 +1,6 @@
 import PapaParse from 'papaparse';
 
-export const BAD_DELIMITERS = PapaParse.BAD_DELIMETERS;
+export const BAD_DELIMITERS = PapaParse.BAD_DELIMITERS;
 export const RECORD_SEP = PapaParse.RECORD_SEP;
 export const UNIT_SEP = PapaParse.UNIT_SEP;
 export const WORKERS_SUPPORTED = PapaParse.WORKERS_SUPPORTED;
