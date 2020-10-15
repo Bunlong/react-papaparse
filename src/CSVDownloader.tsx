@@ -17,13 +17,14 @@ export default class CSVDownloader extends React.Component<Props> {
   };
 
   download = (data: any, filename: string, bom: boolean) => {
-    const bomCode = bom !== false ? '\ufeff' : '';
+    const bomCode = bom ? '\ufeff' : '';
     let csvContent = null;
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data);
     } else {
       csvContent = data;
     }
+
     const encodedDataUrl = encodeURI(
       `data:text/csv;charset=utf8,${bomCode}${csvContent}`,
     );

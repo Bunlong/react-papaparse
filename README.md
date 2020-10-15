@@ -301,7 +301,7 @@ export default class CSVReader extends Component {
 
 ### 🎀 CSVDownloader
 
-If you want to open your CSV-file in Excel, you might want to set `bom={true}`, default is `false`. This option adds the so called BOM byte `'\ufeff'` to the beginning of your CSV-file and tells Excel that the encoding is UTF8.
+If you want to open your CSV-file in Excel, you might want to set `bom={true}` or `bom`, default is `false`. This option adds the so called BOM byte `'\ufeff'` to the beginning of your CSV-file and tells Excel that the encoding is UTF8.
 
 #### Button
 
@@ -342,7 +342,7 @@ export default class CSVDownloader extends Component {
         ]}
         type="button"
         filename={'filename'}
-        bom={false}
+        bom={true}
       >
         Download
       </CSVDownloader>
@@ -369,7 +369,6 @@ export default class CSVDownloader extends Component {
 4,5,6,7`}
         filename={'filename'}
         type={'link'}
-        bom={false}
       >
         Download
       </CSVDownloader>
