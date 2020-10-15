@@ -1,3 +1,14 @@
+## 3.9.0 (2020-10-15)
+
+#### ✨ Enhancement
+
+* Add BOM byte to CSVDownloader
+
+Credits
+
+* [Karl](https://github.com/karland)
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.8.0 (2020-09-06)
 
 #### ✨ Enhancement
