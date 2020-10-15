@@ -643,6 +643,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/karland">
+        <img src="https://avatars1.githubusercontent.com/u/4803370?s=400&u=506eec3afe53f1d938a2402d25bc172424b875c4&v=4" width="100" alt="Karl" />
+        <br />
+        <sub>
+          <b>Karl</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 

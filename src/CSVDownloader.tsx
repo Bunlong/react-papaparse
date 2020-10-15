@@ -24,7 +24,6 @@ export default class CSVDownloader extends React.Component<Props> {
     } else {
       csvContent = data;
     }
-
     const encodedDataUrl = encodeURI(
       `data:text/csv;charset=utf8,${bomCode}${csvContent}`,
     );
