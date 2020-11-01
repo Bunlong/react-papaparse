@@ -655,6 +655,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/MaxAst">
+        <img src="https://avatars2.githubusercontent.com/u/13224092?s=400&u=c4a728e34f4ce465df4ad0989676acef7eb3faff&v=4" width="100" alt="Max" />
+        <br />
+        <sub>
+          <b>Max</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
