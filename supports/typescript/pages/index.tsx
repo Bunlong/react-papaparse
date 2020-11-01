@@ -432,6 +432,7 @@
 
 import React, { useState } from 'react'
 import { CSVReader, CSVDownloader } from 'react-papaparse'
+import libphonenumbers from 'libphonenumbers'
 
 const Index = () => {
   const [isReset, setIsReset] = useState<boolean>(false);
@@ -460,6 +461,26 @@ const Index = () => {
     console.log(data)
     console.log('---------------------------')
   }
+
+  const AsYouTypeFormatter = libphonenumbers.AsYouTypeFormatter;
+  const formatter = new AsYouTypeFormatter('US');
+
+  console.log(formatter.inputDigit('2')); // => 2
+  console.log(formatter.inputDigit('0')); // => 20
+  console.log(formatter.inputDigit('2')); // => 202
+  console.log(formatter.inputDigit('-')); // => 202-
+  console.log(formatter.inputDigit('4')); // => 202-4
+  console.log(formatter.inputDigit('5')); // => 202-45
+  console.log(formatter.inputDigit('6')); // => 202-456
+  console.log(formatter.inputDigit('-')); // => 202-456-
+  console.log(formatter.inputDigit('2')); // => 202-456-2
+  console.log(formatter.inputDigit('1')); // => 202-456-21
+  console.log(formatter.inputDigit('2')); // => 202-456-212
+  console.log(formatter.inputDigit('1')); // => 202-456-2121
+
+  // Clear all input digits from instance
+  formatter.clear();
+  // 202-456-2121
 
   return (
     <>
