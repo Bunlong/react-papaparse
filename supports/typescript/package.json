@@ -11,7 +11,8 @@
     "isomorphic-unfetch": "3.0.0",
     "next": "^9.3.6",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-papaparse": "file:../../react-papaparse-3.10.0.tgz"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
