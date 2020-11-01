@@ -8,6 +8,10 @@ const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const REMOVE_ICON_DEFAULT_COLOR = '#A01919';
 const GREY_DIM = '#686868';
+// 'text/csv' for MacOS
+// '.csv' for Linux
+// 'application/vnd.ms-excel' for Window 10
+const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 const styles = {
   dropArea: {
@@ -95,6 +99,7 @@ interface Props {
   noProgressBar?: boolean;
   removeButtonColor?: string;
   isReset?: boolean;
+  accept?: string;
 }
 
 interface State {
@@ -452,6 +457,7 @@ export default class CSVReader extends React.Component<Props, State> {
       children,
       noProgressBar,
       progressBarColor,
+      accept,
     } = this.props;
     const {
       dropAreaCustom,
@@ -465,7 +471,7 @@ export default class CSVReader extends React.Component<Props, State> {
       <>
         <input
           type="file"
-          accept="text/csv"
+          accept={accept || DEFAULT_ACCEPT}
           ref={this.inputFileRef}
           style={styles.inputFile}
           onChange={(e) => this.fileChange(e)}
