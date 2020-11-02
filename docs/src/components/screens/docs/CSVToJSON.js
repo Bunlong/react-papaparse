@@ -67,6 +67,7 @@ const CSVToJSON = () => {
         </div>
         <div className='grid-50'>
           <ul>
+            <li><code>accept</code>is a property to be used to set MIME type for CSV.  Default is <code>'text/csv, .csv, application/vnd.ms-excel'</code>.</li>
             <li><code><a href='https://reactjs.org/docs/refs-and-the-dom.html' target='_blank'>ref</a></code> is a way to access/get files from <code>{'<input type="file">'}</code> element.</li>
             <li><code>onFileLoad</code> is the function to be called passing loaded results.</li>
             <li><code>onError</code> is error handling function.</li>
@@ -106,6 +107,7 @@ const CSVToJSON = () => {
         </div>
         <div className='grid-50'>
           <ul>
+            <li><code>accept</code>is a property to be used to set MIME type for CSV.  Default is <code>'text/csv, .csv, application/vnd.ms-excel'</code>.</li>
             <li><code>onDrop</code> is the function to be called passing loaded results.</li>
             <li><code>onError</code> is error handling function.</li>
             <li><code>isReset</code> If true, reset CSVReader.</li>
@@ -146,6 +148,7 @@ const CSVToJSON = () => {
         </div>
         <div className='grid-50'>
           <ul>
+            <li><code>accept</code>is a property to be used to set MIME type for CSV.  Default is <code>'text/csv, .csv, application/vnd.ms-excel'</code>.</li>
             <li><code>onDrop</code> is the function to be called passing loaded results.</li>
             <li><code>onError</code> is error handling function.</li>
             <li><code>isReset</code> If true, reset CSVReader.</li>
@@ -187,6 +190,7 @@ const CSVToJSON = () => {
         </div>
         <div className='grid-50'>
           <ul>
+            <li><code>accept</code>is a property to be used to set MIME type for CSV.  Default is <code>'text/csv, .csv, application/vnd.ms-excel'</code>.</li>
             <li><code>onDrop</code> is the function to be called passing loaded results.</li>
             <li><code>onError</code> is error handling function.</li>
             <li><code>isReset</code> If true, reset CSVReader.</li>
