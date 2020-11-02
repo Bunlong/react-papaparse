@@ -282,16 +282,6 @@ export default class CSVReader extends React.Component<Props, State> {
     const reader = new window.FileReader();
     let options = {};
 
-    if (config.error) {
-      delete config.error;
-    }
-    if (config.step) {
-      delete config.step;
-    }
-    if (config.complete) {
-      delete config.complete;
-    }
-
     const size = file.size;
     const data: any = [];
     let percent = 0;
@@ -300,35 +290,40 @@ export default class CSVReader extends React.Component<Props, State> {
       const self = this;
       options = Object.assign(
         {
-          complete: () => {
-            if (!onDrop && onFileLoad) {
-              onFileLoad(data, file);
-            } else if (onDrop && !onFileLoad) {
-              onDrop(data, file);
-            }
-          },
-          step: (row: any) => {
-            data.push(row);
-            if (config && config.preview) {
-              percent = Math.round((data.length / config.preview) * 100);
-              self.setState({ progressBar: percent });
-              if (data.length === config.preview) {
-                if (!onDrop && onFileLoad) {
-                  onFileLoad(data, file);
-                } else if (onDrop && !onFileLoad) {
-                  onDrop(data, file);
+          complete:
+            config?.complete || config?.step
+              ? config.complete
+              : () => {
+                  if (!onDrop && onFileLoad) {
+                    onFileLoad(data, file);
+                  } else if (onDrop && !onFileLoad) {
+                    onDrop(data, file);
+                  }
+                },
+          step: config?.step
+            ? config.step
+            : (row: any) => {
+                data.push(row);
+                if (config && config.preview) {
+                  percent = Math.round((data.length / config.preview) * 100);
+                  self.setState({ progressBar: percent });
+                  if (data.length === config.preview) {
+                    if (!onDrop && onFileLoad) {
+                      onFileLoad(data, file);
+                    } else if (onDrop && !onFileLoad) {
+                      onDrop(data, file);
+                    }
+                  }
+                } else {
+                  const progress = row.meta.cursor;
+                  const newPercent = Math.round((progress / size) * 100);
+                  if (newPercent === percent) {
+                    return;
+                  }
+                  percent = newPercent;
                 }
-              }
-            } else {
-              const progress = row.meta.cursor;
-              const newPercent = Math.round((progress / size) * 100);
-              if (newPercent === percent) {
-                return;
-              }
-              percent = newPercent;
-            }
-            self.setState({ progressBar: percent });
-          },
+                self.setState({ progressBar: percent });
+              },
         },
         options,
       );
