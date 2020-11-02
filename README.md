@@ -476,7 +476,7 @@ Details changes for each release are documented in the [CHANGELOG.md](https://gi
 
 ## 🛣️ Roadmap
 
-### 🆕 v3.10.x
+### 🆕 v3.11.x
 
   * Improve CSVDownloader
   * CSVReader multiple files drag and drop
