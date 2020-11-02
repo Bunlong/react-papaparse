@@ -1,3 +1,14 @@
+## 3.10.0 (2020-11-02)
+
+#### ✨ Enhancement
+
+* Add accept props to CSVReader
+
+Credits
+
+* [Toantt28](https://github.com/toantt28)
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.9.0 (2020-10-15)
 
 #### ✨ Enhancement
