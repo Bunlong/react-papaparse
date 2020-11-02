@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse",
-  "version": "3.9.0",
+  "version": "3.10.0",
   "description": "The fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, CSVDownloader, readString, jsonToCSV, readRemoteFile, ... etc.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
@@ -69,6 +69,7 @@
     "build": "rollup -c",
     "prettier": "prettier --write './src/*.ts' './src/*.tsx' --config ./.prettierrc",
     "lint:check": "eslint ./src --ext .tsx,.ts --report-unused-disable-directives",
+    "bundlesize": "npm run build && bundlesize",
     "dev": "rollup -c -w",
     "prepare": "npm run build",
     "predeploy": "cd docs && npm install && npm run build",
@@ -86,6 +87,7 @@
     "@types/react-dom": "^16.9.7",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
+    "bundlesize": "^0.18.0",
     "eslint": "^7.0.0",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^4.0.0",
@@ -107,5 +109,15 @@
   "dependencies": {
     "@types/papaparse": "^5.0.4",
     "papaparse": "^5.2.0"
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/*.js",
+      "maxSize": "20 kB"
+    },
+    {
+      "path": "./dist/*.ts",
+      "maxSize": "660 B"
+    }
+  ]
 }
