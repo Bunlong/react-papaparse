@@ -477,14 +477,12 @@ Details changes for each release are documented in the [CHANGELOG.md](https://gi
 ## 🛣️ Roadmap
 
 ### 🆕 v3.12.x
-
   * Improve CSVDownloader
-  * CSVReader multiple files drag and drop
 
 ### 🆕 v4.0.x
-
   * Improve code performance
   * Rewrite any existing based components to hooks
+  * CSVReader multiple files drag and drop
 
 ## ❗ Issues
 
