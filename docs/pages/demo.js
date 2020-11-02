@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import dynamic from 'next/dynamic'
+import React, { Component } from 'react';
+import dynamic from 'next/dynamic';
 
 const DynamicComponentWithNoSSR = dynamic(
   () => import('../src/components/screens/Demo'),
-  { ssr: false }
-)
+  { ssr: false },
+);
 
 export default class Demo extends Component {
   render() {
@@ -12,6 +12,6 @@ export default class Demo extends Component {
       <>
         <DynamicComponentWithNoSSR />
       </>
-    )
+    );
   }
 }

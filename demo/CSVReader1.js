@@ -1,40 +1,40 @@
-import React, { Component } from 'react'
-import { CSVReader } from 'react-papaparse'
+import React, { Component } from 'react';
+import { CSVReader } from 'react-papaparse';
 
-const buttonRef = React.createRef()
+const buttonRef = React.createRef();
 
 export default class CSVReader1 extends Component {
   handleOpenDialog = (e) => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
-      buttonRef.current.open(e)
+      buttonRef.current.open(e);
     }
-  }
+  };
 
   handleOnFileLoad = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
+    console.log('---------------------------');
+    console.log(data);
+    console.log('---------------------------');
+  };
 
   handleOnError = (err, file, inputElem, reason) => {
-    console.log('---------------------------')
-    console.log(err)
-    console.log('---------------------------')
-  }
+    console.log('---------------------------');
+    console.log(err);
+    console.log('---------------------------');
+  };
 
   handleOnRemoveFile = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
+    console.log('---------------------------');
+    console.log(data);
+    console.log('---------------------------');
+  };
 
   handleRemoveFile = (e) => {
     // Note that the ref is set async, so it might be null at some point
     if (buttonRef.current) {
-      buttonRef.current.removeFile(e)
+      buttonRef.current.removeFile(e);
     }
-  }
+  };
 
   render() {
     return (
@@ -53,11 +53,11 @@ export default class CSVReader1 extends Component {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                marginBottom: 10
+                marginBottom: 10,
               }}
             >
               <button
-                type='button'
+                type="button"
                 onClick={this.handleOpenDialog}
                 style={{
                   borderRadius: 0,
@@ -65,7 +65,7 @@ export default class CSVReader1 extends Component {
                   marginRight: 0,
                   width: '40%',
                   paddingLeft: 0,
-                  paddingRight: 0
+                  paddingRight: 0,
                 }}
               >
                 Browse file
@@ -81,7 +81,7 @@ export default class CSVReader1 extends Component {
                   marginBottom: 5,
                   paddingLeft: 13,
                   paddingTop: 3,
-                  width: '60%'
+                  width: '60%',
                 }}
               >
                 {file && file.name}
@@ -92,7 +92,7 @@ export default class CSVReader1 extends Component {
                   marginLeft: 0,
                   marginRight: 0,
                   paddingLeft: 20,
-                  paddingRight: 20
+                  paddingRight: 20,
                 }}
                 onClick={this.handleRemoveFile}
               >
@@ -102,6 +102,6 @@ export default class CSVReader1 extends Component {
           )}
         </CSVReader>
       </>
-    )
+    );
   }
 }

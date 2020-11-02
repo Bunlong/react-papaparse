@@ -67,7 +67,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "build": "rollup -c",
-    "prettier": "prettier --write './src/*.ts' './src/*.tsx' --config ./.prettierrc",
+    "prettier": "prettier --write './src/*.ts' './src/*.tsx' './demo/*js' --config ./.prettierrc",
     "lint:check": "eslint ./src --ext .tsx,.ts --report-unused-disable-directives",
     "bundlesize": "npm run build && bundlesize",
     "dev": "rollup -c -w",

@@ -1,32 +1,37 @@
-import React from 'react'
+import React from 'react';
 
 const Welcome = () => {
   return (
-    <div id='skrollr-body'>
+    <div id="skrollr-body">
       <div
-        id='top'
-        data-top='bottom: 0px; opacity: 1;'
-        data-top-bottom='bottom: -350px; opacity: .3;'
+        id="top"
+        data-top="bottom: 0px; opacity: 1;"
+        data-top-bottom="bottom: -350px; opacity: .3;"
       >
-        <div className='grid-container'>
-          <div className='grid-100'>
-            <div id='title-main'>
+        <div className="grid-container">
+          <div className="grid-100">
+            <div id="title-main">
               <h1>react-papaparse</h1>
-              <h2>The powerful, in-browser React CSV parser for big boys and girls</h2>
+              <h2>
+                The powerful, in-browser React CSV parser for big boys and girls
+              </h2>
 
-              <a href='#download' className='button'>
-                <i className='fa fa-download' />&nbsp; Install
+              <a href="#download" className="button">
+                <i className="fa fa-download" />
+                &nbsp; Install
               </a>
-              <a href='/demo' className='button red'>
-                <i className='fa fa-magic' />&nbsp; Demo
+              <a href="/demo" className="button red">
+                <i className="fa fa-magic" />
+                &nbsp; Demo
               </a>
-              <a href='/docs' className='button gray'>
-                <i className='fa fa-book' />&nbsp; Documentation
+              <a href="/docs" className="button gray">
+                <i className="fa fa-book" />
+                &nbsp; Documentation
               </a>
             </div>
-            <div id='title-code'>
+            <div id="title-code">
               <pre>
-                <code className='language-javascript'>
+                <code className="language-javascript">
                   {`// Parse CSV string
 const data = readString(csvString)
 
@@ -58,7 +63,7 @@ readRemoteFile(bigFileURL, {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Welcome
+export default Welcome;

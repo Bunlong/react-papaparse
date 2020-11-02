@@ -1,32 +1,46 @@
-import React from 'react'
+import React from 'react';
 
 const LocalFile = () => {
   return (
-    <section id='local-files'>
-      <div className='grid-container narrow-grid'>
-        <div className='grid-100'>
+    <section id="local-files">
+      <div className="grid-container narrow-grid">
+        <div className="grid-100">
           <h4>Local Files</h4>
-          <h5>"Great, but I have a <i>file</i> to parse."</h5>
-          <p>Then use CSVReader component instead of readString method. Since file parsing is asynchronous, don't forget callback methods.</p>
+          <h5>
+            "Great, but I have a <i>file</i> to parse."
+          </h5>
+          <p>
+            Then use CSVReader component instead of readString method. Since
+            file parsing is asynchronous, don't forget callback methods.
+          </p>
 
           <div
-            id='drag-no-click-upload'
+            id="drag-no-click-upload"
             style={{ fontSize: 20, marginTop: 10 }}
           >
             Basic Upload
           </div>
-          <div style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}>
+          <div
+            style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}
+          >
             <img
-              src='/static/images/csvreader1.png'
-              alt='Basic Upload'
+              src="/static/images/csvreader1.png"
+              alt="Basic Upload"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
-            <a href='/docs#basic-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginBottom: 14,
+            }}
+          >
+            <a href="/docs#basic-upload">Properties</a>&nbsp; | &nbsp;
+            <a href="/demo">Demo</a>
           </div>
           <pre>
-            <code className='language-javascript'>
+            <code className="language-javascript">
               {`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
@@ -134,23 +148,32 @@ export default class CSVReader extends Component {
           </pre>
 
           <div
-            id='drag-no-click-upload'
+            id="drag-no-click-upload"
             style={{ fontSize: 20, marginTop: 35 }}
           >
             Click and Drag Upload
           </div>
-          <div style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}>
+          <div
+            style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}
+          >
             <img
-              src='/static/images/csvreader2.png'
-              alt='Click and Drag Upload'
+              src="/static/images/csvreader2.png"
+              alt="Click and Drag Upload"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
-            <a href='/docs#click-and-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginBottom: 14,
+            }}
+          >
+            <a href="/docs#click-and-drag-upload">Properties</a>&nbsp; | &nbsp;
+            <a href="/demo">Demo</a>
           </div>
           <pre>
-            <code className='language-javascript'>
+            <code className="language-javascript">
               {`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
@@ -190,23 +213,32 @@ export default class CSVReader extends Component {
           </pre>
 
           <div
-            id='drag-no-click-upload'
+            id="drag-no-click-upload"
             style={{ fontSize: 20, marginTop: 35 }}
           >
             Drag ( No Click ) Upload
           </div>
-          <div style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}>
+          <div
+            style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}
+          >
             <img
-              src='/static/images/csvreader3.png'
-              alt='Drag ( No Click ) Upload'
+              src="/static/images/csvreader3.png"
+              alt="Drag ( No Click ) Upload"
               style={{ maxWidth: '100%', height: 'auto' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
-            <a href='/docs#drag-no-click-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginBottom: 14,
+            }}
+          >
+            <a href="/docs#drag-no-click-upload">Properties</a>&nbsp; | &nbsp;
+            <a href="/demo">Demo</a>
           </div>
           <pre>
-            <code className='language-javascript'>
+            <code className="language-javascript">
               {`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
@@ -246,23 +278,32 @@ export default class CSVReader extends Component {
           </pre>
 
           <div
-            id='drag-no-click-upload'
+            id="drag-no-click-upload"
             style={{ fontSize: 20, marginTop: 35 }}
           >
             Click ( No Drag ) Upload
           </div>
-          <div style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}>
+          <div
+            style={{ textAlign: 'center', paddingTop: 50, paddingBottom: 50 }}
+          >
             <img
-              src='/static/images/csvreader4.png'
-              alt='Click ( No Drag ) Upload'
+              src="/static/images/csvreader4.png"
+              alt="Click ( No Drag ) Upload"
               style={{ maxWidth: '100%', height: 'auto ' }}
             />
           </div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 14 }}>
-            <a href='/docs#click-no-drag-upload'>Properties</a>&nbsp; | &nbsp;<a href='/demo'>Demo</a>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginBottom: 14,
+            }}
+          >
+            <a href="/docs#click-no-drag-upload">Properties</a>&nbsp; | &nbsp;
+            <a href="/demo">Demo</a>
           </div>
           <pre>
-            <code className='language-javascript'>
+            <code className="language-javascript">
               {`import React, { Component } from 'react'
 
 import { CSVReader } from 'react-papaparse'
@@ -303,7 +344,7 @@ export default class CSVReader extends Component {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default LocalFile
+export default LocalFile;

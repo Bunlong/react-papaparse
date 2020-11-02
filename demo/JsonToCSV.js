@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { jsonToCSV } from 'react-papaparse'
+import React, { Component } from 'react';
+import { jsonToCSV } from 'react-papaparse';
 
 export default class JsonToCSV extends Component {
   handleClick = () => {
@@ -28,18 +28,16 @@ export default class JsonToCSV extends Component {
     "Column 3": 6,
     "Column 4": 7
   }
-]`
+]`;
 
-    const results = jsonToCSV(jsonData)
+    const results = jsonToCSV(jsonData);
 
-    console.log('---------------------------')
-    console.log(results)
-    console.log('---------------------------')
-  }
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+  };
 
   render() {
-    return (
-      <button onClick={this.handleClick}>jsonToCSV</button>
-    )
+    return <button onClick={this.handleClick}>jsonToCSV</button>;
   }
 }

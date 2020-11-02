@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { CSVDownloader } from 'react-papaparse'
+import React, { Component } from 'react';
+import { CSVDownloader } from 'react-papaparse';
 
 export default class CSVDownloader2 extends Component {
   render() {
@@ -15,6 +15,6 @@ export default class CSVDownloader2 extends Component {
       >
         Download
       </CSVDownloader>
-    )
+    );
   }
 }

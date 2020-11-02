@@ -1,9 +1,10 @@
 {
   "name": "react-papaparse-docs",
-  "version": "3.10.0",
+  "version": "3.11.0",
   "description": "react-papaparse docs.",
   "main": "index.js",
   "scripts": {
+    "prettier": "prettier --write './pages/*.js' './src/*/*/*.js' './src/*/*/*/*.js' --config ../.prettierrc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "next",
     "build": "next build && next export",
@@ -19,5 +20,8 @@
     "react-dom": "^16.12.0",
     "react-papaparse": "^3.10.0",
     "react-tabs": "^3.1.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.1.2"
   }
 }
