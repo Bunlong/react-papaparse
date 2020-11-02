@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse-docs",
-  "version": "3.8.0",
+  "version": "3.10.0",
   "description": "react-papaparse docs.",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
   },
   "keywords": [],
   "author": "Bunlong <bunlong.van@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "next": "^9.2.0",
     "raw-loader": "^4.0.0",
