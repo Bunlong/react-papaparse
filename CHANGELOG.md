@@ -1,3 +1,13 @@
+## 3.11.0 (2020-11-03)
+
+#### ✨ Enhancement
+
+* Enable to stream or chunk with CSVReader
+
+Credits
+
+* [Max](https://github.com/MaxAst)
+
 ## 3.10.0 (2020-11-02)
 
 #### ✨ Enhancement

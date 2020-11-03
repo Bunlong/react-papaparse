@@ -468,9 +468,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.10.0 (2020-11-02):
+Latest version 3.11.0 (2020-11-03):
 
-  * Add accept props to CSVReader
+  * Enable to stream or chunk with CSVReader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
