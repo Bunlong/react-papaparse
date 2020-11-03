@@ -332,6 +332,7 @@ export default class CSVReader extends React.Component<Props, State> {
     if (onError) {
       options = Object.assign({ error: onError }, options);
     }
+
     if (config) {
       options = Object.assign(config, options);
     }
