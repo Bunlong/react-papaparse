@@ -662,6 +662,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/kapekost">
+        <img src="https://avatars1.githubusercontent.com/u/5909422?s=400&u=da9aa28b557b80144cc46241dd56220dcc41cff3&v=4" width="100" alt="Kostas" />
+        <br />
+        <sub>
+          <b>Kostas</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
