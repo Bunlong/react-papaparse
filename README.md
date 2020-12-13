@@ -672,6 +672,17 @@ How to contribute:
       </a>
     </td>
   </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Dalitzky">
+        <img src="https://avatars0.githubusercontent.com/u/12782201?s=400&v=4" width="100" alt="Dalitzky" />
+        <br />
+        <sub>
+          <b>Dalitzky</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
 </table>
 
 ## 👨‍👩‍👦 Family
