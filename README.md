@@ -468,7 +468,7 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.11.1 (2020-12-14).
+Latest version 3.11.1 (2020-12-14):
 
   * Prevent config prop mutation
 
