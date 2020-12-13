@@ -1,3 +1,13 @@
+## 3.11.1 (2020-12-14)
+
+#### ✨ Enhancement
+
+* Prevent config prop mutation
+
+Credits
+
+* [Dalitzky](https://github.com/Dalitzky)
+
 ## 3.11.0 (2020-11-03)
 
 #### ✨ Enhancement
