@@ -691,6 +691,7 @@ You maybe interested.
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
 * [React Patterns Blog](https://reactpatterns.js.org/blog) – The latest React news and articles.
+* [react-hook-reading-time](https://github.com/Bunlong/react-hook-reading-time) – Medium's like reading time estimation for React.
 
 <!-- * [next-share](https://github.com/next-boilerplate/next-share) – The social share buttons plugin for Next.js, Gatsby.js, Create React App as well as React apps.
 * [react-fullscreen-html](https://github.com/Bunlong/react-fullscreen-html) – The React component allows its children to enter the browser's fullscreen viewing mode using the Fullscreen HTML5.
