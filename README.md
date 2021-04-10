@@ -468,16 +468,13 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.11.1 (2020-12-14):
+Latest version 3.12.0 (2021-04-10):
 
-  * Prevent config prop mutation
+  * Improve CSVDownloader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
-
-### 🆕 v3.12.x
-  * Improve CSVDownloader
 
 ### 🆕 v4.0.x
   * Improve code performance
