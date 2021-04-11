@@ -1,11 +1,14 @@
 import React from 'react';
 import PapaParse from 'papaparse';
 
-interface Props {
-  children: any;
+export const LINK_TYPE = 'link';
+export const BUTTON_TYPE = 'button';
+
+export interface Props {
+  children: React.ReactNode;
   data: any;
   filename: string;
-  type?: string;
+  type?: 'link' | 'button';
   style?: any;
   className?: string;
   bom?: boolean;
@@ -13,12 +16,13 @@ interface Props {
 
 export default class CSVDownloader extends React.Component<Props> {
   static defaultProps: Partial<Props> = {
-    type: 'link',
+    type: LINK_TYPE,
   };
 
-  download = (data: any, filename: string, bom: boolean) => {
+  download = (data: any, filename: string, bom: boolean): void => {
     const bomCode = bom ? '\ufeff' : '';
     let csvContent = null;
+
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data);
     } else {
@@ -28,15 +32,15 @@ export default class CSVDownloader extends React.Component<Props> {
     const encodedDataUrl = encodeURI(
       `data:text/csv;charset=utf8,${bomCode}${csvContent}`,
     );
-
     const link = document.createElement('a');
+
     link.setAttribute('href', encodedDataUrl);
     link.setAttribute('download', `${filename}.csv`);
     link.click();
     link.remove();
   };
 
-  render() {
+  render(): React.ReactNode {
     const {
       children,
       data,
@@ -47,26 +51,26 @@ export default class CSVDownloader extends React.Component<Props> {
       bom = false,
     } = this.props;
 
+    if (type === LINK_TYPE) {
+      return (
+        <a
+          onClick={() => this.download(data, filename, bom)}
+          className={className}
+          style={style}
+        >
+          {children}
+        </a>
+      );
+    }
+
     return (
-      <>
-        {type === 'link' ? (
-          <a
-            onClick={() => this.download(data, filename, bom)}
-            className={className}
-            style={style}
-          >
-            {children}
-          </a>
-        ) : (
-          <button
-            onClick={() => this.download(data, filename, bom)}
-            className={className}
-            style={style}
-          >
-            {children}
-          </button>
-        )}
-      </>
+      <button
+        onClick={() => this.download(data, filename, bom)}
+        className={className}
+        style={style}
+      >
+        {children}
+      </button>
     );
   }
 }

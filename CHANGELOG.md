@@ -1,3 +1,13 @@
+## 3.12.0 (2020-04-10)
+
+#### ✨ Enhancement
+
+* Improve CSVDownloader
+
+Credits
+
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.11.1 (2020-12-14)
 
 #### ✨ Enhancement
