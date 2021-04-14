@@ -468,9 +468,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.12.0 (2021-04-10):
+Latest version 3.12.1 (2021-04-15):
 
-  * Improve CSVDownloader
+  * Fix downloading special characters data in CSVDownloader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
