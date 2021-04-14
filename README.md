@@ -679,6 +679,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/jqrtr">
+        <img src="https://avatars.githubusercontent.com/u/54841915?s=400&v=4" width="100" alt="John Quinlivan" />
+        <br />
+        <sub>
+          <b>John Quinlivan</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
