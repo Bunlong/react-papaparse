@@ -1,4 +1,15 @@
-## 3.12.0 (2020-04-10)
+## 3.12.1 (2021-04-15)
+
+#### ✨ Bug
+
+* Fix downloading special characters data in CSVDownloader
+
+Credits
+
+* John Quinlivan [@jqrtr](https://github.com/jqrtr)
+* [Bunlong](https://github.com/Bunlong)
+
+## 3.12.0 (2021-04-10)
 
 #### ✨ Enhancement
 
