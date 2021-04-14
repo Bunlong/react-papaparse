@@ -19,22 +19,30 @@ export default class CSVDownloader extends React.Component<Props> {
     type: LINK_TYPE,
   };
 
+  // https://github.com/mholt/PapaParse/issues/175
   download = (data: any, filename: string, bom: boolean): void => {
     const bomCode = bom ? '\ufeff' : '';
-    let csvContent = null;
 
+    let csvContent = null;
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data);
     } else {
       csvContent = data;
     }
 
-    const encodedDataUrl = encodeURI(
-      `data:text/csv;charset=utf8,${bomCode}${csvContent}`,
-    );
-    const link = document.createElement('a');
+    const csvData = new Blob([`${bomCode}${csvContent}`], {
+      type: 'text/csv;charset=utf-8;',
+    });
 
-    link.setAttribute('href', encodedDataUrl);
+    let csvURL = null;
+    if (navigator.msSaveBlob) {
+      csvURL = navigator.msSaveBlob(csvData, `${filename}.csv`);
+    } else {
+      csvURL = window.URL.createObjectURL(csvData);
+    }
+
+    const link = document.createElement('a');
+    link.href = csvURL as string;
     link.setAttribute('download', `${filename}.csv`);
     link.click();
     link.remove();
