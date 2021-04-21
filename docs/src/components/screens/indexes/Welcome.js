@@ -49,6 +49,18 @@ const csv = jsonToCSV(jsonData)
   <span>Click to upload.</span>
 </CSVReader>
 
+// Allow download CSV file from js object
+<CSVDownloader
+  data={[
+    {
+      "Column 1": "1-1",
+    },
+  ]}
+  filename={'filename'}
+>
+  Download
+</CSVDownloader>
+
 // Stream big file in worker thread
 readRemoteFile(bigFileURL, {
   worker: true,

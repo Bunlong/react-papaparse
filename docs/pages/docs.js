@@ -7,6 +7,7 @@ import JSONToCSV from '../src/components/screens/docs/JSONToCSV';
 import Config from '../src/components/screens/docs/Config';
 import Result from '../src/components/screens/docs/Result';
 import Extra from '../src/components/screens/docs/Extra';
+import CSVDownloader from '../src/components/screens/docs/CSVDownloader';
 
 const Docs = () => {
   return (
@@ -19,6 +20,7 @@ const Docs = () => {
         <Config />
         <Result />
         <Extra />
+        <CSVDownloader />
       </main>
     </main>
   );

@@ -44,6 +44,9 @@ const Documentation = () => {
             <li>
               <a href="#extras">Extras</a>
             </li>
+            <li>
+              <a href="#csv-downloader">CSVDownloader</a>
+            </li>
           </ol>
         </div>
       </div>
