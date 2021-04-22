@@ -38,7 +38,7 @@ const CSVDownloader = () => {
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVDownloader1.js">
               Source code
             </a>
           </span>
@@ -46,10 +46,10 @@ const CSVDownloader = () => {
         <div className="grid-50">
           <ul>
             <li>
-              <code>data</code> is Downloaded data.
+              <code>bom</code> is used to indicate Unicode encoding of a text file. If true, indicate Unicode encoding of a text file.
             </li>
             <li>
-              <code>bom</code> Activate or deactivate bom mode.
+              <code>type</code> If "button", render button.
             </li>
           </ul>
         </div>
