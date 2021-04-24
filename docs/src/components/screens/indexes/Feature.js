@@ -71,11 +71,11 @@ const Feature = () => {
           <li>
             Skip <a href="#comments">commented lines</a>
           </li>
-          <li>Fast mode</li>
+          <li>Fast mode and easy to use</li>
           <li>
             Graceful <a href="#errors">error</a> handling
           </li>
-          <li>Easy to use</li>
+          <li><a href="/docs#csv-downloader">CSVDownloader</a></li>
         </div>
         <div className="clear" />
         <br />

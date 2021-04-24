@@ -143,37 +143,13 @@ class CustomApp extends App {
               <div className="grid-15 mobile-grid-50 links">
                 <h5>Project</h5>
                 <a
-                  href="https://github.com/Bunlong/react-papaparse"
+                  href="https://github.com/Bunlong/react-native-csv"
                   target="_blank"
                 >
-                  react-papaparse
-                </a>
-                <a
-                  href="https://github.com/Bunlong/libphonenumbers"
-                  target="_blank"
-                >
-                  libphonenumbers
+                  react-native-csv
                 </a>
                 <a href="https://github.com/Bunlong/next-share" target="_blank">
                   next-share
-                </a>
-                <a
-                  href="https://github.com/Bunlong/react-webspeech"
-                  target="_blank"
-                >
-                  react-webspeech
-                </a>
-                <a
-                  href="https://github.com/Bunlong/react-barcodes"
-                  target="_blank"
-                >
-                  react-barcodes
-                </a>
-                <a
-                  href="https://github.com/Bunlong/react-qrcodes"
-                  target="_blank"
-                >
-                  react-qrcodes
                 </a>
               </div>
             </div>
