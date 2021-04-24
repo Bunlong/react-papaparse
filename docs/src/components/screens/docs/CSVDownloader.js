@@ -3,16 +3,15 @@ import React from 'react';
 
 const CSVDownloader = () => {
   return (
-    <section>
+    <section style={{ borderBottom: 0, paddingBottom: 0 }}>
       <div className="grid-container">
+        <div className="clear" />
         <div className="grid-100">
           <h4 id="csv-downloader">CSVDownloader</h4>
           <p>
             Allow download CSV file from js object.
           </p>
         </div>
-
-        <div className="clear" />
 
         <div className="grid-50">
           <pre>
@@ -53,8 +52,6 @@ const CSVDownloader = () => {
             </li>
           </ul>
         </div>
-
-        <div className="clear" />
       </div>
     </section>
   );

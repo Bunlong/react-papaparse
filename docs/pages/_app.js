@@ -131,7 +131,7 @@ class CustomApp extends App {
                 react-papaparse by{' '}
                 <a href="https://github.com/bunlong">Bunlong</a>
                 <br />
-                &copy; 2018-2020
+                &copy; 2018-2021
               </div>
 
               <div className="grid-15 mobile-grid-50 links">

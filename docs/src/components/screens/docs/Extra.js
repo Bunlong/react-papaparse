@@ -2,7 +2,7 @@ import React from 'react';
 
 const Extra = () => {
   return (
-    <section style={{ borderBottom: 0, paddingBottom: 0 }}>
+    <section>
       <div className="grid-container">
         <div className="grid-100">
           <h4 id="extras">Extras</h4>
@@ -94,7 +94,6 @@ const Extra = () => {
             </tbody>
           </table>
         </div>
-        <div className="clear" />
       </div>
     </section>
   );
