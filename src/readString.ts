@@ -1,5 +1,5 @@
-import PapaParse from 'papaparse';
+import PapaParse, { ParseConfig } from 'papaparse';
 
-export function readString(str: string, options = {}) {
+export function readString<T>(str: string, options: ParseConfig<T> = {}) {
   return PapaParse.parse(str, options);
 }

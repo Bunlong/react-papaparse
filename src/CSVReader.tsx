@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import PapaParse from 'papaparse';
+import PapaParse, { ParseConfig, ParseResult } from 'papaparse';
 import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
@@ -84,18 +84,18 @@ const styles = {
   } as CSSProperties,
 };
 
-interface Props {
+interface Props<T> {
   children: any;
-  onDrop?: (data: any, file?: any) => void;
-  onFileLoad?: (data: any, file?: any) => void;
+  onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
+  onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: any;
+  config?: ParseConfig<T>;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;
   progressBarColor?: string;
   addRemoveButton?: boolean;
-  onRemoveFile?: (data: any) => void;
+  onRemoveFile?: (data: null) => void;
   noProgressBar?: boolean;
   removeButtonColor?: string;
   isReset?: boolean;
@@ -113,8 +113,8 @@ interface State {
   isCanceled: boolean;
 }
 
-export default class CSVReader extends React.Component<Props, State> {
-  static defaultProps: Partial<Props> = {
+export default class CSVReader<T = any> extends React.Component<Props<T>, State> {
+  static defaultProps: Partial<Props<unknown>> = {
     isReset: false,
   };
 
