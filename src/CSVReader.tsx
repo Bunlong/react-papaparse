@@ -113,7 +113,10 @@ interface State {
   isCanceled: boolean;
 }
 
-export default class CSVReader<T = any> extends React.Component<Props<T>, State> {
+export default class CSVReader<T = any> extends React.Component<
+  Props<T>,
+  State
+> {
   static defaultProps: Partial<Props<unknown>> = {
     isReset: false,
   };

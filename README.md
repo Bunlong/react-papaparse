@@ -36,7 +36,7 @@ npm install react-papaparse --save
 react-papaparse is available on yarn as well. It can be installed with the following command:
 
 ```
-yarn add react-papaparse
+yarn add react-papaparse --save
 ```
 
 ## 📖 Demo & Documentation
@@ -470,9 +470,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.12.1 (2021-04-15):
+Latest version 3.14.0 (2021-04-27):
 
-  * Fix downloading special characters data in CSVDownloader
+  * Improve types
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 

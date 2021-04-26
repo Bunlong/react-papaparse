@@ -1,3 +1,14 @@
+## 3.14.0 (2021-04-27)
+
+#### ✨ Improvment
+
+* Improve types
+
+Credits
+
+* Gareth Jones [@G-Rath](https://github.com/G-Rath)
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.12.1 (2021-04-15)
 
 #### ✨ Bug
