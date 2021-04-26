@@ -500,7 +500,7 @@ How to contribute:
 - Spread the word
 - Reach out with any feedback
 
-## ✨ Contributors
+## 🏆 Contributors
 
 <table>
   <tr>
