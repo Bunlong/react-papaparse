@@ -690,6 +690,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/G-Rath">
+        <img src="https://avatars.githubusercontent.com/u/3151613?v=4" width="100" alt="Gareth Jones" />
+        <br />
+        <sub>
+          <b>Gareth Jones</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
