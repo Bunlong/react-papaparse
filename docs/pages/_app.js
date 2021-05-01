@@ -40,6 +40,13 @@ class CustomApp extends App {
           <link rel="apple-touch-icon" href="" />
           <link rel="shortcut icon" type="image/x-icon" href="" />
 
+          {/* ====== SEO ======= */}
+          <meta name="description" content="The fastest in-browser CSV (or delimited text) parser for React." />
+          <meta name="keywords" content="React Papaparse, CSVReader, CSVDownloader, readString, readRemoteFile , jsonToCSV, React CSV, Papaparse, CSV, React Native CSV" />
+          <meta name="author" content="Bunlong Van" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          {/* ================== */}
+
           <link
             rel="stylesheet"
             href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"
