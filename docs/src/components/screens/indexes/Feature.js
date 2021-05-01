@@ -75,7 +75,9 @@ const Feature = () => {
           <li>
             Graceful <a href="#errors">error</a> handling
           </li>
-          <li><a href="/docs#csv-downloader">CSVDownloader</a></li>
+          <li>
+            <a href="#csv-downloader">CSVDownloader</a>
+          </li>
         </div>
         <div className="clear" />
         <br />

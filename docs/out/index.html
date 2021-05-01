@@ -1,0 +1,307 @@
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><title> react-papaparse - Powerful CSV Parser for React</title><link rel="shortcut icon" type="image/x-icon" href=""/><meta name="theme-color" content="#ffffff"/><meta name="apple-mobile-web-app-capable" content="yes"/><meta name="apple-mobile-web-app-status-bar-style" content="black"/><meta name="apple-mobile-web-app-title" content="react-papaparse"/><link rel="apple-touch-icon" href=""/><link rel="shortcut icon" type="image/x-icon" href=""/><meta name="description" content="The fastest in-browser CSV (or delimited text) parser for React."/><meta name="keywords" content="React Papaparse, CSVReader, CSVDownloader, readString, readRemoteFile , jsonToCSV, React CSV, Papaparse, CSV, React Native CSV"/><meta name="author" content="Bunlong Van"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css"/><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Arvo|Source+Sans+Pro:400,400italic,700|Lato:300,400"/><link rel="stylesheet" href="/static/css/unsemantic.css"/><link rel="stylesheet" href="/static/css/common.css"/><link rel="stylesheet" href="/static/css/prism.css"/><link rel="stylesheet" href="/static/css/home.css"/><meta property="og:url" content="https://react-papaparse.github.io"/><meta property="og:type" content="website"/><meta property="og:title" content="react-papaparse"/><meta property="og:description" content="The fastest in-browser CSV (or delimited text) parser for React."/><meta property="og:image" content="/static/images/react-papaparse.png"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:site" content="@bunlongvan"/><meta name="twitter:creator" content="@bunlongvan"/><meta name="twitter:title" content="react-papaparse"/><meta name="twitter:description" content="The fastest in-browser CSV (or delimited text) parser for React."/><meta name="twitter:image" content="https://react-papaparse.github.io/static/images/react-papaparse.png"/><link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon"/><link rel="icon" href="/static/favicon-32.png" sizes="32x32" type="image/png"/><link rel="apple-touch-icon-precomposed" href="/static/favicon-152.png" type="image/png" sizes="152x152"/><link rel="apple-touch-icon-precomposed" href="/static/favicon-120.png" type="image/png" sizes="120x120"/><link rel="icon" href="/static/favicon-96.png" sizes="96x96" type="image/png"/><meta name="next-head-count" content="35"/><link rel="preload" href="/_next/static/css/27175f2b038d3b1dd39d.css" as="style"/><link rel="stylesheet" href="/_next/static/css/27175f2b038d3b1dd39d.css" data-n-g=""/><noscript data-n-css=""></noscript><link rel="preload" href="/_next/static/chunks/webpack-e5c51115432d8e532323.js" as="script"/><link rel="preload" href="/_next/static/chunks/framework.8572055b4a1222f1b4b3.js" as="script"/><link rel="preload" href="/_next/static/chunks/f6078781a05fe1bcb0902d23dbbb2662c8d200b3.f5b644c0c8d92005bc3f.js" as="script"/><link rel="preload" href="/_next/static/chunks/main-54f090621c6d0af600d6.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/_app-7e18badb86a8e4edbbec.js" as="script"/><link rel="preload" href="/_next/static/chunks/pages/index-c8aed585647bacc7441a.js" as="script"/></head><body><div id="__next"><div><div><div id="skrollr-body"><div id="top" data-top="bottom: 0px; opacity: 1;" data-top-bottom="bottom: -350px; opacity: .3;"><div class="grid-container"><div class="grid-100"><div id="title-main"><h1>react-papaparse</h1><h2>The powerful, in-browser React CSV parser for big boys and girls</h2><a href="#download" class="button"><i class="fa fa-download"></i>  Install</a><a href="/demo" class="button red"><i class="fa fa-magic"></i>  Demo</a><a href="/docs" class="button gray"><i class="fa fa-book"></i>  Documentation</a></div><div id="title-code"><pre><code class="language-javascript">// Parse CSV string
+const data = readString(csvString)
+
+// Convert back to CSV
+const csv = jsonToCSV(jsonData)
+
+// Parse local CSV file
+&lt;CSVReader 
+  onDrop={this.handleOnDrop}
+  onError={this.handleOnError}
+  noDrag
+  addRemoveButton
+  onRemoveFile={this.handleOnRemoveFile}
+&gt;
+  &lt;span&gt;Click to upload.&lt;/span&gt;
+&lt;/CSVReader&gt;
+
+// Allow download CSV file from js object
+&lt;CSVDownloader
+  data={[
+    {
+      &quot;Column 1&quot;: &quot;1-1&quot;,
+    },
+  ]}
+  filename={&#x27;filename&#x27;}
+&gt;
+  Download
+&lt;/CSVDownloader&gt;
+
+// Stream big file in worker thread
+readRemoteFile(bigFileURL, {
+  worker: true,
+  step: (results) =&gt; {
+    console.log(&#x27;Row:&#x27;, results.data)
+  }
+})</code></pre></div></div></div></div></div><main><header><div class="grid-container"><div class="grid-40 mobile-grid-50"><div class="links"><a href="/demo"><i class="fa fa-magic fa-lg"></i> Demo</a><a href="/docs"><i class="fa fa-book fa-lg"></i> Docs</a></div></div><div class="grid-20 hide-on-mobile text-center"><a href="/" class="text-logo">react-papaparse 3</a></div><div class="grid-40 mobile-grid-50 text-right"><div class="links"><a href="https://github.com/Bunlong/react-papaparse"><i class="fa fa-github fa-lg"></i> GitHub</a></div></div></div></header><div class="insignia"><div class="firefox-hack"><div id="version-intro">Version</div><div id="version">3</div></div></div><section style="padding-top:0"><div class="grid-container"><div class="grid-100"><h3>Features</h3></div></div><div id="ticker"><div class="ticker-item current"><p>Now the fastest React CSV parser for the browser</p></div><div class="ticker-item"><p>The world&#x27;s first multi-threaded CSV parser for the browser</p></div><div class="ticker-item"><p>react-papaparse can handle files gigabytes in size without crashing</p></div><div class="ticker-item"><p>Use react-papaparse when performance, privacy, and correctness matter to you</p></div><div class="ticker-item"><p>react-papaparse alleviates privacy concerns related to uploading files</p></div><div class="ticker-item"><p>Malformed CSV is handled gracefully with a detailed error report</p></div></div><div class="grid-container"><div class="grid-33"><li>CSV→JSON and <a href="#unparse">JSON→CSV</a></li><li>Auto-detect <a href="#delimiter">delimiter</a></li><li><a href="#local-files">Open local files</a></li><li><a href="#remote-files">Download remote files</a></li></div><div class="grid-33"><li><a href="#stream">Stream</a> local and remote files</li><li><a href="#worker">Multi-threaded</a></li><li><a href="#header">Header row</a> support</li><li><a href="#type-conversion">Type conversion</a></li></div><div class="grid-33"><li>Skip <a href="#comments">commented lines</a></li><li>Fast mode and easy to use</li><li>Graceful <a href="#errors">error</a> handling</li><li><a href="#csv-downloader">CSVDownloader</a></li></div><div class="clear"></div><br/><br/><div class="grid-100 text-center"><a href="https://github.com/Bunlong/react-papaparse" class="button"><i class="fa fa-github"></i>  GitHub</a><a href="/docs" class="button gray"><i class="fa fa-book"></i>  Documentation</a></div></div></section><section><div class="grid-container narrow-grid"><div class="grid-100"><h3>Frameworks</h3><p>react-papaparse strongly support<!-- --> <a href="https://nextjs.org" target="blank">Next.js</a>,<!-- --> <a href="https://create-react-app.dev" target="blank">Create React App</a> <!-- -->and other React frameworks. react-papaparse is the fastest React CSV parser for the browser (only works in the browser), so you need to set the component with no SSR (server-side render)<!-- --> <b>in case you use <code>readRemoteFile</code> function</b>.</p><div><ul><li><a href="https://nextjs.org/docs/advanced-features/dynamic-import#with-no-ssr" target="blank">Next.js — component with no SSR</a></li></ul></div></div></div></section><section><div class="grid-container"><div class="grid-100 text-center"><h3>People <i class="fa fa-heart"></i> react-papaparse</h3><p><a href="https://www.npmjs.com/package/react-papaparse"><img src="https://img.shields.io/npm/dm/react-papaparse.svg" alt="react-papaparse"/></a></p></div></div></section><section id="parse"><div class="grid-container narrow-grid"><div class="grid-100"><h4>CSV Parsing</h4><h5>&quot;Isn&#x27;t parsing CSV just <code>String.split(&#x27;,&#x27;)</code>?&quot;</h5><p>react-papaparse does it right. Just pass in the CSV string with an optional <a href="/docs#config">configuration</a>.</p><pre><code class="language-javascript">import { readString } from &#x27;react-papaparse&#x27;
+
+const results = readString(csvString, config)
+
+/*
+results = {
+  data: [ ... ],    // parsed data
+  errors: [ ... ],  // errors encountered
+  meta: { ... }     // extra parse info
+}
+*/</code></pre></div></div></section><section id="delimiter"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Delimiter Detection</h4><h5>&quot;But I don&#x27;t know the delimiter...&quot;</h5><p>That&#x27;s okay. react-papaparse will scan the first few rows to find the right delimiter.</p><pre><code class="language-javascript">import { readString } from &#x27;react-papaparse&#x27;
+
+const results = readString(csvString)
+
+console.log(results.meta.delimiter)
+
+<span>/<!-- -->/<!-- --> &quot;<!-- -->\<!-- -->t&quot;</span></code></pre></div></div></section><section id="local-files"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Local Files</h4><h5>&quot;Great, but I have a <i>file</i> to parse.&quot;</h5><p>Then use CSVReader component instead of readString method. Since file parsing is asynchronous, don&#x27;t forget callback methods.</p><div id="drag-no-click-upload" style="font-size:20px;margin-top:10px">Basic Upload</div><div style="text-align:center;padding-top:50px;padding-bottom:50px"><img src="/static/images/csvreader1.png" alt="Basic Upload" style="max-width:100%;height:auto"/></div><div style="display:flex;justify-content:flex-end;margin-bottom:14px"><a href="/docs#basic-upload">Properties</a>  |  <a href="/demo">Demo</a></div><pre><code class="language-javascript">import React, { Component } from &#x27;react&#x27;
+
+import { CSVReader } from &#x27;react-papaparse&#x27;
+
+const buttonRef = React.createRef()
+
+export default class CSVReader extends Component {
+  handleOpenDialog = (e) =&gt; {
+    // Note that the ref is set async, so it might be null at some point 
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
+  }
+  
+  handleOnFileLoad = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  handleOnError = (err, file, inputElem, reason) =&gt; {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  handleRemoveFile = (e) =&gt; {
+    // Note that the ref is set async, so it might be null at some point
+    if (buttonRef.current) {
+      buttonRef.current.removeFile(e)
+    }
+  }
+
+  render() {
+    return (
+      &lt;CSVReader
+        ref={buttonRef}
+        onFileLoad={this.handleOnFileLoad}
+        onError={this.handleOnError}
+        noClick
+        noDrag
+        onRemoveFile={this.handleOnRemoveFile}
+      &gt;
+        {({ file }) =&gt; (
+          &lt;aside
+            style={{
+              display: &#x27;flex&#x27;,
+              flexDirection: &#x27;row&#x27;,
+              marginBottom: 10
+            }}
+          &gt;
+            &lt;button
+              type=&#x27;button&#x27;
+              onClick={this.handleOpenDialog}
+              style={{
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                width: &#x27;40%&#x27;,
+                paddingLeft: 0,
+                paddingRight: 0
+              }}
+            &gt;
+              Browe file
+            &lt;/button&gt;
+            &lt;div
+              style={{
+                borderWidth: 1,
+                borderStyle: &#x27;solid&#x27;,
+                borderColor: &#x27;#ccc&#x27;,
+                height: 45,
+                lineHeight: 2.5,
+                marginTop: 5,
+                marginBottom: 5,
+                paddingLeft: 13,
+                paddingTop: 3,
+                width: &#x27;60%&#x27;
+              }}
+            &gt;
+              {file &amp;&amp; file.name}
+            &lt;/div&gt;
+            &lt;button
+              style={{
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                paddingLeft: 20,
+                paddingRight: 20
+              }}
+              onClick={this.handleRemoveFile}
+            &gt;
+              Remove
+            &lt;/button&gt;
+          &lt;/aside&gt;
+        )}
+      &lt;/CSVReader&gt;
+    )
+  }
+}</code></pre><div id="drag-no-click-upload" style="font-size:20px;margin-top:35px">Click and Drag Upload</div><div style="text-align:center;padding-top:50px;padding-bottom:50px"><img src="/static/images/csvreader2.png" alt="Click and Drag Upload" style="max-width:100%;height:auto"/></div><div style="display:flex;justify-content:flex-end;margin-bottom:14px"><a href="/docs#click-and-drag-upload">Properties</a>  |  <a href="/demo">Demo</a></div><pre><code class="language-javascript">import React, { Component } from &#x27;react&#x27;
+
+import { CSVReader } from &#x27;react-papaparse&#x27;
+
+export default class CSVReader extends Component {
+  handleOnDrop = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  handleOnError = (err, file, inputElem, reason) =&gt; {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  render() {
+    return (
+      &lt;CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        addRemoveButton
+        onRemoveFile={this.handleOnRemoveFile}
+      &gt;
+        &lt;span&gt;Drop CSV file here or click to upload.&lt;/span&gt;
+      &lt;/CSVReader&gt;
+    )
+  }
+}
+</code></pre><div id="drag-no-click-upload" style="font-size:20px;margin-top:35px">Drag ( No Click ) Upload</div><div style="text-align:center;padding-top:50px;padding-bottom:50px"><img src="/static/images/csvreader3.png" alt="Drag ( No Click ) Upload" style="max-width:100%;height:auto"/></div><div style="display:flex;justify-content:flex-end;margin-bottom:14px"><a href="/docs#drag-no-click-upload">Properties</a>  |  <a href="/demo">Demo</a></div><pre><code class="language-javascript">import React, { Component } from &#x27;react&#x27;
+
+import { CSVReader } from &#x27;react-papaparse&#x27;
+
+export default class CSVReader extends Component {
+  handleOnDrop = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  handleOnError = (err, file, inputElem, reason) =&gt; {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  render() {
+    return (
+      &lt;CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noClick
+        addRemoveButton
+        onRemoveFile={this.handleOnRemoveFile}
+      &gt;
+        &lt;span&gt;Drop CSV file here to upload.&lt;/span&gt;
+      &lt;/CSVReader&gt;
+    )
+  }
+}</code></pre><div id="drag-no-click-upload" style="font-size:20px;margin-top:35px">Click ( No Drag ) Upload</div><div style="text-align:center;padding-top:50px;padding-bottom:50px"><img src="/static/images/csvreader4.png" alt="Click ( No Drag ) Upload" style="max-width:100%;height:auto"/></div><div style="display:flex;justify-content:flex-end;margin-bottom:14px"><a href="/docs#click-no-drag-upload">Properties</a>  |  <a href="/demo">Demo</a></div><pre><code class="language-javascript">import React, { Component } from &#x27;react&#x27;
+
+import { CSVReader } from &#x27;react-papaparse&#x27;
+
+export default class CSVReader extends Component {
+  handleOnDrop = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  handleOnError = (err, file, inputElem, reason) =&gt; {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) =&gt; {
+    console.log(&#x27;---------------------------&#x27;)
+    console.log(data)
+    console.log(&#x27;---------------------------&#x27;)
+  }
+
+  render() {
+    return (
+      &lt;CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noDrag
+        addRemoveButton
+        onRemoveFile={this.handleOnRemoveFile}
+      &gt;
+        &lt;span&gt;Click to upload.&lt;/span&gt;
+      &lt;/CSVReader&gt;
+    )
+  }
+}</code></pre></div></div></section><section id="remote-files"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Remote Files</h4><h5>&quot;No — I mean, the file isn&#x27;t on my computer.&quot;</h5><p>Oh, well then just pass in the URL and — of course — a callback.</p><pre><code class="language-javascript">readRemoteFile(&#x27;http://example.com/file.csv&#x27;, {
+  download: true,
+  complete: (results) =&gt; {
+    console.log(results)
+  }
+})</code></pre></div></div></section><section id="stream"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Streaming</h4><h5>&quot;Did I mention the file is huge?&quot;</h5><p>That&#x27;s what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won&#x27;t load the whole file into memory and crash the browser.</p><pre><code class="language-javascript">readRemoteFile(&#x27;http://example.com/big.csv&#x27;, {
+  step: (row) =&gt; {
+    console.log(&#x27;Row:&#x27;, row.data)
+  },
+  complete: () =&gt; {
+    console.log(&#x27;All done!&#x27;)
+  }
+})</code></pre></div></div></section><section id="worker"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Multi-Threading</h4><h5>&#x27;Lovely. Now my web page locked up.&#x27;</h5><p>That happens when a long-running script is executing in the same thread as the page. Use a<!-- --> <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker">Worker</a> <!-- -->thread by specifying <code>worker: true</code>. It may take slightly longer, but your page will stay reactive.</p><pre><code class="language-javascript">readRemoteFile(bigFileURL, {
+  worker: true,
+  step: (row) =&gt; {
+    console.log(&#x27;Row:&#x27;, row.data)
+  },
+  complete: () =&gt; {
+    console.log(&#x27;All done!&#x27;)
+  }
+})</code></pre></div></div></section><section id="header"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Header Row</h4><h5>&quot;Great! Now I want data keyed by field name.&quot;</h5><p>If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.</p><pre><code class="language-javascript">// Key data by field name instead of index/position
+const results = readString(csvString {
+  header: true
+})</code></pre></div></div></section><section id="type-conversion"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Type Conversion</h4><h5>&quot;Hey, these numbers are parsed as strings.&quot;</h5><p><i>Everything</i> is parsed as strings. If you want numbers and booleans, you can enable dynamic typing to do the conversion for you.</p><pre><code class="language-javascript">// Converts numeric/boolean data
+const results = readString(csvString {
+  dynamicTyping: true
+})</code></pre></div></div></section><section id="comments"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Comments</h4><h5>&quot;I forgot to mention: my CSV files have comments in them.&quot;</h5><p>Okay, first off: that&#x27;s really weird. But fortunately, you can skip those lines... just specify the comment string.</p><pre><code class="language-javascript">// Mostly found in academia, some CSV files
+// may have commented lines in them
+const results = readString(csvString {
+  comments: &#x27;#&#x27;
+})</code></pre></div></div></section><section id="errors"><div class="grid-container narrow-grid"><div class="grid-100"><h4>Error Handling</h4><h5>&quot;Aw, shoot. Errors.&quot;</h5><p>react-papaparse handles errors pretty well. The<!-- --> <a href="http://tools.ietf.org/html/rfc4180">CSV standard</a> is somewhat <strike>loose</strike> ambiguous, so react-papaparse is designed for edge cases. For example, mismatched fields won&#x27;t break parsing.</p><pre><code class="language-javascript">// Example error:
+{
+  type: &#x27;FieldMismatch&#x27;,
+  code: &#x27;TooManyFields&#x27;,
+  message: &#x27;Expected 3 fields, but parsed 4&#x27;,
+  row: 1
+}</code></pre></div></div></section><section id="unparse"><div class="grid-container narrow-grid"><div class="grid-100"><h4>JSON to CSV</h4><h5>&quot;Last thing: what about converting JSON to CSV?&quot;</h5><p>Use <code>jsonToCSV()</code> function, passing in your array of arrays or array of objects. react-papaparse will figure it out.</p><pre><code class="language-javascript">// Output is a properly-formatted CSV string.
+const csv = jsonToCSV(jsonData)
+</code></pre></div></div></section><section id="csv-downloader"><div class="grid-container narrow-grid"><div class="grid-100"><h4>CSVDownloader</h4><h5>&quot;Allow to download CSV file from js object.&quot;</h5><pre><code class="language-javascript">&lt;CSVDownloader
+  data={[
+    {
+      &quot;Column 1&quot;: &quot;1-1&quot;,
+      &quot;Column 2&quot;: &quot;1-2&quot;,
+      &quot;Column 3&quot;: &quot;1-3&quot;,
+      &quot;Column 4&quot;: &quot;1-4&quot;,
+    },
+  ]}
+  filename={&#x27;filename&#x27;}
+&gt;
+  Download
+&lt;/CSVDownloader&gt;
+</code></pre></div></div></section><section id="download"><div class="grid-container"><div class="grid-100"><h3>Install</h3></div><div class="prefix-30 grid-40 suffix-30"><b style="display:block;text-align:center">npm</b><pre><code class="language-bash">$ npm install react-papaparse --save</code></pre><br/><b style="display:block;text-align:center">yarn</b><pre><code class="language-bash">$ yarn add react-papaparse</code></pre></div><div class="clear"></div><div class="grid-100 text-center"><br/><br/><a href="https://github.com/Bunlong/react-papaparse" class="button"><i class="fa fa-github"></i>  GitHub</a><a href="/demo" class="button red"><i class="fa fa-magic"></i>  Demo</a><a href="/docs" class="button gray"><i class="fa fa-book"></i>  Documentation</a></div></div></section></main></div><footer><div class="footer-main"><div class="grid-container"><div class="grid-40 text-center"><div class="logo"></div><br/><br/>react-papaparse by<!-- --> <a href="https://github.com/bunlong">Bunlong</a><br/>© 2018-2021</div><div class="grid-15 mobile-grid-50 links"><h5>Learn</h5><a href="/demo">Demo</a><a href="/docs">Documentation</a></div><div class="grid-15 mobile-grid-50 links"><h5>Project</h5><a href="https://github.com/Bunlong/react-native-csv" target="_blank">react-native-csv</a><a href="https://github.com/Bunlong/next-share" target="_blank">next-share</a></div></div></div></footer><script type="text/javascript" src="/static/js/prism.js"></script></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"u7NGrAJuuOveMB19GKdQw","nextExport":true,"autoExport":true,"isFallback":false}</script><script nomodule="" src="/_next/static/chunks/polyfills-fa6895e93b53826501e5.js"></script><script src="/_next/static/chunks/webpack-e5c51115432d8e532323.js" async=""></script><script src="/_next/static/chunks/framework.8572055b4a1222f1b4b3.js" async=""></script><script src="/_next/static/chunks/f6078781a05fe1bcb0902d23dbbb2662c8d200b3.f5b644c0c8d92005bc3f.js" async=""></script><script src="/_next/static/chunks/main-54f090621c6d0af600d6.js" async=""></script><script src="/_next/static/chunks/pages/_app-7e18badb86a8e4edbbec.js" async=""></script><script src="/_next/static/chunks/pages/index-c8aed585647bacc7441a.js" async=""></script><script src="/_next/static/u7NGrAJuuOveMB19GKdQw/_buildManifest.js" async=""></script><script src="/_next/static/u7NGrAJuuOveMB19GKdQw/_ssgManifest.js" async=""></script></body></html>

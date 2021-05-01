@@ -41,10 +41,19 @@ class CustomApp extends App {
           <link rel="shortcut icon" type="image/x-icon" href="" />
 
           {/* ====== SEO ======= */}
-          <meta name="description" content="The fastest in-browser CSV (or delimited text) parser for React." />
-          <meta name="keywords" content="React Papaparse, CSVReader, CSVDownloader, readString, readRemoteFile , jsonToCSV, React CSV, Papaparse, CSV, React Native CSV" />
+          <meta
+            name="description"
+            content="The fastest in-browser CSV (or delimited text) parser for React."
+          />
+          <meta
+            name="keywords"
+            content="React Papaparse, CSVReader, CSVDownloader, readString, readRemoteFile , jsonToCSV, React CSV, Papaparse, CSV, React Native CSV"
+          />
           <meta name="author" content="Bunlong Van" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
           {/* ================== */}
 
           <link

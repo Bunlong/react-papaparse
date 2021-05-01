@@ -8,9 +8,7 @@ const CSVDownloader = () => {
         <div className="clear" />
         <div className="grid-100">
           <h4 id="csv-downloader">CSVDownloader</h4>
-          <p>
-            Allow download CSV file from js object.
-          </p>
+          <p>Allow to download CSV file from js object.</p>
         </div>
 
         <div className="grid-50">
@@ -45,7 +43,8 @@ const CSVDownloader = () => {
         <div className="grid-50">
           <ul>
             <li>
-              <code>bom</code> is used to indicate Unicode encoding of a text file. If true, indicate Unicode encoding of a text file.
+              <code>bom</code> is used to indicate Unicode encoding of a text
+              file. If true, indicate Unicode encoding of a text file.
             </li>
             <li>
               <code>type</code> If "button", render button.

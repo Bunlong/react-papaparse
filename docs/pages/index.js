@@ -15,6 +15,7 @@ import TypeConversion from '../src/components/screens/indexes/TypeConversion';
 import Comment from '../src/components/screens/indexes/Comment';
 import Error from '../src/components/screens/indexes/Error';
 import Unparse from '../src/components/screens/indexes/Unparse';
+import CSVDownloader from '../src/components/screens/indexes/CSVDownloader';
 import Download from '../src/components/screens/indexes/Download';
 
 const Index = () => {
@@ -37,6 +38,7 @@ const Index = () => {
         <Comment />
         <Error />
         <Unparse />
+        <CSVDownloader />
         <Download />
       </main>
     </>
