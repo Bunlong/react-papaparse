@@ -24,6 +24,7 @@ package-lock.json
 /docs/node_modules
 /docs/.next
 /docs/package-lock.json
+/docs/out
 
 /supports/default/node_modules
 /supports/default/.next
