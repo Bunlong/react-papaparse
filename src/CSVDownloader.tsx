@@ -1,10 +1,10 @@
 import React from 'react';
-import PapaParse from 'papaparse';
+import PapaParse, { ParseConfig } from 'papaparse';
 
 export const LINK_TYPE = 'link';
 export const BUTTON_TYPE = 'button';
 
-export interface Props {
+export interface Props<T> {
   children: React.ReactNode;
   data: any;
   filename: string;
@@ -12,20 +12,26 @@ export interface Props {
   style?: any;
   className?: string;
   bom?: boolean;
+  config?: ParseConfig<T>;
 }
 
-export default class CSVDownloader extends React.Component<Props> {
-  static defaultProps: Partial<Props> = {
+export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
+  static defaultProps: Partial<Props<unknown>> = {
     type: LINK_TYPE,
   };
 
   // https://github.com/mholt/PapaParse/issues/175
-  download = (data: any, filename: string, bom: boolean): void => {
+  download = (
+    data: any,
+    filename: string,
+    bom: boolean,
+    config: ParseConfig<T>,
+  ): void => {
     const bomCode = bom ? '\ufeff' : '';
 
     let csvContent = null;
     if (typeof data === 'object') {
-      csvContent = PapaParse.unparse(data);
+      csvContent = PapaParse.unparse(data, config);
     } else {
       csvContent = data;
     }
@@ -57,12 +63,13 @@ export default class CSVDownloader extends React.Component<Props> {
       className,
       style,
       bom = false,
+      config = {},
     } = this.props;
 
     if (type === LINK_TYPE) {
       return (
         <a
-          onClick={() => this.download(data, filename, bom)}
+          onClick={() => this.download(data, filename, bom, config)}
           className={className}
           style={style}
         >
@@ -73,7 +80,7 @@ export default class CSVDownloader extends React.Component<Props> {
 
     return (
       <button
-        onClick={() => this.download(data, filename, bom)}
+        onClick={() => this.download(data, filename, bom, config)}
         className={className}
         style={style}
       >
