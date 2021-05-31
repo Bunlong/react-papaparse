@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse-docs",
-  "version": "3.12.1",
+  "version": "3.15.0",
   "description": "react-papaparse docs.",
   "main": "index.js",
   "scripts": {

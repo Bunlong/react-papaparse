@@ -26,6 +26,7 @@ const CSVDownloader = () => {
   type="button"
   filename={'filename'}
   bom={true}
+  config={{}}
 >
   Download
 </CSVDownloader>
@@ -48,6 +49,10 @@ const CSVDownloader = () => {
             </li>
             <li>
               <code>type</code> If "button", render button.
+            </li>
+            <li>
+              <code>config</code> is a <a href="#config">config object</a> which
+              contains a callback.
             </li>
           </ul>
         </div>
