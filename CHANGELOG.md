@@ -1,3 +1,13 @@
+## 3.15.0 (2021-06-02)
+
+### ✨ Features
+
+* Add config props to CSVDownloader
+
+Credits
+
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.14.0 (2021-04-27)
 
 #### ✨ Improvment
