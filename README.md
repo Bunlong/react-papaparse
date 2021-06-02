@@ -303,11 +303,11 @@ export default class CSVReader extends Component {
 
 ### 🎀 CSVDownloader
 
-If you want to open your CSV files in Excel, you might want to set `bom={true}` or `bom`, default is `false`. This option adds the so called BOM byte `'\ufeff'` to the beginning of your CSV files and tells Excel that the encoding is UTF8.
+Just pass in the js object with an optional [configuration](https://react-papaparse.js.org/docs#config) ( setting delimiter / separator ).
+
+**Note:** If you want to open your CSV files in Excel, you might want to set `bom={true}` or `bom`, default is `false`. This option adds the so called BOM byte `'\ufeff'` to the beginning of your CSV files and tells Excel that the encoding is UTF8.
 
 #### Button
-
-Just pass in the js object with an optional [configuration](https://react-papaparse.js.org/docs#config) ( setting delimiter / separator ).
 
 ```javascript
 import React, { Component } from 'react'
@@ -356,8 +356,6 @@ export default class CSVDownloader extends Component {
 ```
 
 #### Link
-
-Just pass in the js object with an optional [configuration](https://react-papaparse.js.org/docs#config) ( setting delimiter / separator ).
 
 ```javascript
 import React, { Component } from 'react'
