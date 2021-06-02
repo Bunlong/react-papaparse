@@ -539,6 +539,11 @@ const Index = () => {
         ]}
         type="button"
         filename={'filename'}
+        // config={
+        //   {
+        //     delimiter: ';',
+        //   }
+        // }
       >
         Download
       </CSVDownloader>
