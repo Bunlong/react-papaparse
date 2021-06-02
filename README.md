@@ -307,6 +307,8 @@ If you want to open your CSV files in Excel, you might want to set `bom={true}` 
 
 #### Button
 
+Just pass in the js object with an optional [configuration](https://react-papaparse.js.org/docs#config) ( setting delimiter / separator ).
+
 ```javascript
 import React, { Component } from 'react'
 
@@ -354,6 +356,8 @@ export default class CSVDownloader extends Component {
 ```
 
 #### Link
+
+Just pass in the js object with an optional [configuration](https://react-papaparse.js.org/docs#config) ( setting delimiter / separator ).
 
 ```javascript
 import React, { Component } from 'react'
