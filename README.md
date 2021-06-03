@@ -702,6 +702,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/exaucae">
+        <img src="https://avatars.githubusercontent.com/u/64139733?v=4" width="100" alt="Chrys Exaucet" />
+        <br />
+        <sub>
+          <b>Chrys Exaucet</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
