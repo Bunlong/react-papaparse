@@ -156,25 +156,26 @@ export default class CSVReader<T = any> extends React.Component<
 
   componentDidMount = () => {
     const currentDropAreaRef = this.dropAreaRef.current;
-
-    const fourDragsEvent = ['dragenter', 'dragover', 'dragleave', 'drop'];
-    fourDragsEvent.forEach((item) => {
-      currentDropAreaRef.addEventListener(item, this.preventDefaults, false);
-    });
-
-    if (!this.props.noDrag) {
-      const highlightDragsEvent = ['dragenter', 'dragover'];
-      highlightDragsEvent.forEach((item) => {
-        currentDropAreaRef.addEventListener(item, this.highlight, false);
+    if (currentDropAreaRef) {
+      const fourDragsEvent = ['dragenter', 'dragover', 'dragleave', 'drop'];
+      fourDragsEvent.forEach((item) => {
+        currentDropAreaRef.addEventListener(item, this.preventDefaults, false);
       });
-      currentDropAreaRef.addEventListener('dragleave', this.unhighlight, false);
-      currentDropAreaRef.addEventListener('drop', this.unhighlight, false);
-      currentDropAreaRef.addEventListener(
-        'drop',
-        this.visibleProgressBar,
-        false,
-      );
-      currentDropAreaRef.addEventListener('drop', this.handleDrop, false);
+
+      if (!this.props.noDrag) {
+        const highlightDragsEvent = ['dragenter', 'dragover'];
+        highlightDragsEvent.forEach((item) => {
+          currentDropAreaRef.addEventListener(item, this.highlight, false);
+        });
+        currentDropAreaRef.addEventListener('dragleave', this.unhighlight, false);
+        currentDropAreaRef.addEventListener('drop', this.unhighlight, false);
+        currentDropAreaRef.addEventListener(
+          'drop',
+          this.visibleProgressBar,
+          false,
+        );
+        currentDropAreaRef.addEventListener('drop', this.handleDrop, false);
+      }
     }
   };
 
