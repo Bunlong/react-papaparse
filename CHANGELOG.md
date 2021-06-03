@@ -1,3 +1,15 @@
+## 3.16.0 (2021-06-04)
+
+### ✨ Bugs
+
+* Prevent currentDropAreaRef is null in CSVReader
+* Fix jest snapshot of CSVReader
+
+Credits
+
+* Chrys Exaucet [@exaucae](https://github.com/exaucae)
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.15.0 (2021-06-02)
 
 ### ✨ Features
