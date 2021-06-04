@@ -472,9 +472,10 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.15.0 (2021-06-02):
+Latest version 3.16.0 (2021-06-04):
 
-  * Add config props to CSVDownloader
+  * Prevent currentDropAreaRef is null in CSVReader
+  * Fix jest snapshot of CSVReader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
@@ -698,6 +699,15 @@ How to contribute:
         <br />
         <sub>
           <b>Gareth Jones</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/exaucae">
+        <img src="https://avatars.githubusercontent.com/u/64139733?v=4" width="100" alt="Chrys Exaucet" />
+        <br />
+        <sub>
+          <b>Chrys Exaucet</b>
         </sub>
       </a>
     </td>

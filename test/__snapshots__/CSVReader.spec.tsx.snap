@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CSVReader should match snapshot 1`] = `
+Array [
+  <input
+    accept="text/csv, .csv, application/vnd.ms-excel"
+    onChange={[Function]}
+    style={
+      Object {
+        "display": "none",
+      }
+    }
+    type="file"
+  />,
+  <div
+    onClick={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "borderColor": "#CCC",
+        "borderRadius": 20,
+        "borderStyle": "dashed",
+        "borderWidth": 2,
+        "cursor": "pointer",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": "100%",
+        "justifyContent": "center",
+        "padding": 20,
+      }
+    }
+  >
+    <span>
+      Chargez votre offre
+    </span>
+  </div>,
+]
+`;
