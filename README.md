@@ -472,7 +472,7 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.16.0 (2021-06-04):
+Latest version 3.16.0 (2021-06-05):
 
   * Prevent currentDropAreaRef is null in CSVReader
   * Fix jest snapshot of CSVReader
