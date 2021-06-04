@@ -167,7 +167,11 @@ export default class CSVReader<T = any> extends React.Component<
         highlightDragsEvent.forEach((item) => {
           currentDropAreaRef.addEventListener(item, this.highlight, false);
         });
-        currentDropAreaRef.addEventListener('dragleave', this.unhighlight, false);
+        currentDropAreaRef.addEventListener(
+          'dragleave',
+          this.unhighlight,
+          false,
+        );
         currentDropAreaRef.addEventListener('drop', this.unhighlight, false);
         currentDropAreaRef.addEventListener(
           'drop',
