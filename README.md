@@ -710,6 +710,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/stefee">
+        <img src="https://avatars.githubusercontent.com/u/18026180?v=4" width="100" alt="Stefee" />
+        <br />
+        <sub>
+          <b>Stefee</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
