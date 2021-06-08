@@ -251,7 +251,9 @@ export default class CSVReader<T = any> extends React.Component<
   };
 
   visibleProgressBar = () => {
-    this.setState({ displayProgressBarStatus: 'block' });
+    if (!this.props.noProgressBar) {
+      this.setState({ displayProgressBarStatus: 'block' });
+    }
   };
 
   handleDrop = (e: any) => {
@@ -369,7 +371,9 @@ export default class CSVReader<T = any> extends React.Component<
   };
 
   disableProgressBar = () => {
-    this.setState({ displayProgressBarStatus: 'none' });
+    if (!this.props.noProgressBar) {
+      this.setState({ displayProgressBarStatus: 'none' });
+    }
   };
 
   childrenIsFunction = () => {
@@ -378,9 +382,13 @@ export default class CSVReader<T = any> extends React.Component<
 
   fileChange = (e: any) => {
     const { target } = e;
-    this.setState({ displayProgressBarStatus: 'block' }, () => {
+    if (!this.props.noProgressBar) {
+      this.setState({ displayProgressBarStatus: 'block' }, () => {
+        this.handleDrop(target);
+      });
+    } else {
       this.handleDrop(target);
-    });
+    }
   };
 
   open = (e: any) => {
