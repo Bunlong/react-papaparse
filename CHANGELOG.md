@@ -1,3 +1,13 @@
+## 3.16.1 (2021-06-08)
+
+### ✨ Bugs
+
+* Suppress progress bar state updates if noProgressBar prop is true
+
+Credits
+
+* Stefee [@stefee](https://github.com/stefee)
+
 ## 3.16.0 (2021-06-05)
 
 ### ✨ Bugs

@@ -472,10 +472,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.16.0 (2021-06-05):
+Latest version 3.16.1 (2021-06-08):
 
-  * Prevent currentDropAreaRef is null in CSVReader
-  * Fix jest snapshot of CSVReader
+  * Suppress progress bar state updates if noProgressBar prop is true
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
