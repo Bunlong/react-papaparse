@@ -543,11 +543,11 @@ How to contribute:
       </a>
     </td>
     <td align="center">
-      <a href="https://github.com/pablo-menichini">
-        <img src="https://avatars3.githubusercontent.com/u/52842336?s=460&v=4" width="100" alt="Pablo Mnichini" />
+      <a href="https://github.com/pabloameni">
+        <img src="https://avatars3.githubusercontent.com/u/52842336?s=460&v=4" width="100" alt="Pablo Menichini" />
         <br />
         <sub>
-          <b>Pablo Mnichini</b>
+          <b>Pablo Menichini</b>
         </sub>
       </a>
     </td>
