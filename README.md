@@ -381,6 +381,27 @@ export default class CSVDownloader extends Component {
 }
 ```
 
+#### Data as a Function/callback
+
+`data={}` can be a function that returns a data object, e.g.
+```javascript
+<CSVDownloader
+  data={() => {
+    return [
+      {
+        "Column 1": "1-1",
+        "Column 2": "1-2",
+        "Column 3": "1-3",
+        "Column 4": "1-4",
+      }
+    ]}
+  }
+  // ... other props
+>
+  Download
+</CSVDownloader>
+```
+
 ### 🎀 readString
 
 ```javascript

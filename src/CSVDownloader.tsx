@@ -30,6 +30,9 @@ export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
     const bomCode = bom ? '\ufeff' : '';
 
     let csvContent = null;
+    if (typeof data === 'function') {
+      data = data();
+    }
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data, config);
     } else {
