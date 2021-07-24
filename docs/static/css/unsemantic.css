@@ -995,3 +995,7 @@
     width: 100%;
   }
 }
+
+.break {
+  margin-top: 32px;
+}

@@ -32,6 +32,31 @@ const CSVDownloader = () => {
             </code>
           </pre>
         </div>
+        <div className="grid-100 break">
+          <p>
+            <code>data={}</code> can be a function that returns a data object.
+          </p>
+          <pre>
+            <code className="language-javascript">
+              {`<CSVDownloader
+  filename={'filename'}
+  data={() => {
+    return [
+      {
+        "Column 1": "1-1",
+        "Column 2": "1-2",
+        "Column 3": "1-3",
+        "Column 4": "1-4",
+      }
+    ]}
+  }
+>
+  Download
+</CSVDownloader>
+`}
+            </code>
+          </pre>
+        </div>
       </div>
     </section>
   );

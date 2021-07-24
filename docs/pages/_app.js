@@ -158,12 +158,6 @@ class CustomApp extends App {
 
               <div className="grid-15 mobile-grid-50 links">
                 <h5>Project</h5>
-                <a
-                  href="https://github.com/Bunlong/react-native-csv"
-                  target="_blank"
-                >
-                  react-native-csv
-                </a>
                 <a href="https://github.com/Bunlong/next-share" target="_blank">
                   next-share
                 </a>
