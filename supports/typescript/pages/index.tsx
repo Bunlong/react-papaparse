@@ -558,6 +558,21 @@ const Index = () => {
       >
         Download
       </CSVDownloader>
+      <CSVDownloader
+        filename={'filename'}
+        data={() => {
+          return [
+            {
+              "Column 1": "1-1",
+              "Column 2": "1-2",
+              "Column 3": "1-3",
+              "Column 4": "1-4",
+            }
+          ]}
+        }
+      >
+        Download
+      </CSVDownloader>
     </>
   )
 }

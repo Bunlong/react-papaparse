@@ -381,11 +381,13 @@ export default class CSVDownloader extends Component {
 }
 ```
 
-#### Data as a Function/callback
+#### Data as a Function/Callback
 
-`data={}` can be a function that returns a data object, e.g.
+`data={}` can be a function that returns a data object.
+
 ```javascript
 <CSVDownloader
+  filename={'filename'}
   data={() => {
     return [
       {
@@ -396,7 +398,6 @@ export default class CSVDownloader extends Component {
       }
     ]}
   }
-  // ... other props
 >
   Download
 </CSVDownloader>
@@ -737,6 +738,15 @@ How to contribute:
         <br />
         <sub>
           <b>Stefee</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/BirdTho">
+        <img src="https://avatars.githubusercontent.com/u/10731513?v=4" width="100" alt="Christopher Thomas" />
+        <br />
+        <sub>
+          <b>Christopher Thomas</b>
         </sub>
       </a>
     </td>

@@ -28,11 +28,13 @@ export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
     config: ParseConfig<T>,
   ): void => {
     const bomCode = bom ? '\ufeff' : '';
-
     let csvContent = null;
+    let csvURL = null;
+
     if (typeof data === 'function') {
       data = data();
     }
+
     if (typeof data === 'object') {
       csvContent = PapaParse.unparse(data, config);
     } else {
@@ -42,8 +44,7 @@ export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
     const csvData = new Blob([`${bomCode}${csvContent}`], {
       type: 'text/csv;charset=utf-8;',
     });
-
-    let csvURL = null;
+    
     if (navigator.msSaveBlob) {
       csvURL = navigator.msSaveBlob(csvData, `${filename}.csv`);
     } else {
