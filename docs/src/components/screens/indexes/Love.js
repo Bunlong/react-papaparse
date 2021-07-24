@@ -15,6 +15,13 @@ const Love = () => {
                 alt="react-papaparse"
               />
             </a>
+            &nbsp;
+            <a href="https://www.npmjs.com/package/react-papaparse">
+              <img
+                src="https://img.shields.io/npm/dt/react-papaparse.svg?label=total%20downloads"
+                alt="react-papaparse"
+              />
+            </a>
           </p>
         </div>
       </div>

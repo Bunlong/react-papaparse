@@ -7,7 +7,11 @@ const CSVDownloader = () => {
         <div className="grid-100">
           <h4>CSVDownloader</h4>
           <h5>"Allow to download CSV file from js object."</h5>
-          <p>Just pass in the js object with an optional <a href="/docs#config">configuration</a> ( setting delimiter / separator ).</p>
+          <p>
+            Just pass in the js object with an optional{' '}
+            <a href="/docs#config">configuration</a> ( setting delimiter /
+            separator ).
+          </p>
           <pre>
             <code className="language-javascript">
               {`<CSVDownloader
