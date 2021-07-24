@@ -494,9 +494,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.16.1 (2021-06-08):
+Latest version 3.17.0 (2021-07-24):
 
-  * Suppress progress bar state updates if noProgressBar prop is true
+  * Add ability for `data={}` to be a function in CSVDownloader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
