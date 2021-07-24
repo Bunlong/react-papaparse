@@ -44,7 +44,7 @@ export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
     const csvData = new Blob([`${bomCode}${csvContent}`], {
       type: 'text/csv;charset=utf-8;',
     });
-    
+
     if (navigator.msSaveBlob) {
       csvURL = navigator.msSaveBlob(csvData, `${filename}.csv`);
     } else {
