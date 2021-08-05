@@ -1,1 +1,1 @@
-require('mutationobserver-shim');
+// require('mutationobserver-shim');
