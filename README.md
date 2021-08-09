@@ -759,6 +759,7 @@ You maybe interested.
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
 * [React Patterns Blog](https://reactpatterns.js.org/blog) – The latest React news and articles.
+* [Next Share](https://github.com/Bunlong/next-share) – Social media share buttons for your next React apps.
 
 ## ⚖️ License
 
