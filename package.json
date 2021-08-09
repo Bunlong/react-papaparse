@@ -115,7 +115,7 @@
   "bundlesize": [
     {
       "path": "./dist/*.js",
-      "maxSize": "20 kB"
+      "maxSize": "21 kB"
     },
     {
       "path": "./dist/*.ts",
