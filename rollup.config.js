@@ -26,7 +26,7 @@ export default {
     //   sourcemap: true
     // },
     // {
-    //   name: 'ReactPapaparse',
+    //   name: 'react-papaparse',
     //   file: `dist/${pkg.name}.umd.js`,
     //   format: 'umd',
     //   exports: 'named',
