@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse-docs",
-  "version": "3.17.0",
+  "version": "3.17.1",
   "description": "react-papaparse docs.",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
     "raw-loader": "^4.0.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-papaparse": "^3.16.1",
+    "react-papaparse": "^3.17.0",
     "react-tabs": "^3.1.0"
   },
   "devDependencies": {
