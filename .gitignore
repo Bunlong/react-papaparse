@@ -27,13 +27,8 @@ package-lock.json
 /docs/out
 
 /supports/create-react-app/node_modules
-/supports/create-react-app/.next
 /supports/create-react-app/package-lock.json
 
-/supports/default/node_modules
-/supports/default/.next
-/supports/default/package-lock.json
-
-/supports/typescript/node_modules
-/supports/typescript/.next
-/supports/typescript/package-lock.json
+/supports/create-next-app/node_modules
+/supports/create-next-app/package-lock.json
+/supports/create-next-app/.next
