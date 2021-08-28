@@ -7,6 +7,8 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 2018,
     sourceType: 'module',
+    // https://github.com/facebook/create-react-app/issues/7160#issuecomment-502631002
+    warnOnUnsupportedTypeScriptVersion: false,
   },
   plugins: ['react-hooks'],
   rules: {
