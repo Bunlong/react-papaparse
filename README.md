@@ -494,9 +494,9 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.17.0 (2021-07-24):
+Latest version 3.17.2 (2021-09-04):
 
-  * Add ability for `data={}` to be a function in CSVDownloader
+  * Upgrade dependencies
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 

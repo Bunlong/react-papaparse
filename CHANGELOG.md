@@ -1,3 +1,13 @@
+## 3.17.2 (2021-09-4)
+
+### ✨ Features
+
+* Upgrade dependencies
+
+Credits
+
+* [Bunlong](https://github.com/Bunlong)
+
 ## 3.17.0 (2021-07-24)
 
 ### ✨ Features
