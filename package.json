@@ -92,6 +92,7 @@
     "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "jschardet": "^3.0.0",
     "jest": "^27.1.0",
     "mutationobserver-shim": "^0.3.7",
     "prettier": "^2.3.2",

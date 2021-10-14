@@ -3,6 +3,7 @@ import PapaParse, { ParseConfig, ParseResult } from 'papaparse';
 import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
+import jschardet from 'jschardet';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
@@ -113,10 +114,8 @@ interface State {
   isCanceled: boolean;
 }
 
-export default class CSVReader<T = any> extends React.Component<
-  Props<T>,
-  State
-> {
+export default class CSVReader<T = any> extends React.Component<Props<T>,
+  State> {
   static defaultProps: Partial<Props<unknown>> = {
     isReset: false,
   };
@@ -226,14 +225,14 @@ export default class CSVReader<T = any> extends React.Component<
             ? style?.dropAreaActive
             : Object.assign({}, style?.dropAreaActive, styles.highlight)
           : style?.dropArea?.dropAreaActive
-          ? style?.dropArea?.dropAreaActive.borderColor
-            ? style?.dropArea?.dropAreaActive
-            : Object.assign(
+            ? style?.dropArea?.dropAreaActive.borderColor
+              ? style?.dropArea?.dropAreaActive
+              : Object.assign(
                 {},
                 style?.dropArea?.dropAreaActive,
                 styles.highlight,
               )
-          : styles.highlight,
+            : styles.highlight,
       ),
     });
     this.setState({ progressBar: 0 });
@@ -304,36 +303,36 @@ export default class CSVReader<T = any> extends React.Component<
             config?.complete || config?.step
               ? config.complete
               : () => {
+                if (!onDrop && onFileLoad) {
+                  onFileLoad(data, file);
+                } else if (onDrop && !onFileLoad) {
+                  onDrop(data, file);
+                }
+              },
+          step: config?.step
+            ? config.step
+            : (row: any) => {
+              data.push(row);
+              if (config && config.preview) {
+                percent = Math.round((data.length / config.preview) * 100);
+                self.setState({ progressBar: percent });
+                if (data.length === config.preview) {
                   if (!onDrop && onFileLoad) {
                     onFileLoad(data, file);
                   } else if (onDrop && !onFileLoad) {
                     onDrop(data, file);
                   }
-                },
-          step: config?.step
-            ? config.step
-            : (row: any) => {
-                data.push(row);
-                if (config && config.preview) {
-                  percent = Math.round((data.length / config.preview) * 100);
-                  self.setState({ progressBar: percent });
-                  if (data.length === config.preview) {
-                    if (!onDrop && onFileLoad) {
-                      onFileLoad(data, file);
-                    } else if (onDrop && !onFileLoad) {
-                      onDrop(data, file);
-                    }
-                  }
-                } else {
-                  const progress = row.meta.cursor;
-                  const newPercent = Math.round((progress / size) * 100);
-                  if (newPercent === percent) {
-                    return;
-                  }
-                  percent = newPercent;
                 }
-                self.setState({ progressBar: percent });
-              },
+              } else {
+                const progress = row.meta.cursor;
+                const newPercent = Math.round((progress / size) * 100);
+                if (newPercent === percent) {
+                  return;
+                }
+                percent = newPercent;
+              }
+              self.setState({ progressBar: percent });
+            },
         },
         options,
       );
@@ -348,6 +347,11 @@ export default class CSVReader<T = any> extends React.Component<
     }
 
     reader.onload = (e: any) => {
+
+       if (!config.encoding) {
+         config.encoding = jschardet.detect(e.target.result).encoding
+         options = Object.assign({}, config, options);
+       }
       PapaParse.parse(e.target.result, options);
     };
 
@@ -359,8 +363,12 @@ export default class CSVReader<T = any> extends React.Component<
         }, 2000),
       });
     };
-
+     if(config?.encoding){
     reader.readAsText(file, config.encoding || 'utf-8');
+      }
+      else {
+        reader.readAsBinaryString(file);
+     }
   };
 
   displayFileInfo = (file: any) => {
@@ -482,7 +490,7 @@ export default class CSVReader<T = any> extends React.Component<
     return (
       <>
         <input
-          type="file"
+          type='file'
           accept={accept || DEFAULT_ACCEPT}
           ref={this.inputFileRef}
           style={styles.inputFile}
@@ -522,8 +530,8 @@ export default class CSVReader<T = any> extends React.Component<
                       {},
                       styles.fileSizeInfo,
                       style?.dropArea?.dropFile?.fileSizeInfo ||
-                        style?.dropArea?.fileSizeInfo ||
-                        style?.fileSizeInfo,
+                      style?.dropArea?.fileSizeInfo ||
+                      style?.fileSizeInfo,
                     )}
                     ref={this.fileSizeInfoRef}
                   />
@@ -532,8 +540,8 @@ export default class CSVReader<T = any> extends React.Component<
                       {},
                       styles.fileNameInfo,
                       style?.dropArea?.dropFile?.fileNameInfo ||
-                        style?.dropFile?.fileNameInfo ||
-                        style?.fileNameInfo,
+                      style?.dropFile?.fileNameInfo ||
+                      style?.fileNameInfo,
                     )}
                     ref={this.fileNameInfoRef}
                   />
@@ -547,8 +555,8 @@ export default class CSVReader<T = any> extends React.Component<
                         ? { backgroundColor: progressBarColor }
                         : {},
                       style?.dropArea?.dropFile?.progressBar ||
-                        style?.dropFile?.progressBar ||
-                        style?.progressBar,
+                      style?.dropFile?.progressBar ||
+                      style?.progressBar,
                     )}
                     progressBar={progressBar}
                     displayProgressBarStatus={displayProgressBarStatus}
@@ -569,8 +577,8 @@ export default class CSVReader<T = any> extends React.Component<
                   {},
                   progressBarColor ? { backgroundColor: progressBarColor } : {},
                   style?.dropArea?.dropFile?.progressBar ||
-                    style?.dropFile?.progressBar ||
-                    style?.progressBar,
+                  style?.dropFile?.progressBar ||
+                  style?.progressBar,
                 )}
                 progressBar={progressBar}
                 displayProgressBarStatus={displayProgressBarStatus}
