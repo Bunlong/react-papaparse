@@ -89,7 +89,7 @@ interface Props<T> {
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: ParseConfig<T>;
+  config?: ParseConfig<T> | any;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;

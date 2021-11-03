@@ -109,7 +109,7 @@
     "dist"
   ],
   "dependencies": {
-    "@types/papaparse": "^5.2.6",
+    "@types/papaparse": "^5.3.1",
     "papaparse": "^5.3.1"
   },
   "bundlesize": [
