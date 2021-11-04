@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
-import PapaParse, { ParseConfig, ParseResult } from 'papaparse';
+import PapaParse, { ParseResult } from 'papaparse';
+import { CSVReaderConfig } from './model';
 import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
@@ -84,19 +85,12 @@ const styles = {
   } as CSSProperties,
 };
 
-// 5.3 => https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/papaparse/index.d.ts
-// 5.2 => https://github.com/DefinitelyTyped/DefinitelyTyped/blob/d3737ebd9125505f7ea237b9f17f1426579a3917/types/papaparse/index.d.ts
-interface CustomConfig<T = any, TInput = undefined> extends ParseConfig<T, TInput> {
-  /** The encoding to use when opening local files. If specified, it must be a value supported by the FileReader API. */
-  encoding?: string | undefined;
-}
-
 interface Props<T> {
   children: any;
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: CustomConfig<T>;
+  config?: CSVReaderConfig<T>;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;
