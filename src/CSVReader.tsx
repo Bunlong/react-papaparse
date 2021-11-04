@@ -84,12 +84,18 @@ const styles = {
   } as CSSProperties,
 };
 
+// https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/papaparse/index.d.ts
+interface CustomConfig<T = any, TInput = undefined> extends ParseConfig<T, TInput> {
+  /** The encoding to use when opening local files. If specified, it must be a value supported by the FileReader API. */
+  encoding?: string | undefined;
+}
+
 interface Props<T> {
   children: any;
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: ParseConfig<T> | any;
+  config?: CustomConfig<T>;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;
