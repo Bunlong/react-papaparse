@@ -351,14 +351,16 @@ export default class CSVReader<T = any> extends React.Component<
       PapaParse.parse(e.target.result, options);
     };
 
-    reader.onloadend = () => {
-      clearTimeout(this.state.timeout);
-      this.setState({
-        timeout: setTimeout(() => {
-          this.disableProgressBar();
-        }, 2000),
-      });
-    };
+    if (!this.props.noProgressBar) {
+      reader.onloadend = () => {
+        clearTimeout(this.state.timeout);
+        this.setState({
+          timeout: setTimeout(() => {
+            this.disableProgressBar();
+          }, 2000),
+        });
+      };
+    }
 
     reader.readAsText(file, config.encoding || 'utf-8');
   };
