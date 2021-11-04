@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
-import { CSVReaderConfig } from './model';
+import { CustomConfig } from './model';
 import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
@@ -90,7 +90,7 @@ interface Props<T> {
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: CSVReaderConfig<T>;
+  config?: CustomConfig<T>;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;
