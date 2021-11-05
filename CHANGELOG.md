@@ -1,3 +1,13 @@
+## 3.18.0 (2021-11-05)
+
+### ✨ Bugs
+
+* Wrong Typescript CSVDownloader config type
+
+Credits
+
+* Graveheart [@Graveheart](https://github.com/Graveheart)
+
 ## 3.17.2 (2021-09-4)
 
 ### ✨ Features

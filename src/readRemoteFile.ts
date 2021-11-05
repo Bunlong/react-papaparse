@@ -1,5 +1,5 @@
-import PapaParse, { ParseConfig } from 'papaparse';
+import PapaParse, { ParseRemoteConfig } from 'papaparse';
 
-export function readRemoteFile<T>(url: string, options: ParseConfig<T> = {}) {
-  PapaParse.parse(url, Object.assign({}, { download: true }, options));
+export function readRemoteFile<T>(url: string, config: ParseRemoteConfig<T>) {
+  PapaParse.parse(url, Object.assign({}, { download: true }, config));
 }
