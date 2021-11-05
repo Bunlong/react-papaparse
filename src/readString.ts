@@ -1,9 +1,8 @@
-import PapaParse, { NODE_STREAM_INPUT } from 'papaparse';
-import { CustomConfig } from './model';
+import PapaParse, { ParseWorkerConfig } from 'papaparse';
 
 export function readString<T>(
-  str: typeof NODE_STREAM_INPUT,
-  options: CustomConfig<T> = {},
+  csvString: string,
+  config: ParseWorkerConfig<T> & { download?: false | undefined },
 ) {
-  return PapaParse.parse(str, options);
+  return PapaParse.parse(csvString, config);
 }

@@ -1,9 +1,5 @@
-import PapaParse, { NODE_STREAM_INPUT } from 'papaparse';
-import { CustomConfig } from './model';
+import PapaParse, { ParseRemoteConfig } from 'papaparse';
 
-export function readRemoteFile<T>(
-  url: typeof NODE_STREAM_INPUT,
-  options: CustomConfig<T> = {},
-) {
-  PapaParse.parse(url, Object.assign({}, { download: true }, options));
+export function readRemoteFile<T>(url: string, config: ParseRemoteConfig<T>) {
+  PapaParse.parse(url, Object.assign({}, { download: true }, config));
 }
