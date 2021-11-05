@@ -2,7 +2,8 @@
 
 ### ✨ Bugs
 
-* Wrong Typescript CSVDownloader config type
+  * Upgrade dependency
+  * Change readString API
 
 Credits
 

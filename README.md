@@ -501,7 +501,8 @@ readRemoteFile('http://example.com/big.csv', {
 
 Latest version 3.18.0 (2021-11-05):
 
-  * Wrong Typescript CSVDownloader config type
+  * Upgrade dependency
+  * Change readString API
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
