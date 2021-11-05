@@ -490,15 +490,16 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.17.2 (2021-09-04):
+Latest version 3.18.0 (2021-11-05):
 
-  * Upgrade dependencies
+  * Wrong Typescript CSVDownloader config type
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
 ### 🆕 v4.0.x
+
   * Improve code performance
   * Rewrite any existing based components to hooks
   * CSVReader multiple files drag and drop
@@ -743,6 +744,17 @@ How to contribute:
         <br />
         <sub>
           <b>Christopher Thomas</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Graveheart">
+        <img src="https://avatars.githubusercontent.com/u/6318562?v=4" width="100" alt="Venelin Banov" />
+        <br />
+        <sub>
+          <b>Venelin Banov</b>
         </sub>
       </a>
     </td>
