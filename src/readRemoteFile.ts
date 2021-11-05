@@ -5,5 +5,5 @@ export function readRemoteFile<T>(
   url: typeof NODE_STREAM_INPUT,
   options: CustomConfig<T> = {},
 ) {
-  PapaParse.parse(url, options);
+  PapaParse.parse(url, Object.assign({}, { download: true }, options));
 }
