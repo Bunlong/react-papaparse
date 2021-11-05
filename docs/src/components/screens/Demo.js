@@ -53,13 +53,17 @@ export default class Demo extends Component {
   handleImportOffer = () => {
     const index = this.state.tabIndex;
     if (index === 0) {
-      const results = readString(this.state.str);
-      console.log('---------------------------');
-      console.log('Parse complete!');
-      console.log('Row count: ', results.data.length);
-      console.log('Errors: ', results.errors.length);
-      console.log('Results: ', results);
-      console.log('---------------------------');
+      readString(this.state.str, {
+        worker: true,
+        complete: (results) => {
+          console.log('---------------------------');
+          console.log('Parse complete!');
+          console.log('Row count: ', results.data.length);
+          console.log('Errors: ', results.errors.length);
+          console.log('Results: ', results);
+          console.log('---------------------------');
+        }
+      });
     } else if (index === 1) {
       const results = this.state.csvData;
       if (results) {

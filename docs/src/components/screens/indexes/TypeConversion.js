@@ -15,7 +15,11 @@ const TypeConversion = () => {
           <pre>
             <code className="language-javascript">
               {`// Converts numeric/boolean data
-const results = readString(csvString {
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  },
   dynamicTyping: true
 })`}
             </code>
