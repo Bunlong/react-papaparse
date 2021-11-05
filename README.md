@@ -414,7 +414,7 @@ readString(csvString, {
   worker: true,
   complete: (results) => {
     console.log(results)
-  },
+  }
 })
 ```
 
@@ -478,7 +478,7 @@ readString(csvString, {
   worker: true,
   complete: (results) => {
     console.log(results)
-  },
+  }
 })
 ```
 
