@@ -477,7 +477,7 @@ readString(csvString, {
   header: true,
   worker: true,
   complete: (results) => {
-    console.log(results);
+    console.log(results)
   },
 })
 ```
