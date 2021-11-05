@@ -3,7 +3,7 @@ import { CustomConfig } from './model';
 
 export function readRemoteFile<T>(
   url: typeof NODE_STREAM_INPUT,
-  options: CustomConfig<T>,
+  options: CustomConfig<T> = {},
 ) {
   PapaParse.parse(url, options);
 }
