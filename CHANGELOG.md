@@ -1,3 +1,13 @@
+## 3.18.1 (2021-11-07)
+
+### ✨ Bugs
+
+  * Fix issue: when component is unmounted immediately after file load in CSVReader
+
+Credits
+
+* Joey Baker [@joey-b](https://github.com/joey-b)
+
 ## 3.18.0 (2021-11-05)
 
 ### ✨ Bugs
