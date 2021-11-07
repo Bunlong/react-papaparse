@@ -2,7 +2,7 @@
 
 ### ✨ Bugs
 
-  * Fix issue: when component is unmounted immediately after file load in CSVReader
+  * Fix a bug when component is unmounted immediately after file load in CSVReader
 
 Credits
 
