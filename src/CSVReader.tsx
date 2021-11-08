@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
-import PapaParse, { ParseConfig, ParseResult } from 'papaparse';
+import PapaParse, { ParseResult } from 'papaparse';
+import { CustomConfig } from './model';
 import getSize, { lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
@@ -89,7 +90,7 @@ interface Props<T> {
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  config?: ParseConfig<T>;
+  config?: CustomConfig<T>;
   style?: any;
   noClick?: boolean;
   noDrag?: boolean;
@@ -351,14 +352,16 @@ export default class CSVReader<T = any> extends React.Component<
       PapaParse.parse(e.target.result, options);
     };
 
-    reader.onloadend = () => {
-      clearTimeout(this.state.timeout);
-      this.setState({
-        timeout: setTimeout(() => {
-          this.disableProgressBar();
-        }, 2000),
-      });
-    };
+    if (!this.props.noProgressBar) {
+      reader.onloadend = () => {
+        clearTimeout(this.state.timeout);
+        this.setState({
+          timeout: setTimeout(() => {
+            this.disableProgressBar();
+          }, 2000),
+        });
+      };
+    }
 
     reader.readAsText(file, config.encoding || 'utf-8');
   };

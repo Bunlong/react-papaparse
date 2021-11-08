@@ -1,5 +1,8 @@
-import PapaParse, { ParseConfig } from 'papaparse';
+import PapaParse, { ParseWorkerConfig } from 'papaparse';
 
-export function readString<T>(str: string, options: ParseConfig<T> = {}) {
-  return PapaParse.parse(str, options);
+export function readString<T>(
+  csvString: string,
+  config: ParseWorkerConfig<T> & { download?: false | undefined },
+) {
+  return PapaParse.parse(csvString, config);
 }
