@@ -153,11 +153,11 @@ export function useCSVDownloader() {
     setConfig,
   } as Api;
 
-  const ExcelDownloder = useCSVDownloaderComponent(api);
+  const CSVDownloader = useCSVDownloaderComponent(api);
 
   return {
     ...api,
-    ExcelDownloder,
+    CSVDownloader,
     Type,
   };
 }
