@@ -1,10 +1,10 @@
 import React from 'react';
-import PapaParse, { ParseConfig } from 'papaparse';
+import PapaParse, { UnparseConfig } from 'papaparse';
 
 export const LINK_TYPE = 'link';
 export const BUTTON_TYPE = 'button';
 
-export interface Props<T> {
+export interface Props {
   children: React.ReactNode;
   data: any;
   filename: string;
@@ -12,11 +12,11 @@ export interface Props<T> {
   style?: any;
   className?: string;
   bom?: boolean;
-  config?: ParseConfig<T>;
+  config?: UnparseConfig;
 }
 
-export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
-  static defaultProps: Partial<Props<unknown>> = {
+export default class CSVDownloader extends React.Component<Props> {
+  static defaultProps: Partial<Props> = {
     type: LINK_TYPE,
   };
 
@@ -25,7 +25,7 @@ export default class CSVDownloader<T = any> extends React.Component<Props<T>> {
     data: any,
     filename: string,
     bom: boolean,
-    config: ParseConfig<T>,
+    config: UnparseConfig,
   ): void => {
     const bomCode = bom ? '\ufeff' : '';
     let csvContent = null;

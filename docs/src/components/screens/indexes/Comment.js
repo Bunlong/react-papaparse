@@ -15,7 +15,11 @@ const Comment = () => {
             <code className="language-javascript">
               {`// Mostly found in academia, some CSV files
 // may have commented lines in them
-const results = readString(csvString {
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  },
   comments: '#'
 })`}
             </code>

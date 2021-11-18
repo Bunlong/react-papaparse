@@ -14,7 +14,11 @@ const Header = () => {
           <pre>
             <code className="language-javascript">
               {`// Key data by field name instead of index/position
-const results = readString(csvString {
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  },
   header: true
 })`}
             </code>

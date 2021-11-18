@@ -17,7 +17,14 @@ const CSVParsing = () => {
             <code className="language-javascript">
               {`import { readString } from 'react-papaparse'
 
-const results = readString(csvString, config)
+const config = {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  }
+}
+
+readString(csvString, config)
 
 /*
 results = {

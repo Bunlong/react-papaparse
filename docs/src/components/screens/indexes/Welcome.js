@@ -33,7 +33,12 @@ const Welcome = () => {
               <pre>
                 <code className="language-javascript">
                   {`// Parse CSV string
-const data = readString(csvString)
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  }
+})
 
 // Convert back to CSV
 const csv = jsonToCSV(jsonData)

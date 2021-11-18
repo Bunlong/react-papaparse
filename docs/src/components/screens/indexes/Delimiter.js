@@ -15,9 +15,12 @@ const Delimiter = () => {
             <code className="language-javascript">
               {`import { readString } from 'react-papaparse'
 
-const results = readString(csvString)
-
-console.log(results.meta.delimiter)
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results.meta.delimiter)
+  }
+})
 
 `}
               <span>

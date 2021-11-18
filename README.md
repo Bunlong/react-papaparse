@@ -1,7 +1,3 @@
-<p align="center">
-  ⭐️ Please support us by giving a star! Thanks! ⭐️
-</p>
-
 # react-papaparse
 
 react-papaparse is the fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, CSVDownloader, readString, jsonToCSV, readRemoteFile, ... etc.
@@ -55,11 +51,11 @@ FAQ:
 
 ## 📚 Useful Features
 
-* [CSVReader](https://react-papaparse.github.io/docs#local-files) – React component that handles csv files input and returns its content as array.
-* [CSVDownloader](https://github.com/bunlong/react-papaparse#-csvdownloader) – React component that render the link/button which is clicked to download the data provided in CSV format.
-* [readString](https://react-papaparse.github.io/docs#strings) – The function that read CSV comma separated string and returns its content as array.
-* [readRemoteFile](https://react-papaparse.github.io/docs#remote-files) – The function that read remote CSV files and returns its content as array.
-* [jsonToCSV](https://react-papaparse.github.io/docs#json-to-csv) – The function that read an array of object (json) and returns its content as CSV comma separated string.
+* [CSVReader](https://github.com/Bunlong/react-papaparse#-csvreader) – React component that handles csv files input and returns its content as array.
+* [CSVDownloader](https://github.com/Bunlong/react-papaparse#-csvdownloader) – React component that render the link/button which is clicked to download the data provided in CSV format.
+* [readString](https://github.com/Bunlong/react-papaparse#-readstring) – The function that read CSV comma separated string and returns its content as array.
+* [readRemoteFile](https://github.com/Bunlong/react-papaparse#-readremotefile) – The function that read remote CSV files and returns its content as array.
+* [jsonToCSV](https://github.com/Bunlong/react-papaparse#-jsontocsv) – The function that read an array of object (json) and returns its content as CSV comma separated string.
 
 ## 💡 Usage
 
@@ -408,13 +404,18 @@ export default class CSVDownloader extends Component {
 ```javascript
 import { readString } from 'react-papaparse'
 
-const str = `Column 1,Column 2,Column 3,Column 4
+const csvString = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
 3-1,3-2,3-3,3-4
 4,5,6,7`
 
-const results = readString(str)
+readString(csvString, {
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  }
+})
 ```
 
 ### 🎀 readRemoteFile
@@ -472,8 +473,12 @@ const results = jsonToCSV(jsonData)
 If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.
 
 ```javascript
-const results = readString(csvString {
-  header: true
+readString(csvString, {
+  header: true,
+  worker: true,
+  complete: (results) => {
+    console.log(results)
+  }
 })
 ```
 
@@ -494,15 +499,16 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.17.2 (2021-09-04):
+Latest version 3.18.1 (2021-11-07):
 
-  * Upgrade dependencies
+  * Fix a bug when component is unmounted immediately after file load in CSVReader
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
 ### 🆕 v4.0.x
+
   * Improve code performance
   * Rewrite any existing based components to hooks
   * CSVReader multiple files drag and drop
@@ -747,6 +753,26 @@ How to contribute:
         <br />
         <sub>
           <b>Christopher Thomas</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Graveheart">
+        <img src="https://avatars.githubusercontent.com/u/6318562?v=4" width="100" alt="Venelin Banov" />
+        <br />
+        <sub>
+          <b>Venelin Banov</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/joey-b">
+        <img src="https://avatars.githubusercontent.com/u/3277786?v=4" width="100" alt="Joey Baker" />
+        <br />
+        <sub>
+          <b>Joey Baker</b>
         </sub>
       </a>
     </td>
