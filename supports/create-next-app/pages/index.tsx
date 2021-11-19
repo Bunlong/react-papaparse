@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
-import { CSVReader, CSVDownloader, readString } from 'react-papaparse'
+import {
+  CSVReader,
+  CSVDownloader,
+  // readString,
+  usePapaParse,
+} from 'react-papaparse'
 
 export default function Home() {
   const [isReset, setIsReset] = useState<boolean>(false);
+
+  const { readString } = usePapaParse();
 
   const handleReset = () => {
     setIsReset(!isReset)
