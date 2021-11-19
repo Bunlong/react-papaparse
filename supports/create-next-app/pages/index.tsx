@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import {
-  CSVReader,
+  // CSVReader,
   // CSVDownloader,
   // readString,
   usePapaParse,
   useCSVDownloader,
+  useCSVReader,
 } from 'react-papaparse'
 
 export default function Home() {
   const [isReset, setIsReset] = useState<boolean>(false);
   const { CSVDownloader, Type } = useCSVDownloader();
+  const { CSVReader } = useCSVReader();
 
   const { readString } = usePapaParse();
 
@@ -58,7 +60,7 @@ export default function Home() {
   return (
     <>
       <div>
-        <CSVReader
+        {/* <CSVReader
           isReset={isReset}
           onDrop={handleOnDrop}
           onError={handleOnError}
@@ -103,7 +105,7 @@ export default function Home() {
           }}
         >
           <span>Click to upload.</span>
-        </CSVReader>
+        </CSVReader> */}
       </div>
       <div>
         <button onClick={() => handleClick()}>readString</button>
@@ -171,6 +173,11 @@ export default function Home() {
         >
           Download
         </CSVDownloader>
+      </div>
+      <div>
+        <CSVReader
+
+        />
       </div>
     </>
   )

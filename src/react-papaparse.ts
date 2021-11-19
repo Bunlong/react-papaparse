@@ -20,3 +20,4 @@ export { jsonToCSV } from './jsonToCSV';
 
 export { usePapaParse } from './usePapaParse';
 export { useCSVDownloader } from './useCSVDownloader';
+export { useCSVReader } from './useCSVReader';
