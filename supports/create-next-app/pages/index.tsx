@@ -175,9 +175,9 @@ export default function Home() {
         </CSVDownloader>
       </div>
       <div>
-        <CSVReader
-
-        />
+        <CSVReader>
+          Read CSV
+        </CSVReader>
       </div>
     </>
   )

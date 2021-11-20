@@ -49,3 +49,49 @@ export function lightenDarkenColor(col: string, amt: number) {
   }
   return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
 }
+
+function isIe(userAgent: any) {
+  return (
+    userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident/') !== -1
+  );
+}
+
+function isEdge(userAgent: any) {
+  return userAgent.indexOf('Edge/') !== -1;
+}
+
+export function isIeOrEdge(userAgent = window.navigator.userAgent) {
+  return isIe(userAgent) || isEdge(userAgent);
+}
+
+// React's synthetic events has event.isPropagationStopped,
+// but to remain compatibility with other libs (Preact) fall back
+// to check event.cancelBubble
+export function isPropagationStopped(event: any) {
+  if (typeof event.isPropagationStopped === 'function') {
+    return event.isPropagationStopped();
+  } else if (typeof event.cancelBubble !== 'undefined') {
+    return event.cancelBubble;
+  }
+  return false;
+}
+
+/**
+ * This is intended to be used to compose event handlers
+ * They are executed in order until one of them calls `event.isPropagationStopped()`.
+ * Note that the check is done on the first invoke too,
+ * meaning that if propagation was stopped before invoking the fns,
+ * no handlers will be executed.
+ *
+ * @param {Function} fns the event hanlder functions
+ * @return {Function} the event handler to add to an element
+ */
+export function composeEventHandlers(...fns: any[]) {
+  return (event: any, ...args: any[]) =>
+    fns.some((fn) => {
+      if (!isPropagationStopped(event) && fn) {
+        fn(event, ...args);
+      }
+      return isPropagationStopped(event);
+    });
+}
