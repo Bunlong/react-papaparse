@@ -1,3 +1,6 @@
+// Error codes
+export const FILE_INVALID_TYPE = 'file-invalid-type'
+
 export default function getSize(size: number) {
   const sizeKb = 1024;
   const sizeMb = sizeKb * sizeKb;
@@ -94,4 +97,67 @@ export function composeEventHandlers(...fns: any[]) {
       }
       return isPropagationStopped(event);
     });
+}
+
+export function isEventWithFiles(event: any) {
+  if (!event.dataTransfer) {
+    return !!event.target && !!event.target.files
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types#file
+  return Array.prototype.some.call(
+    event.dataTransfer.types,
+    type => type === 'Files' || type === 'application/x-moz-file'
+  )
+}
+
+/**
+ * Check if the provided file type should be accepted by the input with accept attribute.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input#attr-accept
+ *
+ * Inspired by https://github.com/enyo/dropzone
+ *
+ * @param file {File} https://developer.mozilla.org/en-US/docs/Web/API/File
+ * @param acceptedFiles {string}
+ * @returns {boolean}
+ */
+
+export function accepts(file: any, acceptedFiles: any) {
+  if (file && acceptedFiles) {
+    const acceptedFilesArray = Array.isArray(acceptedFiles)
+      ? acceptedFiles
+      : acceptedFiles.split(',')
+    const fileName = file.name || ''
+    const mimeType = (file.type || '').toLowerCase()
+    const baseMimeType = mimeType.replace(/\/.*$/, '')
+
+    return acceptedFilesArray.some((type: any) => {
+      const validType = type.trim().toLowerCase()
+      if (validType.charAt(0) === '.') {
+        return fileName.toLowerCase().endsWith(validType)
+      } else if (validType.endsWith('/*')) {
+        // This is something like a image/* mime type
+        return baseMimeType === validType.replace(/\/.*$/, '')
+      }
+      return mimeType === validType
+    })
+  }
+  return true
+}
+
+// File Errors
+export const getInvalidTypeRejectionErr = (accept: any) => {
+  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept
+  const messageSuffix = Array.isArray(accept) ? `one of ${accept.join(', ')}` : accept
+  return {
+    code: FILE_INVALID_TYPE,
+    message: `File type must be ${messageSuffix}`
+  }
+}
+
+// Firefox versions prior to 53 return a bogus MIME type for every file drag, so dragovers with
+// that MIME type will always be accepted
+export function fileAccepted(file: any, accept: any) {
+  const isAcceptable = file.type === 'application/x-moz-file' || accepts(file, accept)
+  return [isAcceptable, isAcceptable ? null : getInvalidTypeRejectionErr(accept)]
 }

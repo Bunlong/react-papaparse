@@ -176,7 +176,14 @@ export default function Home() {
       </div>
       <div>
         <CSVReader>
-          Read CSV
+          {(getProps) => (
+            <button
+              type="button"
+              {...getProps()}
+            >
+              Browse file
+            </button>
+          )}
         </CSVReader>
       </div>
     </>
