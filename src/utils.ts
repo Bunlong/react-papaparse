@@ -1,5 +1,7 @@
 // Error codes
-export const FILE_INVALID_TYPE = 'file-invalid-type'
+export const FILE_INVALID_TYPE = 'file-invalid-type';
+export const FILE_TOO_LARGE = 'file-too-large';
+export const FILE_TOO_SMALL = 'file-too-small';
 
 export default function getSize(size: number) {
   const sizeKb = 1024;
@@ -160,4 +162,35 @@ export const getInvalidTypeRejectionErr = (accept: any) => {
 export function fileAccepted(file: any, accept: any) {
   const isAcceptable = file.type === 'application/x-moz-file' || accepts(file, accept)
   return [isAcceptable, isAcceptable ? null : getInvalidTypeRejectionErr(accept)]
+}
+
+export function fileMatchSize(file: any, minSize: any, maxSize: any) {
+  if (isDefined(file.size)) {
+    if (isDefined(minSize) && isDefined(maxSize)) {
+      if (file.size > maxSize) return [false, getTooLargeRejectionErr(maxSize)]
+      if (file.size < minSize) return [false, getTooSmallRejectionErr(minSize)]
+    } else if (isDefined(minSize) && file.size < minSize)
+      return [false, getTooSmallRejectionErr(minSize)]
+    else if (isDefined(maxSize) && file.size > maxSize)
+      return [false, getTooLargeRejectionErr(maxSize)]
+  }
+  return [true, null]
+}
+
+function isDefined(value: any) {
+  return value !== undefined && value !== null
+}
+
+export const getTooLargeRejectionErr = (maxSize: any) => {
+  return {
+    code: FILE_TOO_LARGE,
+    message: `File is larger than ${maxSize} bytes`
+  }
+}
+
+export const getTooSmallRejectionErr = (minSize: any) => {
+  return {
+    code: FILE_TOO_SMALL,
+    message: `File is smaller than ${minSize} bytes`
+  }
 }

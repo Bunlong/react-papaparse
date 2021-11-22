@@ -15,7 +15,8 @@ import {
   composeEventHandlers,
   isEventWithFiles,
   isPropagationStopped,
-  // fileAccepted,
+  fileAccepted,
+  fileMatchSize,
 } from './utils';
 
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
@@ -111,6 +112,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setDisabled,
       noDragEventsBubbling,
       setNoDragEventsBubbling,
+      minSize,
+      setMinSize,
+      maxSize,
+      setMaxSize,
     } = CSVReader.api;
 
     const inputRef: any = useRef<ReactNode>(null);
@@ -121,11 +126,13 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const { isFileDialogActive } = state;
 
     useEffect(() => {
-      const { config, accept, noDragEventsBubbling } = props;
+      const { config, accept, noDragEventsBubbling, minSize, maxSize } = props;
       config && setConfig(config);
       accept && setAccept(accept);
       disabled && setDisabled(disabled);
       noDragEventsBubbling && setNoDragEventsBubbling(noDragEventsBubbling)
+      minSize && setMinSize(minSize);
+      maxSize && setMaxSize(maxSize);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -212,23 +219,21 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
   
         if (isEventWithFiles(event)) {
           // Promise.resolve(getFilesFromEvent(event)).then(files => {
-            if (isPropagationStopped(event) && !noDragEventsBubbling) {
-              return
-            }
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return
+          }
 
+          // const acceptedFiles = []
+          // const fileRejections = []
   
-            // const acceptedFiles = []
-            // const fileRejections = []
-  
-            // event.target.files.forEach((file: any) => {
-            //   const [accepted, acceptError] = fileAccepted(file, accept);
-            //   console.log('===========');
-            //   console.log(accepted)
-            //   console.log(acceptError)
-            //   console.log('===========');
-              
-            //   const [sizeMatch, sizeError] = fileMatchSize(file, minSize, maxSize)
-            //   const customErrors = validator ? validator(file) : null;
+          Array.from(event.target.files).forEach((file: any) => {
+            // const [accepted, acceptError] = fileAccepted(file, accept);
+            const [sizeMatch, sizeError] = fileMatchSize(file, minSize, maxSize)
+            console.log('======================');
+            console.log(sizeMatch);
+            console.log(sizeError);
+            console.log('======================');
+            // const customErrors = validator ? validator(file) : null;
   
             //   if (accepted && sizeMatch && !customErrors) {
             //     acceptedFiles.push(file)
@@ -268,7 +273,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             // if (acceptedFiles.length > 0 && onDropAccepted) {
             //   onDropAccepted(acceptedFiles, event)
             // }
-          // })
+          })
         }
         // dispatch({ type: 'reset' })
       },
