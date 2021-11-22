@@ -37,6 +37,7 @@ export interface Props<T> {
   style?: any;
   progressBarColor?: string;
   removeButtonColor?: string;
+  validator?: (file: any) => void;
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
@@ -80,6 +81,8 @@ export interface Api<T> {
   setProgressBarColor?: () => void;
   removeButtonColor?: string;
   setRemoveButtonColor?: () => void;
+  validator?: null;
+  setValidator?: () => void;
 
   noClick?: boolean;
   setNoClick?: () => void;
@@ -116,6 +119,8 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMinSize,
       maxSize,
       setMaxSize,
+      validator,
+      setValidator,
     } = CSVReader.api;
 
     const inputRef: any = useRef<ReactNode>(null);
@@ -126,13 +131,14 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const { isFileDialogActive } = state;
 
     useEffect(() => {
-      const { config, accept, noDragEventsBubbling, minSize, maxSize } = props;
+      const { config, accept, noDragEventsBubbling, minSize, maxSize, validator } = props;
       config && setConfig(config);
       accept && setAccept(accept);
       disabled && setDisabled(disabled);
       noDragEventsBubbling && setNoDragEventsBubbling(noDragEventsBubbling)
       minSize && setMinSize(minSize);
       maxSize && setMaxSize(maxSize);
+      validator && setValidator(validator);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -218,78 +224,77 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         dragTargetsRef.current = []
   
         if (isEventWithFiles(event)) {
-          // Promise.resolve(getFilesFromEvent(event)).then(files => {
           if (isPropagationStopped(event) && !noDragEventsBubbling) {
             return
           }
 
-          // const acceptedFiles = []
-          // const fileRejections = []
-  
-          Array.from(event.target.files).forEach((file: any) => {
-            // const [accepted, acceptError] = fileAccepted(file, accept);
+          const acceptedFiles = [] as any;
+          const fileRejections = [] as any;
+
+          Array.from(event.target.files).forEach(file => {
+            const [accepted, acceptError] = fileAccepted(file, accept)
             const [sizeMatch, sizeError] = fileMatchSize(file, minSize, maxSize)
-            console.log('======================');
-            console.log(sizeMatch);
-            console.log(sizeError);
-            console.log('======================');
-            // const customErrors = validator ? validator(file) : null;
-  
-            //   if (accepted && sizeMatch && !customErrors) {
-            //     acceptedFiles.push(file)
-            //   } else {
-            //     let errors = [acceptError, sizeError];
-                
-            //     if (customErrors) {
-            //       errors = errors.concat(customErrors);
-            //     }
-  
-            //     fileRejections.push({ file, errors: errors.filter(e => e) })
-            //   }
-            // })
-  
-            // if ((!multiple && acceptedFiles.length > 1) || (multiple && maxFiles >= 1 &&  acceptedFiles.length > maxFiles)) {
-            //   // Reject everything and empty accepted files
-            //   acceptedFiles.forEach(file => {
-            //     fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] })
-            //   })
-            //   acceptedFiles.splice(0)
-            // }
-          
-            // dispatch({
-            //   acceptedFiles,
-            //   fileRejections,
-            //   type: 'setFiles'
-            // })
-  
-            // if (onDrop) {
-            //   onDrop(acceptedFiles, fileRejections, event)
-            // }
-  
-            // if (fileRejections.length > 0 && onDropRejected) {
-            //   onDropRejected(fileRejections, event)
-            // }
-  
-            // if (acceptedFiles.length > 0 && onDropAccepted) {
-            //   onDropAccepted(acceptedFiles, event)
-            // }
-          })
+            const customErrors = validator ? validator(file) : null;
+
+            if (accepted && sizeMatch && !customErrors) {
+              acceptedFiles.push(file)
+            } else {
+              let errors = [acceptError, sizeError];
+              
+              if (customErrors) {
+                errors = errors.concat(customErrors);
+              }
+
+              fileRejections.push({ file, errors: errors.filter(e => e) })
+            }
+          });
+
+          console.log('=================');
+          console.log(acceptedFiles);
+          console.log(fileRejections);
+          console.log('=================');
+
+          // if ((!multiple && acceptedFiles.length > 1) || (multiple && maxFiles >= 1 &&  acceptedFiles.length > maxFiles)) {
+          //   // Reject everything and empty accepted files
+          //   acceptedFiles.forEach(file => {
+          //     fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] })
+          //   })
+          //   acceptedFiles.splice(0)
+          // }
+        
+          // dispatch({
+          //   acceptedFiles,
+          //   fileRejections,
+          //   type: 'setFiles'
+          // })
+
+          // if (onDrop) {
+          //   onDrop(acceptedFiles, fileRejections, event)
+          // }
+
+          // if (fileRejections.length > 0 && onDropRejected) {
+          //   onDropRejected(fileRejections, event)
+          // }
+
+          // if (acceptedFiles.length > 0 && onDropAccepted) {
+          //   onDropAccepted(acceptedFiles, event)
+          // }
         }
-        // dispatch({ type: 'reset' })
+        dispatch({ type: 'reset' })
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [
-        accept,
-        noDragEventsBubbling,
         // multiple,
-        // minSize,
-        // maxSize,
+        accept,
+        minSize,
+        maxSize,
         // maxFiles,
         // getFilesFromEvent,
         // onDrop,
         // onDropAccepted,
         // onDropRejected,
-        // validator
+        // noDragEventsBubbling,
+        // validator,
       ]
     );
 
@@ -373,11 +378,12 @@ export function useCSVReader<T = any>() {
   const [config, setConfig] = useState({});
   const [accept, setAccept] = useState(DEFAULT_ACCEPT);
   const [minSize, setMinSize] = useState(0);
-  const [maxSize, setMaxSize] = useState(0);
+  const [maxSize, setMaxSize] = useState(1000);
   const [className, setClassName] = useState('');
   const [style, setStyle] = useState({});
   const [progressBarColor, setProgressBarColor] = useState('');
   const [removeButtonColor, setRemoveButtonColor] = useState('');
+  const [validator, setValidator] = useState(null);
   const [noClick, setNoClick] = useState(false);
   const [noDrag, setNoDrag] = useState(false);
   const [noRemoveButton, setNoRemoveButton] = useState(false);
@@ -404,6 +410,8 @@ export function useCSVReader<T = any>() {
     setProgressBarColor,
     removeButtonColor,
     setRemoveButtonColor,
+    validator,
+    setValidator,
     noClick,
     setNoClick,
     noDrag,
