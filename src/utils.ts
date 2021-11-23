@@ -2,6 +2,7 @@
 export const FILE_INVALID_TYPE = 'file-invalid-type';
 export const FILE_TOO_LARGE = 'file-too-large';
 export const FILE_TOO_SMALL = 'file-too-small';
+export const TOO_MANY_FILES = 'too-many-files';
 
 export default function getSize(size: number) {
   const sizeKb = 1024;
@@ -103,14 +104,14 @@ export function composeEventHandlers(...fns: any[]) {
 
 export function isEventWithFiles(event: any) {
   if (!event.dataTransfer) {
-    return !!event.target && !!event.target.files
+    return !!event.target && !!event.target.files;
   }
   // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
   // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types#file
   return Array.prototype.some.call(
     event.dataTransfer.types,
-    type => type === 'Files' || type === 'application/x-moz-file'
-  )
+    (type) => type === 'Files' || type === 'application/x-moz-file',
+  );
 }
 
 /**
@@ -128,69 +129,85 @@ export function accepts(file: any, acceptedFiles: any) {
   if (file && acceptedFiles) {
     const acceptedFilesArray = Array.isArray(acceptedFiles)
       ? acceptedFiles
-      : acceptedFiles.split(',')
-    const fileName = file.name || ''
-    const mimeType = (file.type || '').toLowerCase()
-    const baseMimeType = mimeType.replace(/\/.*$/, '')
+      : acceptedFiles.split(',');
+    const fileName = file.name || '';
+    const mimeType = (file.type || '').toLowerCase();
+    const baseMimeType = mimeType.replace(/\/.*$/, '');
 
     return acceptedFilesArray.some((type: any) => {
-      const validType = type.trim().toLowerCase()
+      const validType = type.trim().toLowerCase();
       if (validType.charAt(0) === '.') {
-        return fileName.toLowerCase().endsWith(validType)
+        return fileName.toLowerCase().endsWith(validType);
       } else if (validType.endsWith('/*')) {
         // This is something like a image/* mime type
-        return baseMimeType === validType.replace(/\/.*$/, '')
+        return baseMimeType === validType.replace(/\/.*$/, '');
       }
-      return mimeType === validType
-    })
+      return mimeType === validType;
+    });
   }
-  return true
+  return true;
 }
 
 // File Errors
 export const getInvalidTypeRejectionErr = (accept: any) => {
-  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept
-  const messageSuffix = Array.isArray(accept) ? `one of ${accept.join(', ')}` : accept
+  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
+  const messageSuffix = Array.isArray(accept)
+    ? `one of ${accept.join(', ')}`
+    : accept;
   return {
     code: FILE_INVALID_TYPE,
-    message: `File type must be ${messageSuffix}`
-  }
-}
+    message: `File type must be ${messageSuffix}`,
+  };
+};
 
 // Firefox versions prior to 53 return a bogus MIME type for every file drag, so dragovers with
 // that MIME type will always be accepted
 export function fileAccepted(file: any, accept: any) {
-  const isAcceptable = file.type === 'application/x-moz-file' || accepts(file, accept)
-  return [isAcceptable, isAcceptable ? null : getInvalidTypeRejectionErr(accept)]
+  const isAcceptable =
+    file.type === 'application/x-moz-file' || accepts(file, accept);
+  return [
+    isAcceptable,
+    isAcceptable ? null : getInvalidTypeRejectionErr(accept),
+  ];
 }
 
 export function fileMatchSize(file: any, minSize: any, maxSize: any) {
   if (isDefined(file.size)) {
     if (isDefined(minSize) && isDefined(maxSize)) {
-      if (file.size > maxSize) return [false, getTooLargeRejectionErr(maxSize)]
-      if (file.size < minSize) return [false, getTooSmallRejectionErr(minSize)]
-    } else if (isDefined(minSize) && file.size < minSize)
-      return [false, getTooSmallRejectionErr(minSize)]
-    else if (isDefined(maxSize) && file.size > maxSize)
-      return [false, getTooLargeRejectionErr(maxSize)]
+      if (file.size > maxSize) {
+        return [false, getTooLargeRejectionErr(maxSize)];
+      }
+      if (file.size < minSize) {
+        return [false, getTooSmallRejectionErr(minSize)];
+      }
+    } else if (isDefined(minSize) && file.size < minSize) {
+      return [false, getTooSmallRejectionErr(minSize)];
+    } else if (isDefined(maxSize) && file.size > maxSize) {
+      return [false, getTooLargeRejectionErr(maxSize)];
+    }
   }
-  return [true, null]
+  return [true, null];
 }
 
 function isDefined(value: any) {
-  return value !== undefined && value !== null
+  return value !== undefined && value !== null;
 }
 
 export const getTooLargeRejectionErr = (maxSize: any) => {
   return {
     code: FILE_TOO_LARGE,
-    message: `File is larger than ${maxSize} bytes`
-  }
-}
+    message: `File is larger than ${maxSize} bytes`,
+  };
+};
 
 export const getTooSmallRejectionErr = (minSize: any) => {
   return {
     code: FILE_TOO_SMALL,
-    message: `File is smaller than ${minSize} bytes`
-  }
-}
+    message: `File is smaller than ${minSize} bytes`,
+  };
+};
+
+export const TOO_MANY_FILES_REJECTION = {
+  code: TOO_MANY_FILES,
+  message: 'Too many files',
+};
