@@ -175,7 +175,13 @@ export default function Home() {
         </CSVDownloader>
       </div>
       <div>
-        <CSVReader>
+        <CSVReader
+          onFileUpload={(acceptedFiles: any)=> {
+            console.log('9999999999999999999999');
+            console.log(acceptedFiles);
+            console.log('9999999999999999999999');
+          }}
+        >
           {(getProps) => (
             <button
               type="button"

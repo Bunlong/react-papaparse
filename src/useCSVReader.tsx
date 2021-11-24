@@ -41,6 +41,7 @@ export interface Props<T> {
   removeButtonColor?: string;
   validator?: (file: any) => void;
   onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
+  onFileUpload?: (data: Array<ParseResult<T>>, file?: any, event?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
   onRemoveFile?: (data: null) => void;
@@ -133,6 +134,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       maxFiles,
       setMaxFiles,
     } = CSVReader.api;
+    const { onFileUpload } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
@@ -291,11 +293,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           console.log(fileRejections);
           console.log('11111111111111111111');
 
-          // dispatch({
-          //   acceptedFiles,
-          //   fileRejections,
-          //   type: 'setFiles'
-          // })
+          dispatch({
+            acceptedFiles,
+            fileRejections,
+            type: 'setFiles'
+          })
 
           // if (onDrop) {
           //   onDrop(acceptedFiles, fileRejections, event)
@@ -308,6 +310,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           // if (acceptedFiles.length > 0 && onDropAccepted) {
           //   onDropAccepted(acceptedFiles, event)
           // }
+
+          if (onFileUpload) {
+            onFileUpload(acceptedFiles, fileRejections, event)
+          }
         }
         dispatch({ type: 'reset' });
       },
@@ -319,11 +325,12 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         maxSize,
         maxFiles,
         validator,
-        // getFilesFromEvent,
+        onFileUpload,
         // onDrop,
         // onDropAccepted,
         // onDropRejected,
         // noDragEventsBubbling,
+        // getFilesFromEvent,
       ],
     );
 
@@ -482,12 +489,12 @@ export function useCSVReader<T = any>() {
 const initialState = {
   displayProgressBarStatus: 'none',
   isFileDialogActive: false,
+  acceptedFiles: [],
   // isFocused: false,
   // isDragActive: false,
   // isDragAccept: false,
   // isDragReject: false,
   // draggedFiles: [],
-  // acceptedFiles: [],
   // fileRejections: [],
 };
 
@@ -503,6 +510,12 @@ function reducer(state: any, action: any) {
         ...state,
         isFileDialogActive: false,
       };
+    case 'setFiles':
+      return {
+        ...state,
+        acceptedFiles: action.acceptedFiles,
+        fileRejections: action.fileRejections
+      }
     default:
       return state;
   }
