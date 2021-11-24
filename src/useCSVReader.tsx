@@ -8,7 +8,7 @@ import React, {
   ReactNode,
   useRef,
 } from 'react';
-import { /*PapaParse,*/ ParseResult } from 'papaparse';
+import PapaParse, { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
 import {
   isIeOrEdge,
@@ -113,7 +113,7 @@ export interface Api<T> {
 function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
     const {
-      // config,
+      config,
       setConfig,
       accept,
       setAccept,
@@ -311,9 +311,57 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           //   onDropAccepted(acceptedFiles, event)
           // }
 
-          if (onFileUpload) {
-            onFileUpload(acceptedFiles, fileRejections, event)
+          let configs = {} as any;
+          if (/*onDrop || */onFileUpload) {
+            configs = {
+              complete:
+                config?.complete || config?.step
+                  ? config.complete
+                  : () => {
+                      // if (!onDrop && onFileUpload) {
+                      //   onFileUpload(data, file);
+                      // } else if (onDrop && !onFileUpload) {
+                      //   onDrop(data, file);
+                      // }
+                    },
+                step: config?.step
+                  ? config.step
+                  : (row: any) => {
+                      console.log('======================');
+                      console.log(row);
+                      console.log('======================');
+                      // data.push(row);
+                      // if (config && config.preview) {
+                      //   percent = Math.round((data.length / config.preview) * 100);
+                      //   self.setState({ progressBar: percent });
+                      //   if (data.length === config.preview) {
+                      //     if (!onDrop && onFileLoad) {
+                      //       onFileLoad(data, file);
+                      //     } else if (onDrop && !onFileLoad) {
+                      //       onDrop(data, file);
+                      //     }
+                      //   }
+                      // } else {
+                      //   const progress = row.meta.cursor;
+                      //   const newPercent = Math.round((progress / size) * 100);
+                      //   if (newPercent === percent) {
+                      //     return;
+                      //   }
+                      //   percent = newPercent;
+                      // }
+                      // self.setState({ progressBar: percent });
+                    },
+              };
+            // onFileUpload(acceptedFiles, fileRejections, event)
           }
+
+          configs = Object.assign({}, config, configs);
+
+          const reader = new window.FileReader();
+          reader.onload = (e: any) => {
+            PapaParse.parse(e.target.result, configs);
+          };
+          reader.readAsText(file, config.encoding || 'utf-8');
         }
         dispatch({ type: 'reset' });
       },
