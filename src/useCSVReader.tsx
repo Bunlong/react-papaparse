@@ -40,8 +40,8 @@ export interface Props<T> {
   progressBarColor?: string;
   removeButtonColor?: string;
   validator?: (file: any) => void;
-  onDrop?: (data: Array<ParseResult<T>>, file?: any) => void;
-  onFileUpload?: (data: Array<ParseResult<T>>, file?: any, event?: any) => void;
+  onDrop?: (data: ParseResult<T>, file?: any) => void;
+  onFileUpload?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
   onRemoveFile?: (data: null) => void;
@@ -134,7 +134,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       maxFiles,
       setMaxFiles,
     } = CSVReader.api;
-    const { onFileUpload } = props;
+    const { onFileUpload, onDrop } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
@@ -288,10 +288,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             acceptedFiles.splice(0);
           }
 
-          console.log('11111111111111111111');
-          console.log(acceptedFiles);
-          console.log(fileRejections);
-          console.log('11111111111111111111');
+          
 
           dispatch({
             acceptedFiles,
@@ -312,56 +309,66 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           // }
 
           let configs = {} as any;
+          const data: any = [];
+          const errors: any = [];
+          const meta: any = [];
+          const reader = new window.FileReader();
+
           if (/*onDrop || */onFileUpload) {
+            
+            // onFileUpload(acceptedFiles, fileRejections, event)
+          }
+
+          configs = Object.assign({}, config, configs);
+          acceptedFiles.forEach((file: any) => {
             configs = {
               complete:
                 config?.complete || config?.step
                   ? config.complete
                   : () => {
-                      // if (!onDrop && onFileUpload) {
-                      //   onFileUpload(data, file);
-                      // } else if (onDrop && !onFileUpload) {
-                      //   onDrop(data, file);
-                      // }
+                      const obj = {data, errors, meta};
+                      if (!onDrop && onFileUpload) {
+                        onFileUpload(obj, file);
+                      } else if (onDrop && !onFileUpload) {
+                        onDrop(obj, file);
+                      }
                     },
-                step: config?.step
-                  ? config.step
-                  : (row: any) => {
-                      console.log('======================');
-                      console.log(row);
-                      console.log('======================');
-                      // data.push(row);
-                      // if (config && config.preview) {
-                      //   percent = Math.round((data.length / config.preview) * 100);
-                      //   self.setState({ progressBar: percent });
-                      //   if (data.length === config.preview) {
-                      //     if (!onDrop && onFileLoad) {
-                      //       onFileLoad(data, file);
-                      //     } else if (onDrop && !onFileLoad) {
-                      //       onDrop(data, file);
-                      //     }
-                      //   }
-                      // } else {
-                      //   const progress = row.meta.cursor;
-                      //   const newPercent = Math.round((progress / size) * 100);
-                      //   if (newPercent === percent) {
-                      //     return;
-                      //   }
-                      //   percent = newPercent;
-                      // }
+              step: config?.step
+                ? config.step
+                : (row: any) => {
+                    data.push(row.data);
+                    if (row.errors.length > 0) {
+                      errors.push(row.errors);
+                    }
+                    if (row.length > 0) {
+                      meta.push(row[0].meta);
+                    }
+                    if (config && config.preview) {
+                      // percent = Math.round((data.length / config.preview) * 100);
                       // self.setState({ progressBar: percent });
-                    },
-              };
-            // onFileUpload(acceptedFiles, fileRejections, event)
-          }
-
-          configs = Object.assign({}, config, configs);
-
-          const reader = new window.FileReader();
-          reader.onload = (e: any) => {
-            PapaParse.parse(e.target.result, configs);
-          };
-          reader.readAsText(file, config.encoding || 'utf-8');
+                      if (data.length === config.preview) {
+                        if (!onDrop && onFileUpload) {
+                          onFileUpload(data, file);
+                        } else if (onDrop && !onFileUpload) {
+                          onDrop(data, file);
+                        }
+                      }
+                    } else {
+                      // const progress = row.meta.cursor;
+                      // const newPercent = Math.round((progress / size) * 100);
+                      // if (newPercent === percent) {
+                      //   return;
+                      // }
+                      // percent = newPercent;
+                    }
+                    // self.setState({ progressBar: percent });
+                  },
+            };
+            reader.onload = (e: any) => {
+              PapaParse.parse(e.target.result, configs);
+            };
+            reader.readAsText(file, config.encoding || 'utf-8');
+          });
         }
         dispatch({ type: 'reset' });
       },
@@ -374,7 +381,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         maxFiles,
         validator,
         onFileUpload,
-        // onDrop,
+        onDrop,
         // onDropAccepted,
         // onDropRejected,
         // noDragEventsBubbling,
