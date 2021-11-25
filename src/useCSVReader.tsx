@@ -40,11 +40,10 @@ export interface Props<T> {
   progressBarColor?: string;
   removeButtonColor?: string;
   validator?: (file: any) => void;
-  onDrop?: (data: ParseResult<T>, file?: any) => void;
-  onFileUpload?: (data: ParseResult<T>, file?: any, event?: any) => void;
-  onFileLoad?: (data: Array<ParseResult<T>>, file?: any) => void;
+  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
+  onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  onRemoveFile?: (data: null) => void;
+  onRemove?: (data: null) => void;
   onFileDialogCancel?: () => void;
   disabled?: boolean;
   noClick?: boolean;
@@ -89,7 +88,6 @@ export interface Api<T> {
   setRemoveButtonColor?: () => void;
   validator?: null;
   setValidator?: () => void;
-
   noClick?: boolean;
   setNoClick?: () => void;
   noDrag?: boolean;
@@ -118,7 +116,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       accept,
       setAccept,
       noClick,
-      // setNoClick,
+      setNoClick,
       disabled,
       setDisabled,
       noDragEventsBubbling,
@@ -134,7 +132,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       maxFiles,
       setMaxFiles,
     } = CSVReader.api;
-    const { onFileUpload, onDrop } = props;
+    const { onUploadAccepted, onDropAccepted } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
@@ -153,6 +151,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         validator,
         multiple,
         maxFiles,
+        noClick,
       } = props;
       config && setConfig(config);
       accept && setAccept(accept);
@@ -163,6 +162,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       validator && setValidator(validator);
       multiple && setMultiple(multiple);
       maxFiles && setMaxFiles(maxFiles);
+      noClick && setNoClick(noClick);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -288,13 +288,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             acceptedFiles.splice(0);
           }
 
-          
-
           dispatch({
             acceptedFiles,
             fileRejections,
-            type: 'setFiles'
-          })
+            type: 'setFiles',
+          });
 
           // if (onDrop) {
           //   onDrop(acceptedFiles, fileRejections, event)
@@ -314,11 +312,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           const meta: any = [];
           const reader = new window.FileReader();
 
-          if (/*onDrop || */onFileUpload) {
-            
-            // onFileUpload(acceptedFiles, fileRejections, event)
-          }
-
           configs = Object.assign({}, config, configs);
           acceptedFiles.forEach((file: any) => {
             configs = {
@@ -326,11 +319,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                 config?.complete || config?.step
                   ? config.complete
                   : () => {
-                      const obj = {data, errors, meta};
-                      if (!onDrop && onFileUpload) {
-                        onFileUpload(obj, file);
-                      } else if (onDrop && !onFileUpload) {
-                        onDrop(obj, file);
+                      const obj = { data, errors, meta };
+                      if (!onDropAccepted && onUploadAccepted) {
+                        onUploadAccepted(obj, file);
+                      } else if (onDropAccepted && !onUploadAccepted) {
+                        onDropAccepted(obj, file);
                       }
                     },
               step: config?.step
@@ -347,10 +340,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       // percent = Math.round((data.length / config.preview) * 100);
                       // self.setState({ progressBar: percent });
                       if (data.length === config.preview) {
-                        if (!onDrop && onFileUpload) {
-                          onFileUpload(data, file);
-                        } else if (onDrop && !onFileUpload) {
-                          onDrop(data, file);
+                        if (!onDropAccepted && onUploadAccepted) {
+                          onUploadAccepted(data, file);
+                        } else if (onDropAccepted && !onUploadAccepted) {
+                          onDropAccepted(data, file);
                         }
                       }
                     } else {
@@ -380,9 +373,8 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         maxSize,
         maxFiles,
         validator,
-        onFileUpload,
-        onDrop,
-        // onDropAccepted,
+        onUploadAccepted,
+        onDropAccepted,
         // onDropRejected,
         // noDragEventsBubbling,
         // getFilesFromEvent,
@@ -569,8 +561,8 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         acceptedFiles: action.acceptedFiles,
-        fileRejections: action.fileRejections
-      }
+        fileRejections: action.fileRejections,
+      };
     default:
       return state;
   }
