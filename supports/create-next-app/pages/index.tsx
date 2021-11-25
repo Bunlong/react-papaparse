@@ -176,7 +176,7 @@ export default function Home() {
       </div>
       <div>
         <CSVReader
-          onFileUpload={(acceptedFiles: any)=> {
+          onUploadAccepted={(acceptedFiles: any)=> {
             console.log('9999999999999999999999');
             console.log(acceptedFiles);
             console.log('9999999999999999999999');
