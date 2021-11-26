@@ -108,9 +108,9 @@ export default function Home() {
         </CSVReader> */}
       </div>
       <div>
-        <button onClick={() => handleClick()}>readString</button>
-        <button onClick={() => handleReset()}>Reset</button>
-        <CSVDownloader
+        {/* <button onClick={() => handleClick()}>readString</button>
+        <button onClick={() => handleReset()}>Reset</button> */}
+        {/* <CSVDownloader
           data={[
             {
               "Column 1": "1-1",
@@ -146,8 +146,8 @@ export default function Home() {
           type={Type.Button}
         >
           Download
-        </CSVDownloader>
-        <CSVDownloader
+        </CSVDownloader> */}
+        {/* <CSVDownloader
           data={`Column 1,Column 2,Column 3,Column 4
   1-1,1-2,1-3,1-4
   #2-1,मुकेश,ខ្ញុំ,2-4
@@ -157,8 +157,8 @@ export default function Home() {
           bom={true}
         >
           Download
-        </CSVDownloader>
-        <CSVDownloader
+        </CSVDownloader> */}
+        {/* <CSVDownloader
           filename={'filename'}
           data={() => {
             return [
@@ -172,23 +172,28 @@ export default function Home() {
           }
         >
           Download
-        </CSVDownloader>
+        </CSVDownloader> */}
       </div>
       <div>
         <CSVReader
-          onUploadAccepted={(acceptedFiles: any)=> {
+          onUploadAccepted={(results: any)=> {
             console.log('9999999999999999999999');
-            console.log(acceptedFiles);
+            console.log(results);
             console.log('9999999999999999999999');
           }}
         >
-          {(getProps) => (
-            <button
-              type="button"
-              {...getProps()}
-            >
-              Browse file
-            </button>
+          {({ getProps, acceptedFile }) => (
+            <>
+              <button
+                type="button"
+                {...getProps()}
+              >
+                Browse file
+              </button>
+              <p>
+                {acceptedFile && acceptedFile.name}
+              </p>
+            </>
           )}
         </CSVReader>
       </div>

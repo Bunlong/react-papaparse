@@ -139,7 +139,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { isFileDialogActive } = state;
+    const { isFileDialogActive, acceptedFile } = state;
 
     useEffect(() => {
       const {
@@ -225,7 +225,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     const renderChildren = () => {
       const { children } = props;
-      return childrenIsFunction() ? children(getProps) : children;
+      return childrenIsFunction()
+        ? children({ getProps, acceptedFile })
+        : children;
     };
 
     const onInputElementClick = useCallback((event) => {
@@ -314,6 +316,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
           configs = Object.assign({}, config, configs);
           acceptedFiles.forEach((file: any) => {
+            dispatch({
+              acceptedFile: file,
+              type: 'setFile',
+            });
+
             configs = {
               complete:
                 config?.complete || config?.step
@@ -537,6 +544,7 @@ const initialState = {
   displayProgressBarStatus: 'none',
   isFileDialogActive: false,
   acceptedFiles: [],
+  acceptedFile: null,
   // isFocused: false,
   // isDragActive: false,
   // isDragAccept: false,
@@ -562,6 +570,11 @@ function reducer(state: any, action: any) {
         ...state,
         acceptedFiles: action.acceptedFiles,
         fileRejections: action.fileRejections,
+      };
+    case 'setFile':
+      return {
+        ...state,
+        acceptedFile: action.acceptedFile,
       };
     default:
       return state;
