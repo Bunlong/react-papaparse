@@ -10,11 +10,11 @@ const styles = {
     position: 'absolute',
     width: '80%',
   } as CSSProperties,
-  buttonProgressBar: {
+  button: {
     position: 'inherit',
     width: '100%',
   } as CSSProperties,
-  progressBarFill: {
+  fill: {
     backgroundColor: DEFAULT_PROGRESS_BAR_COLOR,
     borderRadius: 3,
     height: 10,
@@ -24,18 +24,18 @@ const styles = {
 
 interface Props {
   style: any;
-  progressBar: number;
-  displayProgressBarStatus: string;
-  isButtonProgressBar?: boolean;
+  percentage: number;
+  display: string;
+  isButton?: boolean;
 }
 
 export default class ProgressBar extends React.Component<Props> {
   render() {
     const {
       style,
-      progressBar,
-      displayProgressBarStatus,
-      isButtonProgressBar,
+      percentage,
+      display,
+      isButton,
     } = this.props;
 
     return (
@@ -43,13 +43,13 @@ export default class ProgressBar extends React.Component<Props> {
         style={Object.assign(
           {},
           styles.progressBar,
-          isButtonProgressBar && styles.buttonProgressBar,
+          isButton && styles.button,
         )}
       >
         <span
-          style={Object.assign({}, styles.progressBarFill, style, {
-            width: `${progressBar}%`,
-            display: displayProgressBarStatus,
+          style={Object.assign({}, styles.fill, style, {
+            width: `${percentage}%`,
+            display,
           })}
         />
       </div>

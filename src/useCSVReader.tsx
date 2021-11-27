@@ -19,6 +19,7 @@ import {
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
 } from './utils';
+import ProgressBar from './ProgressBar';
 
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
@@ -131,6 +132,8 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMultiple,
       maxFiles,
       setMaxFiles,
+      noProgressBar,
+      setNoProgressBar,
     } = CSVReader.api;
     const { onUploadAccepted, onDropAccepted } = props;
 
@@ -139,7 +142,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { isFileDialogActive, acceptedFile } = state;
+    const { isFileDialogActive, acceptedFiles, acceptedFile, progressBarPercentage, displayProgressBar, progressBarColor } = state;
 
     useEffect(() => {
       const {
@@ -152,7 +155,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         multiple,
         maxFiles,
         noClick,
+        noProgressBar,
       } = props;
+
       config && setConfig(config);
       accept && setAccept(accept);
       disabled && setDisabled(disabled);
@@ -163,6 +168,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       multiple && setMultiple(multiple);
       maxFiles && setMaxFiles(maxFiles);
       noClick && setNoClick(noClick);
+      noProgressBar && setNoProgressBar(noProgressBar);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -313,6 +319,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           const errors: any = [];
           const meta: any = [];
           const reader = new window.FileReader();
+          let percentage = 0;
 
           configs = Object.assign({}, config, configs);
           acceptedFiles.forEach((file: any) => {
@@ -344,8 +351,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       meta.push(row[0].meta);
                     }
                     if (config && config.preview) {
-                      // percent = Math.round((data.length / config.preview) * 100);
-                      // self.setState({ progressBar: percent });
+                      percentage = Math.round((data.length / config.preview) * 100);
+                      dispatch({
+                        progressBarPercentage: percentage,
+                        type: 'setProgressBarPercentage',
+                      });
                       if (data.length === config.preview) {
                         if (!onDropAccepted && onUploadAccepted) {
                           onUploadAccepted(data, file);
@@ -354,14 +364,17 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                         }
                       }
                     } else {
-                      // const progress = row.meta.cursor;
-                      // const newPercent = Math.round((progress / size) * 100);
-                      // if (newPercent === percent) {
-                      //   return;
-                      // }
-                      // percent = newPercent;
+                      const cursor = row.meta.cursor;
+                      const newPercentage = Math.round((cursor / file.size) * 100);
+                      if (newPercentage === percentage) {
+                        return;
+                      }
+                      percentage = newPercentage;
                     }
-                    // self.setState({ progressBar: percent });
+                    dispatch({
+                      progressBarPercentage: percentage,
+                      type: 'setProgressBarPercentage',
+                    });
                   },
             };
             reader.onload = (e: any) => {
@@ -448,7 +461,17 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         <input {...getInputProps()} />
         {childrenIsFunction() ? (
           // button
-          <>{renderChildren()}</>
+          <>
+            {renderChildren()}
+            {acceptedFiles && acceptedFile && !noProgressBar && (
+              <ProgressBar
+                isButton
+                display={displayProgressBar}
+                percentage={progressBarPercentage}
+                style={Object.assign({}, progressBarColor ? { backgroundColor: progressBarColor } : {})}
+              />
+            )}
+          </>
         ) : (
           // drop div
           <div {...getRootProps()} ref={rootRef}>
@@ -541,7 +564,9 @@ export function useCSVReader<T = any>() {
 }
 
 const initialState = {
-  displayProgressBarStatus: 'none',
+  displayProgressBar: 'none',
+  progressBarPercentage: 0,
+
   isFileDialogActive: false,
   acceptedFiles: [],
   acceptedFile: null,
@@ -575,6 +600,11 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         acceptedFile: action.acceptedFile,
+      };
+    case 'setProgressBarPercentage':
+      return {
+        ...state,
+        progressBarPercentage: action.progressBarPercentage,
       };
     default:
       return state;

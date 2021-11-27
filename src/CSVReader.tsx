@@ -553,8 +553,8 @@ export default class CSVReader<T = any> extends React.Component<
                         style?.dropFile?.progressBar ||
                         style?.progressBar,
                     )}
-                    progressBar={progressBar}
-                    displayProgressBarStatus={displayProgressBarStatus}
+                    percentage={progressBar}
+                    display={displayProgressBarStatus}
                   />
                 )}
               </div>
@@ -575,9 +575,9 @@ export default class CSVReader<T = any> extends React.Component<
                     style?.dropFile?.progressBar ||
                     style?.progressBar,
                 )}
-                progressBar={progressBar}
-                displayProgressBarStatus={displayProgressBarStatus}
-                isButtonProgressBar
+                percentage={progressBar}
+                display={displayProgressBarStatus}
+                isButton
               />
             )}
           </div>
