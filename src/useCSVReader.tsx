@@ -132,7 +132,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMultiple,
       maxFiles,
       setMaxFiles,
-      noProgressBar,
+      // noProgressBar,
       setNoProgressBar,
     } = CSVReader.api;
     const { onUploadAccepted, onDropAccepted } = props;
@@ -144,7 +144,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const [state, dispatch] = useReducer(reducer, initialState);
     const {
       isFileDialogActive,
-      acceptedFiles,
+      // acceptedFiles,
       acceptedFile,
       progressBarPercentage,
       displayProgressBar,
@@ -236,10 +236,24 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef, isFileDialogActive, props.onFileDialogCancel]);
 
+    const Pro = () => {
+      return (
+        <ProgressBar
+          isButton
+          display={displayProgressBar}
+          percentage={progressBarPercentage}
+          style={Object.assign(
+            {},
+            progressBarColor ? { backgroundColor: progressBarColor } : {},
+          )}
+        />
+      );
+    }
+
     const renderChildren = () => {
       const { children } = props;
       return childrenIsFunction()
-        ? children({ getProps, acceptedFile })
+        ? children({ getProps, acceptedFile, ProgressBar: Pro })
         : children;
     };
 
@@ -260,10 +274,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         event.persist();
         stopPropagation(event);
 
-        dispatch({
-          progressBarPercentage: 0,
-          type: 'setProgressBarPercentage',
-        });
+        setProgressBarPercentage(0);
 
         dragTargetsRef.current = [];
 
@@ -314,10 +325,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             type: 'setFiles',
           });
 
-          dispatch({
-            displayProgressBar: 'block',
-            type: 'setDisplayProgressBar',
-          });
+          setDisplayProgressBar('block');
 
           // if (onDrop) {
           //   onDrop(acceptedFiles, fileRejections, event)
@@ -371,10 +379,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       percentage = Math.round(
                         (data.length / config.preview) * 100,
                       );
-                      dispatch({
-                        progressBarPercentage: percentage,
-                        type: 'setProgressBarPercentage',
-                      });
+                      setProgressBarPercentage(percentage);
                       if (data.length === config.preview) {
                         if (!onDropAccepted && onUploadAccepted) {
                           onUploadAccepted(data, file);
@@ -392,25 +397,19 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       }
                       percentage = newPercentage;
                     }
-                    dispatch({
-                      progressBarPercentage: percentage,
-                      type: 'setProgressBarPercentage',
-                    });
+                    setProgressBarPercentage(percentage);
                   },
             };
             reader.onload = (e: any) => {
               PapaParse.parse(e.target.result, configs);
             };
-            if (!noProgressBar) {
-              reader.onloadend = () => {
-                setTimeout(() => {
-                  dispatch({
-                    displayProgressBar: 'none',
-                    type: 'setDisplayProgressBar',
-                  });
-                }, 2000);
-              };
-            }
+            // if (!noProgressBar) {
+            //   reader.onloadend = () => {
+            //     setTimeout(() => {
+            //       setDisplayProgressBar('none');
+            //     }, 2000);
+            //   };
+            // }
             reader.readAsText(file, config.encoding || 'utf-8');
           });
         }
@@ -487,6 +486,20 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       [onClickCb],
     );
 
+    const setProgressBarPercentage = (percentage: number) => {
+      dispatch({
+        progressBarPercentage: percentage,
+        type: 'setProgressBarPercentage',
+      });
+    };
+
+    const setDisplayProgressBar = (display: string) => {
+      dispatch({
+        displayProgressBar: display,
+        type: 'setDisplayProgressBar',
+      });
+    }
+
     return (
       <>
         <input {...getInputProps()} />
@@ -494,7 +507,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           // button
           <>
             {renderChildren()}
-            {acceptedFiles && acceptedFile && !noProgressBar && (
+            {/* {acceptedFiles && acceptedFile && !noProgressBar && (
               <ProgressBar
                 isButton
                 display={displayProgressBar}
@@ -504,7 +517,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                   progressBarColor ? { backgroundColor: progressBarColor } : {},
                 )}
               />
-            )}
+            )} */}
           </>
         ) : (
           // drop div
