@@ -182,17 +182,38 @@ export default function Home() {
             console.log('9999999999999999999999');
           }}
         >
-          {({ getProps, acceptedFile }) => (
+          {({ getProps, acceptedFile, ProgressBar }) => (
             <>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                marginBottom: 10,
+                background: 'red',
+                width: 700,
+              }}
+            >
               <button
                 type="button"
                 {...getProps()}
               >
                 Browse file
               </button>
-              <p>
+              <div
+                style={{
+                  border: '1px solid #ccc',
+                  height: 45,
+                  lineHeight: 2.5,
+                  margin: '5px 0 5px 0',
+                  padding: '3px 0 0 13px',
+                  width: '60%',
+                }}
+              >
                 {acceptedFile && acceptedFile.name}
-              </p>
+              </div>
+              
+            </div>
+            <ProgressBar />
             </>
           )}
         </CSVReader>
