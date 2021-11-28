@@ -142,7 +142,14 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { isFileDialogActive, acceptedFiles, acceptedFile, progressBarPercentage, displayProgressBar, progressBarColor } = state;
+    const {
+      isFileDialogActive,
+      acceptedFiles,
+      acceptedFile,
+      progressBarPercentage,
+      displayProgressBar,
+      progressBarColor,
+    } = state;
 
     useEffect(() => {
       const {
@@ -253,6 +260,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         event.persist();
         stopPropagation(event);
 
+        dispatch({
+          progressBarPercentage: 0,
+          type: 'setProgressBarPercentage',
+        });
+
         dragTargetsRef.current = [];
 
         if (isEventWithFiles(event)) {
@@ -300,6 +312,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             acceptedFiles,
             fileRejections,
             type: 'setFiles',
+          });
+
+          dispatch({
+            displayProgressBar: 'block',
+            type: 'setDisplayProgressBar',
           });
 
           // if (onDrop) {
@@ -351,7 +368,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       meta.push(row[0].meta);
                     }
                     if (config && config.preview) {
-                      percentage = Math.round((data.length / config.preview) * 100);
+                      percentage = Math.round(
+                        (data.length / config.preview) * 100,
+                      );
                       dispatch({
                         progressBarPercentage: percentage,
                         type: 'setProgressBarPercentage',
@@ -365,7 +384,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       }
                     } else {
                       const cursor = row.meta.cursor;
-                      const newPercentage = Math.round((cursor / file.size) * 100);
+                      const newPercentage = Math.round(
+                        (cursor / file.size) * 100,
+                      );
                       if (newPercentage === percentage) {
                         return;
                       }
@@ -380,6 +401,16 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             reader.onload = (e: any) => {
               PapaParse.parse(e.target.result, configs);
             };
+            if (!noProgressBar) {
+              reader.onloadend = () => {
+                setTimeout(() => {
+                  dispatch({
+                    displayProgressBar: 'none',
+                    type: 'setDisplayProgressBar',
+                  });
+                }, 2000);
+              };
+            }
             reader.readAsText(file, config.encoding || 'utf-8');
           });
         }
@@ -468,7 +499,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                 isButton
                 display={displayProgressBar}
                 percentage={progressBarPercentage}
-                style={Object.assign({}, progressBarColor ? { backgroundColor: progressBarColor } : {})}
+                style={Object.assign(
+                  {},
+                  progressBarColor ? { backgroundColor: progressBarColor } : {},
+                )}
               />
             )}
           </>
@@ -566,6 +600,7 @@ export function useCSVReader<T = any>() {
 const initialState = {
   displayProgressBar: 'none',
   progressBarPercentage: 0,
+  timeout: null,
 
   isFileDialogActive: false,
   acceptedFiles: [],
@@ -605,6 +640,16 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         progressBarPercentage: action.progressBarPercentage,
+      };
+    case 'setDisplayProgressBar':
+      return {
+        ...state,
+        displayProgressBar: action.displayProgressBar,
+      };
+    case 'setTimeout':
+      return {
+        ...state,
+        timeout: action.timeout,
       };
     default:
       return state;
