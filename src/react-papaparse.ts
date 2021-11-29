@@ -8,7 +8,7 @@ export const WORKERS_SUPPORTED = PapaParse.WORKERS_SUPPORTED;
 export const LocalChunkSize = PapaParse.LocalChunkSize;
 export const DefaultDelimiter = PapaParse.DefaultDelimiter;
 
-export { default as CSVReader } from './CSVReader';
+// export { default as CSVReader } from './CSVReader';
 export {
   default as CSVDownloader,
   LINK_TYPE,

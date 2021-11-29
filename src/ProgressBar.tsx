@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useState, useEffect } from 'react';
 
 const DEFAULT_PROGRESS_BAR_COLOR = '#659cef';
 
@@ -29,21 +29,26 @@ interface Props {
   isButton?: boolean;
 }
 
-export default class ProgressBar extends React.Component<Props> {
-  render() {
-    const { style, percentage, display, isButton } = this.props;
+export default function ProgressBar(props: Props) {
+  const { style, display, isButton } = props;
+  const [percentage, setPercentage] = useState(0);
 
-    return (
-      <div
-        style={Object.assign({}, styles.progressBar, isButton && styles.button)}
-      >
-        <span
-          style={Object.assign({}, styles.fill, style, {
-            width: `${percentage}%`,
-            display,
-          })}
-        />
-      </div>
-    );
-  }
+  console.log(style);
+
+  useEffect(() => {
+    setPercentage(props.percentage);
+  }, [props.percentage]);
+
+  return (
+    <div
+      style={Object.assign({}, styles.progressBar, isButton && styles.button)}
+    >
+      <span
+        style={Object.assign({}, styles.fill, style, {
+          width: `${percentage}%`,
+          display,
+        })}
+      />
+    </div>
+  );
 }

@@ -38,7 +38,6 @@ export interface Props<T> {
   maxFiles?: number;
   className?: string;
   style?: any;
-  progressBarColor?: string;
   removeButtonColor?: string;
   validator?: (file: any) => void;
   onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
@@ -50,7 +49,6 @@ export interface Props<T> {
   noClick?: boolean;
   noDrag?: boolean;
   noRemoveButton?: boolean;
-  noProgressBar?: boolean;
   isReset?: boolean;
   noKeyboard?: boolean;
   noDragEventsBubbling?: boolean;
@@ -83,8 +81,6 @@ export interface Api<T> {
   setClassName?: () => void;
   style?: any;
   setStyle?: () => void;
-  progressBarColor?: string;
-  setProgressBarColor?: () => void;
   removeButtonColor?: string;
   setRemoveButtonColor?: () => void;
   validator?: null;
@@ -95,8 +91,6 @@ export interface Api<T> {
   setNoDrag?: () => void;
   noRemoveButton?: boolean;
   setNoRemoveButton?: () => void;
-  noProgressBar?: boolean;
-  setNoProgressBar?: () => void;
   isReset?: boolean;
   setIsReset?: () => void;
   disabled?: boolean;
@@ -132,8 +126,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMultiple,
       maxFiles,
       setMaxFiles,
-      // noProgressBar,
-      setNoProgressBar,
     } = CSVReader.api;
     const { onUploadAccepted, onDropAccepted } = props;
 
@@ -148,7 +140,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       acceptedFile,
       progressBarPercentage,
       displayProgressBar,
-      progressBarColor,
     } = state;
 
     useEffect(() => {
@@ -162,7 +153,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         multiple,
         maxFiles,
         noClick,
-        noProgressBar,
       } = props;
 
       config && setConfig(config);
@@ -175,7 +165,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       multiple && setMultiple(multiple);
       maxFiles && setMaxFiles(maxFiles);
       noClick && setNoClick(noClick);
-      noProgressBar && setNoProgressBar(noProgressBar);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -236,19 +225,16 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef, isFileDialogActive, props.onFileDialogCancel]);
 
-    const Pro = () => {
+    const Pro = (props: any) => {
       return (
         <ProgressBar
           isButton
           display={displayProgressBar}
           percentage={progressBarPercentage}
-          style={Object.assign(
-            {},
-            progressBarColor ? { backgroundColor: progressBarColor } : {},
-          )}
+          style={props.style ? props.style : {}}
         />
       );
-    }
+    };
 
     const renderChildren = () => {
       const { children } = props;
@@ -403,13 +389,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             reader.onload = (e: any) => {
               PapaParse.parse(e.target.result, configs);
             };
-            // if (!noProgressBar) {
-            //   reader.onloadend = () => {
-            //     setTimeout(() => {
-            //       setDisplayProgressBar('none');
-            //     }, 2000);
-            //   };
-            // }
+            reader.onloadend = () => {
+              setTimeout(() => {
+                setDisplayProgressBar('none');
+              }, 2000);
+            };
             reader.readAsText(file, config.encoding || 'utf-8');
           });
         }
@@ -498,27 +482,14 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         displayProgressBar: display,
         type: 'setDisplayProgressBar',
       });
-    }
+    };
 
     return (
       <>
         <input {...getInputProps()} />
         {childrenIsFunction() ? (
           // button
-          <>
-            {renderChildren()}
-            {/* {acceptedFiles && acceptedFile && !noProgressBar && (
-              <ProgressBar
-                isButton
-                display={displayProgressBar}
-                percentage={progressBarPercentage}
-                style={Object.assign(
-                  {},
-                  progressBarColor ? { backgroundColor: progressBarColor } : {},
-                )}
-              />
-            )} */}
-          </>
+          <>{renderChildren()}</>
         ) : (
           // drop div
           <div {...getRootProps()} ref={rootRef}>
@@ -548,13 +519,11 @@ export function useCSVReader<T = any>() {
   const [maxFiles, setMaxFiles] = useState(1);
   const [className, setClassName] = useState('');
   const [style, setStyle] = useState({});
-  const [progressBarColor, setProgressBarColor] = useState('');
   const [removeButtonColor, setRemoveButtonColor] = useState('');
   const [validator, setValidator] = useState(null);
   const [noClick, setNoClick] = useState(false);
   const [noDrag, setNoDrag] = useState(false);
   const [noRemoveButton, setNoRemoveButton] = useState(false);
-  const [noProgressBar, setNoProgressBar] = useState(false);
   const [isReset, setIsReset] = useState(false);
   const [disabled, setDisabled] = useState(false);
   const [noKeyboard, setNoKeyboard] = useState(false);
@@ -576,8 +545,6 @@ export function useCSVReader<T = any>() {
     setClassName,
     style,
     setStyle,
-    progressBarColor,
-    setProgressBarColor,
     removeButtonColor,
     setRemoveButtonColor,
     validator,
@@ -588,8 +555,6 @@ export function useCSVReader<T = any>() {
     setNoDrag,
     noRemoveButton,
     setNoRemoveButton,
-    noProgressBar,
-    setNoProgressBar,
     isReset,
     setIsReset,
     disabled,
