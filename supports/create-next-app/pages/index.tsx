@@ -209,8 +209,7 @@ export default function Home() {
                     border: '1px solid #ccc',
                     height: 45,
                     lineHeight: 2.5,
-                    margin: '5px 0 5px 0',
-                    padding: '3px 0 0 13px',
+                    paddingLeft: 10,
                     width: '80%',
                   }}
                 >

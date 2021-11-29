@@ -7,7 +7,7 @@ const styles = {
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     bottom: 14,
-    position: 'absolute',
+    // position: 'absolute',
     width: '100%',
   } as CSSProperties,
   button: {
@@ -23,17 +23,16 @@ const styles = {
 };
 
 interface Props {
-  style: any;
+  style?: any;
+  className?: string;
   percentage: number;
   display: string;
   isButton?: boolean;
 }
 
 export default function ProgressBar(props: Props) {
-  const { style, display, isButton } = props;
+  const { style, className, display, isButton } = props;
   const [percentage, setPercentage] = useState(0);
-
-  console.log(style);
 
   useEffect(() => {
     setPercentage(props.percentage);
@@ -41,10 +40,11 @@ export default function ProgressBar(props: Props) {
 
   return (
     <div
-      style={Object.assign({}, styles.progressBar, isButton && styles.button)}
+      style={Object.assign({}, isButton ? styles.button : {})}
+      className={className}
     >
       <span
-        style={Object.assign({}, styles.fill, style, {
+        style={Object.assign({}, styles.progressBar, styles.fill, style, {
           width: `${percentage}%`,
           display,
         })}

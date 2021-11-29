@@ -231,7 +231,8 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           isButton
           display={displayProgressBar}
           percentage={progressBarPercentage}
-          style={props.style ? props.style : {}}
+          style={props.style}
+          className={props.className}
         />
       );
     };
