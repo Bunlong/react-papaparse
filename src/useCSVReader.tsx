@@ -225,7 +225,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef, isFileDialogActive, props.onFileDialogCancel]);
 
-    const Pro = (props: any) => {
+    const ProgressBarComponent = (props: any) => {
       return (
         <ProgressBar
           isButton
@@ -240,7 +240,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const renderChildren = () => {
       const { children } = props;
       return childrenIsFunction()
-        ? children({ getProps, acceptedFile, ProgressBar: Pro })
+        ? children({ getProps: getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent })
         : children;
     };
 
@@ -451,7 +451,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       return disabled ? null : fn;
     };
 
-    const getProps = useMemo(
+    const getButtonProps = useMemo(
       () =>
         ({ onClick = () => {}, ...rest } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
@@ -461,7 +461,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       [onClickCb],
     );
 
-    const getRootProps = useMemo(
+    const getDropZoneProps = useMemo(
       () =>
         ({ onClick = () => {}, ...rest } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
@@ -493,7 +493,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           <>{renderChildren()}</>
         ) : (
           // drop div
-          <div {...getRootProps()} ref={rootRef}>
+          <div {...getDropZoneProps()} ref={rootRef}>
             {props.children}
           </div>
         )}
