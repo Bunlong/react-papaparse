@@ -7,8 +7,8 @@ const styles = {
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     bottom: 14,
-    // position: 'absolute',
     width: '100%',
+    // position: 'absolute',
   } as CSSProperties,
   button: {
     position: 'inherit',
@@ -39,15 +39,13 @@ export default function ProgressBar(props: Props) {
   }, [props.percentage]);
 
   return (
-    <div
-      style={Object.assign({}, isButton ? styles.button : {})}
-      className={className}
-    >
+    <div style={Object.assign({}, isButton ? styles.button : {})}>
       <span
         style={Object.assign({}, styles.progressBar, styles.fill, style, {
           width: `${percentage}%`,
           display,
         })}
+        className={className}
       />
     </div>
   );
