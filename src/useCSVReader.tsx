@@ -60,7 +60,6 @@ export interface Props<T> {
 //   progressBar: number;
 //   displayProgressBarStatus: string;
 //   file: any;
-//   timeout: any;
 //   files: any;
 //   removeIconColor: string;
 //   isCanceled: boolean;
@@ -127,7 +126,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       maxFiles,
       setMaxFiles,
     } = CSVReader.api;
-    const { onUploadAccepted, onDropAccepted } = props;
+    const { onUploadAccepted, onDropAccepted, noDrag } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
@@ -239,8 +238,21 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     const renderChildren = () => {
       const { children } = props;
+      
+      React.Children.forEach(children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent }), child => {
+        console.log('99999999999999999999999999');
+        if (child) {
+          console.log((child as any).ref);
+        }
+        console.log('99999999999999999999999999');
+      });
+
+      // return childrenIsFunction()
+      //   ? children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent })
+      //   : children;
+
       return childrenIsFunction()
-        ? children({ getProps: getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent })
+        ? children({ getDropzoneProps, acceptedFile, ProgressBar: ProgressBarComponent })
         : children;
     };
 
@@ -451,6 +463,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       return disabled ? null : fn;
     };
 
+    const composeDragHandler = (fn: any) => {
+      return noDrag ? null : composeHandler(fn)
+    }
+
     const getButtonProps = useMemo(
       () =>
         ({ onClick = () => {}, ...rest } = {}) => ({
@@ -461,10 +477,11 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       [onClickCb],
     );
 
-    const getDropZoneProps = useMemo(
+    const getDropzoneProps = useMemo(
       () =>
-        ({ onClick = () => {}, ...rest } = {}) => ({
+        ({ onClick = () => {}, onDrop = () => {}, ...rest } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
           ...rest,
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -493,7 +510,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           <>{renderChildren()}</>
         ) : (
           // drop div
-          <div {...getDropZoneProps()} ref={rootRef}>
+          <div {...getDropzoneProps()} ref={rootRef}>
             {props.children}
           </div>
         )}
@@ -579,7 +596,6 @@ export function useCSVReader<T = any>() {
 const initialState = {
   displayProgressBar: 'none',
   progressBarPercentage: 0,
-  timeout: null,
 
   isFileDialogActive: false,
   acceptedFiles: [],
@@ -624,11 +640,6 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         displayProgressBar: action.displayProgressBar,
-      };
-    case 'setTimeout':
-      return {
-        ...state,
-        timeout: action.timeout,
       };
     default:
       return state;

@@ -174,7 +174,7 @@ export default function Home() {
           Download
         </CSVDownloader> */}
       </div>
-      <div>
+      {/* <div>
         <CSVReader
           onUploadAccepted={(results: any)=> {
             console.log('9999999999999999999999');
@@ -182,7 +182,7 @@ export default function Home() {
             console.log('9999999999999999999999');
           }}
         >
-          {({ getProps, acceptedFile, ProgressBar }) => (
+          {({ getButtonProps, acceptedFile, ProgressBar }) => (
             <div
               style={{
                 width: '70%'
@@ -197,7 +197,7 @@ export default function Home() {
               >
                 <button
                   type="button"
-                  {...getProps()}
+                  {...getButtonProps()}
                   style={{
                     width: '20%',
                   }}
@@ -217,6 +217,36 @@ export default function Home() {
                 </div>
               </div>
               <ProgressBar style={{backgroundColor: 'red'}} />
+            </div>
+          )}
+        </CSVReader>
+      </div> */}
+      <div>
+        <CSVReader
+          onDropAccepted={(results: any)=> {
+            console.log('9999999999999999999999');
+            console.log(results);
+            console.log('9999999999999999999999');
+          }}
+        >
+          {({ getDropzoneProps }) => (
+            <div
+              {...getDropzoneProps()}
+              style={{
+                alignItems: 'center',
+                borderStyle: 'dashed',
+                borderWidth: 2,
+                borderRadius: 20,
+                borderColor: '#CCC',
+                display: 'flex',
+                flexDirection: 'column',
+                height: '100%',
+                justifyContent: 'center',
+                padding: 20,
+              }}
+              // className=''
+            >
+              <span>Drop CSV file here or click to upload.</span>
             </div>
           )}
         </CSVReader>
