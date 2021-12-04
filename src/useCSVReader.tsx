@@ -237,22 +237,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     };
 
     const renderChildren = () => {
-      const { children } = props;
+      const { children, onUploadAccepted } = props;
       
-      React.Children.forEach(children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent }), child => {
-        console.log('99999999999999999999999999');
-        if (child) {
-          console.log((child as any).ref);
-        }
-        console.log('99999999999999999999999999');
-      });
-
-      // return childrenIsFunction()
-      //   ? children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent })
-      //   : children;
-
       return childrenIsFunction()
-        ? children({ getDropzoneProps, acceptedFile, ProgressBar: ProgressBarComponent })
+        ? (onUploadAccepted ? children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent }) : children({ getDropzoneProps, acceptedFile, ProgressBar: ProgressBarComponent }))
         : children;
     };
 
@@ -510,7 +498,8 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           <>{renderChildren()}</>
         ) : (
           // drop div
-          <div {...getDropzoneProps()} ref={rootRef}>
+          // <div {...getDropzoneProps()} ref={rootRef}>
+          <div ref={rootRef}>
             {props.children}
           </div>
         )}
