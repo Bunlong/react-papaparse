@@ -45,6 +45,7 @@ export interface Props<T> {
   onError?: (err: any, file: any, inputElem: any, reason: any) => void;
   onRemove?: (data: null) => void;
   onFileDialogCancel?: () => void;
+  onDragOver?: (event?: any) => void;
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
@@ -126,7 +127,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       maxFiles,
       setMaxFiles,
     } = CSVReader.api;
-    const { onUploadAccepted, onDropAccepted, noDrag } = props;
+    const { onUploadAccepted, onDropAccepted, onDragOver, noDrag } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
@@ -254,8 +255,30 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       }
     };
 
+    const onDragOverCb = useCallback(
+      event => {
+        event.preventDefault()
+        event.persist()
+        stopPropagation(event)
+  
+        const hasFiles = isEventWithFiles(event);
+        if (hasFiles && event.dataTransfer) {
+          try {
+            event.dataTransfer.dropEffect = 'copy'
+          } catch {} /* eslint-disable-line no-empty */
+        }
+  
+        if (hasFiles && onDragOver) {
+          onDragOver(event)
+        }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      []
+    )
+
     const onDropCb = useCallback(
       (event) => {
+        alert('Hi');
         event.preventDefault();
         // Persist here because we need the event later after getFilesFromEvent() is done
         event.persist();
@@ -467,13 +490,15 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     const getDropzoneProps = useMemo(
       () =>
-        ({ onClick = () => {}, onDrop = () => {}, ...rest } = {}) => ({
+        ({ onClick = () => {}, onDrop = () => {}, onDragOver = () => {}, ...rest } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
+          // onDragEnter: composeDragHandler(composeEventHandlers(onDragEnter, onDragEnterCb)),
+          onDragOver: composeDragHandler(composeEventHandlers(onDragOver, onDragOverCb)),
           ...rest,
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onClickCb],
+      [onClickCb, onDropCb, onDragOverCb],
     );
 
     const setProgressBarPercentage = (percentage: number) => {
