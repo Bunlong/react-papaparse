@@ -29,6 +29,7 @@ export interface Props<T> {
   children: (fn: any) => void | ReactNode;
   onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onDragLeave?: (event?: any) => void;
+  onDragOver?: (event?: any) => void;
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
@@ -63,6 +64,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       preventDropOnDocument = true,
       noKeyboard = false,
       onDragLeave,
+      onDragOver,
     } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
@@ -147,22 +149,24 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     ]);
 
     const onDragOverCb = useCallback(
-      (event) => {
+      (event: any) => {
         allowDrop(event);
 
-        // const hasFiles = isEventWithFiles(event);
-        // if (hasFiles && event.dataTransfer) {
-        //   try {
-        //     event.dataTransfer.dropEffect = 'copy'
-        //   } catch {} /* eslint-disable-line no-empty */
-        // }
+        const hasFiles = isEventWithFiles(event);
+        if (hasFiles && event.dataTransfer) {
+          try {
+            event.dataTransfer.dropEffect = 'copy';
+          } catch {} /* eslint-disable-line no-empty */
+        }
 
-        // if (hasFiles && onDragOver) {
-        //   onDragOver(event)
-        // }
+        if (hasFiles && onDragOver) {
+          onDragOver(event);
+        }
+
+        return false;
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
+      [onDragOver, noDragEventsBubbling],
     );
 
     const onDragEnterCb = useCallback(
@@ -278,7 +282,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             composeEventHandlers(onDragEnter, onDragEnterCb),
           ),
           onDragOver: composeDragHandler(
-            composeEventHandlers(onDragOver, onDragOverCb),
+            composeEventHandlers(onDragOver, onDragOverCb), // Done
           ),
           onDragLeave: composeDragHandler(
             composeEventHandlers(onDragLeave, onDragLeaveCb), // Done
