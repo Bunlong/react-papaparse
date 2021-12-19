@@ -14,6 +14,7 @@ import {
   composeEventHandlers,
   onDocumentDragOver,
   isEventWithFiles,
+  isPropagationStopped,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
@@ -30,6 +31,7 @@ export interface Props<T> {
   onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onDragLeave?: (event?: any) => void;
   onDragOver?: (event?: any) => void;
+  onDragEnter?: (event?: any) => void;
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
@@ -65,6 +67,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       noKeyboard = false,
       onDragLeave,
       onDragOver,
+      onDragEnter,
     } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
@@ -170,11 +173,29 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     );
 
     const onDragEnterCb = useCallback(
-      (event) => {
+      (event: any) => {
         allowDrop(event);
+  
+        dragTargetsRef.current = [...dragTargetsRef.current, event.target] as never[];
+  
+        if (isEventWithFiles(event)) {
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return;
+          }
+
+          dispatch({
+            draggedFiles,
+            isDragActive: true,
+            type: 'setDraggedFiles'
+          });
+
+          if (onDragEnter) {
+            onDragEnter(event);
+          }
+        }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
+      [onDragEnter, noDragEventsBubbling]
     );
 
     const stopPropagation = (event: any) => {
@@ -279,7 +300,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
           onDragEnter: composeDragHandler(
-            composeEventHandlers(onDragEnter, onDragEnterCb),
+            composeEventHandlers(onDragEnter, onDragEnterCb), // Done
           ),
           onDragOver: composeDragHandler(
             composeEventHandlers(onDragOver, onDragOverCb), // Done
