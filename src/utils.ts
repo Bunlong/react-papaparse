@@ -211,3 +211,39 @@ export const TOO_MANY_FILES_REJECTION = {
   code: TOO_MANY_FILES,
   message: 'Too many files',
 };
+
+// allow the entire document to be a drag target
+export function onDocumentDragOver(event: any) {
+  event.preventDefault();
+}
+
+interface Params {
+  files?: any;
+  accept?: any;
+  minSize?: number;
+  maxSize?: number;
+  multiple?: any;
+  maxFiles?: any;
+}
+
+export function allFilesAccepted({
+  files,
+  accept,
+  minSize,
+  maxSize,
+  multiple,
+  maxFiles,
+}: Params) {
+  if (
+    (!multiple && files.length > 1) ||
+    (multiple && maxFiles >= 1 && files.length > maxFiles)
+  ) {
+    return false;
+  }
+
+  return files.every((file: any) => {
+    const [accepted] = fileAccepted(file, accept);
+    const [sizeMatch] = fileMatchSize(file, minSize, maxSize);
+    return accepted && sizeMatch;
+  });
+}

@@ -3,25 +3,21 @@ import React, {
   useReducer,
   useCallback,
   useMemo,
-  useEffect,
   useState,
   ReactNode,
   useRef,
+  useEffect,
 } from 'react';
-import PapaParse, { ParseResult } from 'papaparse';
+import { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
 import {
-  isIeOrEdge,
   composeEventHandlers,
+  onDocumentDragOver,
   isEventWithFiles,
-  isPropagationStopped,
-  fileAccepted,
-  fileMatchSize,
-  TOO_MANY_FILES_REJECTION,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
-const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
+// const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 // const cssProperty = {
 //   inputFile: {
@@ -31,29 +27,14 @@ const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 export interface Props<T> {
   children: (fn: any) => void | ReactNode;
-  config?: CustomConfig<T>;
-  accept?: string;
-  minSize?: number;
-  maxSize?: number;
-  maxFiles?: number;
-  className?: string;
-  style?: any;
-  removeButtonColor?: string;
-  validator?: (file: any) => void;
-  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
   onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
-  onError?: (err: any, file: any, inputElem: any, reason: any) => void;
-  onRemove?: (data: null) => void;
-  onFileDialogCancel?: () => void;
-  onDragOver?: (event?: any) => void;
+  onDragLeave?: (event?: any) => void;
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
-  noRemoveButton?: boolean;
-  isReset?: boolean;
-  noKeyboard?: boolean;
   noDragEventsBubbling?: boolean;
-  multiple?: boolean;
+  preventDropOnDocument?: boolean;
+  noKeyboard?: boolean;
 }
 
 // interface State {
@@ -68,162 +49,61 @@ export interface Props<T> {
 
 export interface Api<T> {
   config?: CustomConfig<T>;
-  setConfig?: () => void;
-  accept?: string;
-  setAccept?: () => void;
-  minSize?: number;
-  setMinSize?: () => void;
-  maxSize?: number;
-  setMaxSize?: () => void;
-  maxFiles?: number;
-  setMaxFiles?: () => void;
-  className?: string;
-  setClassName?: () => void;
-  style?: any;
-  setStyle?: () => void;
-  removeButtonColor?: string;
-  setRemoveButtonColor?: () => void;
-  validator?: null;
-  setValidator?: () => void;
-  noClick?: boolean;
-  setNoClick?: () => void;
-  noDrag?: boolean;
-  setNoDrag?: () => void;
-  noRemoveButton?: boolean;
-  setNoRemoveButton?: () => void;
-  isReset?: boolean;
-  setIsReset?: () => void;
   disabled?: boolean;
   setDisabled?: () => void;
-  noKeyboard?: boolean;
-  setNoKeyboard?: () => void;
-  noDragEventsBubbling?: boolean;
-  setNoDragEventsBubbling?: () => void;
-  multiple?: boolean;
-  setMultiple?: () => void;
 }
 
 function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
+    // Use variables from api as global
+    const { accept, disabled, setDisabled, noDrag, setNoDrag } = CSVReader.api;
+
     const {
-      config,
-      setConfig,
-      accept,
-      setAccept,
-      noClick,
-      setNoClick,
-      disabled,
-      setDisabled,
-      noDragEventsBubbling,
-      setNoDragEventsBubbling,
-      minSize,
-      setMinSize,
-      maxSize,
-      setMaxSize,
-      validator,
-      setValidator,
-      multiple,
-      setMultiple,
-      maxFiles,
-      setMaxFiles,
-    } = CSVReader.api;
-    const { onUploadAccepted, onDropAccepted, onDragOver, noDrag } = props;
+      noDragEventsBubbling = false,
+      preventDropOnDocument = true,
+      noKeyboard = false,
+      onDragLeave,
+    } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
-    const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
+
+    console.log(dispatch);
+
     const {
-      isFileDialogActive,
-      // acceptedFiles,
       acceptedFile,
       progressBarPercentage,
       displayProgressBar,
+
+      draggedFiles,
     } = state;
 
-    useEffect(() => {
-      const {
-        config,
-        accept,
-        noDragEventsBubbling,
-        minSize,
-        maxSize,
-        validator,
-        multiple,
-        maxFiles,
-        noClick,
-      } = props;
+    // global
 
-      config && setConfig(config);
-      accept && setAccept(accept);
+    useEffect(() => {
+      const { disabled, noDrag } = props;
       disabled && setDisabled(disabled);
-      noDragEventsBubbling && setNoDragEventsBubbling(noDragEventsBubbling);
-      minSize && setMinSize(minSize);
-      maxSize && setMaxSize(maxSize);
-      validator && setValidator(validator);
-      multiple && setMultiple(multiple);
-      maxFiles && setMaxFiles(maxFiles);
-      noClick && setNoClick(noClick);
+      noDrag && setNoDrag(noDrag);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const childrenIsFunction = () => {
-      return typeof props.children === 'function';
+    const renderChildren = () => {
+      const { children, onUploadAccepted } = props;
+
+      return onUploadAccepted
+        ? children({
+            getButtonProps,
+            acceptedFile,
+            ProgressBar: ProgressBarComponent,
+          })
+        : children({
+            getDropzoneProps,
+            acceptedFile,
+            ProgressBar: ProgressBarComponent,
+          });
     };
-
-    // Fn for opening the file dialog programmatically
-    const openFileDialog = useCallback(() => {
-      // if (inputRef.current && state.displayProgressBarStatus) {
-      if (inputRef.current) {
-        dispatch({ type: 'openDialog' });
-        inputRef.current.value = null;
-        inputRef.current.click();
-      }
-    }, [dispatch]);
-
-    // Cb to open the file dialog when click occurs on the dropzone
-    const onClickCb = useCallback(() => {
-      if (noClick) {
-        return;
-      }
-
-      // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
-      // to ensure React can handle state changes
-      if (isIeOrEdge()) {
-        setTimeout(openFileDialog, 0);
-      } else {
-        openFileDialog();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inputRef, noClick]);
-
-    // Update file dialog active state when the window is focused on
-    const onWindowFocus = () => {
-      // Execute the timeout only if the file dialog is opened in the browser
-      if (isFileDialogActive) {
-        setTimeout(() => {
-          if (inputRef.current) {
-            const { files } = inputRef.current;
-
-            if (!files.length) {
-              dispatch({ type: 'closeDialog' });
-              if (typeof props.onFileDialogCancel === 'function') {
-                props.onFileDialogCancel();
-              }
-            }
-          }
-        }, 300);
-      }
-    };
-
-    useEffect(() => {
-      window.addEventListener('focus', onWindowFocus, false);
-      return () => {
-        window.removeEventListener('focus', onWindowFocus, false);
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inputRef, isFileDialogActive, props.onFileDialogCancel]);
 
     const ProgressBarComponent = (props: any) => {
       return (
@@ -237,207 +117,251 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       );
     };
 
-    const renderChildren = () => {
-      const { children, onUploadAccepted } = props;
-      
-      return childrenIsFunction()
-        ? (onUploadAccepted ? children({ getButtonProps, acceptedFile, ProgressBar: ProgressBarComponent }) : children({ getDropzoneProps, acceptedFile, ProgressBar: ProgressBarComponent }))
-        : children;
-    };
+    const onDropCb = useCallback(
+      (event) => {
+        allowDrop(event);
 
-    const onInputElementClick = useCallback((event) => {
-      event.stopPropagation();
-    }, []);
+        alert('OnDrop');
+        console.log(draggedFiles);
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    );
+
+    // Cb to open the file dialog when click occurs on the dropzone
+    const onClickCb = useCallback(() => {
+      // if (noClick) {
+      //   return;
+      // }
+      // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
+      // to ensure React can handle state changes
+      // if (isIeOrEdge()) {
+      //   setTimeout(openFileDialog, 0);
+      // } else {
+      //   openFileDialog();
+      // }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+      inputRef,
+      // noClick,
+    ]);
+
+    const onDragOverCb = useCallback(
+      (event) => {
+        allowDrop(event);
+
+        // const hasFiles = isEventWithFiles(event);
+        // if (hasFiles && event.dataTransfer) {
+        //   try {
+        //     event.dataTransfer.dropEffect = 'copy'
+        //   } catch {} /* eslint-disable-line no-empty */
+        // }
+
+        // if (hasFiles && onDragOver) {
+        //   onDragOver(event)
+        // }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    );
+
+    const onDragEnterCb = useCallback(
+      (event) => {
+        allowDrop(event);
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [],
+    );
 
     const stopPropagation = (event: any) => {
-      if (props.noDragEventsBubbling) {
+      if (noDragEventsBubbling) {
         event.stopPropagation();
       }
     };
 
-    const onDragOverCb = useCallback(
-      event => {
-        event.preventDefault()
-        event.persist()
-        stopPropagation(event)
-  
-        const hasFiles = isEventWithFiles(event);
-        if (hasFiles && event.dataTransfer) {
-          try {
-            event.dataTransfer.dropEffect = 'copy'
-          } catch {} /* eslint-disable-line no-empty */
+    const allowDrop = (event: any) => {
+      event.preventDefault(event);
+      // Persist here because we need the event later after getFilesFromEvent() is done
+      event.persist();
+      stopPropagation(event);
+    };
+
+    // Fn for opening the file dialog programmatically
+    const openFileDialog = useCallback(() => {
+      // if (inputRef.current && state.displayProgressBarStatus) {
+      if (inputRef.current) {
+        dispatch({ type: 'openDialog' });
+        inputRef.current.value = null;
+        inputRef.current.click();
+      }
+    }, [dispatch]);
+
+    // =====================
+
+    // Dropzone
+
+    // Update focus state for the dropzone
+    const onFocusCb = useCallback(() => {
+      dispatch({ type: 'focus' });
+    }, []);
+    const onBlurCb = useCallback(() => {
+      dispatch({ type: 'blur' });
+    }, []);
+
+    const onDragLeaveCb = useCallback(
+      (event: any) => {
+        allowDrop(event);
+
+        // Only deactivate once the dropzone and all children have been left
+        const targets = dragTargetsRef.current.filter(
+          (target) => rootRef.current && rootRef.current.contains(target),
+        );
+        // Make sure to remove a target present multiple times only once
+        // (Firefox may fire dragenter/dragleave multiple times on the same element)
+        const targetIdx = targets.indexOf(event.target as never);
+        if (targetIdx !== -1) {
+          targets.splice(targetIdx, 1);
         }
-  
-        if (hasFiles && onDragOver) {
-          onDragOver(event)
+        dragTargetsRef.current = targets;
+        if (targets.length > 0) {
+          return;
+        }
+
+        dispatch({
+          isDragActive: false,
+          type: 'setDraggedFiles',
+          draggedFiles: [],
+        });
+
+        if (isEventWithFiles(event) && onDragLeave) {
+          onDragLeave(event);
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      []
-    )
+      [rootRef, onDragLeave, noDragEventsBubbling],
+    );
 
-    const onDropCb = useCallback(
-      (event) => {
-        alert('Hi');
-        event.preventDefault();
-        // Persist here because we need the event later after getFilesFromEvent() is done
-        event.persist();
-        stopPropagation(event);
-
-        setProgressBarPercentage(0);
-
-        dragTargetsRef.current = [];
-
-        if (isEventWithFiles(event)) {
-          if (isPropagationStopped(event) && !noDragEventsBubbling) {
-            return;
-          }
-
-          const acceptedFiles = [] as any;
-          const fileRejections = [] as any;
-
-          Array.from(event.target.files).forEach((file) => {
-            const [accepted, acceptError] = fileAccepted(file, accept);
-            const [sizeMatch, sizeError] = fileMatchSize(
-              file,
-              minSize,
-              maxSize,
-            );
-            const customErrors = validator ? validator(file) : null;
-
-            if (accepted && sizeMatch && !customErrors) {
-              acceptedFiles.push(file);
-            } else {
-              let errors = [acceptError, sizeError];
-
-              if (customErrors) {
-                errors = errors.concat(customErrors);
-              }
-
-              fileRejections.push({ file, errors: errors.filter((e) => e) });
-            }
-          });
-
-          if (
-            (!multiple && acceptedFiles.length > 1) ||
-            (multiple && maxFiles >= 1 && acceptedFiles.length > maxFiles)
-          ) {
-            // Reject everything and empty accepted files
-            acceptedFiles.forEach((file: any) => {
-              fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] });
-            });
-            acceptedFiles.splice(0);
-          }
-
-          dispatch({
-            acceptedFiles,
-            fileRejections,
-            type: 'setFiles',
-          });
-
-          setDisplayProgressBar('block');
-
-          // if (onDrop) {
-          //   onDrop(acceptedFiles, fileRejections, event)
-          // }
-
-          // if (fileRejections.length > 0 && onDropRejected) {
-          //   onDropRejected(fileRejections, event)
-          // }
-
-          // if (acceptedFiles.length > 0 && onDropAccepted) {
-          //   onDropAccepted(acceptedFiles, event)
-          // }
-
-          let configs = {} as any;
-          const data: any = [];
-          const errors: any = [];
-          const meta: any = [];
-          const reader = new window.FileReader();
-          let percentage = 0;
-
-          configs = Object.assign({}, config, configs);
-          acceptedFiles.forEach((file: any) => {
-            dispatch({
-              acceptedFile: file,
-              type: 'setFile',
-            });
-
-            configs = {
-              complete:
-                config?.complete || config?.step
-                  ? config.complete
-                  : () => {
-                      const obj = { data, errors, meta };
-                      if (!onDropAccepted && onUploadAccepted) {
-                        onUploadAccepted(obj, file);
-                      } else if (onDropAccepted && !onUploadAccepted) {
-                        onDropAccepted(obj, file);
-                      }
-                    },
-              step: config?.step
-                ? config.step
-                : (row: any) => {
-                    data.push(row.data);
-                    if (row.errors.length > 0) {
-                      errors.push(row.errors);
-                    }
-                    if (row.length > 0) {
-                      meta.push(row[0].meta);
-                    }
-                    if (config && config.preview) {
-                      percentage = Math.round(
-                        (data.length / config.preview) * 100,
-                      );
-                      setProgressBarPercentage(percentage);
-                      if (data.length === config.preview) {
-                        if (!onDropAccepted && onUploadAccepted) {
-                          onUploadAccepted(data, file);
-                        } else if (onDropAccepted && !onUploadAccepted) {
-                          onDropAccepted(data, file);
-                        }
-                      }
-                    } else {
-                      const cursor = row.meta.cursor;
-                      const newPercentage = Math.round(
-                        (cursor / file.size) * 100,
-                      );
-                      if (newPercentage === percentage) {
-                        return;
-                      }
-                      percentage = newPercentage;
-                    }
-                    setProgressBarPercentage(percentage);
-                  },
-            };
-            reader.onload = (e: any) => {
-              PapaParse.parse(e.target.result, configs);
-            };
-            reader.onloadend = () => {
-              setTimeout(() => {
-                setDisplayProgressBar('none');
-              }, 2000);
-            };
-            reader.readAsText(file, config.encoding || 'utf-8');
-          });
+    // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
+    const onKeyDownCb = useCallback(
+      (event: any) => {
+        // Ignore keyboard events bubbling up the DOM tree
+        if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+          return;
         }
-        dispatch({ type: 'reset' });
+
+        if (event.keyCode === 32 || event.keyCode === 13) {
+          event.preventDefault();
+          openFileDialog();
+        }
       },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [rootRef, inputRef],
+    );
+
+    const getDropzoneProps = useMemo(
+      () =>
+        ({
+          onClick = () => {},
+          onDragOver = () => {},
+          onDrop = () => {},
+          onDragEnter = () => {},
+          onDragLeave = () => {},
+          onKeyDown = () => {},
+          onFocus = () => {},
+          onBlur = () => {},
+          refKey = rootRef,
+          ...rest
+        } = {}) => ({
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
+          onDragEnter: composeDragHandler(
+            composeEventHandlers(onDragEnter, onDragEnterCb),
+          ),
+          onDragOver: composeDragHandler(
+            composeEventHandlers(onDragOver, onDragOverCb),
+          ),
+          onDragLeave: composeDragHandler(
+            composeEventHandlers(onDragLeave, onDragLeaveCb),
+          ),
+          onKeyDown: composeKeyboardHandler(
+            composeEventHandlers(onKeyDown, onKeyDownCb),
+          ),
+          onFocus: composeKeyboardHandler(
+            composeEventHandlers(onFocus, onFocusCb), // Done
+          ),
+          onBlur: composeKeyboardHandler(
+            composeEventHandlers(onBlur, onBlurCb), // Done
+          ),
+          [refKey]: rootRef,
+          ...rest,
+        }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [
-        multiple,
-        accept,
-        minSize,
-        maxSize,
-        maxFiles,
-        validator,
-        onUploadAccepted,
-        onDropAccepted,
-        // onDropRejected,
-        // noDragEventsBubbling,
-        // getFilesFromEvent,
+        rootRef,
+        onKeyDownCb,
+        onFocusCb,
+        onBlurCb,
+        onClickCb,
+        onDragEnterCb,
+        onDragOverCb,
+        onDragLeaveCb,
+        onDropCb,
+        noKeyboard,
+        noDrag,
+        disabled,
       ],
     );
+
+    const dragTargetsRef = useRef([]);
+    const onDocumentDrop = (event: any) => {
+      if (rootRef.current && rootRef.current.contains(event.target)) {
+        // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
+        return;
+      }
+      event.preventDefault();
+      dragTargetsRef.current = [];
+    };
+
+    useEffect(() => {
+      if (preventDropOnDocument) {
+        document.addEventListener('dragover', onDocumentDragOver, true);
+        document.addEventListener('drop', onDocumentDrop, true);
+      }
+
+      return () => {
+        if (preventDropOnDocument) {
+          document.removeEventListener('dragover', onDocumentDragOver);
+          document.removeEventListener('drop', onDocumentDrop);
+        }
+      };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [rootRef, preventDropOnDocument]);
+
+    const composeDragHandler = (fn: any) => {
+      return noDrag ? null : composeHandler(fn);
+    };
+
+    const composeKeyboardHandler = (fn: any) => {
+      return noKeyboard ? null : composeHandler(fn);
+    };
+
+    // =====================
+
+    // Button
+    const getButtonProps = useMemo(
+      () =>
+        ({ /*onClick = () => {},*/ ...rest } = {}) => ({
+          // onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+          ...rest,
+        }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [
+        /*onClickCb*/
+      ],
+    );
+    // =====================
+
+    // ======= Input =======
 
     const getInputProps = useMemo(
       () =>
@@ -474,60 +398,16 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       return disabled ? null : fn;
     };
 
-    const composeDragHandler = (fn: any) => {
-      return noDrag ? null : composeHandler(fn)
-    }
+    const onInputElementClick = useCallback((event) => {
+      event.stopPropagation();
+    }, []);
 
-    const getButtonProps = useMemo(
-      () =>
-        ({ onClick = () => {}, ...rest } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
-          ...rest,
-        }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onClickCb],
-    );
-
-    const getDropzoneProps = useMemo(
-      () =>
-        ({ onClick = () => {}, onDrop = () => {}, onDragOver = () => {}, ...rest } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
-          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
-          // onDragEnter: composeDragHandler(composeEventHandlers(onDragEnter, onDragEnterCb)),
-          onDragOver: composeDragHandler(composeEventHandlers(onDragOver, onDragOverCb)),
-          ...rest,
-        }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onClickCb, onDropCb, onDragOverCb],
-    );
-
-    const setProgressBarPercentage = (percentage: number) => {
-      dispatch({
-        progressBarPercentage: percentage,
-        type: 'setProgressBarPercentage',
-      });
-    };
-
-    const setDisplayProgressBar = (display: string) => {
-      dispatch({
-        displayProgressBar: display,
-        type: 'setDisplayProgressBar',
-      });
-    };
+    // =====================
 
     return (
       <>
         <input {...getInputProps()} />
-        {childrenIsFunction() ? (
-          // button
-          <>{renderChildren()}</>
-        ) : (
-          // drop div
-          // <div {...getDropzoneProps()} ref={rootRef}>
-          <div ref={rootRef}>
-            {props.children}
-          </div>
-        )}
+        {renderChildren() || ''}
       </>
     );
   };
@@ -545,58 +425,13 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
 export function useCSVReader<T = any>() {
   const [config, setConfig] = useState({});
-  const [accept, setAccept] = useState(DEFAULT_ACCEPT);
-  const [minSize, setMinSize] = useState(0);
-  const [maxSize, setMaxSize] = useState(3000000);
-  const [maxFiles, setMaxFiles] = useState(1);
-  const [className, setClassName] = useState('');
-  const [style, setStyle] = useState({});
-  const [removeButtonColor, setRemoveButtonColor] = useState('');
-  const [validator, setValidator] = useState(null);
-  const [noClick, setNoClick] = useState(false);
   const [noDrag, setNoDrag] = useState(false);
-  const [noRemoveButton, setNoRemoveButton] = useState(false);
-  const [isReset, setIsReset] = useState(false);
-  const [disabled, setDisabled] = useState(false);
-  const [noKeyboard, setNoKeyboard] = useState(false);
-  const [noDragEventsBubbling, setNoDragEventsBubbling] = useState(false);
-  const [multiple, setMultiple] = useState(false);
 
   const api = {
     config,
     setConfig,
-    accept,
-    setAccept,
-    minSize,
-    setMinSize,
-    maxSize,
-    setMaxSize,
-    maxFiles,
-    setMaxFiles,
-    className,
-    setClassName,
-    style,
-    setStyle,
-    removeButtonColor,
-    setRemoveButtonColor,
-    validator,
-    setValidator,
-    noClick,
-    setNoClick,
     noDrag,
     setNoDrag,
-    noRemoveButton,
-    setNoRemoveButton,
-    isReset,
-    setIsReset,
-    disabled,
-    setDisabled,
-    noKeyboard,
-    setNoKeyboard,
-    noDragEventsBubbling,
-    setNoDragEventsBubbling,
-    multiple,
-    setMultiple,
   } as Api<T>;
 
   const CSVReader = useCSVReaderComponent(api);
@@ -611,49 +446,42 @@ const initialState = {
   displayProgressBar: 'none',
   progressBarPercentage: 0,
 
+  isDragActive: false,
   isFileDialogActive: false,
+  isFocused: false,
+
+  draggedFiles: [],
   acceptedFiles: [],
-  acceptedFile: null,
-  // isFocused: false,
-  // isDragActive: false,
-  // isDragAccept: false,
-  // isDragReject: false,
-  // draggedFiles: [],
-  // fileRejections: [],
 };
 
 function reducer(state: any, action: any) {
   switch (action.type) {
+    case 'focus':
+      return {
+        ...state,
+        isFocused: true,
+      };
+    case 'blur':
+      return {
+        ...state,
+        isFocused: false,
+      };
     case 'openDialog':
       return {
         ...state,
         isFileDialogActive: true,
       };
-    case 'closeDialog':
+    case 'setDraggedFiles':
+      /* eslint no-case-declarations: 0 */
+      const { isDragActive, draggedFiles } = action;
       return {
         ...state,
-        isFileDialogActive: false,
+        draggedFiles,
+        isDragActive,
       };
-    case 'setFiles':
+    case 'reset':
       return {
-        ...state,
-        acceptedFiles: action.acceptedFiles,
-        fileRejections: action.fileRejections,
-      };
-    case 'setFile':
-      return {
-        ...state,
-        acceptedFile: action.acceptedFile,
-      };
-    case 'setProgressBarPercentage':
-      return {
-        ...state,
-        progressBarPercentage: action.progressBarPercentage,
-      };
-    case 'setDisplayProgressBar':
-      return {
-        ...state,
-        displayProgressBar: action.displayProgressBar,
+        ...initialState,
       };
     default:
       return state;

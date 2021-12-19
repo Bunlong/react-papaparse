@@ -22,10 +22,7 @@ export default class CSVReader2 extends Component {
     return (
       <>
         <h5>Click and Drag Upload</h5>
-        <CSVReader
-          onDrop={this.handleOnDrop}
-          onError={this.handleOnError}
-        >
+        <CSVReader onDrop={this.handleOnDrop} onError={this.handleOnError}>
           <span>Drop CSV file here or click to upload.</span>
         </CSVReader>
       </>
