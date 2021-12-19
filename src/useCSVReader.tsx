@@ -281,7 +281,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             composeEventHandlers(onDragOver, onDragOverCb),
           ),
           onDragLeave: composeDragHandler(
-            composeEventHandlers(onDragLeave, onDragLeaveCb),
+            composeEventHandlers(onDragLeave, onDragLeaveCb), // Done
           ),
           onKeyDown: composeKeyboardHandler(
             composeEventHandlers(onKeyDown, onKeyDownCb), // Done
