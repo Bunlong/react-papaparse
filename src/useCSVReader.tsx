@@ -8,13 +8,16 @@ import React, {
   useRef,
   useEffect,
 } from 'react';
-import { ParseResult } from 'papaparse';
+import PapaParse, { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
 import {
   composeEventHandlers,
   onDocumentDragOver,
   isEventWithFiles,
   isPropagationStopped,
+  fileAccepted,
+  fileMatchSize,
+  TOO_MANY_FILES_REJECTION,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
@@ -28,16 +31,23 @@ import ProgressBar from './ProgressBar';
 
 export interface Props<T> {
   children: (fn: any) => void | ReactNode;
+  config?: CustomConfig<T>;
   onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onDragLeave?: (event?: any) => void;
   onDragOver?: (event?: any) => void;
   onDragEnter?: (event?: any) => void;
+  validator?: (file: any) => void;
+  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
   noDragEventsBubbling?: boolean;
   preventDropOnDocument?: boolean;
   noKeyboard?: boolean;
+  multiple?: boolean;
+  minSize?: number;
+  maxSize?: number;
+  maxFiles?: number;
 }
 
 // interface State {
@@ -52,14 +62,35 @@ export interface Props<T> {
 
 export interface Api<T> {
   config?: CustomConfig<T>;
+  setConfig?: (config: CustomConfig<T>) => void;
   disabled?: boolean;
   setDisabled?: () => void;
+  minSize?: number;
+  setMinSize?: (minSize: number) => void;
+  maxSize?: number;
+  setMaxSize?: (maxSize: number) => void;
+  maxFiles?: number;
+  setMaxFiles?: (maxFiles: number) => void;
 }
 
 function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
     // Use variables from api as global
-    const { accept, disabled, setDisabled, noDrag, setNoDrag } = CSVReader.api;
+    const {
+      accept,
+      disabled,
+      setDisabled,
+      noDrag,
+      setNoDrag,
+      config,
+      setConfig,
+      minSize,
+      setMinSize,
+      maxSize,
+      setMaxSize,
+      maxFiles,
+      setMaxFiles,
+    } = CSVReader.api;
 
     const {
       noDragEventsBubbling = false,
@@ -68,14 +99,16 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       onDragLeave,
       onDragOver,
       onDragEnter,
+      multiple = false,
+      validator,
+      onDropAccepted,
+      onUploadAccepted,
     } = props;
 
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
 
     const [state, dispatch] = useReducer(reducer, initialState);
-
-    console.log(dispatch);
 
     const {
       acceptedFile,
@@ -87,10 +120,28 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     // global
 
+    const setProgressBarPercentage = (percentage: number) => {
+      dispatch({
+        progressBarPercentage: percentage,
+        type: 'setProgressBarPercentage',
+      });
+    };
+
+    const setDisplayProgressBar = (display: string) => {
+      dispatch({
+        displayProgressBar: display,
+        type: 'setDisplayProgressBar',
+      });
+    };
+
     useEffect(() => {
-      const { disabled, noDrag } = props;
+      const { disabled, noDrag, config, minSize, maxSize, maxFiles } = props;
       disabled && setDisabled(disabled);
       noDrag && setNoDrag(noDrag);
+      config && setConfig(config);
+      minSize && setMinSize(minSize);
+      maxSize && setMaxSize(maxSize);
+      maxFiles && setMaxFiles(maxFiles);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -126,11 +177,158 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       (event) => {
         allowDrop(event);
 
-        alert('OnDrop');
-        console.log(draggedFiles);
+        setProgressBarPercentage(0);
+
+        dragTargetsRef.current = [];
+
+        if (isEventWithFiles(event)) {
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return;
+          }
+
+          const acceptedFiles = [] as any;
+          const fileRejections = [] as any;
+          const files =
+            event.target.files ||
+            (event.dataTransfer && event.dataTransfer.files);
+          Array.from(files).forEach((file) => {
+            const [accepted, acceptError] = fileAccepted(file, accept);
+            const [sizeMatch, sizeError] = fileMatchSize(
+              file,
+              minSize,
+              maxSize,
+            );
+            const customErrors = validator ? validator(file) : null;
+
+            if (accepted && sizeMatch && !customErrors) {
+              acceptedFiles.push(file);
+            } else {
+              let errors = [acceptError, sizeError];
+
+              if (customErrors) {
+                errors = errors.concat(customErrors);
+              }
+
+              fileRejections.push({ file, errors: errors.filter((e) => e) });
+            }
+          });
+
+          if (
+            (!multiple && acceptedFiles.length > 1) ||
+            (multiple && maxFiles >= 1 && acceptedFiles.length > maxFiles)
+          ) {
+            // Reject everything and empty accepted files
+            acceptedFiles.forEach((file: any) => {
+              fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] });
+            });
+            acceptedFiles.splice(0);
+          }
+
+          dispatch({
+            acceptedFiles,
+            fileRejections,
+            type: 'setFiles',
+          });
+
+          setDisplayProgressBar('block');
+
+          // if (onDrop) {
+          //   onDrop(acceptedFiles, fileRejections, event)
+          // }
+
+          // if (fileRejections.length > 0 && onDropRejected) {
+          //   onDropRejected(fileRejections, event)
+          // }
+
+          // if (acceptedFiles.length > 0 && onDropAccepted) {
+          //   onDropAccepted(acceptedFiles, event)
+          // }
+
+          let configs = {} as any;
+          const data: any = [];
+          const errors: any = [];
+          const meta: any = [];
+          const reader = new window.FileReader();
+          let percentage = 0;
+
+          configs = Object.assign({}, config, configs);
+          acceptedFiles.forEach((file: any) => {
+            dispatch({
+              acceptedFile: file,
+              type: 'setFile',
+            });
+
+            configs = {
+              complete:
+                config?.complete || config?.step
+                  ? config.complete
+                  : () => {
+                      const obj = { data, errors, meta };
+                      if (!onDropAccepted && onUploadAccepted) {
+                        onUploadAccepted(obj, file);
+                      } else if (onDropAccepted && !onUploadAccepted) {
+                        onDropAccepted(obj, file);
+                      }
+                    },
+              step: config?.step
+                ? config.step
+                : (row: any) => {
+                    data.push(row.data);
+                    if (row.errors.length > 0) {
+                      errors.push(row.errors);
+                    }
+                    if (row.length > 0) {
+                      meta.push(row[0].meta);
+                    }
+                    if (config && config.preview) {
+                      percentage = Math.round(
+                        (data.length / config.preview) * 100,
+                      );
+                      setProgressBarPercentage(percentage);
+                      if (data.length === config.preview) {
+                        if (!onDropAccepted && onUploadAccepted) {
+                          onUploadAccepted(data, file);
+                        } else if (onDropAccepted && !onUploadAccepted) {
+                          onDropAccepted(data, file);
+                        }
+                      }
+                    } else {
+                      const cursor = row.meta.cursor;
+                      const newPercentage = Math.round(
+                        (cursor / file.size) * 100,
+                      );
+                      if (newPercentage === percentage) {
+                        return;
+                      }
+                      percentage = newPercentage;
+                    }
+                    setProgressBarPercentage(percentage);
+                  },
+            };
+            reader.onload = (e: any) => {
+              PapaParse.parse(e.target.result, configs);
+            };
+            reader.onloadend = () => {
+              setTimeout(() => {
+                setDisplayProgressBar('none');
+              }, 2000);
+            };
+            reader.readAsText(file, config.encoding || 'utf-8');
+          });
+        }
+        dispatch({ type: 'reset' });
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [],
+      [
+        multiple,
+        accept,
+        minSize,
+        maxSize,
+        maxFiles,
+        validator,
+        onUploadAccepted,
+        onDropAccepted,
+      ],
     );
 
     // Cb to open the file dialog when click occurs on the dropzone
@@ -175,9 +373,12 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     const onDragEnterCb = useCallback(
       (event: any) => {
         allowDrop(event);
-  
-        dragTargetsRef.current = [...dragTargetsRef.current, event.target] as never[];
-  
+
+        dragTargetsRef.current = [
+          ...dragTargetsRef.current,
+          event.target,
+        ] as never[];
+
         if (isEventWithFiles(event)) {
           if (isPropagationStopped(event) && !noDragEventsBubbling) {
             return;
@@ -186,7 +387,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           dispatch({
             draggedFiles,
             isDragActive: true,
-            type: 'setDraggedFiles'
+            type: 'setDraggedFiles',
           });
 
           if (onDragEnter) {
@@ -195,7 +396,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         }
       },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onDragEnter, noDragEventsBubbling]
+      [onDragEnter, noDragEventsBubbling],
     );
 
     const stopPropagation = (event: any) => {
@@ -451,12 +652,21 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 export function useCSVReader<T = any>() {
   const [config, setConfig] = useState({});
   const [noDrag, setNoDrag] = useState(false);
+  const [minSize, setMinSize] = useState(0);
+  const [maxSize, setMaxSize] = useState(3000000);
+  const [maxFiles, setMaxFiles] = useState(1);
 
   const api = {
     config,
     setConfig,
     noDrag,
     setNoDrag,
+    minSize,
+    setMinSize,
+    maxSize,
+    setMaxSize,
+    maxFiles,
+    setMaxFiles,
   } as Api<T>;
 
   const CSVReader = useCSVReaderComponent(api);
@@ -507,6 +717,11 @@ function reducer(state: any, action: any) {
     case 'reset':
       return {
         ...initialState,
+      };
+    case 'setProgressBarPercentage':
+      return {
+        ...state,
+        progressBarPercentage: action.progressBarPercentage,
       };
     default:
       return state;
