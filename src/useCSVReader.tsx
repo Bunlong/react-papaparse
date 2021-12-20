@@ -18,10 +18,11 @@ import {
   fileAccepted,
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
+  isIeOrEdge,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
-// const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
+const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 // const cssProperty = {
 //   inputFile: {
@@ -31,6 +32,7 @@ import ProgressBar from './ProgressBar';
 
 export interface Props<T> {
   children: (fn: any) => void | ReactNode;
+  accept?: string;
   config?: CustomConfig<T>;
   onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
   onDragLeave?: (event?: any) => void;
@@ -77,7 +79,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
     // Use variables from api as global
     const {
-      accept,
       disabled,
       setDisabled,
       noDrag,
@@ -90,9 +91,12 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMaxSize,
       maxFiles,
       setMaxFiles,
+      noClick,
+      setNoClick,
     } = CSVReader.api;
 
     const {
+      accept = DEFAULT_ACCEPT,
       noDragEventsBubbling = false,
       preventDropOnDocument = true,
       noKeyboard = false,
@@ -118,6 +122,18 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       draggedFiles,
     } = state;
 
+    useEffect(() => {
+      const { disabled, noDrag, config, minSize, maxSize, maxFiles, noClick } = props;
+      disabled && setDisabled(disabled);
+      noDrag && setNoDrag(noDrag);
+      config && setConfig(config);
+      minSize && setMinSize(minSize);
+      maxSize && setMaxSize(maxSize);
+      maxFiles && setMaxFiles(maxFiles);
+      noClick && setNoClick(noClick);
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     // global
 
     const setProgressBarPercentage = (percentage: number) => {
@@ -133,17 +149,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         type: 'setDisplayProgressBar',
       });
     };
-
-    useEffect(() => {
-      const { disabled, noDrag, config, minSize, maxSize, maxFiles } = props;
-      disabled && setDisabled(disabled);
-      noDrag && setNoDrag(noDrag);
-      config && setConfig(config);
-      minSize && setMinSize(minSize);
-      maxSize && setMaxSize(maxSize);
-      maxFiles && setMaxFiles(maxFiles);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     const renderChildren = () => {
       const { children, onUploadAccepted } = props;
@@ -333,21 +338,19 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     // Cb to open the file dialog when click occurs on the dropzone
     const onClickCb = useCallback(() => {
-      // if (noClick) {
-      //   return;
-      // }
+      if (noClick) {
+        return;
+      }
+
       // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
       // to ensure React can handle state changes
-      // if (isIeOrEdge()) {
-      //   setTimeout(openFileDialog, 0);
-      // } else {
-      //   openFileDialog();
-      // }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [
-      inputRef,
-      // noClick,
-    ]);
+      if (isIeOrEdge()) {
+        setTimeout(openFileDialog, 0);
+      } else {
+        openFileDialog();
+      }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputRef, noClick]);
 
     const onDragOverCb = useCallback(
       (event: any) => {
@@ -498,7 +501,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           refKey = rootRef,
           ...rest
         } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)), // Done
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
           onDragEnter: composeDragHandler(
             composeEventHandlers(onDragEnter, onDragEnterCb), // Done
@@ -655,6 +658,7 @@ export function useCSVReader<T = any>() {
   const [minSize, setMinSize] = useState(0);
   const [maxSize, setMaxSize] = useState(3000000);
   const [maxFiles, setMaxFiles] = useState(1);
+  const [noClick, setNoClick] = useState(false);
 
   const api = {
     config,
@@ -667,6 +671,8 @@ export function useCSVReader<T = any>() {
     setMaxSize,
     maxFiles,
     setMaxFiles,
+    noClick,
+    setNoClick,
   } as Api<T>;
 
   const CSVReader = useCSVReaderComponent(api);
