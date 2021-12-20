@@ -175,7 +175,7 @@ export default function Home() {
         </CSVDownloader> */}
       </div>
       <div>
-        {/* <CSVReader
+        <CSVReader
           onUploadAccepted={(results: any)=> {
             console.log('9999999999999999999999');
             console.log(results);
@@ -219,7 +219,7 @@ export default function Home() {
               <ProgressBar style={{backgroundColor: 'red'}} />
             </div>
           )}
-        </CSVReader> */}
+        </CSVReader>
 
         <CSVReader
           onDropAccepted={(results: any)=> {
@@ -228,24 +228,27 @@ export default function Home() {
             console.log('9999999999999999999999');
           }}
         >
-          {({ getDropzoneProps, acceptedFile }) => (
-            <div
-              style={{
-                alignItems: 'center',
-                borderStyle: 'dashed',
-                borderWidth: 2,
-                borderRadius: 20,
-                borderColor: '#CCC',
-                display: 'flex',
-                flexDirection: 'column',
-                height: '100%',
-                justifyContent: 'center',
-                padding: 20,
-              }}
-              {...getDropzoneProps()}
-            >
-              {acceptedFile && acceptedFile.name}
-            </div>
+          {({ getDropzoneProps, acceptedFile, ProgressBar }) => (
+            <>
+              <div
+                style={{
+                  alignItems: 'center',
+                  borderStyle: 'dashed',
+                  borderWidth: 2,
+                  borderRadius: 20,
+                  borderColor: '#CCC',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  height: '100%',
+                  justifyContent: 'center',
+                  padding: 20,
+                }}
+                {...getDropzoneProps()}
+              >
+                {acceptedFile && acceptedFile.name}
+              </div>
+              <ProgressBar style={{backgroundColor: 'red'}} />
+            </>
           )}
         </CSVReader>
       </div>
