@@ -31,7 +31,7 @@ interface Props {
 }
 
 export default function ProgressBar(props: Props) {
-  const { style, className, display, isButton } = props;
+  const { style, className, display } = props;
   const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
@@ -39,14 +39,12 @@ export default function ProgressBar(props: Props) {
   }, [props.percentage]);
 
   return (
-    <div style={Object.assign({}, isButton ? styles.button : {})}>
-      <span
-        style={Object.assign({}, styles.progressBar, styles.fill, style, {
-          width: `${percentage}%`,
-          display,
-        })}
-        className={className}
-      />
-    </div>
+    <span
+      style={Object.assign({}, styles.progressBar, styles.fill, style, {
+        width: `${percentage}%`,
+        display,
+      })}
+      className={className}
+    />
   );
 }
