@@ -152,7 +152,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
     const renderChildren = () => {
       const { children, onUploadAccepted } = props;
-
+      console.log('999999999999999999999999');
+      console.log(state.acceptedFile);
+      console.log('999999999999999999999999');
       return onUploadAccepted
         ? children({
             getButtonProps,
@@ -580,14 +582,12 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     // Button
     const getButtonProps = useMemo(
       () =>
-        ({ /*onClick = () => {},*/ ...rest } = {}) => ({
-          // onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
+        ({ onClick = () => {}, ...rest } = {}) => ({
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           ...rest,
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [
-        /*onClickCb*/
-      ],
+      [onClickCb],
     );
     // =====================
 
@@ -633,11 +633,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     }, []);
 
     // =====================
-
-    console.log('99999999999999');
-    console.log(displayProgressBar);
-    console.log(progressBarPercentage);
-    console.log('99999999999999');
 
     return (
       <>
@@ -699,6 +694,11 @@ const initialState = {
 
   draggedFiles: [],
   acceptedFiles: [],
+  acceptedFile: null,
+
+  // isDragAccept: false,
+  // isDragReject: false,
+  // fileRejections: [],
 };
 
 function reducer(state: any, action: any) {
@@ -739,6 +739,17 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         displayProgressBar: action.displayProgressBar,
+      };
+    case 'setFiles':
+      return {
+        ...state,
+        acceptedFiles: action.acceptedFiles,
+        fileRejections: action.fileRejections,
+      };
+    case 'setFile':
+      return {
+        ...state,
+        acceptedFile: action.acceptedFile,
       };
     default:
       return state;
