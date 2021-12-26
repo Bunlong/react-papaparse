@@ -232,7 +232,6 @@ export default function Home() {
             <>
               <div
                 style={{
-                  alignItems: 'center',
                   borderStyle: 'dashed',
                   borderWidth: 2,
                   borderRadius: 20,
@@ -240,14 +239,15 @@ export default function Home() {
                   display: 'flex',
                   flexDirection: 'column',
                   height: '100%',
-                  justifyContent: 'center',
                   padding: 20,
                 }}
                 {...getDropzoneProps()}
               >
-                {acceptedFile && acceptedFile.name}
+                <span style={{ textAlign: 'center' }}>
+                  {acceptedFile && acceptedFile.name}
+                </span>
+                <ProgressBar style={{backgroundColor: 'red'}} />
               </div>
-              <ProgressBar style={{backgroundColor: 'red'}} />
             </>
           )}
         </CSVReader>

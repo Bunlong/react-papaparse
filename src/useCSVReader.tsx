@@ -1,24 +1,24 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {
   // CSSProperties,
   useReducer,
   useCallback,
   useMemo,
+  useEffect,
   useState,
   ReactNode,
   useRef,
-  useEffect,
 } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
 import {
   composeEventHandlers,
-  onDocumentDragOver,
+  isIeOrEdge,
   isEventWithFiles,
   isPropagationStopped,
   fileAccepted,
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
-  isIeOrEdge,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
@@ -34,113 +34,140 @@ export interface Props<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
-  onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
-  onDragLeave?: (event?: any) => void;
-  onDragOver?: (event?: any) => void;
-  onDragEnter?: (event?: any) => void;
-  validator?: (file: any) => void;
-  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
   disabled?: boolean;
+  minSize?: number;
+  maxSize?: number;
+  maxFiles?: number;
+
+  onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
+  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
+
   noClick?: boolean;
   noDrag?: boolean;
   noDragEventsBubbling?: boolean;
-  preventDropOnDocument?: boolean;
-  noKeyboard?: boolean;
   multiple?: boolean;
-  minSize?: number;
-  maxSize?: number;
-  maxFiles?: number;
+
+  validator?: (file: any) => void;
 }
 
-// interface State {
-//   dropAreaCustom: any;
-//   progressBar: number;
-//   displayProgressBarStatus: string;
-//   file: any;
-//   files: any;
-//   removeIconColor: string;
-//   isCanceled: boolean;
-// }
-
 export interface Api<T> {
+  accept?: string;
+  setAccept?: () => void;
   config?: CustomConfig<T>;
-  setConfig?: (config: CustomConfig<T>) => void;
+  setConfig?: () => void;
   disabled?: boolean;
   setDisabled?: () => void;
   minSize?: number;
-  setMinSize?: (minSize: number) => void;
+  setMinSize?: () => void;
   maxSize?: number;
-  setMaxSize?: (maxSize: number) => void;
+  setMaxSize?: () => void;
   maxFiles?: number;
-  setMaxFiles?: (maxFiles: number) => void;
+  setMaxFiles?: () => void;
+
+  noClick?: boolean;
+  setNoClick?: () => void;
+  noDrag?: boolean;
+  setNoDrag?: () => void;
+  multiple?: boolean;
+  setMultiple?: () => void;
 }
 
 function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
-    // Use variables from api as global
+    const inputRef: any = useRef<ReactNode>(null);
+    // const rootRef: any = useRef<ReactNode>(null);
+    const dragTargetsRef = useRef([]);
+
     const {
-      disabled,
-      setDisabled,
-      noDrag,
-      setNoDrag,
+      accept,
+      setAccept,
       config,
       setConfig,
+      disabled,
+      setDisabled,
       minSize,
       setMinSize,
       maxSize,
       setMaxSize,
       maxFiles,
       setMaxFiles,
+
       noClick,
       setNoClick,
+      noDrag,
+      setNoDrag,
+      multiple,
+      setMultiple,
     } = CSVReader.api;
 
     const {
-      accept = DEFAULT_ACCEPT,
-      noDragEventsBubbling = false,
-      preventDropOnDocument = true,
-      noKeyboard = false,
-      onDragLeave,
-      onDragOver,
-      onDragEnter,
-      multiple = false,
-      validator,
+      children,
       onDropAccepted,
       onUploadAccepted,
+      noDragEventsBubbling,
+      validator,
     } = props;
 
-    const inputRef: any = useRef<ReactNode>(null);
-    const rootRef: any = useRef<ReactNode>(null);
-
     const [state, dispatch] = useReducer(reducer, initialState);
-
-    const {
-      acceptedFile,
-      draggedFiles,
-      progressBarPercentage,
-      displayProgressBar,
-    } = state;
+    const { acceptedFile, displayProgressBar, progressBarPercentage } = state;
 
     useEffect(() => {
-      const { disabled, noDrag, config, minSize, maxSize, maxFiles, noClick } =
-        props;
-      disabled && setDisabled(disabled);
-      noDrag && setNoDrag(noDrag);
+      const {
+        accept,
+        config,
+        disabled,
+        minSize,
+        maxSize,
+        maxFiles,
+
+        noClick,
+        multiple,
+      } = props;
+
+      accept && setAccept(accept);
       config && setConfig(config);
+      disabled && setDisabled(disabled);
       minSize && setMinSize(minSize);
       maxSize && setMaxSize(maxSize);
       maxFiles && setMaxFiles(maxFiles);
+
       noClick && setNoClick(noClick);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      noDrag && setNoDrag(noDrag);
+      multiple && setMultiple(multiple);
     }, []);
 
-    // global
+    const ProgressBarComponent = (props: any) => {
+      return (
+        <ProgressBar
+          isButton
+          display={displayProgressBar}
+          percentage={progressBarPercentage}
+          style={props.style}
+          className={props.className}
+        />
+      );
+    };
 
-    const setProgressBarPercentage = (percentage: number) => {
-      dispatch({
-        progressBarPercentage: percentage,
-        type: 'setProgressBarPercentage',
-      });
+    // ============== GLOBAL ==============
+    const composeHandler = (fn: any) => {
+      return disabled ? null : fn;
+    };
+
+    const composeDragHandler = (fn: any) => {
+      return noDrag ? null : composeHandler(fn);
+    };
+
+    const stopPropagation = (event: any) => {
+      if (noDragEventsBubbling) {
+        event.stopPropagation();
+      }
+    };
+
+    const allowDrop = (event: any) => {
+      event.preventDefault(event);
+      // Persist here because we need the event later after getFilesFromEvent() is done
+      event.persist();
+      stopPropagation(event);
     };
 
     const setDisplayProgressBar = (display: string) => {
@@ -150,11 +177,14 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       });
     };
 
+    const setProgressBarPercentage = (percentage: number) => {
+      dispatch({
+        progressBarPercentage: percentage,
+        type: 'setProgressBarPercentage',
+      });
+    };
+
     const renderChildren = () => {
-      const { children, onUploadAccepted } = props;
-      console.log('999999999999999999999999');
-      console.log(state.acceptedFile);
-      console.log('999999999999999999999999');
       return onUploadAccepted
         ? children({
             getButtonProps,
@@ -168,16 +198,32 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           });
     };
 
-    const ProgressBarComponent = (props: any) => {
-      return (
-        <ProgressBar
-          display={displayProgressBar}
-          percentage={progressBarPercentage}
-          style={props.style}
-          className={props.className}
-        />
-      );
-    };
+    // Fn for opening the file dialog programmatically
+    const openFileDialog = useCallback(() => {
+      if (inputRef.current && state.displayProgressBar) {
+        // if (inputRef.current) {
+        dispatch({ type: 'openDialog' });
+        inputRef.current.value = null;
+        inputRef.current.click();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch]);
+
+    // Cb to open the file dialog when click occurs on the dropzone
+    const onClickCb = useCallback(() => {
+      if (noClick) {
+        return;
+      }
+
+      // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
+      // to ensure React can handle state changes
+      if (isIeOrEdge()) {
+        setTimeout(openFileDialog, 0);
+      } else {
+        openFileDialog();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [inputRef, noClick]);
 
     const onDropCb = useCallback(
       (event) => {
@@ -236,7 +282,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             type: 'setFiles',
           });
 
-          // setDisplayProgressBar('block');
+          setDisplayProgressBar('block');
 
           // if (onDrop) {
           //   onDrop(acceptedFiles, fileRejections, event)
@@ -290,6 +336,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       percentage = Math.round(
                         (data.length / config.preview) * 100,
                       );
+                      // setProgressBarPercentage(percentage);
                       if (data.length === config.preview) {
                         if (!onDropAccepted && onUploadAccepted) {
                           onUploadAccepted(data, file);
@@ -308,11 +355,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
                       percentage = newPercentage;
                     }
                     setProgressBarPercentage(percentage);
-                    // setDisplayProgressBar('block');
                   },
             };
             reader.onload = (e: any) => {
-              setDisplayProgressBar('block');
               PapaParse.parse(e.target.result, configs);
             };
             reader.onloadend = () => {
@@ -325,7 +370,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         }
         dispatch({ type: 'reset' });
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         multiple,
         accept,
@@ -337,249 +381,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         onDropAccepted,
       ],
     );
+    // ====================================
 
-    // Cb to open the file dialog when click occurs on the dropzone
-    const onClickCb = useCallback(() => {
-      if (noClick) {
-        return;
-      }
-
-      // In IE11/Edge the file-browser dialog is blocking, therefore, use setTimeout()
-      // to ensure React can handle state changes
-      if (isIeOrEdge()) {
-        setTimeout(openFileDialog, 0);
-      } else {
-        openFileDialog();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [inputRef, noClick]);
-
-    const onDragOverCb = useCallback(
-      (event: any) => {
-        allowDrop(event);
-
-        const hasFiles = isEventWithFiles(event);
-        if (hasFiles && event.dataTransfer) {
-          try {
-            event.dataTransfer.dropEffect = 'copy';
-          } catch {} /* eslint-disable-line no-empty */
-        }
-
-        if (hasFiles && onDragOver) {
-          onDragOver(event);
-        }
-
-        return false;
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onDragOver, noDragEventsBubbling],
-    );
-
-    const onDragEnterCb = useCallback(
-      (event: any) => {
-        allowDrop(event);
-
-        dragTargetsRef.current = [
-          ...dragTargetsRef.current,
-          event.target,
-        ] as never[];
-
-        if (isEventWithFiles(event)) {
-          if (isPropagationStopped(event) && !noDragEventsBubbling) {
-            return;
-          }
-
-          dispatch({
-            draggedFiles,
-            isDragActive: true,
-            type: 'setDraggedFiles',
-          });
-
-          if (onDragEnter) {
-            onDragEnter(event);
-          }
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [onDragEnter, noDragEventsBubbling],
-    );
-
-    const stopPropagation = (event: any) => {
-      if (noDragEventsBubbling) {
-        event.stopPropagation();
-      }
-    };
-
-    const allowDrop = (event: any) => {
-      event.preventDefault(event);
-      // Persist here because we need the event later after getFilesFromEvent() is done
-      event.persist();
-      stopPropagation(event);
-    };
-
-    // Fn for opening the file dialog programmatically
-    const openFileDialog = useCallback(() => {
-      if (inputRef.current && state.displayProgressBar) {
-        // if (inputRef.current) {
-        dispatch({ type: 'openDialog' });
-        inputRef.current.value = null;
-        inputRef.current.click();
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch]);
-
-    // =====================
-
-    // Dropzone
-
-    // Update focus state for the dropzone
-    const onFocusCb = useCallback(() => {
-      dispatch({ type: 'focus' });
-    }, []);
-    const onBlurCb = useCallback(() => {
-      dispatch({ type: 'blur' });
-    }, []);
-
-    const onDragLeaveCb = useCallback(
-      (event: any) => {
-        allowDrop(event);
-
-        // Only deactivate once the dropzone and all children have been left
-        const targets = dragTargetsRef.current.filter(
-          (target) => rootRef.current && rootRef.current.contains(target),
-        );
-        // Make sure to remove a target present multiple times only once
-        // (Firefox may fire dragenter/dragleave multiple times on the same element)
-        const targetIdx = targets.indexOf(event.target as never);
-        if (targetIdx !== -1) {
-          targets.splice(targetIdx, 1);
-        }
-        dragTargetsRef.current = targets;
-        if (targets.length > 0) {
-          return;
-        }
-
-        dispatch({
-          isDragActive: false,
-          type: 'setDraggedFiles',
-          draggedFiles: [],
-        });
-
-        if (isEventWithFiles(event) && onDragLeave) {
-          onDragLeave(event);
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [rootRef, onDragLeave, noDragEventsBubbling],
-    );
-
-    // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
-    const onKeyDownCb = useCallback(
-      (event: any) => {
-        // Ignore keyboard events bubbling up the DOM tree
-        if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
-          return;
-        }
-
-        if (event.keyCode === 32 || event.keyCode === 13) {
-          event.preventDefault();
-          openFileDialog();
-        }
-      },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [rootRef, inputRef],
-    );
-
-    const getDropzoneProps = useMemo(
-      () =>
-        ({
-          onClick = () => {},
-          onDragOver = () => {},
-          onDrop = () => {},
-          onDragEnter = () => {},
-          onDragLeave = () => {},
-          onKeyDown = () => {},
-          onFocus = () => {},
-          onBlur = () => {},
-          refKey = rootRef,
-          ...rest
-        } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)), // Done
-          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
-          onDragEnter: composeDragHandler(
-            composeEventHandlers(onDragEnter, onDragEnterCb), // Done
-          ),
-          onDragOver: composeDragHandler(
-            composeEventHandlers(onDragOver, onDragOverCb), // Done
-          ),
-          onDragLeave: composeDragHandler(
-            composeEventHandlers(onDragLeave, onDragLeaveCb), // Done
-          ),
-          onKeyDown: composeKeyboardHandler(
-            composeEventHandlers(onKeyDown, onKeyDownCb), // Done
-          ),
-          onFocus: composeKeyboardHandler(
-            composeEventHandlers(onFocus, onFocusCb), // Done
-          ),
-          onBlur: composeKeyboardHandler(
-            composeEventHandlers(onBlur, onBlurCb), // Done
-          ),
-          [refKey]: rootRef,
-          ...rest,
-        }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      [
-        rootRef,
-        onKeyDownCb,
-        onFocusCb,
-        onBlurCb,
-        onClickCb,
-        onDragEnterCb,
-        onDragOverCb,
-        onDragLeaveCb,
-        onDropCb,
-        noKeyboard,
-        noDrag,
-        disabled,
-      ],
-    );
-
-    const dragTargetsRef = useRef([]);
-    const onDocumentDrop = (event: any) => {
-      if (rootRef.current && rootRef.current.contains(event.target)) {
-        // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
-        return;
-      }
-      event.preventDefault();
-      dragTargetsRef.current = [];
-    };
-
-    useEffect(() => {
-      if (preventDropOnDocument) {
-        document.addEventListener('dragover', onDocumentDragOver, true);
-        document.addEventListener('drop', onDocumentDrop, true);
-      }
-
-      return () => {
-        if (preventDropOnDocument) {
-          document.removeEventListener('dragover', onDocumentDragOver);
-          document.removeEventListener('drop', onDocumentDrop);
-        }
-      };
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rootRef, preventDropOnDocument]);
-
-    const composeDragHandler = (fn: any) => {
-      return noDrag ? null : composeHandler(fn);
-    };
-
-    const composeKeyboardHandler = (fn: any) => {
-      return noKeyboard ? null : composeHandler(fn);
-    };
-
-    // =====================
-
-    // Button
+    // ============== BUTTON ==============
     const getButtonProps = useMemo(
       () =>
         ({ onClick = () => {}, ...rest } = {}) => ({
@@ -589,16 +393,71 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [onClickCb],
     );
-    // =====================
+    // ====================================
 
-    // ======= Input =======
+    // ============== DROP ==============
+    const getDropzoneProps = useMemo(
+      () =>
+        ({
+          onClick = () => {},
+          onDrop = () => {},
+          // onDragOver = () => {},
+          // onDragEnter = () => {},
+          // onDragLeave = () => {},
+          // onKeyDown = () => {},
+          // onFocus = () => {},
+          // onBlur = () => {},
+          // refKey = rootRef,
+          ...rest
+        } = {}) => ({
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)), // Done
+          onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
+          // onDragEnter: composeDragHandler(
+          //   composeEventHandlers(onDragEnter, onDragEnterCb), // Done
+          // ),
+          // onDragOver: composeDragHandler(
+          //   composeEventHandlers(onDragOver, onDragOverCb), // Done
+          // ),
+          // onDragLeave: composeDragHandler(
+          //   composeEventHandlers(onDragLeave, onDragLeaveCb), // Done
+          // ),
+          // onKeyDown: composeKeyboardHandler(
+          //   composeEventHandlers(onKeyDown, onKeyDownCb), // Done
+          // ),
+          // onFocus: composeKeyboardHandler(
+          //   composeEventHandlers(onFocus, onFocusCb), // Done
+          // ),
+          // onBlur: composeKeyboardHandler(
+          //   composeEventHandlers(onBlur, onBlurCb), // Done
+          // ),
+          // [refKey]: rootRef,
+          ...rest,
+        }),
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [
+        // rootRef,
+        // onKeyDownCb,
+        // onFocusCb,
+        // onBlurCb,
+        // onClickCb,
+        // onDragEnterCb,
+        // onDragOverCb,
+        // onDragLeaveCb,
+        // onDropCb,
+        // noKeyboard,
+        // noDrag,
+        disabled,
+      ],
+    );
+    // ==================================
 
+    // ============== INPUT ==============
     const getInputProps = useMemo(
       () =>
         ({
           refKey = 'ref',
           onChange = () => {},
-          onClick = () => {},
+          // onClick = () => {},
           ...rest
         } = {}) => {
           const inputProps = {
@@ -607,9 +466,9 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             type: 'file',
             style: { display: 'none' },
             onChange: composeHandler(composeEventHandlers(onChange, onDropCb)),
-            onClick: composeHandler(
-              composeEventHandlers(onClick, onInputElementClick),
-            ),
+            // onClick: composeHandler(
+            //   composeEventHandlers(onClick, onInputElementClick),
+            // ),
             autoComplete: 'off',
             tabIndex: -1,
             [refKey]: inputRef,
@@ -621,32 +480,24 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           };
         },
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      [inputRef, accept, onDropCb, disabled],
+      [
+        inputRef,
+        accept,
+        // onDropCb,
+        disabled,
+      ],
     );
-
-    const composeHandler = (fn: any) => {
-      return disabled ? null : fn;
-    };
-
-    const onInputElementClick = useCallback((event) => {
-      event.stopPropagation();
-    }, []);
-
-    // =====================
+    // ===================================
 
     return (
       <>
         <input {...getInputProps()} />
-        {renderChildren() || ''}
+        {renderChildren()}
       </>
     );
   };
 
-  const CSVReader = useMemo(
-    () => CSVReaderComponent,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  ) as any;
+  const CSVReader = useMemo(() => CSVReaderComponent, []) as any;
 
   CSVReader.api = api;
 
@@ -654,26 +505,37 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 }
 
 export function useCSVReader<T = any>() {
+  const [accept, setAccept] = useState(DEFAULT_ACCEPT);
   const [config, setConfig] = useState({});
-  const [noDrag, setNoDrag] = useState(false);
+  const [disabled, setDisabled] = useState(false);
   const [minSize, setMinSize] = useState(0);
   const [maxSize, setMaxSize] = useState(3000000);
   const [maxFiles, setMaxFiles] = useState(1);
+
   const [noClick, setNoClick] = useState(false);
+  const [noDrag, setNoDrag] = useState(false);
+  const [multiple, setMultiple] = useState(false);
 
   const api = {
+    accept,
+    setAccept,
     config,
     setConfig,
-    noDrag,
-    setNoDrag,
+    disabled,
+    setDisabled,
     minSize,
     setMinSize,
     maxSize,
     setMaxSize,
+    multiple,
+    setMultiple,
     maxFiles,
     setMaxFiles,
+
     noClick,
     setNoClick,
+    noDrag,
+    setNoDrag,
   } as Api<T>;
 
   const CSVReader = useCSVReaderComponent(api);
@@ -703,42 +565,15 @@ const initialState = {
 
 function reducer(state: any, action: any) {
   switch (action.type) {
-    case 'focus':
-      return {
-        ...state,
-        isFocused: true,
-      };
-    case 'blur':
-      return {
-        ...state,
-        isFocused: false,
-      };
     case 'openDialog':
       return {
         ...state,
         isFileDialogActive: true,
       };
-    case 'setDraggedFiles':
-      /* eslint no-case-declarations: 0 */
-      const { isDragActive, draggedFiles } = action;
+    case 'closeDialog':
       return {
         ...state,
-        draggedFiles,
-        isDragActive,
-      };
-    case 'reset':
-      return {
-        ...initialState,
-      };
-    case 'setProgressBarPercentage':
-      return {
-        ...state,
-        progressBarPercentage: action.progressBarPercentage,
-      };
-    case 'setDisplayProgressBar':
-      return {
-        ...state,
-        displayProgressBar: action.displayProgressBar,
+        isFileDialogActive: false,
       };
     case 'setFiles':
       return {
@@ -750,6 +585,16 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         acceptedFile: action.acceptedFile,
+      };
+    case 'setDisplayProgressBar':
+      return {
+        ...state,
+        displayProgressBar: action.displayProgressBar,
+      };
+    case 'setProgressBarPercentage':
+      return {
+        ...state,
+        progressBarPercentage: action.progressBarPercentage,
       };
     default:
       return state;
