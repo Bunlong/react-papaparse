@@ -45,9 +45,14 @@ export interface Props<T> {
   noClick?: boolean;
   noDrag?: boolean;
   noDragEventsBubbling?: boolean;
+  noKeyboard?: boolean;
   multiple?: boolean;
 
   validator?: (file: any) => void;
+
+  onDragEnter?: (event?: any) => void;
+  onDragOver?: (event?: any) => void;
+  onDragLeave?: (event?: any) => void;
 }
 
 export interface Api<T> {
@@ -75,7 +80,7 @@ export interface Api<T> {
 function useCSVReaderComponent<T = any>(api: Api<T>) {
   const CSVReaderComponent = (props: Props<T>) => {
     const inputRef: any = useRef<ReactNode>(null);
-    // const rootRef: any = useRef<ReactNode>(null);
+    const rootRef: any = useRef<ReactNode>(null);
     const dragTargetsRef = useRef([]);
 
     const {
@@ -106,10 +111,16 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       onUploadAccepted,
       noDragEventsBubbling,
       validator,
+
+      onDragEnter,
+      onDragOver,
+      onDragLeave,
+
+      noKeyboard = false,
     } = props;
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { acceptedFile, displayProgressBar, progressBarPercentage } = state;
+    const { acceptedFile, displayProgressBar, progressBarPercentage, draggedFiles } = state;
 
     useEffect(() => {
       const {
@@ -381,6 +392,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         onDropAccepted,
       ],
     );
+
+    const onInputElementClick = useCallback((event) => {
+      event.stopPropagation();
+    }, []);
     // ====================================
 
     // ============== BUTTON ==============
@@ -396,56 +411,166 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     // ====================================
 
     // ============== DROP ==============
+    const composeKeyboardHandler = (fn: any) => {
+      return noKeyboard ? null : composeHandler(fn);
+    };
+
+    const onDragEnterCb = useCallback(
+      (event: any) => {
+        allowDrop(event);
+
+        dragTargetsRef.current = [
+          ...dragTargetsRef.current,
+          event.target,
+        ] as never[];
+
+        if (isEventWithFiles(event)) {
+          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+            return;
+          }
+
+          dispatch({
+            draggedFiles,
+            isDragActive: true,
+            type: 'setDraggedFiles',
+          });
+
+          if (onDragEnter) {
+            onDragEnter(event);
+          }
+        }
+      },
+      [onDragEnter, noDragEventsBubbling],
+    );
+
+    const onDragOverCb = useCallback(
+      (event: any) => {
+        allowDrop(event);
+
+        const hasFiles = isEventWithFiles(event);
+        if (hasFiles && event.dataTransfer) {
+          try {
+            event.dataTransfer.dropEffect = 'copy';
+          } catch {} /* eslint-disable-line no-empty */
+        }
+
+        if (hasFiles && onDragOver) {
+          onDragOver(event);
+        }
+
+        return false;
+      },
+      [onDragOver, noDragEventsBubbling],
+    );
+
+    const onDragLeaveCb = useCallback(
+      (event: any) => {
+        allowDrop(event);
+
+        // Only deactivate once the dropzone and all children have been left
+        const targets = dragTargetsRef.current.filter(
+          (target) => rootRef.current && rootRef.current.contains(target),
+        );
+        // Make sure to remove a target present multiple times only once
+        // (Firefox may fire dragenter/dragleave multiple times on the same element)
+        const targetIdx = targets.indexOf(event.target as never);
+        if (targetIdx !== -1) {
+          targets.splice(targetIdx, 1);
+        }
+        dragTargetsRef.current = targets;
+        if (targets.length > 0) {
+          return;
+        }
+
+        dispatch({
+          isDragActive: false,
+          type: 'setDraggedFiles',
+          draggedFiles: [],
+        });
+
+        if (isEventWithFiles(event) && onDragLeave) {
+          onDragLeave(event);
+        }
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [rootRef, onDragLeave, noDragEventsBubbling],
+    );
+
+    // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
+    const onKeyDownCb = useCallback(
+      (event: any) => {
+        // Ignore keyboard events bubbling up the DOM tree
+        if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+          return;
+        }
+
+        if (event.keyCode === 32 || event.keyCode === 13) {
+          event.preventDefault();
+          openFileDialog();
+        }
+      },
+      [rootRef, inputRef],
+    );
+
+    // Update focus state for the dropzone
+    const onFocusCb = useCallback(() => {
+      dispatch({ type: 'focus' });
+    }, []);
+
+    const onBlurCb = useCallback(() => {
+      dispatch({ type: 'blur' });
+    }, []);
+
     const getDropzoneProps = useMemo(
       () =>
         ({
           onClick = () => {},
           onDrop = () => {},
-          // onDragOver = () => {},
+          onDragOver = () => {},
+          onDragLeave = () => {},
+          onKeyDown = () => {},
+          onFocus = () => {},
+          onBlur = () => {},
           // onDragEnter = () => {},
-          // onDragLeave = () => {},
-          // onKeyDown = () => {},
-          // onFocus = () => {},
-          // onBlur = () => {},
-          // refKey = rootRef,
+          refKey = rootRef,
           ...rest
         } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)), // Done
+          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
-          // onDragEnter: composeDragHandler(
-          //   composeEventHandlers(onDragEnter, onDragEnterCb), // Done
-          // ),
-          // onDragOver: composeDragHandler(
-          //   composeEventHandlers(onDragOver, onDragOverCb), // Done
-          // ),
-          // onDragLeave: composeDragHandler(
-          //   composeEventHandlers(onDragLeave, onDragLeaveCb), // Done
-          // ),
-          // onKeyDown: composeKeyboardHandler(
-          //   composeEventHandlers(onKeyDown, onKeyDownCb), // Done
-          // ),
-          // onFocus: composeKeyboardHandler(
-          //   composeEventHandlers(onFocus, onFocusCb), // Done
-          // ),
-          // onBlur: composeKeyboardHandler(
-          //   composeEventHandlers(onBlur, onBlurCb), // Done
-          // ),
-          // [refKey]: rootRef,
+          onDragEnter: composeDragHandler(
+            composeEventHandlers(onDragEnter, onDragEnterCb),
+          ),
+          onDragOver: composeDragHandler(
+            composeEventHandlers(onDragOver, onDragOverCb),
+          ),
+          onDragLeave: composeDragHandler(
+            composeEventHandlers(onDragLeave, onDragLeaveCb),
+          ),
+          onKeyDown: composeKeyboardHandler(
+            composeEventHandlers(onKeyDown, onKeyDownCb), // Done
+          ),
+          onFocus: composeKeyboardHandler(
+            composeEventHandlers(onFocus, onFocusCb), // Done
+          ),
+          onBlur: composeKeyboardHandler(
+            composeEventHandlers(onBlur, onBlurCb), // Done
+          ),
+          [refKey]: rootRef,
           ...rest,
         }),
       // eslint-disable-next-line react-hooks/exhaustive-deps
       [
-        // rootRef,
-        // onKeyDownCb,
-        // onFocusCb,
-        // onBlurCb,
-        // onClickCb,
-        // onDragEnterCb,
-        // onDragOverCb,
-        // onDragLeaveCb,
-        // onDropCb,
-        // noKeyboard,
-        // noDrag,
+        rootRef,
+        onKeyDownCb,
+        onFocusCb,
+        onBlurCb,
+        onClickCb,
+        onDragEnterCb,
+        onDragOverCb,
+        onDragLeaveCb,
+        onDropCb,
+        noKeyboard,
+        noDrag,
         disabled,
       ],
     );
@@ -457,18 +582,18 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         ({
           refKey = 'ref',
           onChange = () => {},
-          // onClick = () => {},
+          onClick = () => {},
           ...rest
         } = {}) => {
           const inputProps = {
             accept,
-            // multiple,
+            multiple,
             type: 'file',
             style: { display: 'none' },
             onChange: composeHandler(composeEventHandlers(onChange, onDropCb)),
-            // onClick: composeHandler(
-            //   composeEventHandlers(onClick, onInputElementClick),
-            // ),
+            onClick: composeHandler(
+              composeEventHandlers(onClick, onInputElementClick),
+            ),
             autoComplete: 'off',
             tabIndex: -1,
             [refKey]: inputRef,
@@ -479,11 +604,10 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             ...rest,
           };
         },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         inputRef,
         accept,
-        // onDropCb,
+        onDropCb,
         disabled,
       ],
     );
@@ -595,6 +719,24 @@ function reducer(state: any, action: any) {
       return {
         ...state,
         progressBarPercentage: action.progressBarPercentage,
+      };
+    case 'setDraggedFiles':
+      /* eslint no-case-declarations: 0 */
+      const { isDragActive, draggedFiles } = action;
+      return {
+        ...state,
+        draggedFiles,
+        isDragActive,
+      };
+    case 'focus':
+      return {
+        ...state,
+        isFocused: true,
+      };
+    case 'blur':
+      return {
+        ...state,
+        isFocused: false,
       };
     default:
       return state;
