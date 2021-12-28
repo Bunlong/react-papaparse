@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  // CSSProperties,
   useReducer,
   useCallback,
   useMemo,
@@ -19,40 +18,40 @@ import {
   fileAccepted,
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
+  onDocumentDragOver,
 } from './utils';
 import ProgressBar from './ProgressBar';
 
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
-// const cssProperty = {
-//   inputFile: {
-//     display: 'none',
-//   } as CSSProperties,
-// };
-
 export interface Props<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
-  disabled?: boolean;
+
   minSize?: number;
   maxSize?: number;
   maxFiles?: number;
 
-  onUploadAccepted?: (data: ParseResult<T>, file?: any, event?: any) => void;
-  onDropAccepted?: (data: ParseResult<T>, file?: any) => void;
-
+  disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
   noDragEventsBubbling?: boolean;
   noKeyboard?: boolean;
   multiple?: boolean;
+  preventDropOnDocument?: boolean;
 
-  validator?: (file: any) => void;
-
-  onDragEnter?: (event?: any) => void;
-  onDragOver?: (event?: any) => void;
-  onDragLeave?: (event?: any) => void;
+  onUploadAccepted?: (data: ParseResult<T>, file?: File, event?: Event) => void;
+  onDropAccepted?: (
+    data: ParseResult<T>,
+    file?: File,
+    event?: DragEvent | Event,
+  ) => void;
+  onDropRejected?: (file?: File, event?: DragEvent | Event) => void;
+  validator?: (file: File) => void;
+  onDragEnter?: (event?: DragEvent) => void;
+  onDragOver?: (event?: DragEvent) => void;
+  onDragLeave?: (event?: DragEvent) => void;
 }
 
 export interface Api<T> {
@@ -68,13 +67,17 @@ export interface Api<T> {
   setMaxSize?: () => void;
   maxFiles?: number;
   setMaxFiles?: () => void;
-
   noClick?: boolean;
   setNoClick?: () => void;
   noDrag?: boolean;
   setNoDrag?: () => void;
   multiple?: boolean;
   setMultiple?: () => void;
+}
+
+export interface ProgressBarComponentProp {
+  style?: any;
+  className?: string;
 }
 
 function useCSVReaderComponent<T = any>(api: Api<T>) {
@@ -96,7 +99,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       setMaxSize,
       maxFiles,
       setMaxFiles,
-
       noClick,
       setNoClick,
       noDrag,
@@ -109,18 +111,23 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       children,
       onDropAccepted,
       onUploadAccepted,
+      onDropRejected,
       noDragEventsBubbling,
       validator,
-
       onDragEnter,
       onDragOver,
       onDragLeave,
-
       noKeyboard = false,
+      preventDropOnDocument = true,
     } = props;
 
     const [state, dispatch] = useReducer(reducer, initialState);
-    const { acceptedFile, displayProgressBar, progressBarPercentage, draggedFiles } = state;
+    const {
+      acceptedFile,
+      displayProgressBar,
+      progressBarPercentage,
+      draggedFiles,
+    } = state;
 
     useEffect(() => {
       const {
@@ -130,7 +137,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         minSize,
         maxSize,
         maxFiles,
-
         noClick,
         multiple,
       } = props;
@@ -141,23 +147,33 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       minSize && setMinSize(minSize);
       maxSize && setMaxSize(maxSize);
       maxFiles && setMaxFiles(maxFiles);
-
       noClick && setNoClick(noClick);
       noDrag && setNoDrag(noDrag);
       multiple && setMultiple(multiple);
     }, []);
 
-    const ProgressBarComponent = (props: any) => {
-      return (
-        <ProgressBar
-          isButton
-          display={displayProgressBar}
-          percentage={progressBarPercentage}
-          style={props.style}
-          className={props.className}
-        />
-      );
+    const onDocumentDrop = (event: DragEvent) => {
+      if (rootRef.current && rootRef.current.contains(event.target)) {
+        // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
+        return;
+      }
+      event.preventDefault();
+      dragTargetsRef.current = [];
     };
+
+    useEffect(() => {
+      if (preventDropOnDocument) {
+        document.addEventListener('dragover', onDocumentDragOver, false);
+        document.addEventListener('drop', onDocumentDrop, false);
+      }
+
+      return () => {
+        if (preventDropOnDocument) {
+          document.removeEventListener('dragover', onDocumentDragOver);
+          document.removeEventListener('drop', onDocumentDrop);
+        }
+      };
+    }, [rootRef, preventDropOnDocument]);
 
     // ============== GLOBAL ==============
     const composeHandler = (fn: any) => {
@@ -168,7 +184,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       return noDrag ? null : composeHandler(fn);
     };
 
-    const stopPropagation = (event: any) => {
+    const stopPropagation = (event: Event) => {
       if (noDragEventsBubbling) {
         event.stopPropagation();
       }
@@ -193,6 +209,20 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         progressBarPercentage: percentage,
         type: 'setProgressBarPercentage',
       });
+    };
+
+    const ProgressBarComponent = ({
+      style,
+      className,
+    }: ProgressBarComponentProp) => {
+      return (
+        <ProgressBar
+          display={displayProgressBar}
+          percentage={progressBarPercentage}
+          style={style}
+          className={className}
+        />
+      );
     };
 
     const renderChildren = () => {
@@ -261,7 +291,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
               minSize,
               maxSize,
             );
-            const customErrors = validator ? validator(file) : null;
+            const customErrors = validator ? validator(file as File) : null;
 
             if (accepted && sizeMatch && !customErrors) {
               acceptedFiles.push(file);
@@ -281,7 +311,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             (multiple && maxFiles >= 1 && acceptedFiles.length > maxFiles)
           ) {
             // Reject everything and empty accepted files
-            acceptedFiles.forEach((file: any) => {
+            acceptedFiles.forEach((file: File) => {
               fileRejections.push({ file, errors: [TOO_MANY_FILES_REJECTION] });
             });
             acceptedFiles.splice(0);
@@ -299,87 +329,88 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           //   onDrop(acceptedFiles, fileRejections, event)
           // }
 
-          // if (fileRejections.length > 0 && onDropRejected) {
-          //   onDropRejected(fileRejections, event)
-          // }
+          if (fileRejections.length > 0 && onDropRejected) {
+            onDropRejected(fileRejections, event);
+          }
 
-          // if (acceptedFiles.length > 0 && onDropAccepted) {
-          //   onDropAccepted(acceptedFiles, event)
-          // }
+          if (
+            acceptedFiles.length > 0 &&
+            (onUploadAccepted || onDropAccepted)
+          ) {
+            let configs = {} as any;
+            const data: any = [];
+            const errors: any = [];
+            const meta: any = [];
+            const reader = new window.FileReader();
+            let percentage = 0;
 
-          let configs = {} as any;
-          const data: any = [];
-          const errors: any = [];
-          const meta: any = [];
-          const reader = new window.FileReader();
-          let percentage = 0;
+            configs = Object.assign({}, config, configs);
+            acceptedFiles.forEach((file: File) => {
+              dispatch({
+                acceptedFile: file,
+                type: 'setFile',
+              });
 
-          configs = Object.assign({}, config, configs);
-          acceptedFiles.forEach((file: any) => {
-            dispatch({
-              acceptedFile: file,
-              type: 'setFile',
-            });
-
-            configs = {
-              complete:
-                config?.complete || config?.step
-                  ? config.complete
-                  : () => {
-                      const obj = { data, errors, meta };
-                      if (!onDropAccepted && onUploadAccepted) {
-                        onUploadAccepted(obj, file);
-                      } else if (onDropAccepted && !onUploadAccepted) {
-                        onDropAccepted(obj, file);
-                      }
-                    },
-              step: config?.step
-                ? config.step
-                : (row: any) => {
-                    data.push(row.data);
-                    if (row.errors.length > 0) {
-                      errors.push(row.errors);
-                    }
-                    if (row.length > 0) {
-                      meta.push(row[0].meta);
-                    }
-                    if (config && config.preview) {
-                      percentage = Math.round(
-                        (data.length / config.preview) * 100,
-                      );
-                      // setProgressBarPercentage(percentage);
-                      if (data.length === config.preview) {
+              configs = {
+                complete:
+                  config?.complete || config?.step
+                    ? config.complete
+                    : () => {
+                        const obj = { data, errors, meta };
                         if (!onDropAccepted && onUploadAccepted) {
-                          onUploadAccepted(data, file);
+                          onUploadAccepted(obj, file);
                         } else if (onDropAccepted && !onUploadAccepted) {
-                          onDropAccepted(data, file);
+                          onDropAccepted(obj, file);
                         }
+                      },
+                step: config?.step
+                  ? config.step
+                  : (row: any) => {
+                      data.push(row.data);
+                      if (row.errors.length > 0) {
+                        errors.push(row.errors);
                       }
-                    } else {
-                      const cursor = row.meta.cursor;
-                      const newPercentage = Math.round(
-                        (cursor / file.size) * 100,
-                      );
-                      if (newPercentage === percentage) {
-                        return;
+                      if (row.length > 0) {
+                        meta.push(row[0].meta);
                       }
-                      percentage = newPercentage;
-                    }
-                    setProgressBarPercentage(percentage);
-                  },
-            };
-            reader.onload = (e: any) => {
-              PapaParse.parse(e.target.result, configs);
-            };
-            reader.onloadend = () => {
-              setTimeout(() => {
-                setDisplayProgressBar('none');
-              }, 2000);
-            };
-            reader.readAsText(file, config.encoding || 'utf-8');
-          });
+                      if (config && config.preview) {
+                        percentage = Math.round(
+                          (data.length / config.preview) * 100,
+                        );
+                        // setProgressBarPercentage(percentage);
+                        if (data.length === config.preview) {
+                          if (!onDropAccepted && onUploadAccepted) {
+                            onUploadAccepted(data, file);
+                          } else if (onDropAccepted && !onUploadAccepted) {
+                            onDropAccepted(data, file);
+                          }
+                        }
+                      } else {
+                        const cursor = row.meta.cursor;
+                        const newPercentage = Math.round(
+                          (cursor / file.size) * 100,
+                        );
+                        if (newPercentage === percentage) {
+                          return;
+                        }
+                        percentage = newPercentage;
+                      }
+                      setProgressBarPercentage(percentage);
+                    },
+              };
+              reader.onload = (e: any) => {
+                PapaParse.parse(e.target.result, configs);
+              };
+              reader.onloadend = () => {
+                setTimeout(() => {
+                  setDisplayProgressBar('none');
+                }, 2000);
+              };
+              reader.readAsText(file, config.encoding || 'utf-8');
+            });
+          }
         }
-        dispatch({ type: 'reset' });
+        // dispatch({ type: 'reset' });
       },
       [
         multiple,
@@ -405,7 +436,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           ...rest,
         }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [onClickCb],
     );
     // ====================================
@@ -416,7 +446,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     };
 
     const onDragEnterCb = useCallback(
-      (event: any) => {
+      (event: DragEvent) => {
         allowDrop(event);
 
         dragTargetsRef.current = [
@@ -444,7 +474,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     );
 
     const onDragOverCb = useCallback(
-      (event: any) => {
+      (event: DragEvent) => {
         allowDrop(event);
 
         const hasFiles = isEventWithFiles(event);
@@ -464,7 +494,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     );
 
     const onDragLeaveCb = useCallback(
-      (event: any) => {
+      (event: DragEvent) => {
         allowDrop(event);
 
         // Only deactivate once the dropzone and all children have been left
@@ -492,13 +522,12 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           onDragLeave(event);
         }
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [rootRef, onDragLeave, noDragEventsBubbling],
     );
 
     // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
     const onKeyDownCb = useCallback(
-      (event: any) => {
+      (event: KeyboardEvent) => {
         // Ignore keyboard events bubbling up the DOM tree
         if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
           return;
@@ -531,7 +560,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           onKeyDown = () => {},
           onFocus = () => {},
           onBlur = () => {},
-          // onDragEnter = () => {},
+          onDragEnter = () => {},
           refKey = rootRef,
           ...rest
         } = {}) => ({
@@ -558,7 +587,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           [refKey]: rootRef,
           ...rest,
         }),
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [
         rootRef,
         onKeyDownCb,
@@ -604,12 +632,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
             ...rest,
           };
         },
-      [
-        inputRef,
-        accept,
-        onDropCb,
-        disabled,
-      ],
+      [inputRef, accept, onDropCb, disabled],
     );
     // ===================================
 
@@ -655,7 +678,6 @@ export function useCSVReader<T = any>() {
     setMultiple,
     maxFiles,
     setMaxFiles,
-
     noClick,
     setNoClick,
     noDrag,
@@ -738,6 +760,10 @@ function reducer(state: any, action: any) {
         ...state,
         isFocused: false,
       };
+    // case 'reset':
+    //   return {
+    //     ...initialState
+    //   }
     default:
       return state;
   }
