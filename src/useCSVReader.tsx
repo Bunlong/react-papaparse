@@ -656,9 +656,8 @@ export function useCSVReader<T = any>() {
   const [config, setConfig] = useState({});
   const [disabled, setDisabled] = useState(false);
   const [minSize, setMinSize] = useState(0);
-  const [maxSize, setMaxSize] = useState(3000000);
+  const [maxSize, setMaxSize] = useState(Infinity);
   const [maxFiles, setMaxFiles] = useState(1);
-
   const [noClick, setNoClick] = useState(false);
   const [noDrag, setNoDrag] = useState(false);
   const [multiple, setMultiple] = useState(false);

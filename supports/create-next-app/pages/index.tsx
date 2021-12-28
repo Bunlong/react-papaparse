@@ -182,7 +182,7 @@ export default function Home() {
             console.log('9999999999999999999999');
           }}
         >
-          {({ getButtonProps, acceptedFile, ProgressBar }) => (
+          {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
             <div
               style={{
                 width: '70%'
@@ -228,7 +228,7 @@ export default function Home() {
             console.log('9999999999999999999999');
           }}
         >
-          {({ getDropzoneProps, acceptedFile, ProgressBar }) => (
+          {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
             <>
               <div
                 style={{
@@ -243,10 +243,10 @@ export default function Home() {
                 }}
                 {...getDropzoneProps()}
               >
-                <span style={{ textAlign: 'center' }}>
-                  {acceptedFile && acceptedFile.name}
+                <span style={{ textAlign: 'center', paddingBottom: 5 }}>
+                  {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
                 </span>
-                <ProgressBar style={{backgroundColor: 'red'}} />
+                <ProgressBar />
               </div>
             </>
           )}
