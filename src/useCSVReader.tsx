@@ -22,6 +22,9 @@ import {
 } from './utils';
 import ProgressBar from './ProgressBar';
 
+// 'text/csv' for MacOS
+// '.csv' for Linux
+// 'application/vnd.ms-excel' for Window 10
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 export interface Props<T> {
