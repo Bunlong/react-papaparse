@@ -141,6 +141,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         maxSize,
         maxFiles,
         noClick,
+        noDrag,
         multiple,
       } = props;
 

@@ -223,7 +223,7 @@ export default function Home() {
             console.log(results);
             console.log('---------------------------');
           }}
-          noClick
+          noDrag
         >
           {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
             <>

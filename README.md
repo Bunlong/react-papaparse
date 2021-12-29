@@ -210,40 +210,44 @@ export default function CSVReader() {
 ![click-no-drag-upload](https://react-papaparse.github.io/static/images/csvreader4.png)
 
 ```javascript
-import React, { Component } from 'react'
+import { useCSVReader } from 'react-papaparse';
 
-import { CSVReader } from 'react-papaparse'
+export default function CSVReader() {
+  const { CSVReader } = useCSVReader();
 
-export default class CSVReader extends Component {
-  handleOnDrop = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
-
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  }
-
-  handleOnRemoveFile = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
-
-  render() {
-    return (
-      <CSVReader
-        onDrop={this.handleOnDrop}
-        onError={this.handleOnError}
-        noDrag
-        addRemoveButton
-        onRemoveFile={this.handleOnRemoveFile}
-      >
-        <span>Click to upload.</span>
-      </CSVReader>
-    )
-  }
+  return (
+    <CSVReader
+      onDropAccepted={(results: any)=> {
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      }}
+      noDrag
+    >
+      {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
+        <>
+          <div
+            {...getDropzoneProps()}
+            style={{
+              borderStyle: 'dashed',
+              borderWidth: 2,
+              borderRadius: 20,
+              borderColor: '#CCC',
+              display: 'flex',
+              flexDirection: 'column',
+              height: '100%',
+              padding: 20,
+            }}
+          >
+            <span style={{ textAlign: 'center', paddingBottom: 5 }}>
+              {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
+            </span>
+            <ProgressBar />
+          </div>
+        </>
+      )}
+    </CSVReader>
+  );
 }
 ```
 
