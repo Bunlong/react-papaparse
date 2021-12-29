@@ -219,14 +219,16 @@ export default function Home() {
 
         <CSVReader
           onDropAccepted={(results: any)=> {
-            console.log('9999999999999999999999');
+            console.log('---------------------------');
             console.log(results);
-            console.log('9999999999999999999999');
+            console.log('---------------------------');
           }}
+          noClick
         >
           {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
             <>
               <div
+                {...getDropzoneProps()}
                 style={{
                   borderStyle: 'dashed',
                   borderWidth: 2,
@@ -237,7 +239,6 @@ export default function Home() {
                   height: '100%',
                   padding: 20,
                 }}
-                {...getDropzoneProps()}
               >
                 <span style={{ textAlign: 'center', paddingBottom: 5 }}>
                   {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
