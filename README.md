@@ -260,9 +260,11 @@ Just pass in the js object with an optional [configuration](https://react-papapa
 #### Button
 
 ```javascript
-import { useDownloader } from 'react-papaparse'
+import { useCSVDownloader } from 'react-papaparse'
 
 export default function CSVDownloader() {
+  const { CSVDownloader, Type } = useCSVDownloader();
+
   return (
     <CSVDownloader
       data={[
@@ -308,9 +310,11 @@ export default function CSVDownloader() {
 #### Link
 
 ```javascript
-import { useDownloader } from 'react-papaparse'
+import { useCSVDownloader } from 'react-papaparse'
 
 export default function CSVDownloader() {
+  const { CSVDownloader, Type } = useCSVDownloader();
+
   return (
     <CSVDownloader
       data={`Column 1,Column 2,Column 3,Column 4
@@ -332,9 +336,11 @@ export default function CSVDownloader() {
 `data={}` can be a function that returns a data object.
 
 ```javascript
-import { useDownloader } from 'react-papaparse'
+import { useCSVDownloader } from 'react-papaparse'
 
 export default function CSVDownloader() {
+  const { CSVDownloader, Type } = useCSVDownloader();
+
   return (
     <CSVDownloader
       data={() => {
