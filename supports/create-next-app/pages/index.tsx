@@ -177,17 +177,13 @@ export default function Home() {
       <div>
         <CSVReader
           onUploadAccepted={(results: any)=> {
-            console.log('9999999999999999999999');
+            console.log('---------------------------');
             console.log(results);
-            console.log('9999999999999999999999');
+            console.log('---------------------------');
           }}
         >
           {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
-            <div
-              style={{
-                width: '70%'
-              }}
-            >
+            <>
               <div
                 style={{
                   display: 'flex',
@@ -217,7 +213,7 @@ export default function Home() {
                 </div>
               </div>
               <ProgressBar style={{backgroundColor: 'red'}} />
-            </div>
+            </>
           )}
         </CSVReader>
 

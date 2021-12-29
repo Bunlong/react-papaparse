@@ -66,108 +66,51 @@ FAQ:
 ![basic-upload](https://react-papaparse.github.io/static/images/csvreader1.png)
 
 ```javascript
-import React, { Component } from 'react'
+import { useCSVReader } from 'react-papaparse';
 
-import { CSVReader } from 'react-papaparse'
+export default function CSVReader() {
+  const { CSVReader } = useCSVReader();
 
-const buttonRef = React.createRef()
-
-export default class CSVReader extends Component {
-  handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point
-    if (buttonRef.current) {
-      buttonRef.current.open(e)
-    }
-  }
-
-  handleOnFileLoad = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
-
-  handleOnError = (err, file, inputElem, reason) => {
-    console.log(err)
-  }
-
-  handleOnRemoveFile = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
-
-  handleRemoveFile = (e) => {
-    // Note that the ref is set async, so it might be null at some point
-    if (buttonRef.current) {
-      buttonRef.current.removeFile(e)
-    }
-  }
-
-  render() {
-    return (
-      <CSVReader
-        ref={buttonRef}
-        onFileLoad={this.handleOnFileLoad}
-        onError={this.handleOnError}
-        noClick
-        noDrag
-        onRemoveFile={this.handleOnRemoveFile}
-      >
-        {({ file }) => (
-          <aside
+  return (
+    <CSVReader
+      onUploadAccepted={(results: any)=> {
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      }}
+    >
+      {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
+        <>
+          <div
             style={{
               display: 'flex',
               flexDirection: 'row',
-              marginBottom: 10
+              marginBottom: 10,
             }}
           >
             <button
-              type='button'
-              onClick={this.handleOpenDialog}
-              style={{
-                borderRadius: 0,
-                marginLeft: 0,
-                marginRight: 0,
-                width: '40%',
-                paddingLeft: 0,
-                paddingRight: 0
-              }}
+              type="button"
+              {...getButtonProps()}
+              style={{ width: '20%' }}
             >
               Browse file
             </button>
             <div
               style={{
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderColor: '#ccc',
                 height: 45,
                 lineHeight: 2.5,
-                marginTop: 5,
-                marginBottom: 5,
-                paddingLeft: 13,
-                paddingTop: 3,
-                width: '60%'
+                paddingLeft: 10,
+                width: '80%',
               }}
             >
-              {file && file.name}
+              {acceptedFile && acceptedFile.name}
             </div>
-            <button
-              style={{
-                borderRadius: 0,
-                marginLeft: 0,
-                marginRight: 0,
-                paddingLeft: 20,
-                paddingRight: 20
-              }}
-              onClick={this.handleRemoveFile}
-            >
-              Remove
-            </button>
-          </aside>
-        )}
-      </CSVReader>
-    )
-  }
+          </div>
+          <ProgressBar />
+        </>
+      )}
+    </CSVReader>
+  );
 }
 ```
 
