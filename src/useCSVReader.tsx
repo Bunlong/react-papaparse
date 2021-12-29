@@ -251,7 +251,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
         inputRef.current.value = null;
         inputRef.current.click();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dispatch]);
 
     // Cb to open the file dialog when click occurs on the dropzone
@@ -267,7 +266,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       } else {
         openFileDialog();
       }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [inputRef, noClick]);
 
     const onDropCb = useCallback(
