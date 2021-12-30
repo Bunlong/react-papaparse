@@ -399,13 +399,15 @@ readRemoteFile(
       console.log('Results:', results)
     }
   }
-)
+);
 ```
 
 ### 🎀 jsonToCSV
 
 ```javascript
-import { jsonToCSV } from 'react-papaparse'
+import { usePapaParse } from 'react-papaparse';
+
+const { jsonToCSV } = usePapaParse();
 
 const jsonData = `[
   {
@@ -434,7 +436,7 @@ const jsonData = `[
   }
 ]`
 
-const results = jsonToCSV(jsonData)
+const results = jsonToCSV(jsonData);
 ```
 
 #### Header row support
