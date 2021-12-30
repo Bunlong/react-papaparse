@@ -396,7 +396,9 @@ readRemoteFile(
   url,
   {
     complete: (results) => {
+      console.log('---------------------------');
       console.log('Results:', results)
+      console.log('---------------------------');
     }
   }
 );
@@ -448,9 +450,11 @@ readString(csvString, {
   header: true,
   worker: true,
   complete: (results) => {
-    console.log(results)
-  }
-})
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+  },
+});
 ```
 
 #### Stream
@@ -465,7 +469,7 @@ readRemoteFile('http://example.com/big.csv', {
   complete: () => {
     console.log('All done!')
   }
-})
+});
 ```
 
 ## 📜 Changelog
