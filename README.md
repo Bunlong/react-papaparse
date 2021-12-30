@@ -388,7 +388,9 @@ readString(csvString, {
 ### 🎀 readRemoteFile
 
 ```javascript
-import { readRemoteFile } from 'react-papaparse'
+import { usePapaParse } from 'react-papaparse';
+
+const { readRemoteFile } = usePapaParse();
 
 readRemoteFile(
   url,
