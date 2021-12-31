@@ -17,61 +17,24 @@ export interface Props {
   config?: UnparseConfig;
 }
 
-export interface Api {
-  data: any;
-  setData?: () => void;
-  filename: string;
-  setFilename?: () => void;
-  type: string;
-  setType: () => void;
-  style?: any;
-  setStyle?: () => void;
-  className?: any;
-  setClassName?: () => void;
-  bom?: boolean;
-  setBom?: () => void;
-  config?: UnparseConfig;
-  setConfig?: () => void;
-}
-
-function useCSVDownloaderComponent(api: Api) {
-  const CSVDownloaderComponent = (props: Props) => {
-    const {
-      setData,
-      data,
-      setFilename,
-      filename,
-      setType,
-      type,
-      setStyle,
-      style,
-      className,
-      setClassName,
-      bom,
-      setBom,
-      config,
-      setConfig,
-    } = CSVDownloader.api;
-
-    React.useEffect(() => {
-      const { data, filename, type, style, className, bom, config } = props;
-      setData(data);
-      setFilename(filename);
-      type && setType(type);
-      style && setStyle(style);
-      className && setClassName(className);
-      bom && setBom(bom);
-      config && setConfig(config);
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
+function useCSVDownloaderComponent() {
+  const CSVDownloaderComponent = ({
+    children,
+    data,
+    filename,
+    type,
+    style,
+    className,
+    bom,
+    config,
+  }: Props) => {
     const download = () => {
       const bomCode = bom ? '\ufeff' : '';
       let csvContent = null;
       let csvURL = null;
 
       if (typeof data === 'function') {
-        setData(data());
+        data = data();
       }
 
       if (typeof data === 'object') {
@@ -106,11 +69,11 @@ function useCSVDownloaderComponent(api: Api) {
             style={style}
             className={className}
           >
-            {props.children}
+            {children}
           </button>
         ) : (
           <a onClick={() => download()} style={style} className={className}>
-            {props.children}
+            {children}
           </a>
         )}
       </>
@@ -123,40 +86,13 @@ function useCSVDownloaderComponent(api: Api) {
     [],
   ) as any;
 
-  CSVDownloader.api = api;
-
   return CSVDownloader;
 }
 
 export function useCSVDownloader() {
-  const [data, setData] = React.useState({});
-  const [filename, setFilename] = React.useState({});
-  const [type, setType] = React.useState(Type.Link);
-  const [style, setStyle] = React.useState({});
-  const [className, setClassName] = React.useState('');
-  const [bom, setBom] = React.useState(false);
-  const [config, setConfig] = React.useState({});
-  const api = {
-    data,
-    setData,
-    filename,
-    setFilename,
-    type,
-    setType,
-    style,
-    setStyle,
-    className,
-    setClassName,
-    bom,
-    setBom,
-    config,
-    setConfig,
-  } as Api;
-
-  const CSVDownloader = useCSVDownloaderComponent(api);
+  const CSVDownloader = useCSVDownloaderComponent();
 
   return {
-    ...api,
     CSVDownloader,
     Type,
   };

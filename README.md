@@ -474,7 +474,7 @@ readRemoteFile('http://example.com/big.csv', {
 
 ## 📜 Changelog
 
-Latest version 3.18.1 (2021-11-07):
+Latest version 4.0.0 (2022-01-01):
 
   * Improve code performance
   * Rewrite any existing based components to hooks

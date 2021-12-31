@@ -40,10 +40,10 @@ export default function Home() {
   return (
     <>
       <div>
-        <p>
+        <div>
           <button onClick={() => handleReadString()}>readString</button>
-        </p>
-        <p>
+        </div>
+        <div>
           <CSVDownloader
             data={[
               {
@@ -79,7 +79,7 @@ export default function Home() {
             }
             type={Type.Button}
           >
-            Download
+            Download ( Button )
           </CSVDownloader>
           <CSVDownloader
             data={`Column 1,Column 2,Column 3,Column 4
@@ -90,7 +90,7 @@ export default function Home() {
             filename={'filename'}
             bom={true}
           >
-            Download
+            Download ( Link )
           </CSVDownloader>
           <CSVDownloader
             filename={'filename'}
@@ -104,11 +104,12 @@ export default function Home() {
                 }
               ]}
             }
+            type={Type.Button}
           >
-            Download
+            Download ( Data as a Function/Callback )
           </CSVDownloader>
-        </p>
-        <p>
+        </div>
+        <div>
           <CSVReader
             onUploadAccepted={(results: any)=> {
               console.log('---------------------------');
@@ -150,8 +151,8 @@ export default function Home() {
               </>
             )}
           </CSVReader>
-        </p>
-        <p>
+        </div>
+        <div>
           <CSVReader
             onDropAccepted={(results: any)=> {
               console.log('---------------------------');
@@ -183,7 +184,7 @@ export default function Home() {
               </>
             )}
           </CSVReader>
-        </p>
+        </div>
       </div>
     </>
   )
