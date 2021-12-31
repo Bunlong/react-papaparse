@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <>
-      <div>
+      {/* <div>
         <CSVDownloader
           data={[
             {
@@ -150,8 +150,8 @@ export default function Home() {
             </>
           )}
         </CSVReader>
-      </div>
-      <div>
+      </div> */}
+      {/* <div> */}
         <CSVReader
           onDropAccepted={(results: any)=> {
             console.log('---------------------------');
@@ -183,7 +183,7 @@ export default function Home() {
             </>
           )}
         </CSVReader>
-      </div>
+      {/* </div> */}
     </>
   )
 }
