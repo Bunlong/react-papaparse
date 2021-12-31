@@ -20,13 +20,13 @@ export interface Props {
 function useCSVDownloaderComponent() {
   const CSVDownloaderComponent = ({
     children,
-    data,
+    data = {},
     filename,
-    type,
-    style,
-    className,
-    bom,
-    config,
+    type = Type.Link,
+    style = {},
+    className = '',
+    bom = false,
+    config = {},
   }: Props) => {
     const download = () => {
       const bomCode = bom ? '\ufeff' : '';
