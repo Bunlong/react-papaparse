@@ -476,16 +476,15 @@ readRemoteFile('http://example.com/big.csv', {
 
 Latest version 3.18.1 (2021-11-07):
 
-  * Fix a bug when component is unmounted immediately after file load in CSVReader
+  * Improve code performance
+  * Rewrite any existing based components to hooks
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
-### 🆕 v4.0.x
-
-  * Improve code performance
-  * Rewrite any existing based components to hooks
+### 🆕 v4.1.0
+  
   * CSVReader multiple files drag and drop
 
 ## ❗ Issues

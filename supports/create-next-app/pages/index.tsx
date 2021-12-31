@@ -1,29 +1,15 @@
 import React, { useState } from 'react'
 import {
-  // CSVReader,
-  // CSVDownloader,
-  // readString,
   usePapaParse,
   useCSVDownloader,
   useCSVReader,
 } from 'react-papaparse'
 
 export default function Home() {
-  const [isReset, setIsReset] = useState<boolean>(false);
   const { CSVDownloader, Type } = useCSVDownloader();
   const { CSVReader } = useCSVReader();
 
   const { readString } = usePapaParse();
-
-  const handleReset = () => {
-    setIsReset(!isReset)
-  }
-
-  const handleOnDrop = (data: any) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
 
   const handleOnError = (
     err: any,
@@ -34,13 +20,7 @@ export default function Home() {
     console.log(err)
   }
 
-  const handleOnRemoveFile = (data: any) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
-  }
-
-  const handleClick = () => {
+  const handleReadString = () => {
     const csvString = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
@@ -60,194 +40,150 @@ export default function Home() {
   return (
     <>
       <div>
-        {/* <CSVReader
-          isReset={isReset}
-          onDrop={handleOnDrop}
-          onError={handleOnError}
-          // noDrag
-          addRemoveButton
-          onRemoveFile={handleOnRemoveFile}
-          style={{
-            dropArea: {
-              borderColor: 'pink',
-              borderRadius: 20,
-            },
-            dropAreaActive: {
-              borderColor: 'red',
-            },
-            dropFile: {
-              width: 100,
-              height: 120,
-              background: '#ccc',
-            },
-            fileSizeInfo: {
-              color: '#fff',
-              backgroundColor: '#000',
-              borderRadius: 3,
-              lineHeight: 1,
-              marginBottom: '0.5em',
-              padding: '0 0.4em',
-            },
-            fileNameInfo: {
-              color: '#fff',
-              backgroundColor: '#eee',
-              borderRadius: 3,
-              fontSize: 14,
-              lineHeight: 1,
-              padding: '0 0.4em',
-            },
-            removeButton: {
-              color: 'blue',
-            },
-            progressBar: {
-              backgroundColor: 'pink',
-            },
-          }}
-        >
-          <span>Click to upload.</span>
-        </CSVReader> */}
-      </div>
-      <div>
-        {/* <button onClick={() => handleClick()}>readString</button>
-        <button onClick={() => handleReset()}>Reset</button> */}
-        {/* <CSVDownloader
-          data={[
-            {
-              "Column 1": "1-1",
-              "Column 2": "1-2",
-              "Column 3": "1-3",
-              "Column 4": "1-4",
-            },
-            {
-              "Column 1": "2-1",
-              "Column 2": "2-2",
-              "Column 3": "2-3",
-              "Column 4": "2-4",
-            },
-            {
-              "Column 1": "3-1",
-              "Column 2": "3-2",
-              "Column 3": "3-3",
-              "Column 4": "3-4",
-            },
-            {
-              "Column 1": 4,
-              "Column 2": 5,
-              "Column 3": 6,
-              "Column 4": 7,
-            },
-          ]}
-          filename={'filename'}
-          config={
-            {
-              delimiter: ';',
-            }
-          }
-          type={Type.Button}
-        >
-          Download
-        </CSVDownloader> */}
-        {/* <CSVDownloader
-          data={`Column 1,Column 2,Column 3,Column 4
-  1-1,1-2,1-3,1-4
-  #2-1,मुकेश,ខ្ញុំ,2-4
-  3-1,3-2,អ្នក,3-4
-  4,5,6,7`}
-          filename={'filename'}
-          bom={true}
-        >
-          Download
-        </CSVDownloader> */}
-        {/* <CSVDownloader
-          filename={'filename'}
-          data={() => {
-            return [
+        <p>
+          <button onClick={() => handleReadString()}>readString</button>
+        </p>
+        <p>
+          <CSVDownloader
+            data={[
               {
                 "Column 1": "1-1",
                 "Column 2": "1-2",
                 "Column 3": "1-3",
                 "Column 4": "1-4",
-              }
+              },
+              {
+                "Column 1": "2-1",
+                "Column 2": "2-2",
+                "Column 3": "2-3",
+                "Column 4": "2-4",
+              },
+              {
+                "Column 1": "3-1",
+                "Column 2": "3-2",
+                "Column 3": "3-3",
+                "Column 4": "3-4",
+              },
+              {
+                "Column 1": 4,
+                "Column 2": 5,
+                "Column 3": 6,
+                "Column 4": 7,
+              },
             ]}
-          }
-        >
-          Download
-        </CSVDownloader> */}
-      </div>
-      <div>
-        <CSVReader
-          onUploadAccepted={(results: any)=> {
-            console.log('---------------------------');
-            console.log(results);
-            console.log('---------------------------');
-          }}
-        >
-          {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
-            <>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginBottom: 10,
-                }}
-              >
-                <button
-                  type="button"
-                  {...getButtonProps()}
-                  style={{
-                    width: '20%',
-                  }}
-                >
-                  Browse file
-                </button>
+            filename={'filename'}
+            config={
+              {
+                delimiter: ';',
+              }
+            }
+            type={Type.Button}
+          >
+            Download
+          </CSVDownloader>
+          <CSVDownloader
+            data={`Column 1,Column 2,Column 3,Column 4
+    1-1,1-2,1-3,1-4
+    #2-1,मुकेश,ខ្ញុំ,2-4
+    3-1,3-2,អ្នក,3-4
+    4,5,6,7`}
+            filename={'filename'}
+            bom={true}
+          >
+            Download
+          </CSVDownloader>
+          <CSVDownloader
+            filename={'filename'}
+            data={() => {
+              return [
+                {
+                  "Column 1": "1-1",
+                  "Column 2": "1-2",
+                  "Column 3": "1-3",
+                  "Column 4": "1-4",
+                }
+              ]}
+            }
+          >
+            Download
+          </CSVDownloader>
+        </p>
+        <p>
+          <CSVReader
+            onUploadAccepted={(results: any)=> {
+              console.log('---------------------------');
+              console.log(results);
+              console.log('---------------------------');
+            }}
+          >
+            {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
+              <>
                 <div
                   style={{
-                    border: '1px solid #ccc',
-                    height: 45,
-                    lineHeight: 2.5,
-                    paddingLeft: 10,
-                    width: '80%',
+                    display: 'flex',
+                    flexDirection: 'row',
+                    marginBottom: 10,
                   }}
                 >
-                  {acceptedFile && acceptedFile.name}
+                  <button
+                    type="button"
+                    {...getButtonProps()}
+                    style={{
+                      width: '20%',
+                    }}
+                  >
+                    Browse file
+                  </button>
+                  <div
+                    style={{
+                      border: '1px solid #ccc',
+                      height: 45,
+                      lineHeight: 2.5,
+                      paddingLeft: 10,
+                      width: '80%',
+                    }}
+                  >
+                    {acceptedFile && acceptedFile.name}
+                  </div>
                 </div>
-              </div>
-              <ProgressBar style={{backgroundColor: 'red'}} />
-            </>
-          )}
-        </CSVReader>
-
-        <CSVReader
-          onDropAccepted={(results: any)=> {
-            console.log('---------------------------');
-            console.log(results);
-            console.log('---------------------------');
-          }}
-          noDrag
-        >
-          {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
-            <>
-              <div
-                {...getDropzoneProps()}
-                style={{
-                  borderStyle: 'dashed',
-                  borderWidth: 2,
-                  borderRadius: 20,
-                  borderColor: '#CCC',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  height: '100%',
-                  padding: 20,
-                }}
-              >
-                <span style={{ textAlign: 'center', paddingBottom: 5 }}>
-                  {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
-                </span>
-                <ProgressBar />
-              </div>
-            </>
-          )}
-        </CSVReader>
+                <ProgressBar style={{backgroundColor: 'red'}} />
+              </>
+            )}
+          </CSVReader>
+        </p>
+        <p>
+          <CSVReader
+            onDropAccepted={(results: any)=> {
+              console.log('---------------------------');
+              console.log(results);
+              console.log('---------------------------');
+            }}
+            noDrag
+          >
+            {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
+              <>
+                <div
+                  {...getDropzoneProps()}
+                  style={{
+                    borderStyle: 'dashed',
+                    borderWidth: 2,
+                    borderRadius: 20,
+                    borderColor: '#CCC',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: '100%',
+                    padding: 20,
+                  }}
+                >
+                  <span style={{ textAlign: 'center' }}>
+                    {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
+                  </span>
+                  <ProgressBar />
+                </div>
+              </>
+            )}
+          </CSVReader>
+        </p>
       </div>
     </>
   )
