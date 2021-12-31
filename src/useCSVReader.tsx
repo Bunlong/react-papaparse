@@ -4,7 +4,6 @@ import React, {
   useCallback,
   useMemo,
   useEffect,
-  useState,
   ReactNode,
   useRef,
 } from 'react';
@@ -31,11 +30,9 @@ export interface Props<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
-
   minSize?: number;
   maxSize?: number;
   maxFiles?: number;
-
   disabled?: boolean;
   noClick?: boolean;
   noDrag?: boolean;
@@ -43,7 +40,6 @@ export interface Props<T> {
   noKeyboard?: boolean;
   multiple?: boolean;
   preventDropOnDocument?: boolean;
-
   onUploadAccepted?: (data: ParseResult<T>, file?: File, event?: Event) => void;
   onDropAccepted?: (
     data: ParseResult<T>,
@@ -57,72 +53,37 @@ export interface Props<T> {
   onDragLeave?: (event?: DragEvent) => void;
 }
 
-export interface Api<T> {
-  accept?: string;
-  setAccept?: () => void;
-  config?: CustomConfig<T>;
-  setConfig?: () => void;
-  disabled?: boolean;
-  setDisabled?: () => void;
-  minSize?: number;
-  setMinSize?: () => void;
-  maxSize?: number;
-  setMaxSize?: () => void;
-  maxFiles?: number;
-  setMaxFiles?: () => void;
-  noClick?: boolean;
-  setNoClick?: () => void;
-  noDrag?: boolean;
-  setNoDrag?: () => void;
-  multiple?: boolean;
-  setMultiple?: () => void;
-}
-
 export interface ProgressBarComponentProp {
   style?: any;
   className?: string;
 }
 
-function useCSVReaderComponent<T = any>(api: Api<T>) {
-  const CSVReaderComponent = (props: Props<T>) => {
+function useCSVReaderComponent<T = any>() {
+  const CSVReaderComponent = ({
+    children,
+    accept = DEFAULT_ACCEPT,
+    config = {},
+    minSize = 0,
+    maxSize = Infinity,
+    maxFiles = 1,
+    disabled = false,
+    noClick = false,
+    noDrag = false,
+    noDragEventsBubbling = false,
+    noKeyboard = false,
+    multiple = false,
+    preventDropOnDocument = true,
+    onUploadAccepted,
+    validator,
+    onDropRejected,
+    onDropAccepted,
+    onDragEnter,
+    onDragOver,
+    onDragLeave,
+  }: Props<T>) => {
     const inputRef: any = useRef<ReactNode>(null);
     const rootRef: any = useRef<ReactNode>(null);
     const dragTargetsRef = useRef([]);
-
-    const {
-      accept,
-      setAccept,
-      config,
-      setConfig,
-      disabled,
-      setDisabled,
-      minSize,
-      setMinSize,
-      maxSize,
-      setMaxSize,
-      maxFiles,
-      setMaxFiles,
-      noClick,
-      setNoClick,
-      noDrag,
-      setNoDrag,
-      multiple,
-      setMultiple,
-    } = CSVReader.api;
-
-    const {
-      children,
-      onDropAccepted,
-      onUploadAccepted,
-      onDropRejected,
-      noDragEventsBubbling,
-      validator,
-      onDragEnter,
-      onDragOver,
-      onDragLeave,
-      noKeyboard = false,
-      preventDropOnDocument = true,
-    } = props;
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const {
@@ -131,30 +92,6 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
       progressBarPercentage,
       draggedFiles,
     } = state;
-
-    useEffect(() => {
-      const {
-        accept,
-        config,
-        disabled,
-        minSize,
-        maxSize,
-        maxFiles,
-        noClick,
-        noDrag,
-        multiple,
-      } = props;
-
-      accept && setAccept(accept);
-      config && setConfig(config);
-      disabled && setDisabled(disabled);
-      minSize && setMinSize(minSize);
-      maxSize && setMaxSize(maxSize);
-      maxFiles && setMaxFiles(maxFiles);
-      noClick && setNoClick(noClick);
-      noDrag && setNoDrag(noDrag);
-      multiple && setMultiple(multiple);
-    }, []);
 
     const onDocumentDrop = (event: DragEvent) => {
       if (rootRef.current && rootRef.current.contains(event.target)) {
@@ -269,7 +206,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     }, [inputRef, noClick]);
 
     const onDropCb = useCallback(
-      (event) => {
+      (event: any) => {
         allowDrop(event);
 
         setProgressBarPercentage(0);
@@ -427,7 +364,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
     );
 
     const onInputElementClick = useCallback((event) => {
-      event.stopPropagation();
+      stopPropagation(event);
     }, []);
     // ====================================
 
@@ -535,7 +472,7 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
           return;
         }
 
-        if (event.keyCode === 32 || event.keyCode === 13) {
+        if (event.key === 'Space' || event.key === 'Enter') {
           event.preventDefault();
           openFileDialog();
         }
@@ -648,47 +585,13 @@ function useCSVReaderComponent<T = any>(api: Api<T>) {
 
   const CSVReader = useMemo(() => CSVReaderComponent, []) as any;
 
-  CSVReader.api = api;
-
   return CSVReader;
 }
 
-export function useCSVReader<T = any>() {
-  const [accept, setAccept] = useState(DEFAULT_ACCEPT);
-  const [config, setConfig] = useState({});
-  const [disabled, setDisabled] = useState(false);
-  const [minSize, setMinSize] = useState(0);
-  const [maxSize, setMaxSize] = useState(Infinity);
-  const [maxFiles, setMaxFiles] = useState(1);
-  const [noClick, setNoClick] = useState(false);
-  const [noDrag, setNoDrag] = useState(false);
-  const [multiple, setMultiple] = useState(false);
-
-  const api = {
-    accept,
-    setAccept,
-    config,
-    setConfig,
-    disabled,
-    setDisabled,
-    minSize,
-    setMinSize,
-    maxSize,
-    setMaxSize,
-    multiple,
-    setMultiple,
-    maxFiles,
-    setMaxFiles,
-    noClick,
-    setNoClick,
-    noDrag,
-    setNoDrag,
-  } as Api<T>;
-
-  const CSVReader = useCSVReaderComponent(api);
+export function useCSVReader() {
+  const CSVReader = useCSVReaderComponent();
 
   return {
-    ...api,
     CSVReader,
   };
 }
@@ -696,11 +599,9 @@ export function useCSVReader<T = any>() {
 const initialState = {
   displayProgressBar: 'none',
   progressBarPercentage: 0,
-
   isDragActive: false,
   isFileDialogActive: false,
   isFocused: false,
-
   draggedFiles: [],
   acceptedFiles: [],
   acceptedFile: null,
