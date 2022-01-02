@@ -4,7 +4,7 @@ export const FILE_TOO_LARGE = 'file-too-large';
 export const FILE_TOO_SMALL = 'file-too-small';
 export const TOO_MANY_FILES = 'too-many-files';
 
-export default function getSize(size: number) {
+export function formatFileSize(size: number) {
   const sizeKb = 1024;
   const sizeMb = sizeKb * sizeKb;
   const sizeGb = sizeMb * sizeKb;

@@ -40,13 +40,12 @@ export interface Props<T> {
   noKeyboard?: boolean;
   multiple?: boolean;
   preventDropOnDocument?: boolean;
-  onUploadAccepted?: (data: ParseResult<T>, file?: File, event?: Event) => void;
-  onDropAccepted?: (
+  onUploadAccepted?: (
     data: ParseResult<T>,
     file?: File,
     event?: DragEvent | Event,
   ) => void;
-  onDropRejected?: (file?: File, event?: DragEvent | Event) => void;
+  onUploadRejected?: (file?: File, event?: DragEvent | Event) => void;
   validator?: (file: File) => void;
   onDragEnter?: (event?: DragEvent) => void;
   onDragOver?: (event?: DragEvent) => void;
@@ -75,8 +74,7 @@ function useCSVReaderComponent<T = any>() {
     preventDropOnDocument = true,
     onUploadAccepted,
     validator,
-    onDropRejected,
-    onDropAccepted,
+    onUploadRejected,
     onDragEnter,
     onDragOver,
     onDragLeave,
@@ -167,17 +165,12 @@ function useCSVReaderComponent<T = any>() {
     };
 
     const renderChildren = () => {
-      return onUploadAccepted
-        ? children({
-            getButtonProps,
-            acceptedFile,
-            ProgressBar: ProgressBarComponent,
-          })
-        : children({
-            getDropzoneProps,
-            acceptedFile,
-            ProgressBar: ProgressBarComponent,
-          });
+      return children({
+        getRootProps,
+        acceptedFile,
+        ProgressBar: ProgressBarComponent,
+        getRemoveFileProps,
+      });
     };
 
     // Fn for opening the file dialog programmatically
@@ -268,14 +261,11 @@ function useCSVReaderComponent<T = any>() {
           //   onDrop(acceptedFiles, fileRejections, event)
           // }
 
-          if (fileRejections.length > 0 && onDropRejected) {
-            onDropRejected(fileRejections, event);
+          if (fileRejections.length > 0 && onUploadRejected) {
+            onUploadRejected(fileRejections, event);
           }
 
-          if (
-            acceptedFiles.length > 0 &&
-            (onUploadAccepted || onDropAccepted)
-          ) {
+          if (acceptedFiles.length > 0 && onUploadAccepted) {
             let configs = {} as any;
             const data: any = [];
             const errors: any = [];
@@ -296,11 +286,7 @@ function useCSVReaderComponent<T = any>() {
                     ? config.complete
                     : () => {
                         const obj = { data, errors, meta };
-                        if (!onDropAccepted && onUploadAccepted) {
-                          onUploadAccepted(obj, file);
-                        } else if (onDropAccepted && !onUploadAccepted) {
-                          onDropAccepted(obj, file);
-                        }
+                        onUploadAccepted(obj, file);
                       },
                 step: config?.step
                   ? config.step
@@ -318,11 +304,7 @@ function useCSVReaderComponent<T = any>() {
                         );
                         // setProgressBarPercentage(percentage);
                         if (data.length === config.preview) {
-                          if (!onDropAccepted && onUploadAccepted) {
-                            onUploadAccepted(data, file);
-                          } else if (onDropAccepted && !onUploadAccepted) {
-                            onDropAccepted(data, file);
-                          }
+                          onUploadAccepted(data, file);
                         }
                       } else {
                         const cursor = row.meta.cursor;
@@ -359,7 +341,6 @@ function useCSVReaderComponent<T = any>() {
         maxFiles,
         validator,
         onUploadAccepted,
-        onDropAccepted,
       ],
     );
 
@@ -368,18 +349,7 @@ function useCSVReaderComponent<T = any>() {
     }, []);
     // ====================================
 
-    // ============== BUTTON ==============
-    const getButtonProps = useMemo(
-      () =>
-        ({ onClick = () => {}, ...rest } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
-          ...rest,
-        }),
-      [onClickCb],
-    );
-    // ====================================
-
-    // ============== DROP ==============
+    // ============== BUTTON | DROP ==============
     const composeKeyboardHandler = (fn: any) => {
       return noKeyboard ? null : composeHandler(fn);
     };
@@ -489,7 +459,7 @@ function useCSVReaderComponent<T = any>() {
       dispatch({ type: 'blur' });
     }, []);
 
-    const getDropzoneProps = useMemo(
+    const getRootProps = useMemo(
       () =>
         ({
           onClick = () => {},
@@ -574,6 +544,20 @@ function useCSVReaderComponent<T = any>() {
       [inputRef, accept, onDropCb, disabled],
     );
     // ===================================
+
+    const removeFileProgrammaticallyCb = useCallback(() => {
+      inputRef.current.value = '';
+      dispatch({ type: 'reset' });
+    }, []);
+
+    const getRemoveFileProps = useMemo(
+      () =>
+        ({ onClick = () => {}, ...rest } = {}) => ({
+          onClick: composeHandler(composeEventHandlers(onClick, removeFileProgrammaticallyCb)),
+          ...rest,
+        }),
+      [removeFileProgrammaticallyCb],
+    );
 
     return (
       <>
@@ -662,10 +646,10 @@ function reducer(state: any, action: any) {
         ...state,
         isFocused: false,
       };
-    // case 'reset':
-    //   return {
-    //     ...initialState
-    //   }
+    case 'reset':
+      return {
+        ...initialState,
+      };
     default:
       return state;
   }

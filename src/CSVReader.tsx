@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
-import getSize, { lightenDarkenColor } from './utils';
+import { formatFileSize, lightenDarkenColor } from './utils';
 import RemoveIcon from './RemoveIcon';
 import ProgressBar from './ProgressBar';
 
@@ -368,7 +368,7 @@ export default class CSVReader<T = any> extends React.Component<
 
   displayFileInfo = (file: any) => {
     if (!this.childrenIsFunction()) {
-      this.fileSizeInfoRef.current.innerHTML = getSize(file.size);
+      this.fileSizeInfoRef.current.innerHTML = formatFileSize(file.size);
       this.fileNameInfoRef.current.innerHTML = file.name;
     }
   };
