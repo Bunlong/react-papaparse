@@ -1,26 +1,11 @@
-import React, { useState } from 'react';
-import { CSVReader, CSVDownloader } from 'react-papaparse'
+import React, { useState } from 'react'
+import { CSVReader, CSVDownloader, readString } from 'react-papaparse'
 
-const buttonRef= React.createRef()
-
-function App() {
-  const [isReset, setIsReset] = useState(true);
+export default function App() {
+  const [isReset, setIsReset] = useState(false);
 
   const handleReset = () => {
-    setIsReset(!isReset);
-  }
-
-  const handleOpenDialog = (e) => {
-    // Note that the ref is set async, so it might be null at some point 
-    if (buttonRef.current) {
-      buttonRef.current.open(e)
-    }
-  }
-  
-  const handleOnFileLoad = (data) => {
-    console.log('---------------------------')
-    console.log(data)
-    console.log('---------------------------')
+    setIsReset(!isReset)
   }
 
   const handleOnDrop = (data) => {
@@ -29,7 +14,12 @@ function App() {
     console.log('---------------------------')
   }
 
-  const handleOnError = (err, file, inputElem, reason) => {
+  const handleOnError = (
+    err,
+    // file,
+    // inputElem,
+    // reason
+  ) => {
     console.log(err)
   }
 
@@ -39,83 +29,73 @@ function App() {
     console.log('---------------------------')
   }
 
-  const handleRemoveFile = (e) => {
-    // Note that the ref is set async, so it might be null at some point
-    if (buttonRef.current) {
-      buttonRef.current.removeFile(e)
-    }
-  }
+  const handleClick = () => {
+    const csvString = `Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+2-1,2-2,2-3,2-4
+3-1,3-2,3-3,3-4
+4,5,6,7`;
+
+    readString(csvString, {
+      worker: true,
+      complete: (results) => {
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      },
+    })
+  };
 
   return (
     <>
       <CSVReader
         isReset={isReset}
-        ref={buttonRef}
-        onFileLoad={handleOnDrop}
+        onDrop={handleOnDrop}
         onError={handleOnError}
-        noClick
-        noDrag
+        // noDrag
+        addRemoveButton
         onRemoveFile={handleOnRemoveFile}
+        style={{
+          dropArea: {
+            borderColor: 'pink',
+            borderRadius: 20,
+          },
+          dropAreaActive: {
+            borderColor: 'red',
+          },
+          dropFile: {
+            width: 100,
+            height: 120,
+            background: '#ccc',
+          },
+          fileSizeInfo: {
+            color: '#fff',
+            backgroundColor: '#000',
+            borderRadius: 3,
+            lineHeight: 1,
+            marginBottom: '0.5em',
+            padding: '0 0.4em',
+          },
+          fileNameInfo: {
+            color: '#fff',
+            backgroundColor: '#eee',
+            borderRadius: 3,
+            fontSize: 14,
+            lineHeight: 1,
+            padding: '0 0.4em',
+          },
+          removeButton: {
+            color: 'blue',
+          },
+          progressBar: {
+            backgroundColor: 'pink',
+          },
+        }}
       >
-        {({ file }) => (
-          <aside
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              marginBottom: 10
-            }}
-          >
-            <button
-              type='button'
-              onClick={handleOpenDialog}
-              style={{
-                borderRadius: 0,
-                marginLeft: 0,
-                marginRight: 0,
-                width: '40%',
-                paddingLeft: 0,
-                paddingRight: 0
-              }}
-            >
-              Browe file
-            </button>
-            <div
-              style={{
-                borderWidth: 1,
-                borderStyle: 'solid',
-                borderColor: '#ccc',
-                height: 45,
-                lineHeight: 2.5,
-                marginTop: 5,
-                marginBottom: 5,
-                paddingLeft: 13,
-                paddingTop: 3,
-                width: '60%'
-              }}
-            >
-              {file && file.name}
-            </div>
-            <button
-              style={{
-                borderRadius: 0,
-                marginLeft: 0,
-                marginRight: 0,
-                paddingLeft: 20,
-                paddingRight: 20
-              }}
-              onClick={handleRemoveFile}
-            >
-              Remove
-            </button>
-          </aside>
-        )}
+        <span>Click to upload.</span>
       </CSVReader>
+      <button onClick={() => handleReset()}>Reset</button>
       <CSVDownloader
-//         data={`Column 1,Column 2,Column 3,Column 4
-// 1-1,1-2,1-3,1-4
-// 2-1,2-2,2-3,2-4
-// 3-1,3-2,3-3,3-4
-// 4,5,6,7`}
         data={[
           {
             "Column 1": "1-1",
@@ -142,19 +122,43 @@ function App() {
             "Column 4": 7,
           },
         ]}
+        type="button"
         filename={'filename'}
-        type='button'
         config={
           {
-            delimiter: ',',
+            delimiter: ';',
           }
         }
       >
         Download
       </CSVDownloader>
-      <button onClick={() => handleReset()}>Reset</button>
+      <CSVDownloader
+        data={`Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+#2-1,मुकेश,ខ្ញុំ,2-4
+3-1,3-2,អ្នក,3-4
+4,5,6,7`}
+        filename={'filename'}
+        bom={true}
+      >
+        Download
+      </CSVDownloader>
+      <CSVDownloader
+        filename={'filename'}
+        data={() => {
+          return [
+            {
+              "Column 1": "1-1",
+              "Column 2": "1-2",
+              "Column 3": "1-3",
+              "Column 4": "1-4",
+            }
+          ]}
+        }
+      >
+        Download
+      </CSVDownloader>
+      <button onClick={() => handleClick()}>readString</button>
     </>
-  );
+  )
 }
-
-export default App;

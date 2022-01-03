@@ -1,3 +1,13 @@
+## 3.18.2 (2022-01-04)
+
+### ✨ Bugs
+
+  * Fix breaking change with webpack 5
+
+Credits
+
+* ax0n-pr1me [@ax0n-pr1me](https://github.com/ax0n-pr1me)
+
 ## 3.18.1 (2021-11-07)
 
 ### ✨ Bugs

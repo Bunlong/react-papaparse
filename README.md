@@ -66,51 +66,108 @@ FAQ:
 ![basic-upload](https://react-papaparse.github.io/static/images/csvreader1.png)
 
 ```javascript
-import { useCSVReader } from 'react-papaparse';
+import React, { Component } from 'react'
 
-export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+import { CSVReader } from 'react-papaparse'
 
-  return (
-    <CSVReader
-      onUploadAccepted={(results: any)=> {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-      }}
-    >
-      {({ getButtonProps, acceptedFile, ProgressBar }: any) => (
-        <>
-          <div
+const buttonRef = React.createRef()
+
+export default class CSVReader extends Component {
+  handleOpenDialog = (e) => {
+    // Note that the ref is set async, so it might be null at some point
+    if (buttonRef.current) {
+      buttonRef.current.open(e)
+    }
+  }
+
+  handleOnFileLoad = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  handleRemoveFile = (e) => {
+    // Note that the ref is set async, so it might be null at some point
+    if (buttonRef.current) {
+      buttonRef.current.removeFile(e)
+    }
+  }
+
+  render() {
+    return (
+      <CSVReader
+        ref={buttonRef}
+        onFileLoad={this.handleOnFileLoad}
+        onError={this.handleOnError}
+        noClick
+        noDrag
+        onRemoveFile={this.handleOnRemoveFile}
+      >
+        {({ file }) => (
+          <aside
             style={{
               display: 'flex',
               flexDirection: 'row',
-              marginBottom: 10,
+              marginBottom: 10
             }}
           >
             <button
-              type="button"
-              {...getButtonProps()}
-              style={{ width: '20%' }}
+              type='button'
+              onClick={this.handleOpenDialog}
+              style={{
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                width: '40%',
+                paddingLeft: 0,
+                paddingRight: 0
+              }}
             >
               Browse file
             </button>
             <div
               style={{
+                borderWidth: 1,
+                borderStyle: 'solid',
+                borderColor: '#ccc',
                 height: 45,
                 lineHeight: 2.5,
-                paddingLeft: 10,
-                width: '80%',
+                marginTop: 5,
+                marginBottom: 5,
+                paddingLeft: 13,
+                paddingTop: 3,
+                width: '60%'
               }}
             >
-              {acceptedFile && acceptedFile.name}
+              {file && file.name}
             </div>
-          </div>
-          <ProgressBar />
-        </>
-      )}
-    </CSVReader>
-  );
+            <button
+              style={{
+                borderRadius: 0,
+                marginLeft: 0,
+                marginRight: 0,
+                paddingLeft: 20,
+                paddingRight: 20
+              }}
+              onClick={this.handleRemoveFile}
+            >
+              Remove
+            </button>
+          </aside>
+        )}
+      </CSVReader>
+    )
+  }
 }
 ```
 
@@ -119,43 +176,40 @@ export default function CSVReader() {
 ![click-and-drag-upload](https://react-papaparse.github.io/static/images/csvreader2.png)
 
 ```javascript
-import { useCSVReader } from 'react-papaparse';
+import React, { Component } from 'react'
 
-export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+import { CSVReader } from 'react-papaparse'
 
-  return (
-    <CSVReader
-      onDropAccepted={(results: any)=> {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-      }}
-    >
-      {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
-        <>
-          <div
-            {...getDropzoneProps()}
-            style={{
-              borderStyle: 'dashed',
-              borderWidth: 2,
-              borderRadius: 20,
-              borderColor: '#CCC',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              padding: 20,
-            }}
-          >
-            <span style={{ textAlign: 'center', paddingBottom: 5 }}>
-              {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
-            </span>
-            <ProgressBar />
-          </div>
-        </>
-      )}
-    </CSVReader>
-  );
+export default class CSVReader extends Component {
+  handleOnDrop = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  render() {
+    return (
+      <CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        addRemoveButton
+        removeButtonColor='#659cef'
+        onRemoveFile={this.handleOnRemoveFile}
+      >
+        <span>Drop CSV file here or click to upload.</span>
+      </CSVReader>
+    )
+  }
 }
 ```
 
@@ -164,44 +218,40 @@ export default function CSVReader() {
 ![drag-no-click-upload](https://react-papaparse.github.io/static/images/csvreader3.png)
 
 ```javascript
-import { useCSVReader } from 'react-papaparse';
+import React, { Component } from 'react'
 
-export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+import { CSVReader } from 'react-papaparse'
 
-  return (
-    <CSVReader
-      onDropAccepted={(results: any)=> {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-      }}
-      noClick
-    >
-      {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
-        <>
-          <div
-            {...getDropzoneProps()}
-            style={{
-              borderStyle: 'dashed',
-              borderWidth: 2,
-              borderRadius: 20,
-              borderColor: '#CCC',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              padding: 20,
-            }}
-          >
-            <span style={{ textAlign: 'center', paddingBottom: 5 }}>
-              {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
-            </span>
-            <ProgressBar />
-          </div>
-        </>
-      )}
-    </CSVReader>
-  );
+export default class CSVReader extends Component {
+  handleOnDrop = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  render() {
+    return (
+      <CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noClick
+        addRemoveButton
+        onRemoveFile={this.handleOnRemoveFile}
+      >
+        <span>Drop CSV file here to upload.</span>
+      </CSVReader>
+    )
+  }
 }
 ```
 
@@ -210,44 +260,40 @@ export default function CSVReader() {
 ![click-no-drag-upload](https://react-papaparse.github.io/static/images/csvreader4.png)
 
 ```javascript
-import { useCSVReader } from 'react-papaparse';
+import React, { Component } from 'react'
 
-export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+import { CSVReader } from 'react-papaparse'
 
-  return (
-    <CSVReader
-      onDropAccepted={(results: any)=> {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-      }}
-      noDrag
-    >
-      {({ getDropzoneProps, acceptedFile, ProgressBar }: any) => (
-        <>
-          <div
-            {...getDropzoneProps()}
-            style={{
-              borderStyle: 'dashed',
-              borderWidth: 2,
-              borderRadius: 20,
-              borderColor: '#CCC',
-              display: 'flex',
-              flexDirection: 'column',
-              height: '100%',
-              padding: 20,
-            }}
-          >
-            <span style={{ textAlign: 'center', paddingBottom: 5 }}>
-              {acceptedFile ? acceptedFile.name : 'Drop CSV file here or click to upload.'}
-            </span>
-            <ProgressBar />
-          </div>
-        </>
-      )}
-    </CSVReader>
-  );
+export default class CSVReader extends Component {
+  handleOnDrop = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  handleOnError = (err, file, inputElem, reason) => {
+    console.log(err)
+  }
+
+  handleOnRemoveFile = (data) => {
+    console.log('---------------------------')
+    console.log(data)
+    console.log('---------------------------')
+  }
+
+  render() {
+    return (
+      <CSVReader
+        onDrop={this.handleOnDrop}
+        onError={this.handleOnError}
+        noDrag
+        addRemoveButton
+        onRemoveFile={this.handleOnRemoveFile}
+      >
+        <span>Click to upload.</span>
+      </CSVReader>
+    )
+  }
 }
 ```
 
@@ -260,74 +306,74 @@ Just pass in the js object with an optional [configuration](https://react-papapa
 #### Button
 
 ```javascript
-import { useCSVDownloader } from 'react-papaparse'
+import React, { Component } from 'react'
 
-export default function CSVDownloader() {
-  const { CSVDownloader, Type } = useCSVDownloader();
+import { CSVDownloader } from 'react-papaparse'
 
-  return (
-    <CSVDownloader
-      data={[
-        {
-          "Column 1": "1-1",
-          "Column 2": "1-2",
-          "Column 3": "1-3",
-          "Column 4": "1-4",
-        },
-        {
-          "Column 1": "2-1",
-          "Column 2": "2-2",
-          "Column 3": "2-3",
-          "Column 4": "2-4",
-        },
-        {
-          "Column 1": "3-1",
-          "Column 2": "3-2",
-          "Column 3": "3-3",
-          "Column 4": "3-4",
-        },
-        {
-          "Column 1": 4,
-          "Column 2": 5,
-          "Column 3": 6,
-          "Column 4": 7,
-        },
-      ]}
-      filename={'filename'}
-      config={
-        {
-          delimiter: ';',
-        }
-      }
-      type={Type.Button}
-    >
-      Download
-    </CSVDownloader>
-  );
+export default class CSVDownloader extends Component {
+  render() {
+    return (
+      <CSVDownloader
+        data={[
+          {
+            "Column 1": "1-1",
+            "Column 2": "1-2",
+            "Column 3": "1-3",
+            "Column 4": "1-4",
+          },
+          {
+            "Column 1": "2-1",
+            "Column 2": "2-2",
+            "Column 3": "2-3",
+            "Column 4": "2-4",
+          },
+          {
+            "Column 1": "3-1",
+            "Column 2": "3-2",
+            "Column 3": "3-3",
+            "Column 4": "3-4",
+          },
+          {
+            "Column 1": 4,
+            "Column 2": 5,
+            "Column 3": 6,
+            "Column 4": 7,
+          },
+        ]}
+        type="button"
+        filename={'filename'}
+        bom={true}
+      >
+        Download
+      </CSVDownloader>
+    )
+  }
 }
 ```
 
 #### Link
 
 ```javascript
-import { useCSVDownloader } from 'react-papaparse'
+import React, { Component } from 'react'
 
-export default function CSVDownloader() {
-  const { CSVDownloader, Type } = useCSVDownloader();
+import { CSVDownloader } from 'react-papaparse'
 
-  return (
-    <CSVDownloader
-      data={`Column 1,Column 2,Column 3,Column 4
+export default class CSVDownloader extends Component {
+  render() {
+    return (
+      <CSVDownloader
+        data={`Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
 3-1,3-2,3-3,3-4
 4,5,6,7`}
-      filename={'filename'}
-      type={Type.Link}
-    >
-      Download
-    </CSVDownloader>
-  );
+        filename={'filename'}
+        type={'link'}
+      >
+        Download
+      </CSVDownloader>
+    )
+  }
 }
 ```
 
@@ -336,80 +382,61 @@ export default function CSVDownloader() {
 `data={}` can be a function that returns a data object.
 
 ```javascript
-import { useCSVDownloader } from 'react-papaparse'
-
-export default function CSVDownloader() {
-  const { CSVDownloader, Type } = useCSVDownloader();
-
-  return (
-    <CSVDownloader
-      data={() => {
-        return [
-          {
-            "Column 1": "1-1",
-            "Column 2": "1-2",
-            "Column 3": "1-3",
-            "Column 4": "1-4",
-          }
-        ]}
+<CSVDownloader
+  filename={'filename'}
+  data={() => {
+    return [
+      {
+        "Column 1": "1-1",
+        "Column 2": "1-2",
+        "Column 3": "1-3",
+        "Column 4": "1-4",
       }
-      filename={'filename'}
-      type={Type.Link}
-    >
-      Download
-    </CSVDownloader>
-  );
-}
+    ]}
+  }
+>
+  Download
+</CSVDownloader>
 ```
 
 ### 🎀 readString
 
 ```javascript
-import { usePapaParse } from 'react-papaparse';
-
-const { readString } = usePapaParse();
+import { readString } from 'react-papaparse'
 
 const csvString = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
 3-1,3-2,3-3,3-4
-4,5,6,7`;
+4,5,6,7`
 
 readString(csvString, {
   worker: true,
   complete: (results) => {
-    console.log('---------------------------');
-    console.log(results);
-    console.log('---------------------------');
-  },
-});
+    console.log(results)
+  }
+})
 ```
 
 ### 🎀 readRemoteFile
 
 ```javascript
-import { usePapaParse } from 'react-papaparse';
-
-const { readRemoteFile } = usePapaParse();
+import { readRemoteFile } from 'react-papaparse'
 
 readRemoteFile(
   url,
   {
     complete: (results) => {
-      console.log('---------------------------');
       console.log('Results:', results)
-      console.log('---------------------------');
     }
   }
-);
+)
 ```
 
 ### 🎀 jsonToCSV
 
 ```javascript
-import { usePapaParse } from 'react-papaparse';
-
-const { jsonToCSV } = usePapaParse();
+import { jsonToCSV } from 'react-papaparse'
 
 const jsonData = `[
   {
@@ -438,7 +465,7 @@ const jsonData = `[
   }
 ]`
 
-const results = jsonToCSV(jsonData);
+const results = jsonToCSV(jsonData)
 ```
 
 #### Header row support
@@ -450,11 +477,9 @@ readString(csvString, {
   header: true,
   worker: true,
   complete: (results) => {
-    console.log('---------------------------');
-    console.log(results);
-    console.log('---------------------------');
-  },
-});
+    console.log(results)
+  }
+})
 ```
 
 #### Stream
@@ -469,22 +494,23 @@ readRemoteFile('http://example.com/big.csv', {
   complete: () => {
     console.log('All done!')
   }
-});
+})
 ```
 
 ## 📜 Changelog
 
-Latest version 4.0.0 (2022-01-01):
+Latest version 3.18.2 (2022-01-04):
 
-  * Improve code performance
-  * Rewrite any existing based components to hooks
+  * Fix breaking change with webpack 5
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
-### 🆕 v4.1.0
-  
+### 🆕 v4.0.x
+
+  * Improve code performance
+  * Rewrite any existing based components to hooks
   * CSVReader multiple files drag and drop
 
 ## ❗ Issues
