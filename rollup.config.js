@@ -1,9 +1,11 @@
 import typescript from 'rollup-plugin-typescript2';
 import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import builtins from 'builtin-modules'
 import { terser } from "rollup-plugin-terser";
+
+// import builtins from 'builtin-modules'
+// import { nodeResolve } from '@rollup/plugin-node-resolve';
+
 import pkg from './package.json';
 
 export default {
@@ -35,7 +37,8 @@ export default {
     //   },
     // },
   ],
-  external: builtins,
+  // external: builtins,
+  external: ['react', 'papaparse'],
   plugins: [
     typescript({
       tsconfig: './tsconfig.json',
@@ -44,9 +47,7 @@ export default {
     babel({
       exclude: 'node_modules/**'
     }),
-    resolve({
-      preferBuiltins: true
-    }),
+    // nodeResolve(),
     commonjs({
       extensions: ['.js', '.ts', '.tsx']
     }),
