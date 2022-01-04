@@ -20,6 +20,7 @@ import {
   onDocumentDragOver,
 } from './utils';
 import ProgressBar from './ProgressBar';
+import Remove, { Props as RemoveComponentProps } from './Remove';
 
 // 'text/csv' for MacOS
 // '.csv' for Linux
@@ -150,18 +151,18 @@ function useCSVReaderComponent<T = any>() {
       });
     };
 
-    const ProgressBarComponent = ({
-      style,
-      className,
-    }: ProgressBarComponentProp) => {
+    const ProgressBarComponent = (props: ProgressBarComponentProp) => {
       return (
         <ProgressBar
           display={displayProgressBar}
           percentage={progressBarPercentage}
-          style={style}
-          className={className}
+          {...props}
         />
       );
+    };
+
+    const RemoveComponent = (props: RemoveComponentProps) => {
+      return <Remove {...props} />;
     };
 
     const renderChildren = () => {
@@ -170,6 +171,7 @@ function useCSVReaderComponent<T = any>() {
         acceptedFile,
         ProgressBar: ProgressBarComponent,
         getRemoveFileProps,
+        Remove: RemoveComponent,
       });
     };
 
@@ -545,15 +547,19 @@ function useCSVReaderComponent<T = any>() {
     );
     // ===================================
 
-    const removeFileProgrammaticallyCb = useCallback(() => {
+    const removeFileProgrammaticallyCb = useCallback((event: Event) => {
       inputRef.current.value = '';
       dispatch({ type: 'reset' });
+      // To prevent a parents onclick event from firing when a child is clicked
+      event.stopPropagation();
     }, []);
 
     const getRemoveFileProps = useMemo(
       () =>
         ({ onClick = () => {}, ...rest } = {}) => ({
-          onClick: composeHandler(composeEventHandlers(onClick, removeFileProgrammaticallyCb)),
+          onClick: composeHandler(
+            composeEventHandlers(onClick, removeFileProgrammaticallyCb),
+          ),
           ...rest,
         }),
       [removeFileProgrammaticallyCb],
