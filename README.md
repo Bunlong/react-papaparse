@@ -508,18 +508,24 @@ export default function JsonToCSV() {
 }
 ```
 
-#### Header row support
+#### Header Row Support
 
 If you tell react-papaparse there is a header row, each row will be organized by field name instead of index.
 
 ```javascript
+import { usePapaParse } from 'react-papaparse';
+
+const { readString } = usePapaParse();
+
 readString(csvString, {
   header: true,
   worker: true,
   complete: (results) => {
-    console.log(results)
-  }
-})
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+  },
+});
 ```
 
 #### Stream
