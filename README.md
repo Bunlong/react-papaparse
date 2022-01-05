@@ -447,16 +447,13 @@ export default function ReadRemoteFile() {
   const { readRemoteFile } = usePapaParse();
 
   const handleReadRemoteFile = () => {
-    readRemoteFile(
-      url,
-      {
-        complete: (results) => {
-          console.log('---------------------------');
-          console.log('Results:', results)
-          console.log('---------------------------');
-        }
+    readRemoteFile(url, {
+      complete: (results) => {
+        console.log('---------------------------');
+        console.log('Results:', results)
+        console.log('---------------------------');
       }
-    );
+    });
   };
 
   return (<button onClick={() => handleReadRemoteFile()}>readRemoteFile</button>);
@@ -533,14 +530,18 @@ readString(csvString, {
 That's what streaming is for. Specify a step callback to receive the results row-by-row. This way, you won't load the whole file into memory and crash the browser.
 
 ```javascript
-readRemoteFile('http://example.com/big.csv', {
+import { usePapaParse } from 'react-papaparse';
+
+const { readRemoteFile } = usePapaParse();
+
+readRemoteFile(url, {
   step: (row) => {
     console.log('Row:', row.data)
   },
   complete: () => {
     console.log('All done!')
   }
-})
+});
 ```
 
 ## 📜 Changelog
