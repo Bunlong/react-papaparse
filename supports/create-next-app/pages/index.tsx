@@ -111,6 +111,14 @@ export default function Home() {
     <>
       <div>
         {/* <CSVDownloader
+          type={Type.Button}
+          filename={'filename'}
+          bom={true}
+          config={
+            {
+              delimiter: ';',
+            }
+          }
           data={[
             {
               "Column 1": "1-1",
@@ -137,13 +145,6 @@ export default function Home() {
               "Column 4": 7,
             },
           ]}
-          filename={'filename'}
-          config={
-            {
-              delimiter: ';',
-            }
-          }
-          type={Type.Button}
         >
           Download ( Button )
         </CSVDownloader> */}
