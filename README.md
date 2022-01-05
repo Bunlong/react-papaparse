@@ -546,18 +546,17 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 3.18.2 (2022-01-04):
+Latest version 4.0.0 (2022-01-17):
 
-  * Fix breaking change with webpack 5
+  * Improve code performance
+  * Rewrite any existing based components to hooks
 
 Details changes for each release are documented in the [CHANGELOG.md](https://github.com/Bunlong/react-papaparse/blob/master/CHANGELOG.md).
 
 ## 🛣️ Roadmap
 
-### 🆕 v4.0.x
+### 🆕 v4.1.x
 
-  * Improve code performance
-  * Rewrite any existing based components to hooks
   * CSVReader multiple files drag and drop
 
 ## ❗ Issues
