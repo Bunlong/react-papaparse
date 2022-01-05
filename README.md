@@ -384,21 +384,29 @@ export default function CSVDownloader() {
 `data={}` can be a function that returns a data object.
 
 ```javascript
-<CSVDownloader
-  filename={'filename'}
-  data={() => {
-    return [
-      {
-        "Column 1": "1-1",
-        "Column 2": "1-2",
-        "Column 3": "1-3",
-        "Column 4": "1-4",
+import { useCSVDownloader } from 'react-papaparse';
+
+export default function CSVDownloader() {
+  const { CSVDownloader } = useCSVDownloader();
+
+  return (
+    <CSVDownloader
+      filename={'filename'}
+      data={() => {
+        return [
+          {
+            "Column 1": "1-1",
+            "Column 2": "1-2",
+            "Column 3": "1-3",
+            "Column 4": "1-4",
+          }
+        ]}
       }
-    ]}
-  }
->
-  Download
-</CSVDownloader>
+    >
+      Download
+    </CSVDownloader>
+  );
+}
 ```
 
 ### 🎀 readString
