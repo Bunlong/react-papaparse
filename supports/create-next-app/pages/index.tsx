@@ -179,7 +179,7 @@ export default function Home() {
       {/* <div>
         <button onClick={() => handleReadString()}>readString</button>
       </div> */}
-      {/* <div>
+      <div>
         <CSVReader
           onUploadAccepted={(results: any)=> {
             console.log('---------------------------');
@@ -187,7 +187,7 @@ export default function Home() {
             console.log('---------------------------');
           }}
         >
-          {({ getRootProps, acceptedFile, ProgressBar }: any) => (
+          {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
             <>
               <div
                 style={{
@@ -216,13 +216,25 @@ export default function Home() {
                 >
                   {acceptedFile && acceptedFile.name}
                 </div>
+                <button
+                  style={{
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    paddingLeft: 20,
+                    paddingRight: 20
+                  }}
+                  {...getRemoveFileProps()}
+                >
+                  Remove
+                </button>
               </div>
               <ProgressBar style={{backgroundColor: 'red'}} />
             </>
           )}
         </CSVReader>
-      </div> */}
-      <div>
+      </div>
+      {/* <div>
         <CSVReader
           onUploadAccepted={(results: any) => {
             console.log('---------------------------');
@@ -311,7 +323,7 @@ export default function Home() {
             </>
           )}
         </CSVReader>
-      </div>
+      </div> */}
     </>
   );
 }
