@@ -37,74 +37,96 @@ export default function Home() {
   const { CSVReader } = useCSVReader();
   const [zoneHover, setZoneHover] = useState(false);
   const [removeHoverColor, setRemoveHoverColor] = useState(DEFAULT_REMOVE_HOVER_COLOR);
+  // const styles = {
+  //   zone: {
+  //     alignItems: 'center',
+  //     border: `2px dashed ${GREY}`,
+  //     borderRadius: 20,
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //     height: '100%',
+  //     justifyContent: 'center',
+  //     padding: 20,
+  //   } as CSSProperties,
+  //   file: {
+  //     background: 'linear-gradient(to bottom, #EEE, #DDD)',
+  //     borderRadius: 20,
+  //     display: 'flex',
+  //     height: 120,
+  //     width: 120,
+  //     position: 'relative',
+  //     zIndex: 10,
+  //     flexDirection: 'column',
+  //     justifyContent: 'center',
+  //   } as CSSProperties,
+  //   info: {
+  //     alignItems: 'center',
+  //     display: 'flex',
+  //     flexDirection: 'column',
+  //     paddingLeft: 10,
+  //     paddingRight: 10,
+  //   } as CSSProperties,
+  //   size: {
+  //     backgroundColor: GREY_LIGHT,
+  //     borderRadius: 3,
+  //     marginBottom: '0.5em',
+  //     justifyContent: 'center',
+  //     display: 'flex',
+  //   } as CSSProperties,
+  //   name: {
+  //     backgroundColor: GREY_LIGHT,
+  //     borderRadius: 3,
+  //     fontSize: 12,
+  //     marginBottom: '0.5em',
+  //   } as CSSProperties,
+  //   progressBar: {
+  //     bottom: 14,
+  //     position: 'absolute',
+  //     width: '100%',
+  //     paddingLeft: 10,
+  //     paddingRight: 10,
+  //   } as CSSProperties,
+  //   zoneHover: {
+  //     borderColor: GREY_DIM,
+  //   } as CSSProperties,
+  //   default: {
+  //     borderColor: GREY,
+  //   } as CSSProperties,
+  //   remove: {
+  //     height: 23,
+  //     position: 'absolute',
+  //     right: 6,
+  //     top: 6,
+  //     width: 23,
+  //   } as CSSProperties,
+  //   // defaultCursor: {
+  //   //   cursor: 'default',
+  //   // } as CSSProperties,
+  //   // pointerCursor: {
+  //   //   cursor: 'pointer',
+  //   // } as CSSProperties,
+  // };
+
   const styles = {
-    zone: {
-      alignItems: 'center',
-      border: `2px dashed ${GREY}`,
-      borderRadius: 20,
+    csvReader: {
       display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      justifyContent: 'center',
-      padding: 20,
+      flexDirection: 'row',
+      marginBottom: 10,
     } as CSSProperties,
-    file: {
-      background: 'linear-gradient(to bottom, #EEE, #DDD)',
-      borderRadius: 20,
-      display: 'flex',
-      height: 120,
-      width: 120,
-      position: 'relative',
-      zIndex: 10,
-      flexDirection: 'column',
-      justifyContent: 'center',
+    browseFile: {
+      width: '20%',
     } as CSSProperties,
-    info: {
-      alignItems: 'center',
-      display: 'flex',
-      flexDirection: 'column',
+    acceptedFile: {
+      border: '1px solid #ccc',
+      height: 45,
+      lineHeight: 2.5,
       paddingLeft: 10,
-      paddingRight: 10,
-    } as CSSProperties,
-    size: {
-      backgroundColor: GREY_LIGHT,
-      borderRadius: 3,
-      marginBottom: '0.5em',
-      justifyContent: 'center',
-      display: 'flex',
-    } as CSSProperties,
-    name: {
-      backgroundColor: GREY_LIGHT,
-      borderRadius: 3,
-      fontSize: 12,
-      marginBottom: '0.5em',
-    } as CSSProperties,
-    progressBar: {
-      bottom: 14,
-      position: 'absolute',
-      width: '100%',
-      paddingLeft: 10,
-      paddingRight: 10,
-    } as CSSProperties,
-    zoneHover: {
-      borderColor: GREY_DIM,
-    } as CSSProperties,
-    default: {
-      borderColor: GREY,
+      width: '80%',
     } as CSSProperties,
     remove: {
-      height: 23,
-      position: 'absolute',
-      right: 6,
-      top: 6,
-      width: 23,
+      borderRadius: 0,
+      padding: '0 20px',
     } as CSSProperties,
-    // defaultCursor: {
-    //   cursor: 'default',
-    // } as CSSProperties,
-    // pointerCursor: {
-    //   cursor: 'pointer',
-    // } as CSSProperties,
   };
 
   return (
@@ -189,42 +211,20 @@ export default function Home() {
         >
           {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
             <>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  marginBottom: 10,
-                }}
-              >
+              <div style={styles.csvReader}>
                 <button
                   type="button"
                   {...getRootProps()}
-                  style={{
-                    width: '20%',
-                  }}
+                  style={styles.browseFile}
                 >
                   Browse file
                 </button>
-                <div
-                  style={{
-                    border: '1px solid #ccc',
-                    height: 45,
-                    lineHeight: 2.5,
-                    paddingLeft: 10,
-                    width: '80%',
-                  }}
-                >
+                <div style={styles.acceptedFile}>
                   {acceptedFile && acceptedFile.name}
                 </div>
                 <button
-                  style={{
-                    borderRadius: 0,
-                    marginLeft: 0,
-                    marginRight: 0,
-                    paddingLeft: 20,
-                    paddingRight: 20
-                  }}
                   {...getRemoveFileProps()}
+                  style={styles.remove}
                 >
                   Remove
                 </button>
