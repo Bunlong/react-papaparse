@@ -419,6 +419,7 @@ export default function CSVReader() {
         event.preventDefault();
         setZoneHover(false);
       }}
+      noClick
     >
       {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps, Remove }: any) => (
         <>
