@@ -472,7 +472,7 @@ function useCSVReaderComponent<T = any>() {
           onFocus = () => {},
           onBlur = () => {},
           onDragEnter = () => {},
-          refKey = rootRef,
+          // refKey = rootRef,
           ...rest
         } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
@@ -495,7 +495,7 @@ function useCSVReaderComponent<T = any>() {
           onBlur: composeKeyboardHandler(
             composeEventHandlers(onBlur, onBlurCb), // Done
           ),
-          [refKey]: rootRef,
+          // [refKey]: rootRef,
           ...rest,
         }),
       [
