@@ -10,7 +10,7 @@ const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
 const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
   DEFAULT_REMOVE_HOVER_COLOR,
-  40
+  40,
 );
 const GREY_DIM = '#686868';
 
@@ -82,7 +82,7 @@ export default function CSVReader() {
   const { CSVReader } = useCSVReader();
   const [zoneHover, setZoneHover] = useState(false);
   const [removeHoverColor, setRemoveHoverColor] = useState(
-    DEFAULT_REMOVE_HOVER_COLOR
+    DEFAULT_REMOVE_HOVER_COLOR,
   );
 
   return (
@@ -101,6 +101,7 @@ export default function CSVReader() {
         event.preventDefault();
         setZoneHover(false);
       }}
+      noClick
     >
       {({
         getRootProps,
@@ -115,7 +116,7 @@ export default function CSVReader() {
             style={Object.assign(
               {},
               styles.zone,
-              zoneHover && styles.zoneHover
+              zoneHover && styles.zoneHover,
             )}
           >
             {acceptedFile ? (
@@ -147,7 +148,7 @@ export default function CSVReader() {
                 </div>
               </>
             ) : (
-              'Drop CSV file here or click to upload'
+              'Drop CSV file here to upload'
             )}
           </div>
         </>

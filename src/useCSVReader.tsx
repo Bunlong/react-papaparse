@@ -179,7 +179,6 @@ function useCSVReaderComponent<T = any>() {
     // Fn for opening the file dialog programmatically
     const openFileDialog = useCallback(() => {
       if (inputRef.current && state.displayProgressBar) {
-        // if (inputRef.current) {
         dispatch({ type: 'openDialog' });
         inputRef.current.value = null;
         inputRef.current.click();
@@ -206,7 +205,7 @@ function useCSVReaderComponent<T = any>() {
       window.addEventListener('focus', onWindowFocus, false);
       return () => {
         window.removeEventListener('focus', onWindowFocus, false);
-      }
+      };
     }, [inputRef, isFileDialogActive]);
 
     // Cb to open the file dialog when click occurs on the dropzone
