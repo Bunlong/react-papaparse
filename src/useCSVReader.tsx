@@ -90,6 +90,7 @@ function useCSVReaderComponent<T = any>() {
       displayProgressBar,
       progressBarPercentage,
       draggedFiles,
+      isFileDialogActive,
     } = state;
 
     const onDocumentDrop = (event: DragEvent) => {
@@ -115,7 +116,7 @@ function useCSVReaderComponent<T = any>() {
       };
     }, [rootRef, preventDropOnDocument]);
 
-    // ============== GLOBAL ==============
+    // == GLOBAL ==
     const composeHandler = (fn: any) => {
       return disabled ? null : fn;
     };
@@ -184,6 +185,29 @@ function useCSVReaderComponent<T = any>() {
         inputRef.current.click();
       }
     }, [dispatch]);
+
+    // Update file dialog active state when the window is focused on
+    const onWindowFocus = () => {
+      // Execute the timeout only if the file dialog is opened in the browser
+      if (isFileDialogActive) {
+        setTimeout(() => {
+          if (inputRef.current) {
+            const { files } = inputRef.current;
+
+            if (!files.length) {
+              dispatch({ type: 'closeDialog' });
+            }
+          }
+        }, 300);
+      }
+    };
+
+    useEffect(() => {
+      window.addEventListener('focus', onWindowFocus, false);
+      return () => {
+        window.removeEventListener('focus', onWindowFocus, false);
+      }
+    }, [inputRef, isFileDialogActive]);
 
     // Cb to open the file dialog when click occurs on the dropzone
     const onClickCb = useCallback(() => {
@@ -349,9 +373,9 @@ function useCSVReaderComponent<T = any>() {
     const onInputElementClick = useCallback((event) => {
       stopPropagation(event);
     }, []);
-    // ====================================
+    // ============
 
-    // ============== BUTTON | DROP ==============
+    // == BUTTON | DROP ==
     const composeKeyboardHandler = (fn: any) => {
       return noKeyboard ? null : composeHandler(fn);
     };
@@ -513,9 +537,9 @@ function useCSVReaderComponent<T = any>() {
         disabled,
       ],
     );
-    // ==================================
+    // ===================
 
-    // ============== INPUT ==============
+    // == INPUT ==
     const getInputProps = useMemo(
       () =>
         ({
@@ -545,7 +569,7 @@ function useCSVReaderComponent<T = any>() {
         },
       [inputRef, accept, onDropCb, disabled],
     );
-    // ===================================
+    // ===========
 
     const removeFileProgrammaticallyCb = useCallback((event: Event) => {
       inputRef.current.value = '';

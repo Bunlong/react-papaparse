@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
-import { readRemoteFile } from 'react-papaparse';
+import React from 'react';
 
-export default class ReadRemoteFile extends Component {
-  handleClick = () => {
-    readRemoteFile('http://example.com/file.csv', {
+import { usePapaParse } from 'react-papaparse';
+
+export default function ReadRemoteFile() {
+  const { readRemoteFile } = usePapaParse();
+
+  const handleReadRemoteFile = () => {
+    readRemoteFile(url, {
       complete: (results) => {
-        console.log('Results:', results);
-      },
+        console.log('---------------------------');
+        console.log('Results:', results)
+        console.log('---------------------------');
+      }
     });
   };
 
-  render() {
-    return <button onClick={this.handleClick}>readRemoteFile</button>;
-  }
+  return (<button onClick={() => handleReadRemoteFile()}>readRemoteFile</button>);
 }

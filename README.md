@@ -98,37 +98,39 @@ const styles = {
 export default function CSVReader() {
   const { CSVReader } = useCSVReader();
 
-  <CSVReader
-    onUploadAccepted={(results: any)=> {
-      console.log('---------------------------');
-      console.log(results);
-      console.log('---------------------------');
-    }}
-  >
-    {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
-      <>
-        <div style={styles.csvReader}>
-          <button
-            type="button"
-            {...getRootProps()}
-            style={styles.browseFile}
-          >
-            Browse file
-          </button>
-          <div style={styles.acceptedFile}>
-            {acceptedFile && acceptedFile.name}
+  return (
+    <CSVReader
+      onUploadAccepted={(results: any)=> {
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      }}
+    >
+      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
+        <>
+          <div style={styles.csvReader}>
+            <button
+              type="button"
+              {...getRootProps()}
+              style={styles.browseFile}
+            >
+              Browse file
+            </button>
+            <div style={styles.acceptedFile}>
+              {acceptedFile && acceptedFile.name}
+            </div>
+            <button
+              {...getRemoveFileProps()}
+              style={styles.remove}
+            >
+              Remove
+            </button>
           </div>
-          <button
-            {...getRemoveFileProps()}
-            style={styles.remove}
-          >
-            Remove
-          </button>
-        </div>
-        <ProgressBar style={styles.progressBarBackgroundColor} />
-      </>
-    )}
-  </CSVReader>
+          <ProgressBar style={styles.progressBarBackgroundColor} />
+        </>
+      )}
+    </CSVReader>
+  );
 }
 ```
 
@@ -138,12 +140,19 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
-import { useCSVReader } from 'react-papaparse';
+import {
+  useCSVReader,
+  lightenDarkenColor,
+  formatFileSize,
+} from 'react-papaparse';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
-const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(DEFAULT_REMOVE_HOVER_COLOR, 40)
+const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
+  DEFAULT_REMOVE_HOVER_COLOR,
+  40
+);
 const GREY_DIM = '#686868';
 
 const styles = {
@@ -213,7 +222,9 @@ const styles = {
 export default function CSVReader() {
   const { CSVReader } = useCSVReader();
   const [zoneHover, setZoneHover] = useState(false);
-  const [removeHoverColor, setRemoveHoverColor] = useState(DEFAULT_REMOVE_HOVER_COLOR);
+  const [removeHoverColor, setRemoveHoverColor] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
 
   return (
     <CSVReader
@@ -232,7 +243,13 @@ export default function CSVReader() {
         setZoneHover(false);
       }}
     >
-      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps, Remove }: any) => (
+      {({
+        getRootProps,
+        acceptedFile,
+        ProgressBar,
+        getRemoveFileProps,
+        Remove,
+      }: any) => (
         <>
           <div
             {...getRootProps()}
@@ -287,12 +304,19 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
-import { useCSVReader } from 'react-papaparse';
+import {
+  useCSVReader,
+  lightenDarkenColor,
+  formatFileSize,
+} from 'react-papaparse';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
-const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(DEFAULT_REMOVE_HOVER_COLOR, 40)
+const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
+  DEFAULT_REMOVE_HOVER_COLOR,
+  40
+);
 const GREY_DIM = '#686868';
 
 const styles = {
@@ -362,7 +386,9 @@ const styles = {
 export default function CSVReader() {
   const { CSVReader } = useCSVReader();
   const [zoneHover, setZoneHover] = useState(false);
-  const [removeHoverColor, setRemoveHoverColor] = useState(DEFAULT_REMOVE_HOVER_COLOR);
+  const [removeHoverColor, setRemoveHoverColor] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
 
   return (
     <CSVReader
@@ -382,7 +408,13 @@ export default function CSVReader() {
       }}
       noClick
     >
-      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps, Remove }: any) => (
+      {({
+        getRootProps,
+        acceptedFile,
+        ProgressBar,
+        getRemoveFileProps,
+        Remove,
+      }: any) => (
         <>
           <div
             {...getRootProps()}
@@ -437,12 +469,19 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
-import { useCSVReader } from 'react-papaparse';
+import {
+  useCSVReader,
+  lightenDarkenColor,
+  formatFileSize,
+} from 'react-papaparse';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
-const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(DEFAULT_REMOVE_HOVER_COLOR, 40)
+const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
+  DEFAULT_REMOVE_HOVER_COLOR,
+  40
+);
 const GREY_DIM = '#686868';
 
 const styles = {
@@ -512,7 +551,9 @@ const styles = {
 export default function CSVReader() {
   const { CSVReader } = useCSVReader();
   const [zoneHover, setZoneHover] = useState(false);
-  const [removeHoverColor, setRemoveHoverColor] = useState(DEFAULT_REMOVE_HOVER_COLOR);
+  const [removeHoverColor, setRemoveHoverColor] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
 
   return (
     <CSVReader
@@ -532,7 +573,13 @@ export default function CSVReader() {
       }}
       noDrag
     >
-      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps, Remove }: any) => (
+      {({
+        getRootProps,
+        acceptedFile,
+        ProgressBar,
+        getRemoveFileProps,
+        Remove,
+      }: any) => (
         <>
           <div
             {...getRootProps()}
@@ -590,6 +637,8 @@ Just pass in the js object with an optional [configuration](https://react-papapa
 #### Button
 
 ```javascript
+import React from 'react';
+
 import { useCSVDownloader } from 'react-papaparse';
 
 export default function CSVDownloader() {
@@ -641,6 +690,8 @@ export default function CSVDownloader() {
 #### Link
 
 ```javascript
+import React from 'react';
+
 import { useCSVDownloader } from 'react-papaparse';
 
 export default function CSVDownloader() {
@@ -668,6 +719,8 @@ export default function CSVDownloader() {
 `data={}` can be a function that returns a data object.
 
 ```javascript
+import React from 'react';
+
 import { useCSVDownloader } from 'react-papaparse';
 
 export default function CSVDownloader() {
@@ -696,6 +749,8 @@ export default function CSVDownloader() {
 ### 🎀 readString
 
 ```javascript
+import React from 'react';
+
 import { usePapaParse } from 'react-papaparse';
 
 export default function ReadString() {
@@ -725,6 +780,8 @@ export default function ReadString() {
 ### 🎀 readRemoteFile
 
 ```javascript
+import React from 'react';
+
 import { usePapaParse } from 'react-papaparse';
 
 export default function ReadRemoteFile() {
@@ -747,6 +804,8 @@ export default function ReadRemoteFile() {
 ### 🎀 jsonToCSV
 
 ```javascript
+import React from 'react';
+
 import { usePapaParse } from 'react-papaparse';
 
 export default function JsonToCSV() {
