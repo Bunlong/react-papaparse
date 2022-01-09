@@ -29,7 +29,7 @@ const Welcome = () => {
                 &nbsp; Documentation
               </a>
             </div>
-            <div id="title-code">
+            {/* <div id="title-code">
               <pre>
                 <code className="language-javascript">
                   {`// Parse CSV string
@@ -75,7 +75,7 @@ readRemoteFile(bigFileURL, {
 })`}
                 </code>
               </pre>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -26,7 +26,7 @@ const Worker = () => {
   complete: () => {
     console.log('All done!')
   }
-})`}
+});`}
             </code>
           </pre>
         </div>

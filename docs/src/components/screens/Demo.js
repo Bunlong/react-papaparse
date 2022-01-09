@@ -1,3 +1,360 @@
+import React, { useState } from 'react';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+
+import { usePapaParse, useCSVReader, lightenDarkenColor, formatFileSize } from 'react-papaparse';
+
+const GREY = '#CCC';
+const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
+const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
+const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
+  DEFAULT_REMOVE_HOVER_COLOR,
+  40
+);
+const GREY_DIM = '#686868';
+
+const buttonStyles = {
+  csvReader: {
+    display: 'flex',
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  browseFile: {
+    borderRadius: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    width: '40%',
+  },
+  acceptedFile: {
+    border: '1px solid rgb(204, 204, 204)',
+    height: 45,
+    lineHeight: 2.5,
+    margin: '5px 0 5px 0',
+    padding: '3px 0 0 13px',
+    width: '60%',
+  },
+  remove: {
+    borderRadius: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    padding: '0 20px',
+  },
+  progressBarBackgroundColor: {
+    backgroundColor: 'red',
+  },
+};
+
+const dragStyles = {
+  zone: {
+    alignItems: 'center',
+    border: `2px dashed ${GREY}`,
+    borderRadius: 20,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  file: {
+    background: 'linear-gradient(to bottom, #EEE, #DDD)',
+    borderRadius: 20,
+    display: 'flex',
+    height: 120,
+    width: 120,
+    position: 'relative',
+    zIndex: 10,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  info: {
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  size: {
+    backgroundColor: GREY_LIGHT,
+    borderRadius: 3,
+    marginBottom: '0.5em',
+    justifyContent: 'center',
+    display: 'flex',
+  },
+  name: {
+    backgroundColor: GREY_LIGHT,
+    borderRadius: 3,
+    fontSize: 12,
+    marginBottom: '0.5em',
+  },
+  progressBar: {
+    bottom: 14,
+    position: 'absolute',
+    width: '100%',
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  zoneHover: {
+    borderColor: GREY_DIM,
+  },
+  default: {
+    borderColor: GREY,
+  },
+  remove: {
+    height: 23,
+    position: 'absolute',
+    right: 6,
+    top: 6,
+    width: 23,
+  },
+};
+
+export default function Demo() {
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const { readString } = usePapaParse();
+  const [str, setStr] = useState(`Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+2-1,2-2,2-3,2-4
+3-1,3-2,3-3,3-4
+4,5,6,7`);
+
+  const { CSVReader } = useCSVReader();
+  const { CSVReader: CSVReader1 } = useCSVReader();
+
+  const [zoneHover1, setZoneHover1] = useState(false);
+  const [removeHoverColor1, setRemoveHoverColor1] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
+
+  const handleSelect = (index) => {
+    setTabIndex(index);
+  };
+
+  const handleStrChange = (e) => {
+    setStr(e.target.value);
+  };
+
+  const handleImportOffer = () => {
+    if (tabIndex === 0) {
+      readString(str, {
+        worker: true,
+        complete: (results) => {
+          console.log('---------------------------');
+          console.log(results);
+          console.log('---------------------------');
+        },
+      });
+    } else if (tabIndex = 2) {
+
+    } else if (tabIndex = 3) {
+
+    } else {
+
+    }
+  }
+
+  return (
+    <>
+      <main>
+        <header>
+          <div className="grid-container">
+            <div className="grid-40 mobile-grid-50">
+              <div className="links">
+                <a href="/">
+                  <i className="fa fa-home fa-lg" /> Home
+                </a>
+                <a href="/demo">
+                  <i className="fa fa-magic fa-lg" /> Demo
+                </a>
+                <a href="/docs">
+                  <i className="fa fa-book fa-lg" /> Docs
+                </a>
+              </div>
+            </div>
+            <div className="grid-20 hide-on-mobile text-center">
+              <a href="/" className="text-logo">
+                react-papaparse 4
+              </a>
+            </div>
+            <div className="grid-40 mobile-grid-50 text-right">
+              <div className="links">
+                <a href="https://github.com/Bunlong/react-papaparse">
+                  <i className="fa fa-github fa-lg" /> GitHub
+                </a>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <h1>Choose a Demo</h1>
+
+        <div className="grid-container">
+          <div className="grid-66">
+            <Tabs onSelect={(index) => handleSelect(index)}>
+              <TabList>
+                <Tab>String</Tab>
+                <Tab>Local File(s)</Tab>
+                <Tab>Remote File</Tab>
+                <Tab>JSON to CSV</Tab>
+              </TabList>
+              <TabPanel>
+                <div className="input-area" id="input-string">
+                  <textarea
+                    id="input"
+                    placeholder="String input"
+                    onChange={(event) => handleStrChange(event)}
+                    value={str}
+                  />
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="input-area" id="input-string">
+                  <div className="text-center">
+                    Choose one or more delimited text files for
+                    react-papaparse to parse.
+                  </div>
+                  <div style={{ marginTop: 60, marginBottom: 46 }}>
+                    <h5>Basic Upload</h5>
+                    <CSVReader
+                      onUploadAccepted={(results)=> {
+                        console.log('---------------------------');
+                        console.log(results);
+                        console.log('---------------------------');
+                      }}
+                    >
+                      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
+                        <>
+                          <div style={buttonStyles.csvReader}>
+                            <button
+                              type="button"
+                              {...getRootProps()}
+                              style={buttonStyles.browseFile}
+                            >
+                              Browse file
+                            </button>
+                            <div style={buttonStyles.acceptedFile}>
+                              {acceptedFile && acceptedFile.name}
+                            </div>
+                            <button
+                              {...getRemoveFileProps()}
+                              style={buttonStyles.remove}
+                              className="button red"
+                            >
+                              Remove
+                            </button>
+                          </div>
+                          <ProgressBar style={buttonStyles.progressBarBackgroundColor} />
+                        </>
+                      )}
+                    </CSVReader>
+                  </div>
+                  <div style={{ marginTop: 50, marginBottom: 46 }}>
+                    <h5>Click and Drag Upload</h5>
+                    <CSVReader1
+                      onUploadAccepted={(results) => {
+                        console.log('---------------------------');
+                        console.log(results);
+                        console.log('---------------------------');
+                        setZoneHover1(false);
+                      }}
+                      onDragOver={(event) => {
+                        event.preventDefault();
+                        setZoneHover1(true);
+                      }}
+                      onDragLeave={(event) => {
+                        event.preventDefault();
+                        setZoneHover1(false);
+                      }}
+                    >
+                      {({
+                        getRootProps,
+                        acceptedFile,
+                        ProgressBar,
+                        getRemoveFileProps,
+                        Remove,
+                      }) => (
+                        <>
+                          <div
+                            {...getRootProps()}
+                            style={Object.assign(
+                              {},
+                              dragStyles.zone,
+                              zoneHover1 && dragStyles.zoneHover
+                            )}
+                          >
+                            {acceptedFile ? (
+                              <>
+                                <div style={dragStyles.file}>
+                                  <div style={dragStyles.info}>
+                                    <span style={dragStyles.size}>
+                                      {formatFileSize(acceptedFile.size)}
+                                    </span>
+                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                  </div>
+                                  <div style={dragStyles.progressBar}>
+                                    <ProgressBar />
+                                  </div>
+                                  <div
+                                    {...getRemoveFileProps()}
+                                    style={dragStyles.remove}
+                                    onMouseOver={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor1(REMOVE_HOVER_COLOR_LIGHT);
+                                    }}
+                                    onMouseOut={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor1(DEFAULT_REMOVE_HOVER_COLOR);
+                                    }}
+                                  >
+                                    <Remove color={removeHoverColor1} />
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              'Drop CSV file here or click to upload'
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </CSVReader1>
+                  </div>
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="input-area" id="input-string">
+                  Remote File
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <div className="input-area" id="input-string">
+                  JSON to CSV
+                </div>
+              </TabPanel>
+            </Tabs>
+            <div className="text-center">
+              <div className="see-results">
+                Results will appear in the console of your browser's inspector
+                tools
+              </div>
+              <button
+                id="submit"
+                className="green"
+                onClick={() => handleImportOffer()}
+              >
+                Parse
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </>
+  );
+}
+
+
+// ================================
+
+/*
+
 import React, { Component } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import {
@@ -62,7 +419,7 @@ export default class Demo extends Component {
           console.log('Errors: ', results.errors.length);
           console.log('Results: ', results);
           console.log('---------------------------');
-        }
+        },
       });
     } else if (index === 1) {
       const results = this.state.csvData;
@@ -465,3 +822,4 @@ export default class Demo extends Component {
     );
   }
 }
+*/

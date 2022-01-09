@@ -140,6 +140,7 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
+
 import {
   useCSVReader,
   lightenDarkenColor,
@@ -278,7 +279,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -304,6 +305,7 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
+
 import {
   useCSVReader,
   lightenDarkenColor,
@@ -443,7 +445,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -469,6 +471,7 @@ export default function CSVReader() {
 
 ```javascript
 import React, { useState, CSSProperties } from 'react';
+
 import {
   useCSVReader,
   lightenDarkenColor,
@@ -608,7 +611,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -838,9 +841,10 @@ export default function JsonToCSV() {
           "Column 4": 7
       }
     ]`;
-    const results = jsonToCSV(jsonData)
+
+    const results = jsonToCSV(jsonData);
     console.log('---------------------------');
-    console.log('Results:', results)
+    console.log('Results:', results);
     console.log('---------------------------');
   };
 
@@ -879,10 +883,10 @@ const { readRemoteFile } = usePapaParse();
 
 readRemoteFile(url, {
   step: (row) => {
-    console.log('Row:', row.data)
+    console.log('Row:', row.data);
   },
   complete: () => {
-    console.log('All done!')
+    console.log('All done!');
   }
 });
 ```

@@ -3,6 +3,7 @@ import Head from 'next/head';
 import App from 'next/app';
 
 import 'react-tabs/style/react-tabs.css';
+import 'prismjs/themes/prism-tomorrow.css';
 
 class CustomApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -21,6 +22,7 @@ class CustomApp extends App {
     const { Component, pageProps } = this.props;
     const pageName = this.props.router.route.substr(1);
     let title = '';
+
     if (pageName === '') {
       title = 'react-papaparse';
     } else if (pageName === 'demo') {
@@ -40,7 +42,7 @@ class CustomApp extends App {
           <link rel="apple-touch-icon" href="" />
           <link rel="shortcut icon" type="image/x-icon" href="" />
 
-          {/* ====== SEO ======= */}
+          {/* == SEO == */}
           <meta
             name="description"
             content="The fastest in-browser CSV (or delimited text) parser for React."
@@ -54,7 +56,7 @@ class CustomApp extends App {
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          {/* ================== */}
+          {/* ========= */}
 
           <link
             rel="stylesheet"
@@ -66,7 +68,7 @@ class CustomApp extends App {
           />
           <link rel="stylesheet" href="/static/css/unsemantic.css" />
           <link rel="stylesheet" href="/static/css/common.css" />
-          <link rel="stylesheet" href="/static/css/prism.css" />
+          {/* <link rel="stylesheet" href="/static/css/prism.css" /> */}
 
           {pageName === '' ? (
             <link rel="stylesheet" href="/static/css/home.css" />
@@ -147,7 +149,7 @@ class CustomApp extends App {
                 react-papaparse by{' '}
                 <a href="https://github.com/bunlong">Bunlong</a>
                 <br />
-                &copy; 2018-2021
+                &copy; 2018-2022
               </div>
 
               <div className="grid-15 mobile-grid-50 links">
@@ -165,7 +167,6 @@ class CustomApp extends App {
             </div>
           </div>
         </footer>
-        <script type="text/javascript" src="/static/js/prism.js" />
       </div>
     );
   }
