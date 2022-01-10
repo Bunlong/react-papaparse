@@ -88,7 +88,7 @@ const dragStyles = {
   progressBar: {
     bottom: 14,
     position: 'absolute',
-    width: '100%',
+    width: '85%',
     paddingLeft: 10,
     paddingRight: 10,
   },
@@ -110,7 +110,7 @@ const dragStyles = {
 export default function Demo() {
   const [tabIndex, setTabIndex] = useState(0);
 
-  const { readString } = usePapaParse();
+  const { readString, readRemoteFile, jsonToCSV } = usePapaParse();
   const [str, setStr] = useState(`Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
@@ -119,11 +119,51 @@ export default function Demo() {
 
   const { CSVReader } = useCSVReader();
   const { CSVReader: CSVReader1 } = useCSVReader();
+  const { CSVReader: CSVReader2 } = useCSVReader();
+  const { CSVReader: CSVReader3 } = useCSVReader();
 
   const [zoneHover1, setZoneHover1] = useState(false);
   const [removeHoverColor1, setRemoveHoverColor1] = useState(
     DEFAULT_REMOVE_HOVER_COLOR
   );
+
+  const [zoneHover2, setZoneHover2] = useState(false);
+  const [removeHoverColor2, setRemoveHoverColor2] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
+
+  const [zoneHover3, setZoneHover3] = useState(false);
+  const [removeHoverColor3, setRemoveHoverColor3] = useState(
+    DEFAULT_REMOVE_HOVER_COLOR
+  );
+
+  const [url, setUrl] = useState('');
+  const [jsonData, setJsonData] = useState(`[
+  {
+    "Column 1": "1-1",
+    "Column 2": "1-2",
+    "Column 3": "1-3",
+    "Column 4": "1-4"
+  },
+  {
+    "Column 1": "2-1",
+    "Column 2": "2-2",
+    "Column 3": "2-3",
+    "Column 4": "2-4"
+  },
+  {
+    "Column 1": "3-1",
+    "Column 2": "3-2",
+    "Column 3": "3-3",
+    "Column 4": "3-4"
+  },
+  {
+    "Column 1": 4,
+    "Column 2": 5,
+    "Column 3": 6,
+    "Column 4": 7
+  }
+]`);
 
   const handleSelect = (index) => {
     setTabIndex(index);
@@ -134,6 +174,7 @@ export default function Demo() {
   };
 
   const handleImportOffer = () => {
+    console.log(tabIndex)
     if (tabIndex === 0) {
       readString(str, {
         worker: true,
@@ -143,13 +184,48 @@ export default function Demo() {
           console.log('---------------------------');
         },
       });
-    } else if (tabIndex = 2) {
+    } else if (tabIndex === 1) {
 
-    } else if (tabIndex = 3) {
-
+    } else if (tabIndex === 2) {
+      if (url === '') {
+        // eslint-disable-next-line no-undef
+        alert('Please enter the URL of a file to download and parse.');
+        return;
+      }
+      console.log('Running!');
+      readRemoteFile(url, {
+        complete: (results) => {
+          console.log('---------------------------');
+          console.log('Parse complete!');
+          console.log('Row count: ', results.data.length);
+          console.log('Errors: ', results.errors.length);
+          console.log('Results: ', results);
+          console.log('---------------------------');
+        },
+      });
     } else {
-
+      try {
+        const results = jsonToCSV(jsonData);
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      } catch (e) {
+        // eslint-disable-next-line no-undef
+        alert('Please enter valid JSON.');
+      }
     }
+  }
+
+  const handleURLChange = (event) => {
+    setUrl(event.target.value);
+  };
+
+  const setURL = (url) => {
+    setUrl(url);
+  };
+
+  const handleJsonDataChange = (event) => {
+    setJsonData(event.target.value);
   }
 
   return (
@@ -317,16 +393,213 @@ export default function Demo() {
                       )}
                     </CSVReader1>
                   </div>
+                  <div style={{ marginTop: 50, marginBottom: 46 }}>
+                    <h5>DRAG ( NO CLICK ) UPLOAD</h5>
+                    <CSVReader2
+                      onUploadAccepted={(results) => {
+                        console.log('---------------------------');
+                        console.log(results);
+                        console.log('---------------------------');
+                        setZoneHover2(false);
+                      }}
+                      onDragOver={(event) => {
+                        event.preventDefault();
+                        setZoneHover2(true);
+                      }}
+                      onDragLeave={(event) => {
+                        event.preventDefault();
+                        setZoneHover2(false);
+                      }}
+                      noClick
+                    >
+                      {({
+                        getRootProps,
+                        acceptedFile,
+                        ProgressBar,
+                        getRemoveFileProps,
+                        Remove,
+                      }) => (
+                        <>
+                          <div
+                            {...getRootProps()}
+                            style={Object.assign(
+                              {},
+                              dragStyles.zone,
+                              zoneHover2 && dragStyles.zoneHover
+                            )}
+                          >
+                            {acceptedFile ? (
+                              <>
+                                <div style={dragStyles.file}>
+                                  <div style={dragStyles.info}>
+                                    <span style={dragStyles.size}>
+                                      {formatFileSize(acceptedFile.size)}
+                                    </span>
+                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                  </div>
+                                  <div style={dragStyles.progressBar}>
+                                    <ProgressBar />
+                                  </div>
+                                  <div
+                                    {...getRemoveFileProps()}
+                                    style={dragStyles.remove}
+                                    onMouseOver={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor2(REMOVE_HOVER_COLOR_LIGHT);
+                                    }}
+                                    onMouseOut={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor2(DEFAULT_REMOVE_HOVER_COLOR);
+                                    }}
+                                  >
+                                    <Remove color={removeHoverColor2} />
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              'Drop CSV file here to upload'
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </CSVReader2>
+                  </div>
+                  <div style={{ marginTop: 50, marginBottom: 46 }}>
+                    <h5>CLICK ( NO DRAG ) UPLOAD</h5>
+                    <CSVReader3
+                      onUploadAccepted={(results) => {
+                        console.log('---------------------------');
+                        console.log(results);
+                        console.log('---------------------------');
+                        setZoneHover3(false);
+                      }}
+                      onDragOver={(event) => {
+                        event.preventDefault();
+                        setZoneHover3(true);
+                      }}
+                      onDragLeave={(event) => {
+                        event.preventDefault();
+                        setZoneHover3(false);
+                      }}
+                      noDrag
+                    >
+                      {({
+                        getRootProps,
+                        acceptedFile,
+                        ProgressBar,
+                        getRemoveFileProps,
+                        Remove,
+                      }) => (
+                        <>
+                          <div
+                            {...getRootProps()}
+                            style={Object.assign(
+                              {},
+                              dragStyles.zone,
+                              zoneHover3 && dragStyles.zoneHover
+                            )}
+                          >
+                            {acceptedFile ? (
+                              <>
+                                <div style={dragStyles.file}>
+                                  <div style={dragStyles.info}>
+                                    <span style={dragStyles.size}>
+                                      {formatFileSize(acceptedFile.size)}
+                                    </span>
+                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                  </div>
+                                  <div style={dragStyles.progressBar}>
+                                    <ProgressBar />
+                                  </div>
+                                  <div
+                                    {...getRemoveFileProps()}
+                                    style={dragStyles.remove}
+                                    onMouseOver={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor3(REMOVE_HOVER_COLOR_LIGHT);
+                                    }}
+                                    onMouseOut={(event) => {
+                                      event.preventDefault();
+                                      setRemoveHoverColor3(DEFAULT_REMOVE_HOVER_COLOR);
+                                    }}
+                                  >
+                                    <Remove color={removeHoverColor3} />
+                                  </div>
+                                </div>
+                              </>
+                            ) : (
+                              'Click to upload'
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </CSVReader3>
+                  </div>
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="input-area" id="input-string">
-                  Remote File
+                  <div>
+                    <div className="text-center">
+                      Type the URL of the file to be downloaded and parsed.
+                      <br />
+                      <small>
+                        (cross-origin requests require
+                        Access-Control-Allow-Origin header)
+                      </small>
+                    </div>
+                    <input
+                      type="text"
+                      id="url"
+                      placeholder="URL"
+                      value={url}
+                      onChange={(event) => handleURLChange(event)}
+                    />
+                    Sample remote files:
+                    <ul>
+                      <li>
+                        <a
+                          id="local-normal-file"
+                          onClick={() =>
+                            setURL('/static/csv/normal.csv')
+                          }
+                          style={{ cursor: 'pointer' }}
+                        >
+                          Normal file
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          id="local-large-file"
+                          onClick={() => setURL('/static/csv/big.csv')}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          Large file
+                        </a>
+                      </li>
+                      <li>
+                        <a
+                          id="local-malformed-file"
+                          onClick={() =>
+                            setURL('/static/csv/malformed.csv')
+                          }
+                          style={{ cursor: 'pointer' }}
+                        >
+                          Malformed file
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </TabPanel>
               <TabPanel>
                 <div className="input-area" id="input-string">
-                  JSON to CSV
+                  <textarea
+                    id="json"
+                    placeholder="JSON string"
+                    value={jsonData}
+                    onChange={(event) => handleJsonDataChange(event)}
+                  />
                 </div>
               </TabPanel>
             </Tabs>
@@ -822,4 +1095,5 @@ export default class Demo extends Component {
     );
   }
 }
+
 */
