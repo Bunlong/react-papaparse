@@ -117,6 +117,7 @@ export default function Demo() {
 3-1,3-2,3-3,3-4
 4,5,6,7`);
 
+  const [csvData, setCsvData] = useState(null);
   const { CSVReader } = useCSVReader();
   const { CSVReader: CSVReader1 } = useCSVReader();
   const { CSVReader: CSVReader2 } = useCSVReader();
@@ -174,7 +175,6 @@ export default function Demo() {
   };
 
   const handleImportOffer = () => {
-    console.log(tabIndex)
     if (tabIndex === 0) {
       readString(str, {
         worker: true,
@@ -185,7 +185,9 @@ export default function Demo() {
         },
       });
     } else if (tabIndex === 1) {
-
+      console.log('---------------------------');
+      console.log(csvData);
+      console.log('---------------------------');
     } else if (tabIndex === 2) {
       if (url === '') {
         // eslint-disable-next-line no-undef
@@ -292,9 +294,7 @@ export default function Demo() {
                     <h5>Basic Upload</h5>
                     <CSVReader
                       onUploadAccepted={(results)=> {
-                        console.log('---------------------------');
-                        console.log(results);
-                        console.log('---------------------------');
+                        setCsvData(results);
                       }}
                     >
                       {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
@@ -327,9 +327,7 @@ export default function Demo() {
                     <h5>Click and Drag Upload</h5>
                     <CSVReader1
                       onUploadAccepted={(results) => {
-                        console.log('---------------------------');
-                        console.log(results);
-                        console.log('---------------------------');
+                        setCsvData(results);
                         setZoneHover1(false);
                       }}
                       onDragOver={(event) => {
@@ -397,9 +395,7 @@ export default function Demo() {
                     <h5>DRAG ( NO CLICK ) UPLOAD</h5>
                     <CSVReader2
                       onUploadAccepted={(results) => {
-                        console.log('---------------------------');
-                        console.log(results);
-                        console.log('---------------------------');
+                        setCsvData(results);
                         setZoneHover2(false);
                       }}
                       onDragOver={(event) => {
@@ -468,9 +464,7 @@ export default function Demo() {
                     <h5>CLICK ( NO DRAG ) UPLOAD</h5>
                     <CSVReader3
                       onUploadAccepted={(results) => {
-                        console.log('---------------------------');
-                        console.log(results);
-                        console.log('---------------------------');
+                        setCsvData(results);
                         setZoneHover3(false);
                       }}
                       onDragOver={(event) => {
