@@ -15,6 +15,14 @@ const CSVDownloader = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVDownloader
+  type={Type.Button}
+  filename={'filename'}
+  bom={true}
+  config={
+    {
+      delimiter: ';',
+    }
+  }
   data={[
     {
       "Column 1": "1-1",
@@ -23,10 +31,6 @@ const CSVDownloader = () => {
       "Column 4": "1-4",
     },
   ]}
-  type="button"
-  filename={'filename'}
-  bom={true}
-  config={{}}
 >
   Download
 </CSVDownloader>
