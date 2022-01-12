@@ -276,6 +276,11 @@ export default function Demo() {
               </TabList>
               <TabPanel>
                 <div className="input-area" id="input-string">
+                  {/* <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                    <a href="">
+                      Source code
+                    </a>
+                  </div> */}
                   <textarea
                     id="input"
                     placeholder="String input"
