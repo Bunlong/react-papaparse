@@ -415,7 +415,7 @@ function useCSVReaderComponent<T = any>() {
         if (hasFiles && event.dataTransfer) {
           try {
             event.dataTransfer.dropEffect = 'copy';
-          } catch {} /* eslint-disable-line no-empty */
+          } catch {}
         }
 
         if (hasFiles && onDragOver) {

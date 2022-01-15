@@ -841,14 +841,13 @@ export default function JsonToCSV() {
           "Column 4": 7
       }
     ]`;
-
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
     console.log('---------------------------');
   };
 
-  return (<button onClick={() => handleJsonToCSV()}>jsonToCSV</button>);
+  return <button onClick={() => handleJsonToCSV()}>jsonToCSV</button>;
 }
 ```
 

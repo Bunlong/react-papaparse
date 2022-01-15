@@ -80,11 +80,7 @@ function useCSVDownloaderComponent() {
     );
   };
 
-  const CSVDownloader = React.useMemo(
-    () => CSVDownloaderComponent,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
-  ) as any;
+  const CSVDownloader = React.useMemo(() => CSVDownloaderComponent, []) as any;
 
   return CSVDownloader;
 }
