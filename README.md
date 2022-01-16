@@ -790,13 +790,13 @@ export default function ReadRemoteFile() {
     readRemoteFile(url, {
       complete: (results) => {
         console.log('---------------------------');
-        console.log('Results:', results)
+        console.log('Results:', results);
         console.log('---------------------------');
-      }
+      },
     });
   };
 
-  return (<button onClick={() => handleReadRemoteFile()}>readRemoteFile</button>);
+  return <button onClick={() => handleReadRemoteFile()}>readRemoteFile</button>;
 }
 ```
 
