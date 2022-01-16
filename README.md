@@ -43,11 +43,9 @@ To learn how to use react-papaparse:
 
 * [Documentation](https://react-papaparse.github.io/docs)
 
-FAQ:
+<!-- FAQ:
 
-* [How to customize CSVReader (Drag to upload) style?](https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style)
-* [How to reset CSVReader?](https://react-papaparse.js.org/docs#local-files)
-* [Sample of using CSVReader isSet](https://github.com/Bunlong/react-papaparse/wiki/Sample-of-using-CSVReader-isSet)
+* [Sample of using CSVReader isSet](https://github.com/Bunlong/react-papaparse/wiki/Sample-of-using-CSVReader-isSet) -->
 
 ## 📚 Useful Features
 
