@@ -4,35 +4,52 @@ exports[`CSVReader should match snapshot 1`] = `
 Array [
   <input
     accept="text/csv, .csv, application/vnd.ms-excel"
+    autoComplete="off"
+    multiple={false}
     onChange={[Function]}
+    onClick={[Function]}
     style={
       Object {
         "display": "none",
       }
     }
+    tabIndex={-1}
     type="file"
   />,
-  <div
-    onClick={[Function]}
+  <div>
+    <button
+      onBlur={[Function]}
+      onClick={[Function]}
+      onDragEnter={[Function]}
+      onDragLeave={[Function]}
+      onDragOver={[Function]}
+      onDrop={[Function]}
+      onFocus={[Function]}
+      onKeyDown={[Function]}
+      type="button"
+    >
+      Chargez votre offre
+    </button>
+    <div />
+    <button
+      onClick={[Function]}
+    >
+      Remove
+    </button>
+  </div>,
+  <span
     style={
       Object {
-        "alignItems": "center",
-        "borderColor": "#CCC",
-        "borderRadius": 20,
-        "borderStyle": "dashed",
-        "borderWidth": 2,
-        "cursor": "pointer",
-        "display": "flex",
-        "flexDirection": "column",
-        "height": "100%",
-        "justifyContent": "center",
-        "padding": 20,
+        "backgroundColor": "#659cef",
+        "borderRadius": 3,
+        "bottom": 14,
+        "boxShadow": "inset 0 1px 3px rgba(0, 0, 0, .2)",
+        "display": "none",
+        "height": 10,
+        "transition": "width 500ms ease-in-out",
+        "width": "0%",
       }
     }
-  >
-    <span>
-      Chargez votre offre
-    </span>
-  </div>,
+  />,
 ]
 `;
