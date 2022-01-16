@@ -26,6 +26,13 @@ const CSVToJSON = () => {
               )
             </code>
           </pre>
+          <span
+            style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
+          >
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx">
+              Source code
+            </a>
+          </span>
         </div>
         <div className="grid-50">
           <ul>
@@ -57,43 +64,40 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onUploadAccepted={(results: any)=> {
+  onUploadAccepted={(results: any) => {
     console.log('---------------------------');
     console.log(results);
     console.log('---------------------------');
   }}
 >
-  {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+  }: any) => (
     <>
       <div style={styles.csvReader}>
-        <button
-          type="button"
-          {...getRootProps()}
-          style={styles.browseFile}
-        >
+        <button type='button' {...getRootProps()} style={styles.browseFile}>
           Browse file
         </button>
         <div style={styles.acceptedFile}>
           {acceptedFile && acceptedFile.name}
         </div>
-        <button
-          {...getRemoveFileProps()}
-          style={styles.remove}
-        >
+        <button {...getRemoveFileProps()} style={styles.remove}>
           Remove
         </button>
       </div>
       <ProgressBar style={styles.progressBarBackgroundColor} />
     </>
   )}
-</CSVReader>
-`}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderBasicUpload.tsx">
               Source code
             </a>
           </span>
@@ -196,14 +200,13 @@ const CSVToJSON = () => {
       </div>
     </>
   )}
-</CSVReader>
-`}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderClickAndDragUpload.tsx">
               Source code
             </a>
           </span>
@@ -236,81 +239,79 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-      onUploadAccepted={(results: any) => {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-        setZoneHover(false);
-      }}
-      onDragOver={(event: DragEvent) => {
-        event.preventDefault();
-        setZoneHover(true);
-      }}
-      onDragLeave={(event: DragEvent) => {
-        event.preventDefault();
-        setZoneHover(false);
-      }}
-      noClick
-    >
-      {({
-        getRootProps,
-        acceptedFile,
-        ProgressBar,
-        getRemoveFileProps,
-        Remove,
-      }: any) => (
-        <>
-          <div
-            {...getRootProps()}
-            style={Object.assign(
-              {},
-              styles.zone,
-              zoneHover && styles.zoneHover
-            )}
-          >
-            {acceptedFile ? (
-              <>
-                <div style={styles.file}>
-                  <div style={styles.info}>
-                    <span style={styles.size}>
-                      {formatFileSize(acceptedFile.size)}
-                    </span>
-                    <span style={styles.name}>{acceptedFile.name}</span>
-                  </div>
-                  <div style={styles.progressBar}>
-                    <ProgressBar />
-                  </div>
-                  <div
-                    {...getRemoveFileProps()}
-                    style={styles.remove}
-                    onMouseOver={(event: Event) => {
-                      event.preventDefault();
-                      setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
-                    }}
-                    onMouseOut={(event: Event) => {
-                      event.preventDefault();
-                      setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
-                    }}
-                  >
-                    <Remove color={removeHoverColor} />
-                  </div>
-                </div>
-              </>
-            ) : (
-              'Drop CSV file here to upload'
-            )}
-          </div>
-        </>
-      )}
-    </CSVReader>
-  );
-}`}
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+    setZoneHover(false);
+  }}
+  onDragOver={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(true);
+  }}
+  onDragLeave={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(false);
+  }}
+  noClick
+>
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+    Remove,
+  }: any) => (
+    <>
+      <div
+        {...getRootProps()}
+        style={Object.assign(
+          {},
+          styles.zone,
+          zoneHover && styles.zoneHover
+        )}
+      >
+        {acceptedFile ? (
+          <>
+            <div style={styles.file}>
+              <div style={styles.info}>
+                <span style={styles.size}>
+                  {formatFileSize(acceptedFile.size)}
+                </span>
+                <span style={styles.name}>{acceptedFile.name}</span>
+              </div>
+              <div style={styles.progressBar}>
+                <ProgressBar />
+              </div>
+              <div
+                {...getRemoveFileProps()}
+                style={styles.remove}
+                onMouseOver={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
+                }}
+                onMouseOut={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
+                }}
+              >
+                <Remove color={removeHoverColor} />
+              </div>
+            </div>
+          </>
+        ) : (
+          'Drop CSV file here to upload'
+        )}
+      </div>
+    </>
+  )}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderDragNoClickUpload.tsx">
               Source code
             </a>
           </span>
@@ -347,81 +348,79 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-      onUploadAccepted={(results: any) => {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
-        setZoneHover(false);
-      }}
-      onDragOver={(event: DragEvent) => {
-        event.preventDefault();
-        setZoneHover(true);
-      }}
-      onDragLeave={(event: DragEvent) => {
-        event.preventDefault();
-        setZoneHover(false);
-      }}
-      noDrag
-    >
-      {({
-        getRootProps,
-        acceptedFile,
-        ProgressBar,
-        getRemoveFileProps,
-        Remove,
-      }: any) => (
-        <>
-          <div
-            {...getRootProps()}
-            style={Object.assign(
-              {},
-              styles.zone,
-              zoneHover && styles.zoneHover
-            )}
-          >
-            {acceptedFile ? (
-              <>
-                <div style={styles.file}>
-                  <div style={styles.info}>
-                    <span style={styles.size}>
-                      {formatFileSize(acceptedFile.size)}
-                    </span>
-                    <span style={styles.name}>{acceptedFile.name}</span>
-                  </div>
-                  <div style={styles.progressBar}>
-                    <ProgressBar />
-                  </div>
-                  <div
-                    {...getRemoveFileProps()}
-                    style={styles.remove}
-                    onMouseOver={(event: Event) => {
-                      event.preventDefault();
-                      setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
-                    }}
-                    onMouseOut={(event: Event) => {
-                      event.preventDefault();
-                      setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
-                    }}
-                  >
-                    <Remove color={removeHoverColor} />
-                  </div>
-                </div>
-              </>
-            ) : (
-              'Click to upload'
-            )}
-          </div>
-        </>
-      )}
-    </CSVReader>
-  );
-}`}
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+    setZoneHover(false);
+  }}
+  onDragOver={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(true);
+  }}
+  onDragLeave={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(false);
+  }}
+  noDrag
+>
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+    Remove,
+  }: any) => (
+    <>
+      <div
+        {...getRootProps()}
+        style={Object.assign(
+          {},
+          styles.zone,
+          zoneHover && styles.zoneHover
+        )}
+      >
+        {acceptedFile ? (
+          <>
+            <div style={styles.file}>
+              <div style={styles.info}>
+                <span style={styles.size}>
+                  {formatFileSize(acceptedFile.size)}
+                </span>
+                <span style={styles.name}>{acceptedFile.name}</span>
+              </div>
+              <div style={styles.progressBar}>
+                <ProgressBar />
+              </div>
+              <div
+                {...getRemoveFileProps()}
+                style={styles.remove}
+                onMouseOver={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
+                }}
+                onMouseOut={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
+                }}
+              >
+                <Remove color={removeHoverColor} />
+              </div>
+            </div>
+          </>
+        ) : (
+          'Click to upload'
+        )}
+      </div>
+    </>
+  )}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderClickNoDragUpload.tsx">
               Source code
             </a>
           </span>
@@ -459,6 +458,13 @@ const CSVToJSON = () => {
 })`}
             </code>
           </pre>
+          <span
+            style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
+          >
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readRemoteFile.tsx">
+              Source code
+            </a>
+          </span>
         </div>
         <div className="grid-50">
           <ul>

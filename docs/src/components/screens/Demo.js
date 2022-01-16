@@ -3,6 +3,9 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { usePapaParse, useCSVReader, lightenDarkenColor, formatFileSize } from 'react-papaparse';
 
+// const BASE_URL = 'https://github.com/Bunlong/react-papaparse/blob/master';
+const BASE_URL = 'https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples';
+
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
@@ -276,11 +279,11 @@ export default function Demo() {
               </TabList>
               <TabPanel>
                 <div className="input-area" id="input-string">
-                  {/* <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
-                    <a href="">
+                  <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                    <a href={`${BASE_URL}/readString.tsx`}>
                       Source code
                     </a>
-                  </div> */}
+                  </div>
                   <textarea
                     id="input"
                     placeholder="String input"
@@ -297,6 +300,11 @@ export default function Demo() {
                   </div>
                   <div style={{ marginTop: 60, marginBottom: 46 }}>
                     <h5>Basic Upload</h5>
+                    <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                      <a href={`${BASE_URL}/CSVReaderBasicUpload.tsx`}>
+                        Source code
+                      </a>
+                    </div>
                     <CSVReader
                       onUploadAccepted={(results)=> {
                         setCsvData(results);
@@ -330,6 +338,11 @@ export default function Demo() {
                   </div>
                   <div style={{ marginTop: 50, marginBottom: 46 }}>
                     <h5>Click and Drag Upload</h5>
+                    <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                      <a href={`${BASE_URL}/CSVReaderClickAndDragUpload.tsx`}>
+                        Source code
+                      </a>
+                    </div>
                     <CSVReader1
                       onUploadAccepted={(results) => {
                         setCsvData(results);
@@ -398,6 +411,11 @@ export default function Demo() {
                   </div>
                   <div style={{ marginTop: 50, marginBottom: 46 }}>
                     <h5>DRAG ( NO CLICK ) UPLOAD</h5>
+                    <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                      <a href={`${BASE_URL}/CSVReaderDragNoClickUpload.tsx`}>
+                        Source code
+                      </a>
+                    </div>
                     <CSVReader2
                       onUploadAccepted={(results) => {
                         setCsvData(results);
@@ -467,6 +485,11 @@ export default function Demo() {
                   </div>
                   <div style={{ marginTop: 50, marginBottom: 46 }}>
                     <h5>CLICK ( NO DRAG ) UPLOAD</h5>
+                    <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                      <a href={`${BASE_URL}/CSVReaderClickNoDragUpload.tsx`}>
+                        Source code
+                      </a>
+                    </div>
                     <CSVReader3
                       onUploadAccepted={(results) => {
                         setCsvData(results);
@@ -538,6 +561,11 @@ export default function Demo() {
               </TabPanel>
               <TabPanel>
                 <div className="input-area" id="input-string">
+                  <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
+                    <a href={`${BASE_URL/readRemoteFile.tsx}`}>
+                      Source code
+                    </a>
+                  </div>
                   <div>
                     <div className="text-center">
                       Type the URL of the file to be downloaded and parsed.
@@ -593,6 +621,11 @@ export default function Demo() {
               </TabPanel>
               <TabPanel>
                 <div className="input-area" id="input-string">
+                  <div style={{ float: 'right', marginBottom: 14 }}>
+                    <a href={`${BASE_URL}/jsonToCSV.tsx`}>
+                      Source code
+                    </a>
+                  </div>
                   <textarea
                     id="json"
                     placeholder="JSON string"

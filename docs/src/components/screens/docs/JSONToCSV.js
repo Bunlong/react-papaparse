@@ -22,6 +22,13 @@ const JSONToCSV = () => {
               )
             </code>
           </pre>
+          <span
+            style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
+          >
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/jsonToCSV.tsx">
+              Source code
+            </a>
+          </span>
         </div>
         <div className="grid-50">
           <ul>

@@ -39,7 +39,7 @@ export default function ReadString() {
     });
   };
 
-  return (<button onClick={() => handleReadString()}>readString</button>);
+  return <button onClick={() => handleReadString()}>readString</button>;
 }
 
 /*

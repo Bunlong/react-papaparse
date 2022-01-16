@@ -3,7 +3,7 @@ import Head from 'next/head';
 import App from 'next/app';
 
 import 'react-tabs/style/react-tabs.css';
-import 'prismjs/themes/prism-tomorrow.css';
+// import 'prismjs/themes/prism-tomorrow.css';
 
 class CustomApp extends App {
   // Only uncomment this method if you have blocking data requirements for
@@ -68,7 +68,7 @@ class CustomApp extends App {
           />
           <link rel="stylesheet" href="/static/css/unsemantic.css" />
           <link rel="stylesheet" href="/static/css/common.css" />
-          {/* <link rel="stylesheet" href="/static/css/prism.css" /> */}
+          <link rel="stylesheet" href="/static/css/prism.css" />
 
           {pageName === '' ? (
             <link rel="stylesheet" href="/static/css/home.css" />

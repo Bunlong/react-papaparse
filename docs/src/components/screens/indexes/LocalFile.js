@@ -75,29 +75,27 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any)=> {
+      onUploadAccepted={(results: any) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
       }}
     >
-      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }: any) => (
+      {({
+        getRootProps,
+        acceptedFile,
+        ProgressBar,
+        getRemoveFileProps,
+      }: any) => (
         <>
           <div style={styles.csvReader}>
-            <button
-              type="button"
-              {...getRootProps()}
-              style={styles.browseFile}
-            >
+            <button type='button' {...getRootProps()} style={styles.browseFile}>
               Browse file
             </button>
             <div style={styles.acceptedFile}>
               {acceptedFile && acceptedFile.name}
             </div>
-            <button
-              {...getRemoveFileProps()}
-              style={styles.remove}
-            >
+            <button {...getRemoveFileProps()} style={styles.remove}>
               Remove
             </button>
           </div>
@@ -158,9 +156,8 @@ const styles = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
-    borderStyle: 'dashed' ,
+    borderStyle: 'dashed',
     borderColor: GREY,
-    border
     borderRadius: 20,
     display: 'flex',
     flexDirection: 'column',
@@ -280,7 +277,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -349,7 +346,7 @@ const styles = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
-    borderStyle: 'dashed' ,
+    borderStyle: 'dashed',
     borderColor: GREY,
     borderRadius: 20,
     display: 'flex',
@@ -471,7 +468,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -540,7 +537,7 @@ const styles = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
-    borderStyle: 'dashed' ,
+    borderStyle: 'dashed',
     borderColor: GREY,
     borderRadius: 20,
     display: 'flex',
@@ -662,7 +659,7 @@ export default function CSVReader() {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event) => {
+                    onMouseOut={(event: Event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}

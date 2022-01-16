@@ -23,7 +23,7 @@ export default function JsonToCSV() {
   const { jsonToCSV } = usePapaParse();
 
   const handleJsonToCSV = () => {
-    const jsonData = [
+    const jsonData = '[
       {
           "Column 1": "1-1",
           "Column 2": "1-2",
@@ -48,15 +48,14 @@ export default function JsonToCSV() {
           "Column 3": 6,
           "Column 4": 7
       }
-    ];
-
+    ]';
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
     console.log('---------------------------');
   };
 
-  return (<button onClick={() => handleJsonToCSV()}>jsonToCSV</button>);
+  return <button onClick={() => handleJsonToCSV()}>jsonToCSV</button>;
 }`}
             </code>
           </pre>

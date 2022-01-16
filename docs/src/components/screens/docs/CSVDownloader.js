@@ -40,7 +40,7 @@ const CSVDownloader = () => {
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVDownloader1.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVDownloader.tsx">
               Source code
             </a>
           </span>
