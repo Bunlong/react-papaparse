@@ -1,29 +1,12 @@
 import React from 'react';
 
-const Unparse = () => {
-  return (
-    <section id="unparse">
-      <div className="grid-container narrow-grid">
-        <div className="grid-100">
-          <h4>JSON to CSV</h4>
-          <h5>"Last thing: what about converting JSON to CSV?"</h5>
-          <p>
-            Use <code>jsonToCSV()</code> function, passing in your array of
-            arrays or array of objects. react-papaparse will figure it out.
-          </p>
-          <pre>
-            <code className="language-javascript">
-              {`// Output is a properly-formatted CSV string.
-
-import React from 'react';
-
 import { usePapaParse } from 'react-papaparse';
 
 export default function JsonToCSV() {
   const { jsonToCSV } = usePapaParse();
 
   const handleJsonToCSV = () => {
-    const jsonData = '[
+    const jsonData = `[
       {
           "Column 1": "1-1",
           "Column 2": "1-2",
@@ -48,7 +31,7 @@ export default function JsonToCSV() {
           "Column 3": 6,
           "Column 4": 7
       }
-    ]';
+    ]`;
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
@@ -56,13 +39,4 @@ export default function JsonToCSV() {
   };
 
   return <button onClick={() => handleJsonToCSV()}>jsonToCSV</button>;
-}`}
-            </code>
-          </pre>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Unparse;
+}

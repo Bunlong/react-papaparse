@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useState, useEffect } from 'react';
 
 const DEFAULT_PROGRESS_BAR_COLOR = '#659cef';
 
@@ -7,14 +7,14 @@ const styles = {
     borderRadius: 3,
     boxShadow: 'inset 0 1px 3px rgba(0, 0, 0, .2)',
     bottom: 14,
-    position: 'absolute',
-    width: '80%',
+    width: '100%',
+    // position: 'absolute',
   } as CSSProperties,
-  buttonProgressBar: {
+  button: {
     position: 'inherit',
     width: '100%',
   } as CSSProperties,
-  progressBarFill: {
+  fill: {
     backgroundColor: DEFAULT_PROGRESS_BAR_COLOR,
     borderRadius: 3,
     height: 10,
@@ -23,36 +23,28 @@ const styles = {
 };
 
 interface Props {
-  style: any;
-  progressBar: number;
-  displayProgressBarStatus: string;
-  isButtonProgressBar?: boolean;
+  style?: any;
+  className?: string;
+  percentage: number;
+  display: string;
+  isButton?: boolean;
 }
 
-export default class ProgressBar extends React.Component<Props> {
-  render() {
-    const {
-      style,
-      progressBar,
-      displayProgressBarStatus,
-      isButtonProgressBar,
-    } = this.props;
+export default function ProgressBar(props: Props) {
+  const { style, className, display } = props;
+  const [percentage, setPercentage] = useState(0);
 
-    return (
-      <div
-        style={Object.assign(
-          {},
-          styles.progressBar,
-          isButtonProgressBar && styles.buttonProgressBar,
-        )}
-      >
-        <span
-          style={Object.assign({}, styles.progressBarFill, style, {
-            width: `${progressBar}%`,
-            display: displayProgressBarStatus,
-          })}
-        />
-      </div>
-    );
-  }
+  useEffect(() => {
+    setPercentage(props.percentage);
+  }, [props.percentage]);
+
+  return (
+    <span
+      style={Object.assign({}, styles.progressBar, styles.fill, style, {
+        width: `${percentage}%`,
+        display,
+      })}
+      className={className}
+    />
+  );
 }

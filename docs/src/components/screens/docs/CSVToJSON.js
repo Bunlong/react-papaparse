@@ -26,6 +26,13 @@ const CSVToJSON = () => {
               )
             </code>
           </pre>
+          <span
+            style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
+          >
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx">
+              Source code
+            </a>
+          </span>
         </div>
         <div className="grid-50">
           <ul>
@@ -33,11 +40,11 @@ const CSVToJSON = () => {
               <code>csvString</code> is a string of delimited text to be parsed.
             </li>
             <li>
-              <code>config</code> is an optional{' '}
+              <code>config</code> is an {' '}
               <a href="#config">config object</a>.
             </li>
             <li>
-              Returns a <a href="#results">parse results</a> object (if not
+              Returns a <a href="#results">parse results</a> object in <code>complete</code> of config object (if not
               streaming or using worker).
             </li>
           </ul>
@@ -57,37 +64,40 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  ref={buttonRef}
-  onFileLoad={this.handleOnDrop}
-  onError={this.handleOnError}
-  noClick
-  noDrag
-  config={{}}
-  style={{}}
-  onRemoveFile={this.handleOnRemoveFile}
-  >
-  {({ file }) => (
-    <aside>
-      <button
-        type='button'
-        onClick={this.handleOpenDialog}
-      >
-          Browe file
-      </button>
-      <div>
-        {file && file.name}
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+  }}
+>
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+  }: any) => (
+    <>
+      <div style={styles.csvReader}>
+        <button type='button' {...getRootProps()} style={styles.browseFile}>
+          Browse file
+        </button>
+        <div style={styles.acceptedFile}>
+          {acceptedFile && acceptedFile.name}
+        </div>
+        <button {...getRemoveFileProps()} style={styles.remove}>
+          Remove
+        </button>
       </div>
-      <button onClick={this.handleRemoveFile}>Remove</button>
-    </aside>
+      <ProgressBar style={styles.progressBarBackgroundColor} />
+    </>
   )}
-</CSVReader>
-`}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader1.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderBasicUpload.tsx">
               Source code
             </a>
           </span>
@@ -100,53 +110,16 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>
-                <a
-                  href="https://reactjs.org/docs/refs-and-the-dom.html"
-                  target="_blank"
-                >
-                  ref
-                </a>
-              </code>{' '}
-              is a way to access/get files from{' '}
-              <code>{'<input type="file">'}</code> element.
-            </li>
-            <li>
-              <code>onFileLoad</code> is the function to be called passing
-              loaded results.
-            </li>
-            <li>
-              <code>onError</code> is error handling function.
-            </li>
-            <li>
-              <code>isReset</code> If true, reset CSVReader.
+              <code>onUploadAccepted</code> is the function to be called passing
+              uploaded results.
             </li>
             <li>
               <code>noClick</code> If true, disables click to open the native
               file selection dialog.
             </li>
             <li>
-              <code>noDrag</code> If true, disables drag 'n' drop.
-            </li>
-            <li>
-              <code>noProgressBar</code> If true, disables progress bar.
-            </li>
-            <li>
-              <code>progressBarColor</code> is a property to be used to set the
-              color of progress bar (for example,{' '}
-              <code>progressBarColor='#659cef'</code>).
-            </li>
-            <li>
-              <code>style</code> is some styles to be applied to the{' '}
-              <code>{'<input>'}</code> element.
-            </li>
-            <li>
               <code>config</code> is a <a href="#config">config object</a> which
               contains a callback.
-            </li>
-            <li>
-              Doesn't return anything. Results are provided asynchronously to a
-              callback function.
             </li>
           </ul>
         </div>
@@ -162,22 +135,78 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onDrop={this.handleOnDrop}
-  onError={this.handleOnError}
-  style={{}}
-  config={{}}
-  addRemoveButton
-  onRemoveFile={this.handleOnRemoveFile}
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+    setZoneHover(false);
+  }}
+  onDragOver={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(true);
+  }}
+  onDragLeave={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(false);
+  }}
 >
-  <span>Drop CSV file here or click to upload.</span>
-</CSVReader>
-`}
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+    Remove,
+  }: any) => (
+    <>
+      <div
+        {...getRootProps()}
+        style={Object.assign(
+          {},
+          styles.zone,
+          zoneHover && styles.zoneHover
+        )}
+      >
+        {acceptedFile ? (
+          <>
+            <div style={styles.file}>
+              <div style={styles.info}>
+                <span style={styles.size}>
+                  {formatFileSize(acceptedFile.size)}
+                </span>
+                <span style={styles.name}>{acceptedFile.name}</span>
+              </div>
+              <div style={styles.progressBar}>
+                <ProgressBar />
+              </div>
+              <div
+                {...getRemoveFileProps()}
+                style={styles.remove}
+                onMouseOver={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
+                }}
+                onMouseOut={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
+                }}
+              >
+                <Remove color={removeHoverColor} />
+              </div>
+            </div>
+          </>
+        ) : (
+          'Drop CSV file here or click to upload'
+        )}
+      </div>
+    </>
+  )}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader2.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderClickAndDragUpload.tsx">
               Source code
             </a>
           </span>
@@ -190,51 +219,11 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onDrop</code> is the function to be called passing loaded
-              results.
-            </li>
-            <li>
-              <code>onError</code> is error handling function.
-            </li>
-            <li>
-              <code>isReset</code> If true, reset CSVReader.
-            </li>
-            <li>
-              <code>noProgressBar</code> If true, disables progress bar.
-            </li>
-            <li>
-              <code>progressBarColor</code> is a property to be used to set the
-              color of progress bar (for example,{' '}
-              <code>progressBarColor='#659cef'</code>).
-            </li>
-            <li>
-              <code>style</code> is some styles to be applied to the{' '}
-              <code>{'<input>'}</code> element.
-            </li>
-            <li>
-              <code>addRemoveButton</code> If true, this will add a button to
-              remove or cancel (if already uploading) the file.
-            </li>
-            <li>
-              <code>removeButtonColor</code> is a property to be used to set the
-              color of remove button (for example,{' '}
-              <code>removeButtonColor='#659cef'</code>).
+              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
             </li>
             <li>
               <code>config</code> is a <a href="#config">config object</a> which
               contains a callback.
-            </li>
-            <li>
-              Doesn't return anything. Results are provided asynchronously to a
-              callback function.
-            </li>
-            <li>
-              <a
-                href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style"
-                target="_blank"
-              >
-                How to customize CSVReader (Drag to upload) style?
-              </a>
             </li>
           </ul>
         </div>
@@ -250,23 +239,79 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onDrop={this.handleOnDrop}
-  onError={this.handleOnError}
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+    setZoneHover(false);
+  }}
+  onDragOver={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(true);
+  }}
+  onDragLeave={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(false);
+  }}
   noClick
-  style={{}}
-  config={{}}
-  addRemoveButton
-  onRemoveFile={this.handleOnRemoveFile}
 >
-  <span>Drop CSV file here to upload.</span>
-</CSVReader>
-`}
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+    Remove,
+  }: any) => (
+    <>
+      <div
+        {...getRootProps()}
+        style={Object.assign(
+          {},
+          styles.zone,
+          zoneHover && styles.zoneHover
+        )}
+      >
+        {acceptedFile ? (
+          <>
+            <div style={styles.file}>
+              <div style={styles.info}>
+                <span style={styles.size}>
+                  {formatFileSize(acceptedFile.size)}
+                </span>
+                <span style={styles.name}>{acceptedFile.name}</span>
+              </div>
+              <div style={styles.progressBar}>
+                <ProgressBar />
+              </div>
+              <div
+                {...getRemoveFileProps()}
+                style={styles.remove}
+                onMouseOver={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
+                }}
+                onMouseOut={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
+                }}
+              >
+                <Remove color={removeHoverColor} />
+              </div>
+            </div>
+          </>
+        ) : (
+          'Drop CSV file here to upload'
+        )}
+      </div>
+    </>
+  )}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader3.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderDragNoClickUpload.tsx">
               Source code
             </a>
           </span>
@@ -279,55 +324,15 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onDrop</code> is the function to be called passing loaded
-              results.
-            </li>
-            <li>
-              <code>onError</code> is error handling function.
-            </li>
-            <li>
-              <code>isReset</code> If true, reset CSVReader.
+              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
             </li>
             <li>
               <code>noClick</code> If true, disables click to open the native
               file selection dialog.
             </li>
             <li>
-              <code>noProgressBar</code> If true, disables progress bar.
-            </li>
-            <li>
-              <code>progressBarColor</code> is a property to be used to set the
-              color of progress bar (for example,{' '}
-              <code>progressBarColor='#659cef'</code>).
-            </li>
-            <li>
-              <code>style</code> is some styles to be applied to the{' '}
-              <code>{'<input>'}</code> element.
-            </li>
-            <li>
-              <code>addRemoveButton</code> If true, this will add a button to
-              remove or cancel (if already uploading) the file.
-            </li>
-            <li>
-              <code>removeButtonColor</code> is a property to be used to set the
-              color of remove button (for example,{' '}
-              <code>removeButtonColor='#659cef'</code>).
-            </li>
-            <li>
               <code>config</code> is a <a href="#config">config object</a> which
               contains a callback.
-            </li>
-            <li>
-              Doesn't return anything. Results are provided asynchronously to a
-              callback function.
-            </li>
-            <li>
-              <a
-                href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style"
-                target="_blank"
-              >
-                How to customize CSVReader (Drag to upload) style?
-              </a>
             </li>
           </ul>
         </div>
@@ -342,24 +347,80 @@ const CSVToJSON = () => {
         <div className="grid-50">
           <pre>
             <code className="language-javascript">
-              {`<CSVReader 
-  onDrop={this.handleOnDrop}
-  onError={this.handleOnError}
+              {`<CSVReader
+  onUploadAccepted={(results: any) => {
+    console.log('---------------------------');
+    console.log(results);
+    console.log('---------------------------');
+    setZoneHover(false);
+  }}
+  onDragOver={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(true);
+  }}
+  onDragLeave={(event: DragEvent) => {
+    event.preventDefault();
+    setZoneHover(false);
+  }}
   noDrag
-  style={{}}
-  config={{}}
-  addRemoveButton
-  onRemoveFile={this.handleOnRemoveFile}
 >
-  <span>Click to upload.</span>
-</CSVReader>
-`}
+  {({
+    getRootProps,
+    acceptedFile,
+    ProgressBar,
+    getRemoveFileProps,
+    Remove,
+  }: any) => (
+    <>
+      <div
+        {...getRootProps()}
+        style={Object.assign(
+          {},
+          styles.zone,
+          zoneHover && styles.zoneHover
+        )}
+      >
+        {acceptedFile ? (
+          <>
+            <div style={styles.file}>
+              <div style={styles.info}>
+                <span style={styles.size}>
+                  {formatFileSize(acceptedFile.size)}
+                </span>
+                <span style={styles.name}>{acceptedFile.name}</span>
+              </div>
+              <div style={styles.progressBar}>
+                <ProgressBar />
+              </div>
+              <div
+                {...getRemoveFileProps()}
+                style={styles.remove}
+                onMouseOver={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
+                }}
+                onMouseOut={(event: Event) => {
+                  event.preventDefault();
+                  setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
+                }}
+              >
+                <Remove color={removeHoverColor} />
+              </div>
+            </div>
+          </>
+        ) : (
+          'Click to upload'
+        )}
+      </div>
+    </>
+  )}
+</CSVReader>`}
             </code>
           </pre>
           <span
             style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
           >
-            <a href="https://github.com/Bunlong/react-papaparse/blob/master/demo/CSVReader4.js">
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/CSVReaderClickNoDragUpload.tsx">
               Source code
             </a>
           </span>
@@ -372,54 +433,14 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onDrop</code> is the function to be called passing loaded
-              results.
-            </li>
-            <li>
-              <code>onError</code> is error handling function.
-            </li>
-            <li>
-              <code>isReset</code> If true, reset CSVReader.
+              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
             </li>
             <li>
               <code>noDrag</code> If true, disables drag 'n' drop.
             </li>
             <li>
-              <code>noProgressBar</code> If true, disables progress bar.
-            </li>
-            <li>
-              <code>progressBarColor</code> is a property to be used to set the
-              color of progress bar (for example,{' '}
-              <code>progressBarColor='#659cef'</code>).
-            </li>
-            <li>
-              <code>style</code> is some styles to be applied to the{' '}
-              <code>{'<input>'}</code> element.
-            </li>
-            <li>
-              <code>addRemoveButton</code> If true, this will add a button to
-              remove or cancel (if already uploading) the file.
-            </li>
-            <li>
-              <code>removeButtonColor</code> is a property to be used to set the
-              color of remove button (for example,{' '}
-              <code>removeButtonColor='#659cef'</code>).
-            </li>
-            <li>
               <code>config</code> is a <a href="#config">config object</a> which
               contains a callback.
-            </li>
-            <li>
-              Doesn't return anything. Results are provided asynchronously to a
-              callback function.
-            </li>
-            <li>
-              <a
-                href="https://github.com/Bunlong/react-papaparse/wiki/CSVReader-(Drag-to-Upload)-Style"
-                target="_blank"
-              >
-                How to customize CSVReader (Drag to upload) style?
-              </a>
             </li>
           </ul>
         </div>
@@ -437,6 +458,13 @@ const CSVToJSON = () => {
 })`}
             </code>
           </pre>
+          <span
+            style={{ float: 'right', marginBottom: 14, textAlignLast: 'end' }}
+          >
+            <a href="https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readRemoteFile.tsx">
+              Source code
+            </a>
+          </span>
         </div>
         <div className="grid-50">
           <ul>

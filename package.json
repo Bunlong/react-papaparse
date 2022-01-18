@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse",
-  "version": "3.18.2",
+  "version": "4.0.0",
   "description": "The fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, CSVDownloader, readString, jsonToCSV, readRemoteFile, ... etc.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
@@ -67,7 +67,7 @@
   "scripts": {
     "test": "jest --runInBand",
     "build": "rollup -c",
-    "prettier": "prettier --write './src/*.ts' './src/*.tsx' './demo/*js' --config ./.prettierrc",
+    "prettier": "prettier --write './src/*.ts' './src/*.tsx' --config ./.prettierrc",
     "lint:check": "eslint ./src --ext .tsx,.ts --report-unused-disable-directives",
     "bundlesize": "npm run build && bundlesize",
     "dev": "rollup -c -w",

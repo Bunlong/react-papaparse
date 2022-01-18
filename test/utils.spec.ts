@@ -1,11 +1,11 @@
 import expect from 'expect'
-import getSize from '../src/utils'
+import { formatFileSize } from '../src/utils'
 
 // eslint-disable-next-line no-undef
 describe('util', () => {
   // eslint-disable-next-line no-undef
   it('should return 1 KB', function() {
-    const strSize = getSize(1000)
+    const strSize = formatFileSize(1000)
     expect(strSize).toEqual('1 KB')
   })
 })

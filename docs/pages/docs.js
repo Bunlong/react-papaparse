@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Prism from 'prismjs';
 
 import Navbar from '../src/components/screens/docs/Navbar';
 import Documentation from '../src/components/screens/docs/Documentation';
@@ -10,6 +11,10 @@ import Extra from '../src/components/screens/docs/Extra';
 import CSVDownloader from '../src/components/screens/docs/CSVDownloader';
 
 const Docs = () => {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
+
   return (
     <main>
       <Navbar />

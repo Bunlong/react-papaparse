@@ -14,14 +14,14 @@ const Stream = () => {
           </p>
           <pre>
             <code className="language-javascript">
-              {`readRemoteFile('http://example.com/big.csv', {
+              {`readRemoteFile(url, {
   step: (row) => {
     console.log('Row:', row.data)
   },
   complete: () => {
     console.log('All done!')
   }
-})`}
+});`}
             </code>
           </pre>
         </div>

@@ -1,8 +1,11 @@
-import React, { Component } from 'react';
-import { readString } from 'react-papaparse';
+import React from 'react';
 
-export default class ReadString extends Component {
-  handleClick = () => {
+import { usePapaParse } from 'react-papaparse';
+
+export default function ReadString() {
+  const { readString } = usePapaParse();
+
+  const handleReadString = () => {
     const csvString = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
@@ -19,7 +22,5 @@ export default class ReadString extends Component {
     });
   };
 
-  render() {
-    return <button onClick={this.handleClick}>readString</button>;
-  }
+  return <button onClick={() => handleReadString()}>readString</button>;
 }

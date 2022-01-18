@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Prism from 'prismjs';
+
 import Welcome from '../src/components/screens/indexes/Welcome';
 import Navbar from '../src/components/screens/indexes/Navbar';
 import Feature from '../src/components/screens/indexes/Feature';
@@ -19,6 +21,10 @@ import CSVDownloader from '../src/components/screens/indexes/CSVDownloader';
 import Download from '../src/components/screens/indexes/Download';
 
 const Index = () => {
+  useEffect(() => {
+    Prism.highlightAll();
+  }, []);
+
   return (
     <>
       <Welcome />

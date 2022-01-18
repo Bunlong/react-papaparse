@@ -1,15 +1,21 @@
 import React from 'react';
 
-export default function RemoveIcon(props: { color: string }) {
+export interface Props {
+  color?: string;
+  width?: number;
+  height?: number;
+}
+
+export default function Remove({ color, width = 23, height = 23 }: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="23"
-      height="23"
+      width={width}
+      height={height}
       viewBox="0 0 512 512"
     >
       <path
-        fill={props.color}
+        fill={color}
         d="M504.1 256C504.1 119 393 7.9 256 7.9S7.9 119 7.9 256 119 504.1 256 504.1 504.1 393 504.1 256z"
       />
       <path

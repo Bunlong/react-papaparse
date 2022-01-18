@@ -1,5 +1,6 @@
 #top {
-	padding: 6% 0 8%;
+	/*padding: 6% 0 8%;*/
+  padding: 8% 0 15%;
 	color: #1D80AB;
 	background: #FFF;
 	position: relative;
@@ -176,7 +177,8 @@ footer {
 
 @media (max-width: 1150px) {
 	#title-main h1 {
-		font-size: 5.41vw;
+		/*font-size: 5.41vw;*/
+    font-size: 7.41vw;
 		letter-spacing: -2px;
 	}
 
@@ -216,9 +218,9 @@ footer {
 		display: none;
 	}
 
-	#top {
+	/*#top {
 		padding-top: 0;
-	}
+	}*/
 
 	#title-main,
 	#title-main h1,

@@ -1,3 +1,14 @@
+## 4.0.0 (2022-01-017)
+
+### ✨ Features
+
+  * Improve code performance
+  * Rewrite any existing based components to hooks
+
+Credits
+
+* [@Bunlong](https://github.com/Bunlong)
+
 ## 3.18.2 (2022-01-04)
 
 ### ✨ Bugs

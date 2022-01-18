@@ -1,4 +1,10 @@
-export default function getSize(size: number) {
+// Error codes
+export const FILE_INVALID_TYPE = 'file-invalid-type';
+export const FILE_TOO_LARGE = 'file-too-large';
+export const FILE_TOO_SMALL = 'file-too-small';
+export const TOO_MANY_FILES = 'too-many-files';
+
+export function formatFileSize(size: number) {
   const sizeKb = 1024;
   const sizeMb = sizeKb * sizeKb;
   const sizeGb = sizeMb * sizeKb;
@@ -48,4 +54,196 @@ export function lightenDarkenColor(col: string, amt: number) {
     g = 0;
   }
   return (usePound ? '#' : '') + (g | (b << 8) | (r << 16)).toString(16);
+}
+
+function isIe(userAgent: any) {
+  return (
+    userAgent.indexOf('MSIE') !== -1 || userAgent.indexOf('Trident/') !== -1
+  );
+}
+
+function isEdge(userAgent: any) {
+  return userAgent.indexOf('Edge/') !== -1;
+}
+
+export function isIeOrEdge(userAgent = window.navigator.userAgent) {
+  return isIe(userAgent) || isEdge(userAgent);
+}
+
+// React's synthetic events has event.isPropagationStopped,
+// but to remain compatibility with other libs (Preact) fall back
+// to check event.cancelBubble
+export function isPropagationStopped(event: any) {
+  if (typeof event.isPropagationStopped === 'function') {
+    return event.isPropagationStopped();
+  } else if (typeof event.cancelBubble !== 'undefined') {
+    return event.cancelBubble;
+  }
+  return false;
+}
+
+/**
+ * This is intended to be used to compose event handlers
+ * They are executed in order until one of them calls `event.isPropagationStopped()`.
+ * Note that the check is done on the first invoke too,
+ * meaning that if propagation was stopped before invoking the fns,
+ * no handlers will be executed.
+ *
+ * @param {Function} fns the event hanlder functions
+ * @return {Function} the event handler to add to an element
+ */
+export function composeEventHandlers(...fns: any[]) {
+  return (event: any, ...args: any[]) =>
+    fns.some((fn) => {
+      if (!isPropagationStopped(event) && fn) {
+        fn(event, ...args);
+      }
+      return isPropagationStopped(event);
+    });
+}
+
+export function isEventWithFiles(event: any) {
+  if (!event.dataTransfer) {
+    return !!event.target && !!event.target.files;
+  }
+  // https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/types
+  // https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types#file
+  return Array.prototype.some.call(
+    event.dataTransfer.types,
+    (type) => type === 'Files' || type === 'application/x-moz-file',
+  );
+}
+
+/**
+ * Check if the provided file type should be accepted by the input with accept attribute.
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/Input#attr-accept
+ *
+ * Inspired by https://github.com/enyo/dropzone
+ *
+ * @param file {File} https://developer.mozilla.org/en-US/docs/Web/API/File
+ * @param acceptedFiles {string}
+ * @returns {boolean}
+ */
+
+export function accepts(file: any, acceptedFiles: any) {
+  if (file && acceptedFiles) {
+    const acceptedFilesArray = Array.isArray(acceptedFiles)
+      ? acceptedFiles
+      : acceptedFiles.split(',');
+    const fileName = file.name || '';
+    const mimeType = (file.type || '').toLowerCase();
+    const baseMimeType = mimeType.replace(/\/.*$/, '');
+
+    return acceptedFilesArray.some((type: any) => {
+      const validType = type.trim().toLowerCase();
+      if (validType.charAt(0) === '.') {
+        return fileName.toLowerCase().endsWith(validType);
+      } else if (validType.endsWith('/*')) {
+        // This is something like a image/* mime type
+        return baseMimeType === validType.replace(/\/.*$/, '');
+      }
+      return mimeType === validType;
+    });
+  }
+  return true;
+}
+
+// File Errors
+export const getInvalidTypeRejectionErr = (accept: any) => {
+  accept = Array.isArray(accept) && accept.length === 1 ? accept[0] : accept;
+  const messageSuffix = Array.isArray(accept)
+    ? `one of ${accept.join(', ')}`
+    : accept;
+  return {
+    code: FILE_INVALID_TYPE,
+    message: `File type must be ${messageSuffix}`,
+  };
+};
+
+// Firefox versions prior to 53 return a bogus MIME type for every file drag, so dragovers with
+// that MIME type will always be accepted
+export function fileAccepted(file: any, accept: any) {
+  const isAcceptable =
+    file.type === 'application/x-moz-file' || accepts(file, accept);
+  return [
+    isAcceptable,
+    isAcceptable ? null : getInvalidTypeRejectionErr(accept),
+  ];
+}
+
+export function fileMatchSize(file: any, minSize: any, maxSize: any) {
+  if (isDefined(file.size)) {
+    if (isDefined(minSize) && isDefined(maxSize)) {
+      if (file.size > maxSize) {
+        return [false, getTooLargeRejectionErr(maxSize)];
+      }
+      if (file.size < minSize) {
+        return [false, getTooSmallRejectionErr(minSize)];
+      }
+    } else if (isDefined(minSize) && file.size < minSize) {
+      return [false, getTooSmallRejectionErr(minSize)];
+    } else if (isDefined(maxSize) && file.size > maxSize) {
+      return [false, getTooLargeRejectionErr(maxSize)];
+    }
+  }
+  return [true, null];
+}
+
+function isDefined(value: any) {
+  return value !== undefined && value !== null;
+}
+
+export const getTooLargeRejectionErr = (maxSize: any) => {
+  return {
+    code: FILE_TOO_LARGE,
+    message: `File is larger than ${maxSize} bytes`,
+  };
+};
+
+export const getTooSmallRejectionErr = (minSize: any) => {
+  return {
+    code: FILE_TOO_SMALL,
+    message: `File is smaller than ${minSize} bytes`,
+  };
+};
+
+export const TOO_MANY_FILES_REJECTION = {
+  code: TOO_MANY_FILES,
+  message: 'Too many files',
+};
+
+// allow the entire document to be a drag target
+export function onDocumentDragOver(event: any) {
+  event.preventDefault();
+}
+
+interface Params {
+  files?: any;
+  accept?: any;
+  minSize?: number;
+  maxSize?: number;
+  multiple?: any;
+  maxFiles?: any;
+}
+
+export function allFilesAccepted({
+  files,
+  accept,
+  minSize,
+  maxSize,
+  multiple,
+  maxFiles,
+}: Params) {
+  if (
+    (!multiple && files.length > 1) ||
+    (multiple && maxFiles >= 1 && files.length > maxFiles)
+  ) {
+    return false;
+  }
+
+  return files.every((file: any) => {
+    const [accepted] = fileAccepted(file, accept);
+    const [sizeMatch] = fileMatchSize(file, minSize, maxSize);
+    return accepted && sizeMatch;
+  });
 }

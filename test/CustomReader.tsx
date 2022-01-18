@@ -1,19 +1,42 @@
 import React from 'react';
-import { CSVReader } from '../src/react-papaparse';
+import { useCSVReader } from '../src/react-papaparse';
 
 interface CustomReaderProps {
-  onFileLoaded?: ((data: any, file?: any) => void) | undefined;
+  onUploadAccepted?: ((data: any, file?: any) => void) | undefined;
   label: string;
 }
 
 const CustomReader: React.FC<CustomReaderProps> = (
   props: CustomReaderProps
 ) => {
-  const { onFileLoaded, label } = props;
+  const { CSVReader } = useCSVReader();
+  const { onUploadAccepted, label } = props;
 
   return (
-    <CSVReader onFileLoad={onFileLoaded}>
-      <span>{label}</span>
+    <CSVReader
+      onUploadAccepted={onUploadAccepted}
+    >
+      {({
+        getRootProps,
+        acceptedFile,
+        ProgressBar,
+        getRemoveFileProps,
+      }: any) => (
+        <>
+          <div>
+            <button type='button' {...getRootProps()}>
+              {label}
+            </button>
+            <div>
+              {acceptedFile && acceptedFile.name}
+            </div>
+            <button {...getRemoveFileProps()}>
+              Remove
+            </button>
+          </div>
+          <ProgressBar />
+        </>
+      )}
     </CSVReader>
   );
 };
