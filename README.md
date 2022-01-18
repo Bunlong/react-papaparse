@@ -886,7 +886,7 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.0.0 (2022-01-17):
+Latest version 4.0.0 (2022-01-18):
 
   * Improve code performance
   * Rewrite any existing based components to hooks
