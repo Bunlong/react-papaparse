@@ -298,7 +298,6 @@ function useCSVReaderComponent<T = any>() {
             const reader = new window.FileReader();
             let percentage = 0;
 
-            configs = Object.assign({}, config, configs);
             acceptedFiles.forEach((file: File) => {
               dispatch({
                 acceptedFile: file,
@@ -344,6 +343,8 @@ function useCSVReaderComponent<T = any>() {
                       setProgressBarPercentage(percentage);
                     },
               };
+              configs = Object.assign({}, config, configs);
+
               reader.onload = (e: any) => {
                 PapaParse.parse(e.target.result, configs);
               };

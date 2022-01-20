@@ -1,3 +1,13 @@
+## 4.0.1 (2022-01-21)
+
+### ✨ Bugs
+
+  * Fix config props does not work in CSVReader
+
+Credits
+
+* [@jadenmazzone](https://github.com/jadenmazzone)
+
 ## 4.0.0 (2022-01-18)
 
 ### ✨ Features
