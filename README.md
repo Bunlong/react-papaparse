@@ -886,7 +886,11 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.0.0 (2022-01-18):
+Latest version 4.0.1 (2022-01-21):
+
+  * Fix config props does not work in CSVReader
+
+Version 4.0.0 (2022-01-18):
 
   * Improve code performance
   * Rewrite any existing based components to hooks
