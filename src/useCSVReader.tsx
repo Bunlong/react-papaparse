@@ -328,7 +328,8 @@ function useCSVReaderComponent<T = any>() {
                         );
                         // setProgressBarPercentage(percentage);
                         if (data.length === config.preview) {
-                          onUploadAccepted(data, file);
+                          const obj = { data, errors, meta };
+                          onUploadAccepted(obj, file);
                         }
                       } else {
                         const cursor = row.meta.cursor;
