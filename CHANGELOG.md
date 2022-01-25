@@ -1,3 +1,13 @@
+## 4.0.2 (2022-01-26)
+
+### ✨ Bugs
+
+  * Fix onUploadAccepted signature when a preview is set
+
+Credits
+
+* [@MichielDeMey](https://github.com/MichielDeMey)
+
 ## 4.0.1 (2022-01-21)
 
 ### ✨ Bugs

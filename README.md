@@ -886,7 +886,11 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.0.1 (2022-01-21):
+Latest version 4.0.2 (2022-01-26):
+
+  * Fix onUploadAccepted signature when a preview is set
+
+Version 4.0.1 (2022-01-21):
 
   * Fix config props does not work in CSVReader
 
@@ -1163,6 +1167,15 @@ How to contribute:
         <br />
         <sub>
           <b>Joey Baker</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/MichielDeMey">
+        <img src="https://avatars.githubusercontent.com/u/793406?v=4" width="100" alt="Michiel De Mey" />
+        <br />
+        <sub>
+          <b>Michiel De Mey</b>
         </sub>
       </a>
     </td>
