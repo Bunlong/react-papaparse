@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, CSSProperties, useMemo } from 'react';
 import PapaParse, { UnparseConfig } from 'papaparse';
 
 const Type = {
@@ -7,11 +7,11 @@ const Type = {
 } as const;
 
 export interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   data: any;
   filename: string;
   type?: 'link' | 'button';
-  style?: any;
+  style?: CSSProperties;
   className?: string;
   bom?: boolean;
   config?: UnparseConfig;
@@ -47,6 +47,8 @@ function useCSVDownloaderComponent() {
         type: 'text/csv;charset=utf-8;',
       });
 
+      // FIX: Navigator interface no longer extends MSFileSaver
+      // https://github.com/microsoft/TypeScript/issues/45612
       const navObj: any = window.navigator;
       if (navObj.msSaveBlob) {
         csvURL = navObj.msSaveBlob(csvData, `${filename}.csv`);
@@ -80,7 +82,7 @@ function useCSVDownloaderComponent() {
     );
   };
 
-  const CSVDownloader = React.useMemo(() => CSVDownloaderComponent, []) as any;
+  const CSVDownloader = useMemo(() => CSVDownloaderComponent, []);
 
   return CSVDownloader;
 }
