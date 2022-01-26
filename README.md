@@ -890,11 +890,7 @@ Latest version 4.0.2 (2022-01-26):
 
   * Fix onUploadAccepted signature when a preview is set
 
-Version 4.0.1 (2022-01-21):
-
-  * Fix config props does not work in CSVReader
-
-Version 4.0.0 (2022-01-18):
+BREAKING CHANGE Version 4.0.0 (2022-01-18):
 
   * Improve code performance
   * Rewrite any existing based components to hooks
