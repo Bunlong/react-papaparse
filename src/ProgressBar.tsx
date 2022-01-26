@@ -9,21 +9,21 @@ const styles = {
     bottom: 14,
     width: '100%',
     // position: 'absolute',
-  } as CSSProperties,
+  },
   button: {
     position: 'inherit',
     width: '100%',
-  } as CSSProperties,
+  },
   fill: {
     backgroundColor: DEFAULT_PROGRESS_BAR_COLOR,
     borderRadius: 3,
     height: 10,
     transition: 'width 500ms ease-in-out',
-  } as CSSProperties,
+  },
 };
 
 interface Props {
-  style?: any;
+  style?: CSSProperties;
   className?: string;
   percentage: number;
   display: string;
