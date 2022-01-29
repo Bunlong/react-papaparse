@@ -45,9 +45,9 @@ export interface ICSVReader<T> {
   ) => void;
   onUploadRejected?: (file?: File, event?: DragEvent | Event) => void;
   validator?: (file: File) => void;
-  onDragEnter?: (event?: DragEvent) => void;
-  onDragOver?: (event?: DragEvent) => void;
-  onDragLeave?: (event?: DragEvent) => void;
+  onDragEnter?: (event?: DragEvent | Event) => void;
+  onDragOver?: (event?: DragEvent | Event) => void;
+  onDragLeave?: (event?: DragEvent | Event) => void;
 }
 
 export interface IProgressBar {
@@ -226,7 +226,7 @@ function useCSVReaderComponent<T = any>() {
       (e: DragEvent) => {
         allowDrop(e);
 
-        setProgressBarPercentage(0);
+        // setProgressBarPercentage(0);
 
         dragTargetsRef.current = [];
 
@@ -329,7 +329,7 @@ function useCSVReaderComponent<T = any>() {
                         percentage = Math.round(
                           (data.length / config.preview) * 100,
                         );
-                        // setProgressBarPercentage(percentage);
+                        setProgressBarPercentage(percentage);
                         if (data.length === config.preview) {
                           const obj = { data, errors, meta };
                           onUploadAccepted(obj, file);
@@ -343,8 +343,8 @@ function useCSVReaderComponent<T = any>() {
                           return;
                         }
                         percentage = newPercentage;
+                        setProgressBarPercentage(percentage);
                       }
-                      setProgressBarPercentage(percentage);
                     },
               };
               configs = Object.assign({}, config, configs);
@@ -355,7 +355,7 @@ function useCSVReaderComponent<T = any>() {
               reader.onloadend = () => {
                 setTimeout(() => {
                   setDisplayProgressBar('none');
-                }, 2000);
+                }, 1000);
               };
               reader.readAsText(file, config.encoding || 'utf-8');
             });
