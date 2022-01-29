@@ -21,14 +21,14 @@ import {
   onDocumentDragOver,
 } from './utils';
 import ProgressBar from './ProgressBar';
-import Remove, { Props as RemoveComponentProps } from './Remove';
+import Remove, { IRemove } from './Remove';
 
 // 'text/csv' for MacOS
 // '.csv' for Linux
 // 'application/vnd.ms-excel' for Window 10
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
-export interface Props<T> {
+export interface ICSVReader<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
@@ -54,7 +54,7 @@ export interface Props<T> {
   onDragLeave?: (event?: DragEvent) => void;
 }
 
-export interface ProgressBarComponentProp {
+export interface IProgressBar {
   style?: CSSProperties;
   className?: string;
 }
@@ -80,7 +80,7 @@ function useCSVReaderComponent<T = any>() {
     onDragEnter,
     onDragOver,
     onDragLeave,
-  }: Props<T>) => {
+  }: ICSVReader<T>) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const rootRef = useRef<HTMLDivElement>(null);
     const dragTargetsRef = useRef([]);
@@ -120,7 +120,7 @@ function useCSVReaderComponent<T = any>() {
       };
     }, [rootRef, preventDropOnDocument]);
 
-    // == GLOBAL ==
+    // -- GLOBAL --
     const composeHandler = (fn: any) => {
       return disabled ? null : fn;
     };
@@ -158,7 +158,7 @@ function useCSVReaderComponent<T = any>() {
       });
     };
 
-    const ProgressBarComponent = (props: ProgressBarComponentProp) => {
+    const ProgressBarComponent = (props: IProgressBar) => {
       return (
         <ProgressBar
           display={displayProgressBar}
@@ -168,7 +168,7 @@ function useCSVReaderComponent<T = any>() {
       );
     };
 
-    const RemoveComponent = (props: RemoveComponentProps) => {
+    const RemoveComponent = (props: IRemove) => {
       return <Remove {...props} />;
     };
 
@@ -381,9 +381,9 @@ function useCSVReaderComponent<T = any>() {
     const onInputElementClick = useCallback((e: Event) => {
       stopPropagation(e);
     }, []);
-    // ============
+    // ------------
 
-    // == BUTTON | DROP ==
+    // -- BUTTON | DROP --
     const composeKeyboardHandler = (fn: any) => {
       return noKeyboard ? null : composeHandler(fn);
     };
@@ -548,9 +548,9 @@ function useCSVReaderComponent<T = any>() {
         disabled,
       ],
     );
-    // ===================
+    // -------------------
 
-    // == INPUT ==
+    // -- INPUT PROPS --
     const getInputProps = useMemo(
       () =>
         ({
@@ -580,8 +580,9 @@ function useCSVReaderComponent<T = any>() {
         },
       [inputRef, accept, onDropCb, disabled],
     );
-    // ===========
+    // -----------------
 
+    // -- REMOVE BUTTON --
     const removeFileProgrammaticallyCb = useCallback((e: Event) => {
       if (inputRef.current) {
         inputRef.current.value = '';
@@ -601,6 +602,7 @@ function useCSVReaderComponent<T = any>() {
         }),
       [removeFileProgrammaticallyCb],
     );
+    // -------------------
 
     return (
       <>
