@@ -1,12 +1,12 @@
 import React from 'react';
 
-export interface Props {
+export interface IRemove {
   color?: string;
   width?: number;
   height?: number;
 }
 
-export default function Remove({ color, width = 23, height = 23 }: Props) {
+export default function Remove({ color, width = 23, height = 23 }: IRemove) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
