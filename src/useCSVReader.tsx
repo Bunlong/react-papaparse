@@ -18,15 +18,11 @@ import {
   fileAccepted,
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
+  DEFAULT_ACCEPT,
   onDocumentDragOver,
 } from './utils';
 import ProgressBar from './ProgressBar';
 import Remove, { IRemove } from './Remove';
-
-// 'text/csv' for MacOS
-// '.csv' for Linux
-// 'application/vnd.ms-excel' for Window 10
-const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 export interface ICSVReader<T> {
   children: (fn: any) => void | ReactNode;
