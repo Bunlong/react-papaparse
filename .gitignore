@@ -7,6 +7,9 @@ node_modules
 build
 dist
 
+# editors
+.idea
+
 # misc
 .DS_Store
 .env
@@ -20,6 +23,7 @@ yarn-debug.log*
 yarn-error.log*
 
 package-lock.json
+yarn.lock
 
 /docs/node_modules
 /docs/.next
