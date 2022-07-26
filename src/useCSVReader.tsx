@@ -40,6 +40,7 @@ export interface Props<T> {
   noDragEventsBubbling?: boolean;
   noKeyboard?: boolean;
   multiple?: boolean;
+  required?: boolean;
   preventDropOnDocument?: boolean;
   onUploadAccepted?: (
     data: ParseResult<T>,
@@ -72,6 +73,7 @@ function useCSVReaderComponent<T = any>() {
     noDragEventsBubbling = false,
     noKeyboard = false,
     multiple = false,
+    required = false,
     preventDropOnDocument = true,
     onUploadAccepted,
     validator,
@@ -552,6 +554,7 @@ function useCSVReaderComponent<T = any>() {
           const inputProps = {
             accept,
             multiple,
+            required,
             type: 'file',
             style: { display: 'none' },
             onChange: composeHandler(composeEventHandlers(onChange, onDropCb)),
