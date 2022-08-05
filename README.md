@@ -886,6 +886,10 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
+Latest version 4.0.4 (2022-08-06):
+
+  * Add optional required prop for input file
+
 Latest version 4.0.2 (2022-01-26):
 
   * Fix onUploadAccepted signature when a preview is set
@@ -1179,6 +1183,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/hussamkhatib">
+        <img src="https://avatars.githubusercontent.com/u/52914487?v=4" width="100" alt="Mohammed Hussam" />
+        <br />
+        <sub>
+          <b>Mohammed Hussam</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
@@ -1187,8 +1200,8 @@ How to contribute:
 You maybe interested.
 
 * [React Patterns](https://github.com/reactpatterns/reactpatterns) – React patterns & techniques to use in development for React Developer.
-* [React Patterns Blog](https://reactpatterns.js.org/blog) – The latest React news and articles.
 * [Next Share](https://github.com/Bunlong/next-share) – Social media share buttons for your next React apps.
+* [Next QRCode](https://github.com/bunlong/next-qrcode) – React hooks for generating QR code for your next React apps.
 
 ## ⚖️ License
 
