@@ -6,6 +6,7 @@ Array [
     accept="text/csv, .csv, application/vnd.ms-excel"
     autoComplete="off"
     multiple={false}
+    required={false}
     onChange={[Function]}
     onClick={[Function]}
     style={
