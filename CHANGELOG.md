@@ -1,3 +1,13 @@
+## 4.0.4 (2022-08-06)
+
+### ✨ Bugs
+
+  * Add optional required prop for input file
+
+Credits
+
+* [@hussamkhatib](https://github.com/hussamkhatib)
+
 ## 4.0.2 (2022-01-26)
 
 ### ✨ Bugs
