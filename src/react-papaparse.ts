@@ -11,3 +11,7 @@ export { formatFileSize, lightenDarkenColor } from './utils';
 export { usePapaParse } from './usePapaParse';
 export { useCSVDownloader } from './useCSVDownloader';
 export { useCSVReader } from './useCSVReader';
+
+export { readString } from './readString';
+export { readRemoteFile } from './readRemoteFile';
+export { jsonToCSV } from './jsonToCSV';
