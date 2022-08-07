@@ -1192,6 +1192,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/s5s5">
+        <img src="https://avatars.githubusercontent.com/u/473706?v=4" width="100" alt="Xiaochao Liu" />
+        <br />
+        <sub>
+          <b>Xiaochao Liu</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
