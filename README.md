@@ -886,11 +886,15 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.0.4 (2022-08-06):
+Latest version 4.1.0 (2022-08-07):
+
+  * Import readString, readRemoteFile and jsonToCSV as pure function
+
+Version 4.0.4 (2022-08-06):
 
   * Add optional required prop for input file
 
-Latest version 4.0.2 (2022-01-26):
+Version 4.0.2 (2022-01-26):
 
   * Fix onUploadAccepted signature when a preview is set
 

@@ -1,3 +1,13 @@
+## 4.1.0 (2022-08-07)
+
+### ✨ Bugs
+
+  * Import readString, readRemoteFile and jsonToCSV as pure function
+
+Credits
+
+* [@s5s5](https://github.com/s5s5)
+
 ## 4.0.4 (2022-08-06)
 
 ### ✨ Bugs
