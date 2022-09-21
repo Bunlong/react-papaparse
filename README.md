@@ -713,7 +713,7 @@ export default function CSVDownloader() {
 
 #### Data as a Function/Callback
 
-`data={}` can be a function that returns a data object.
+`data={}` can be a synchronous or asynchronous function that returns a data object.
 
 ```javascript
 import React from 'react';
