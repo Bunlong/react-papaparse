@@ -1,26 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {
-  useReducer,
-  useCallback,
-  useMemo,
-  useEffect,
-  ReactNode,
-  useRef,
-} from 'react';
+import jschardet from 'jschardet';
 import PapaParse, { ParseResult } from 'papaparse';
+import React, {
+  ReactNode, useCallback, useEffect, useMemo, useReducer, useRef
+} from 'react';
 import { CustomConfig } from './model';
-import {
-  composeEventHandlers,
-  isIeOrEdge,
-  isEventWithFiles,
-  isPropagationStopped,
-  fileAccepted,
-  fileMatchSize,
-  TOO_MANY_FILES_REJECTION,
-  onDocumentDragOver,
-} from './utils';
 import ProgressBar from './ProgressBar';
 import Remove, { Props as RemoveComponentProps } from './Remove';
+import {
+  composeEventHandlers, fileAccepted,
+  fileMatchSize, isEventWithFiles, isIeOrEdge, isPropagationStopped, onDocumentDragOver, TOO_MANY_FILES_REJECTION
+} from './utils';
 
 // 'text/csv' for MacOS
 // '.csv' for Linux
@@ -349,6 +339,10 @@ function useCSVReaderComponent<T = any>() {
               configs = Object.assign({}, config, configs);
 
               reader.onload = (e: any) => {
+                if (!config.encoding) {
+                  config.encoding = jschardet.detect(e.target.result).encoding;
+                  configs = Object.assign({}, config, configs);
+                }
                 PapaParse.parse(e.target.result, configs);
               };
               reader.onloadend = () => {
@@ -356,7 +350,12 @@ function useCSVReaderComponent<T = any>() {
                   setDisplayProgressBar('none');
                 }, 2000);
               };
-              reader.readAsText(file, config.encoding || 'utf-8');
+              if(config?.encoding){
+                reader.readAsText(file, config.encoding || 'utf-8');
+                  }
+                  else {
+                    reader.readAsBinaryString(file);
+                 }
             });
           }
         }
