@@ -6,6 +6,7 @@ import React, {
   useEffect,
   ReactNode,
   useRef,
+  CSSProperties,
 } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
 import { CustomConfig } from './model';
@@ -17,17 +18,13 @@ import {
   fileAccepted,
   fileMatchSize,
   TOO_MANY_FILES_REJECTION,
+  DEFAULT_ACCEPT,
   onDocumentDragOver,
 } from './utils';
 import ProgressBar from './ProgressBar';
-import Remove, { Props as RemoveComponentProps } from './Remove';
+import Remove, { IRemove } from './Remove';
 
-// 'text/csv' for MacOS
-// '.csv' for Linux
-// 'application/vnd.ms-excel' for Window 10
-const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
-
-export interface Props<T> {
+export interface ICSVReader<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
@@ -49,13 +46,13 @@ export interface Props<T> {
   ) => void;
   onUploadRejected?: (file?: File, event?: DragEvent | Event) => void;
   validator?: (file: File) => void;
-  onDragEnter?: (event?: DragEvent) => void;
-  onDragOver?: (event?: DragEvent) => void;
-  onDragLeave?: (event?: DragEvent) => void;
+  onDragEnter?: (event?: DragEvent | Event) => void;
+  onDragOver?: (event?: DragEvent | Event) => void;
+  onDragLeave?: (event?: DragEvent | Event) => void;
 }
 
-export interface ProgressBarComponentProp {
-  style?: any;
+export interface IProgressBar {
+  style?: CSSProperties;
   className?: string;
 }
 
@@ -81,9 +78,9 @@ function useCSVReaderComponent<T = any>() {
     onDragEnter,
     onDragOver,
     onDragLeave,
-  }: Props<T>) => {
-    const inputRef: any = useRef<ReactNode>(null);
-    const rootRef: any = useRef<ReactNode>(null);
+  }: ICSVReader<T>) => {
+    const inputRef = useRef<HTMLInputElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -95,12 +92,15 @@ function useCSVReaderComponent<T = any>() {
       isFileDialogActive,
     } = state;
 
-    const onDocumentDrop = (event: DragEvent) => {
-      if (rootRef.current && rootRef.current.contains(event.target)) {
+    const onDocumentDrop = (e: DragEvent) => {
+      // FIX: Type 'EventTarget' is not assignable to type 'Node'
+      // SOLUTION: event.target as Node
+      // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/12239
+      if (rootRef.current && rootRef.current.contains(e.target as Node)) {
         // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
         return;
       }
-      event.preventDefault();
+      e.preventDefault();
       dragTargetsRef.current = [];
     };
 
@@ -118,7 +118,7 @@ function useCSVReaderComponent<T = any>() {
       };
     }, [rootRef, preventDropOnDocument]);
 
-    // == GLOBAL ==
+    // -- GLOBAL --
     const composeHandler = (fn: any) => {
       return disabled ? null : fn;
     };
@@ -127,17 +127,19 @@ function useCSVReaderComponent<T = any>() {
       return noDrag ? null : composeHandler(fn);
     };
 
-    const stopPropagation = (event: Event) => {
+    const stopPropagation = (e: Event) => {
       if (noDragEventsBubbling) {
-        event.stopPropagation();
+        e.stopPropagation();
       }
     };
 
-    const allowDrop = (event: any) => {
-      event.preventDefault(event);
+    const allowDrop = (e: DragEvent) => {
+      e.preventDefault();
       // Persist here because we need the event later after getFilesFromEvent() is done
-      event.persist();
-      stopPropagation(event);
+      // Only for React 16
+      // React 17 no event pooling
+      (e as any).persist();
+      stopPropagation(e);
     };
 
     const setDisplayProgressBar = (display: string) => {
@@ -154,7 +156,7 @@ function useCSVReaderComponent<T = any>() {
       });
     };
 
-    const ProgressBarComponent = (props: ProgressBarComponentProp) => {
+    const ProgressBarComponent = (props: IProgressBar) => {
       return (
         <ProgressBar
           display={displayProgressBar}
@@ -164,7 +166,7 @@ function useCSVReaderComponent<T = any>() {
       );
     };
 
-    const RemoveComponent = (props: RemoveComponentProps) => {
+    const RemoveComponent = (props: IRemove) => {
       return <Remove {...props} />;
     };
 
@@ -182,7 +184,7 @@ function useCSVReaderComponent<T = any>() {
     const openFileDialog = useCallback(() => {
       if (inputRef.current && state.displayProgressBar) {
         dispatch({ type: 'openDialog' });
-        inputRef.current.value = null;
+        inputRef.current.value = '';
         inputRef.current.click();
       }
     }, [dispatch]);
@@ -194,10 +196,7 @@ function useCSVReaderComponent<T = any>() {
         setTimeout(() => {
           if (inputRef.current) {
             const { files } = inputRef.current;
-
-            if (!files.length) {
-              dispatch({ type: 'closeDialog' });
-            }
+            files && !files.length && dispatch({ type: 'closeDialog' });
           }
         }, 300);
       }
@@ -226,44 +225,48 @@ function useCSVReaderComponent<T = any>() {
     }, [inputRef, noClick]);
 
     const onDropCb = useCallback(
-      (event: any) => {
-        allowDrop(event);
+      (e: DragEvent) => {
+        allowDrop(e);
 
-        setProgressBarPercentage(0);
+        // setProgressBarPercentage(0);
 
         dragTargetsRef.current = [];
 
-        if (isEventWithFiles(event)) {
-          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+        if (isEventWithFiles(e)) {
+          if (isPropagationStopped(e) && !noDragEventsBubbling) {
             return;
           }
 
-          const acceptedFiles = [] as any;
-          const fileRejections = [] as any;
+          const acceptedFiles: any = [];
+          const fileRejections: any = [];
+          // FIX: event.target type (EventTarget) has no files
+          // https://github.com/microsoft/TypeScript/issues/31816
+          const target = e.target as HTMLInputElement;
           const files =
-            event.target.files ||
-            (event.dataTransfer && event.dataTransfer.files);
-          Array.from(files).forEach((file) => {
-            const [accepted, acceptError] = fileAccepted(file, accept);
-            const [sizeMatch, sizeError] = fileMatchSize(
-              file,
-              minSize,
-              maxSize,
-            );
-            const customErrors = validator ? validator(file as File) : null;
+            target.files || (e.dataTransfer && e.dataTransfer.files);
+          if (files) {
+            Array.from(files).forEach((file) => {
+              const [accepted, acceptError] = fileAccepted(file, accept);
+              const [sizeMatch, sizeError] = fileMatchSize(
+                file,
+                minSize,
+                maxSize,
+              );
+              const customErrors = validator ? validator(file as File) : null;
 
-            if (accepted && sizeMatch && !customErrors) {
-              acceptedFiles.push(file);
-            } else {
-              let errors = [acceptError, sizeError];
+              if (accepted && sizeMatch && !customErrors) {
+                acceptedFiles.push(file);
+              } else {
+                let errors = [acceptError, sizeError];
 
-              if (customErrors) {
-                errors = errors.concat(customErrors);
+                if (customErrors) {
+                  errors = errors.concat(customErrors);
+                }
+
+                fileRejections.push({ file, errors: errors.filter((e) => e) });
               }
-
-              fileRejections.push({ file, errors: errors.filter((e) => e) });
-            }
-          });
+            });
+          }
 
           if (
             (!multiple && acceptedFiles.length > 1) ||
@@ -289,11 +292,11 @@ function useCSVReaderComponent<T = any>() {
           // }
 
           if (fileRejections.length > 0 && onUploadRejected) {
-            onUploadRejected(fileRejections, event);
+            onUploadRejected(fileRejections, e);
           }
 
           if (acceptedFiles.length > 0 && onUploadAccepted) {
-            let configs = {} as any;
+            let configs: any = {};
             const data: any = [];
             const errors: any = [];
             const meta: any = [];
@@ -328,7 +331,7 @@ function useCSVReaderComponent<T = any>() {
                         percentage = Math.round(
                           (data.length / config.preview) * 100,
                         );
-                        // setProgressBarPercentage(percentage);
+                        setProgressBarPercentage(percentage);
                         if (data.length === config.preview) {
                           const obj = { data, errors, meta };
                           onUploadAccepted(obj, file);
@@ -342,8 +345,8 @@ function useCSVReaderComponent<T = any>() {
                           return;
                         }
                         percentage = newPercentage;
+                        setProgressBarPercentage(percentage);
                       }
-                      setProgressBarPercentage(percentage);
                     },
               };
               configs = Object.assign({}, config, configs);
@@ -354,7 +357,7 @@ function useCSVReaderComponent<T = any>() {
               reader.onloadend = () => {
                 setTimeout(() => {
                   setDisplayProgressBar('none');
-                }, 2000);
+                }, 1000);
               };
               reader.readAsText(file, config.encoding || 'utf-8');
             });
@@ -373,27 +376,27 @@ function useCSVReaderComponent<T = any>() {
       ],
     );
 
-    const onInputElementClick = useCallback((event) => {
-      stopPropagation(event);
+    const onInputElementClick = useCallback((e: Event) => {
+      stopPropagation(e);
     }, []);
-    // ============
+    // ------------
 
-    // == BUTTON | DROP ==
+    // -- BUTTON | DROP --
     const composeKeyboardHandler = (fn: any) => {
       return noKeyboard ? null : composeHandler(fn);
     };
 
     const onDragEnterCb = useCallback(
-      (event: DragEvent) => {
-        allowDrop(event);
+      (e: DragEvent) => {
+        allowDrop(e);
 
         dragTargetsRef.current = [
           ...dragTargetsRef.current,
-          event.target,
+          e.target,
         ] as never[];
 
-        if (isEventWithFiles(event)) {
-          if (isPropagationStopped(event) && !noDragEventsBubbling) {
+        if (isEventWithFiles(e)) {
+          if (isPropagationStopped(e) && !noDragEventsBubbling) {
             return;
           }
 
@@ -404,7 +407,7 @@ function useCSVReaderComponent<T = any>() {
           });
 
           if (onDragEnter) {
-            onDragEnter(event);
+            onDragEnter(e);
           }
         }
       },
@@ -412,18 +415,18 @@ function useCSVReaderComponent<T = any>() {
     );
 
     const onDragOverCb = useCallback(
-      (event: DragEvent) => {
-        allowDrop(event);
+      (e: DragEvent) => {
+        allowDrop(e);
 
-        const hasFiles = isEventWithFiles(event);
-        if (hasFiles && event.dataTransfer) {
+        const hasFiles = isEventWithFiles(e);
+        if (hasFiles && e.dataTransfer) {
           try {
-            event.dataTransfer.dropEffect = 'copy';
+            e.dataTransfer.dropEffect = 'copy';
           } catch {}
         }
 
         if (hasFiles && onDragOver) {
-          onDragOver(event);
+          onDragOver(e);
         }
 
         return false;
@@ -432,8 +435,8 @@ function useCSVReaderComponent<T = any>() {
     );
 
     const onDragLeaveCb = useCallback(
-      (event: DragEvent) => {
-        allowDrop(event);
+      (e: DragEvent) => {
+        allowDrop(e);
 
         // Only deactivate once the dropzone and all children have been left
         const targets = dragTargetsRef.current.filter(
@@ -441,7 +444,7 @@ function useCSVReaderComponent<T = any>() {
         );
         // Make sure to remove a target present multiple times only once
         // (Firefox may fire dragenter/dragleave multiple times on the same element)
-        const targetIdx = targets.indexOf(event.target as never);
+        const targetIdx = targets.indexOf(e.target as never);
         if (targetIdx !== -1) {
           targets.splice(targetIdx, 1);
         }
@@ -456,8 +459,8 @@ function useCSVReaderComponent<T = any>() {
           draggedFiles: [],
         });
 
-        if (isEventWithFiles(event) && onDragLeave) {
-          onDragLeave(event);
+        if (isEventWithFiles(e) && onDragLeave) {
+          onDragLeave(e);
         }
       },
       [rootRef, onDragLeave, noDragEventsBubbling],
@@ -465,14 +468,17 @@ function useCSVReaderComponent<T = any>() {
 
     // Cb to open the file dialog when SPACE/ENTER occurs on the dropzone
     const onKeyDownCb = useCallback(
-      (event: KeyboardEvent) => {
+      (e: KeyboardEvent) => {
         // Ignore keyboard events bubbling up the DOM tree
-        if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+        if (
+          !rootRef.current ||
+          !rootRef.current.isEqualNode(e.target as Node)
+        ) {
           return;
         }
 
-        if (event.key === 'Space' || event.key === 'Enter') {
-          event.preventDefault();
+        if (e.key === 'Space' || e.key === 'Enter') {
+          e.preventDefault();
           openFileDialog();
         }
       },
@@ -540,9 +546,9 @@ function useCSVReaderComponent<T = any>() {
         disabled,
       ],
     );
-    // ===================
+    // -------------------
 
-    // == INPUT ==
+    // -- INPUT PROPS --
     const getInputProps = useMemo(
       () =>
         ({
@@ -573,13 +579,16 @@ function useCSVReaderComponent<T = any>() {
         },
       [inputRef, accept, onDropCb, disabled],
     );
-    // ===========
+    // -----------------
 
-    const removeFileProgrammaticallyCb = useCallback((event: Event) => {
-      inputRef.current.value = '';
-      dispatch({ type: 'reset' });
-      // To prevent a parents onclick event from firing when a child is clicked
-      event.stopPropagation();
+    // -- REMOVE BUTTON --
+    const removeFileProgrammaticallyCb = useCallback((e: Event) => {
+      if (inputRef.current) {
+        inputRef.current.value = '';
+        dispatch({ type: 'reset' });
+        // To prevent a parents onclick event from firing when a child is clicked
+        e.stopPropagation();
+      }
     }, []);
 
     const getRemoveFileProps = useMemo(
@@ -592,6 +601,7 @@ function useCSVReaderComponent<T = any>() {
         }),
       [removeFileProgrammaticallyCb],
     );
+    // -------------------
 
     return (
       <>
@@ -601,7 +611,7 @@ function useCSVReaderComponent<T = any>() {
     );
   };
 
-  const CSVReader = useMemo(() => CSVReaderComponent, []) as any;
+  const CSVReader = useMemo(() => CSVReaderComponent, []);
 
   return CSVReader;
 }
