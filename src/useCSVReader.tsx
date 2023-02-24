@@ -31,12 +31,12 @@ import Remove, { Props as RemoveComponentProps } from './Remove';
 // 'application/vnd.ms-excel' for Window 10
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
-export interface Props<T> {
+export interface Props<T, E> {
   children: (fn: {
-    getRootProps: () => HTMLAttributes<HTMLDivElement>;
+    getRootProps: () => HTMLAttributes<E>;
     acceptedFile: File;
     ProgressBar: React.ComponentType<ProgressBarComponentProps>;
-    getRemoveFileProps: () => HTMLAttributes<HTMLDivElement>;
+    getRemoveFileProps: () => HTMLAttributes<E>;
     Remove: React.ComponentType<RemoveComponentProps>;
   }) => void | React.ReactNode;
   accept?: string;
@@ -69,7 +69,10 @@ export interface ProgressBarComponentProps {
   className?: string;
 }
 
-function useCSVReaderComponent<T = void>() {
+function useCSVReaderComponent<
+  T = void,
+  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement
+>() {
   const CSVReaderComponent = ({
     children,
     accept = DEFAULT_ACCEPT,
@@ -91,9 +94,9 @@ function useCSVReaderComponent<T = void>() {
     onDragEnter,
     onDragOver,
     onDragLeave,
-  }: Props<T>) => {
+  }: Props<T, E>) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const rootRef = useRef<HTMLDivElement>(null);
+    const rootRef = useRef<E>(null);
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -518,14 +521,14 @@ function useCSVReaderComponent<T = void>() {
           // refKey = rootRef,
           ...rest
         }: {
-          onClick?: MouseEventHandler<HTMLDivElement>;
-          onDrop?: DragEventHandler<HTMLDivElement>;
-          onDragEnter?: DragEventHandler<HTMLDivElement>;
-          onDragLeave?: DragEventHandler<HTMLDivElement>;
-          onDragOver?: DragEventHandler<HTMLDivElement>;
-          onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
-          onFocus?: FocusEventHandler<HTMLDivElement>;
-          onBlur?: FocusEventHandler<HTMLDivElement>;
+          onClick?: MouseEventHandler<E>;
+          onDrop?: DragEventHandler<E>;
+          onDragEnter?: DragEventHandler<E>;
+          onDragLeave?: DragEventHandler<E>;
+          onDragOver?: DragEventHandler<E>;
+          onKeyDown?: KeyboardEventHandler<E>;
+          onFocus?: FocusEventHandler<E>;
+          onBlur?: FocusEventHandler<E>;
         } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
@@ -634,13 +637,16 @@ function useCSVReaderComponent<T = void>() {
   const CSVReader = useMemo(
     () => CSVReaderComponent,
     [],
-  ) as React.ComponentType<Props<T>>;
+  ) as React.ComponentType<Props<T, E>>;
 
   return CSVReader;
 }
 
-export function useCSVReader<T = void>() {
-  const CSVReader = useCSVReaderComponent<T>();
+export function useCSVReader<
+  T = void,
+  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement
+>() {
+  const CSVReader = useCSVReaderComponent<T, E>();
 
   return {
     CSVReader,
