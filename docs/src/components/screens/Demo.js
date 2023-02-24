@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { usePapaParse, useCSVReader, lightenDarkenColor, formatFileSize } from 'react-papaparse';
@@ -168,6 +168,14 @@ export default function Demo() {
     "Column 4": 7
   }
 ]`);
+
+  useEffect(() => {
+    if (csvData) {
+      console.log('---------------------------');
+      console.log(csvData);
+      console.log('---------------------------');
+    }
+  }, [csvData]);
 
   const handleSelect = (index) => {
     setTabIndex(index);
