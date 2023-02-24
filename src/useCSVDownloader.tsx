@@ -11,7 +11,7 @@ export interface Props {
   data: any;
   filename: string;
   type?: 'link' | 'button';
-  style?: any;
+  style?: React.CSSProperties;
   className?: string;
   bom?: boolean;
   config?: UnparseConfig;
