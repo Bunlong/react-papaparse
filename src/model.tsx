@@ -3,7 +3,7 @@ import { ParseConfig, ParseResult, Parser } from 'papaparse';
 // 5.3 => https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/papaparse/index.d.ts
 // 5.2 => https://github.com/DefinitelyTyped/DefinitelyTyped/blob/d3737ebd9125505f7ea237b9f17f1426579a3917/types/papaparse/index.d.ts
 
-export interface CustomConfig<T = any, TInput = undefined>
+export interface CustomConfig<T = void, TInput = undefined>
   extends ParseConfig<T, TInput> {
   /**
    * * * * * * * * * *

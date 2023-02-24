@@ -1,10 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {
-  useReducer,
+  DragEventHandler,
+  FocusEventHandler,
+  HTMLAttributes,
+  KeyboardEventHandler,
+  MouseEventHandler,
   useCallback,
-  useMemo,
   useEffect,
-  ReactNode,
+  useMemo,
+  useReducer,
   useRef,
 } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
@@ -28,7 +32,13 @@ import Remove, { Props as RemoveComponentProps } from './Remove';
 const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 
 export interface Props<T> {
-  children: (fn: any) => void | ReactNode;
+  children: (fn: {
+    getRootProps: () => HTMLAttributes<HTMLDivElement>;
+    acceptedFile: File;
+    ProgressBar: React.ComponentType<ProgressBarComponentProps>;
+    getRemoveFileProps: () => HTMLAttributes<HTMLDivElement>;
+    Remove: React.ComponentType<RemoveComponentProps>;
+  }) => void | React.ReactNode;
   accept?: string;
   config?: CustomConfig<T>;
   minSize?: number;
@@ -49,17 +59,17 @@ export interface Props<T> {
   ) => void;
   onUploadRejected?: (file?: File, event?: DragEvent | Event) => void;
   validator?: (file: File) => void;
-  onDragEnter?: (event?: DragEvent) => void;
-  onDragOver?: (event?: DragEvent) => void;
-  onDragLeave?: (event?: DragEvent) => void;
+  onDragEnter?: (event: DragEvent) => void;
+  onDragOver?: (event: DragEvent) => void;
+  onDragLeave?: (event: DragEvent) => void;
 }
 
-export interface ProgressBarComponentProp {
-  style?: any;
+export interface ProgressBarComponentProps {
+  style?: React.CSSProperties;
   className?: string;
 }
 
-function useCSVReaderComponent<T = any>() {
+function useCSVReaderComponent<T = void>() {
   const CSVReaderComponent = ({
     children,
     accept = DEFAULT_ACCEPT,
@@ -82,8 +92,8 @@ function useCSVReaderComponent<T = any>() {
     onDragOver,
     onDragLeave,
   }: Props<T>) => {
-    const inputRef: any = useRef<ReactNode>(null);
-    const rootRef: any = useRef<ReactNode>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const rootRef = useRef<HTMLDivElement>(null);
     const dragTargetsRef = useRef([]);
 
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -96,7 +106,10 @@ function useCSVReaderComponent<T = any>() {
     } = state;
 
     const onDocumentDrop = (event: DragEvent) => {
-      if (rootRef.current && rootRef.current.contains(event.target)) {
+      if (
+        rootRef.current &&
+        rootRef.current.contains(event.target as Element)
+      ) {
         // If we intercepted an event for our instance, let it propagate down to the instance's onDrop handler
         return;
       }
@@ -154,7 +167,7 @@ function useCSVReaderComponent<T = any>() {
       });
     };
 
-    const ProgressBarComponent = (props: ProgressBarComponentProp) => {
+    const ProgressBarComponent = (props: ProgressBarComponentProps) => {
       return (
         <ProgressBar
           display={displayProgressBar}
@@ -182,7 +195,7 @@ function useCSVReaderComponent<T = any>() {
     const openFileDialog = useCallback(() => {
       if (inputRef.current && state.displayProgressBar) {
         dispatch({ type: 'openDialog' });
-        inputRef.current.value = null;
+        inputRef.current.files = null;
         inputRef.current.click();
       }
     }, [dispatch]);
@@ -195,7 +208,7 @@ function useCSVReaderComponent<T = any>() {
           if (inputRef.current) {
             const { files } = inputRef.current;
 
-            if (!files.length) {
+            if (!files || !files.length) {
               dispatch({ type: 'closeDialog' });
             }
           }
@@ -467,7 +480,10 @@ function useCSVReaderComponent<T = any>() {
     const onKeyDownCb = useCallback(
       (event: KeyboardEvent) => {
         // Ignore keyboard events bubbling up the DOM tree
-        if (!rootRef.current || !rootRef.current.isEqualNode(event.target)) {
+        if (
+          !rootRef.current ||
+          !rootRef.current.isEqualNode(event.target as Element)
+        ) {
           return;
         }
 
@@ -501,6 +517,15 @@ function useCSVReaderComponent<T = any>() {
           onDragEnter = () => {},
           // refKey = rootRef,
           ...rest
+        }: {
+          onClick?: MouseEventHandler<HTMLDivElement>;
+          onDrop?: DragEventHandler<HTMLDivElement>;
+          onDragEnter?: DragEventHandler<HTMLDivElement>;
+          onDragLeave?: DragEventHandler<HTMLDivElement>;
+          onDragOver?: DragEventHandler<HTMLDivElement>;
+          onKeyDown?: KeyboardEventHandler<HTMLDivElement>;
+          onFocus?: FocusEventHandler<HTMLDivElement>;
+          onBlur?: FocusEventHandler<HTMLDivElement>;
         } = {}) => ({
           onClick: composeHandler(composeEventHandlers(onClick, onClickCb)),
           onDrop: composeDragHandler(composeEventHandlers(onDrop, onDropCb)),
@@ -576,7 +601,9 @@ function useCSVReaderComponent<T = any>() {
     // ===========
 
     const removeFileProgrammaticallyCb = useCallback((event: Event) => {
-      inputRef.current.value = '';
+      if (inputRef.current) {
+        inputRef.current.files = null;
+      }
       dispatch({ type: 'reset' });
       // To prevent a parents onclick event from firing when a child is clicked
       event.stopPropagation();
@@ -584,7 +611,10 @@ function useCSVReaderComponent<T = any>() {
 
     const getRemoveFileProps = useMemo(
       () =>
-        ({ onClick = () => {}, ...rest } = {}) => ({
+        ({
+          onClick = () => {},
+          ...rest
+        }: { onClick?: MouseEventHandler<HTMLElement> } = {}) => ({
           onClick: composeHandler(
             composeEventHandlers(onClick, removeFileProgrammaticallyCb),
           ),
@@ -601,13 +631,16 @@ function useCSVReaderComponent<T = any>() {
     );
   };
 
-  const CSVReader = useMemo(() => CSVReaderComponent, []) as any;
+  const CSVReader = useMemo(
+    () => CSVReaderComponent,
+    [],
+  ) as React.ComponentType<Props<T>>;
 
   return CSVReader;
 }
 
-export function useCSVReader() {
-  const CSVReader = useCSVReaderComponent();
+export function useCSVReader<T = void>() {
+  const CSVReader = useCSVReaderComponent<T>();
 
   return {
     CSVReader,
