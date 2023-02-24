@@ -28,22 +28,17 @@ const styles = {
 };
 
 export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+  const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
       }}
     >
-      {({
-        getRootProps,
-        acceptedFile,
-        ProgressBar,
-        getRemoveFileProps,
-      }: any) => (
+      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
         <>
           <div style={styles.csvReader}>
             <button type='button' {...getRootProps()} style={styles.browseFile}>

@@ -94,25 +94,20 @@ const styles = {
 };
 
 export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+  const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
       }}
     >
-      {({
-        getRootProps,
-        acceptedFile,
-        ProgressBar,
-        getRemoveFileProps,
-      }: any) => (
+      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
         <>
           <div style={styles.csvReader}>
-            <button type='button' {...getRootProps()} style={styles.browseFile}>
+            <button type="button" {...getRootProps()} style={styles.browseFile}>
               Browse file
             </button>
             <div style={styles.acceptedFile}>
@@ -225,7 +220,7 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
@@ -246,7 +241,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -271,11 +266,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -390,7 +385,7 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
@@ -412,7 +407,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -437,11 +432,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -556,7 +551,7 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
@@ -578,7 +573,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -603,11 +598,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}

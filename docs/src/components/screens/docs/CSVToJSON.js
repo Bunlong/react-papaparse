@@ -64,7 +64,7 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onUploadAccepted={(results: any) => {
+  onUploadAccepted={(results) => {
     console.log('---------------------------');
     console.log(results);
     console.log('---------------------------');
@@ -75,7 +75,7 @@ const CSVToJSON = () => {
     acceptedFile,
     ProgressBar,
     getRemoveFileProps,
-  }: any) => (
+  }) => (
     <>
       <div style={styles.csvReader}>
         <button type='button' {...getRootProps()} style={styles.browseFile}>
@@ -135,7 +135,7 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onUploadAccepted={(results: any) => {
+  onUploadAccepted={(results) => {
     console.log('---------------------------');
     console.log(results);
     console.log('---------------------------');
@@ -156,7 +156,7 @@ const CSVToJSON = () => {
     ProgressBar,
     getRemoveFileProps,
     Remove,
-  }: any) => (
+  }) => (
     <>
       <div
         {...getRootProps()}
@@ -181,11 +181,11 @@ const CSVToJSON = () => {
               <div
                 {...getRemoveFileProps()}
                 style={styles.remove}
-                onMouseOver={(event: Event) => {
+                onMouseOver={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                 }}
-                onMouseOut={(event: Event) => {
+                onMouseOut={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                 }}
@@ -239,7 +239,7 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onUploadAccepted={(results: any) => {
+  onUploadAccepted={(results) => {
     console.log('---------------------------');
     console.log(results);
     console.log('---------------------------');
@@ -261,7 +261,7 @@ const CSVToJSON = () => {
     ProgressBar,
     getRemoveFileProps,
     Remove,
-  }: any) => (
+  }) => (
     <>
       <div
         {...getRootProps()}
@@ -286,11 +286,11 @@ const CSVToJSON = () => {
               <div
                 {...getRemoveFileProps()}
                 style={styles.remove}
-                onMouseOver={(event: Event) => {
+                onMouseOver={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                 }}
-                onMouseOut={(event: Event) => {
+                onMouseOut={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                 }}
@@ -348,7 +348,7 @@ const CSVToJSON = () => {
           <pre>
             <code className="language-javascript">
               {`<CSVReader
-  onUploadAccepted={(results: any) => {
+  onUploadAccepted={(results) => {
     console.log('---------------------------');
     console.log(results);
     console.log('---------------------------');
@@ -370,7 +370,7 @@ const CSVToJSON = () => {
     ProgressBar,
     getRemoveFileProps,
     Remove,
-  }: any) => (
+  }) => (
     <>
       <div
         {...getRootProps()}
@@ -395,11 +395,11 @@ const CSVToJSON = () => {
               <div
                 {...getRemoveFileProps()}
                 style={styles.remove}
-                onMouseOver={(event: Event) => {
+                onMouseOver={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                 }}
-                onMouseOut={(event: Event) => {
+                onMouseOut={(event) => {
                   event.preventDefault();
                   setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                 }}
