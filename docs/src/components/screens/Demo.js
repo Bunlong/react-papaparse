@@ -322,7 +322,7 @@ export default function Demo() {
                         <>
                           <div style={buttonStyles.csvReader}>
                             <button
-                              type="button"
+                              type='button'
                               {...getRootProps()}
                               style={buttonStyles.browseFile}
                             >
@@ -913,7 +913,7 @@ export default class Demo extends Component {
                               }}
                             >
                               <button
-                                type="button"
+                                type='button'
                                 onClick={this.handleOpenDialog}
                                 style={{
                                   borderRadius: 0,

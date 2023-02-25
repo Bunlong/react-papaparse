@@ -71,7 +71,7 @@ export interface ProgressBarComponentProps {
 
 function useCSVReaderComponent<
   T = void,
-  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement
+  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement,
 >() {
   const CSVReaderComponent = ({
     children,
@@ -645,12 +645,12 @@ function useCSVReaderComponent<
 /**
  * A React hook to use the CSVReader component.
  * @returns The CSVReader component.
- * 
- * @template T - The type of the parsed CSV file data result, where each key 
+ *
+ * @template T - The type of the parsed CSV file data result, where each key
  * represents a column in the CSV file and each value represents the data type.
- * @template E - The type of the HTML element used for the input. Can be 
+ * @template E - The type of the HTML element used for the input. Can be
  * HTMLDivElement or HTMLButtonElement. Defaults to HTMLDivElement.
- * 
+ *
  * @example HTMLDivElement as the input element
  * ```tsx
  * import { useCSVReader } from 'react-papaparse';
@@ -661,12 +661,12 @@ function useCSVReaderComponent<
  * import { useCSVReader } from 'react-papaparse';
  * const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
  * ```
- * 
+ *
  * @see {@link https://react-papaparse.js.org/docs#local-files Usage with Local Files}
  */
 export function useCSVReader<
   T = void,
-  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement
+  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement,
 >() {
   const CSVReader = useCSVReaderComponent<T, E>();
 

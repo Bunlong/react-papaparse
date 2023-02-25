@@ -107,7 +107,7 @@ export default function CSVReader() {
       {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
         <>
           <div style={styles.csvReader}>
-            <button type="button" {...getRootProps()} style={styles.browseFile}>
+            <button type='button' {...getRootProps()} style={styles.browseFile}>
               Browse file
             </button>
             <div style={styles.acceptedFile}>

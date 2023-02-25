@@ -122,7 +122,7 @@
 //             "Column 4": 7,
 //           },
 //         ]}
-//         type="button"
+//         type='button'
 //         filename={'filename'}
 //         config={
 //           {
