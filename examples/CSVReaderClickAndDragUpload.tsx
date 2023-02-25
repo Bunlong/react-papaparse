@@ -94,11 +94,11 @@ export default function CSVReader() {
         console.log('---------------------------');
         setZoneHover(false);
       }}
-      onDragOver={(event: DragEvent) => {
+      onDragOver={(event) => {
         event.preventDefault();
         setZoneHover(true);
       }}
-      onDragLeave={(event: DragEvent) => {
+      onDragLeave={(event) => {
         event.preventDefault();
         setZoneHover(false);
       }}
