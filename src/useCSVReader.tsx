@@ -70,8 +70,8 @@ export interface ProgressBarComponentProps {
 }
 
 function useCSVReaderComponent<
-  T = void,
-  E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement,
+  T,
+  E extends HTMLDivElement | HTMLButtonElement,
 >() {
   const CSVReaderComponent = ({
     children,
@@ -667,7 +667,7 @@ function useCSVReaderComponent<
  * @see {@link https://react-papaparse.js.org/docs#local-files Usage with Local Files}
  */
 export function useCSVReader<
-  T = void,
+  T = string[],
   E extends HTMLDivElement | HTMLButtonElement = HTMLDivElement,
 >() {
   const CSVReader = useCSVReaderComponent<T, E>();
