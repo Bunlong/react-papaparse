@@ -661,7 +661,7 @@ function useCSVReaderComponent<
  * @example HTMLButtonElement as the input element
  * ```tsx
  * import { useCSVReader } from 'react-papaparse';
- * const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
+ * const { CSVReader } = useCSVReader<string[][], HTMLButtonElement>();
  * ```
  *
  * @see {@link https://react-papaparse.js.org/docs#local-files Usage with Local Files}

@@ -28,7 +28,7 @@ const styles: Record<string, React.CSSProperties> = {
 };
 
 export default function CSVReader() {
-  const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
+  const { CSVReader } = useCSVReader<string[][], HTMLButtonElement>();
 
   return (
     <CSVReader

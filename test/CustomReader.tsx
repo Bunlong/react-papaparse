@@ -9,7 +9,7 @@ interface CustomReaderProps {
 const CustomReader: React.FC<CustomReaderProps> = (
   props: CustomReaderProps
 ) => {
-  const { CSVReader } = useCSVReader<void, HTMLButtonElement>();
+  const { CSVReader } = useCSVReader<string[][], HTMLButtonElement>();
   const { onUploadAccepted, label } = props;
 
   return (
