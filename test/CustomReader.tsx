@@ -9,30 +9,19 @@ interface CustomReaderProps {
 const CustomReader: React.FC<CustomReaderProps> = (
   props: CustomReaderProps
 ) => {
-  const { CSVReader } = useCSVReader();
+  const { CSVReader } = useCSVReader<string[][], HTMLButtonElement>();
   const { onUploadAccepted, label } = props;
 
   return (
-    <CSVReader
-      onUploadAccepted={onUploadAccepted}
-    >
-      {({
-        getRootProps,
-        acceptedFile,
-        ProgressBar,
-        getRemoveFileProps,
-      }: any) => (
+    <CSVReader onUploadAccepted={onUploadAccepted}>
+      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
         <>
           <div>
             <button type='button' {...getRootProps()}>
               {label}
             </button>
-            <div>
-              {acceptedFile && acceptedFile.name}
-            </div>
-            <button {...getRemoveFileProps()}>
-              Remove
-            </button>
+            <div>{acceptedFile && acceptedFile.name}</div>
+            <button {...getRemoveFileProps()}>Remove</button>
           </div>
           <ProgressBar />
         </>

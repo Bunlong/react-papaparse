@@ -27,7 +27,7 @@ Array [
       onDrop={[Function]}
       onFocus={[Function]}
       onKeyDown={[Function]}
-      type="button"
+      type='button'
     >
       Chargez votre offre
     </button>

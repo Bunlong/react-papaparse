@@ -41,41 +41,41 @@ const LocalFile = () => {
           </div>
           <pre>
             <code className="language-javascript">
-              {`import React, { CSSProperties } from 'react';
+              {`import React from 'react';
 
 import { useCSVReader } from 'react-papaparse';
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   csvReader: {
     display: 'flex',
     flexDirection: 'row',
     marginBottom: 10,
-  } as CSSProperties,
+  },
   browseFile: {
     width: '20%',
-  } as CSSProperties,
+  },
   acceptedFile: {
     border: '1px solid #ccc',
     height: 45,
     lineHeight: 2.5,
     paddingLeft: 10,
     width: '80%',
-  } as CSSProperties,
+  },
   remove: {
     borderRadius: 0,
     padding: '0 20px',
-  } as CSSProperties,
+  },
   progressBarBackgroundColor: {
     backgroundColor: 'red',
-  } as CSSProperties,
+  },
 };
 
 export default function CSVReader() {
-  const { CSVReader } = useCSVReader();
+  const { CSVReader } = useCSVReader<string[][], HTMLButtonElement>();
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
@@ -86,7 +86,7 @@ export default function CSVReader() {
         acceptedFile,
         ProgressBar,
         getRemoveFileProps,
-      }: any) => (
+      }) => (
         <>
           <div style={styles.csvReader}>
             <button type='button' {...getRootProps()} style={styles.browseFile}>
@@ -135,7 +135,7 @@ export default function CSVReader() {
           </div>
           <pre>
             <code className="language-javascript">
-              {`import React, { useState, CSSProperties } from 'react';
+              {`import React, { useState } from 'react';
 
 import {
   useCSVReader,
@@ -152,7 +152,7 @@ const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
 );
 const GREY_DIM = '#686868';
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
@@ -164,7 +164,7 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     padding: 20,
-  } as CSSProperties,
+  },
   file: {
     background: 'linear-gradient(to bottom, #EEE, #DDD)',
     borderRadius: 20,
@@ -175,47 +175,47 @@ const styles = {
     zIndex: 10,
     flexDirection: 'column',
     justifyContent: 'center',
-  } as CSSProperties,
+  },
   info: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   size: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     marginBottom: '0.5em',
     justifyContent: 'center',
     display: 'flex',
-  } as CSSProperties,
+  },
   name: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     fontSize: 12,
     marginBottom: '0.5em',
-  } as CSSProperties,
+  },
   progressBar: {
     bottom: 14,
     position: 'absolute',
     width: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   zoneHover: {
     borderColor: GREY_DIM,
-  } as CSSProperties,
+  },
   default: {
     borderColor: GREY,
-  } as CSSProperties,
+  },
   remove: {
     height: 23,
     position: 'absolute',
     right: 6,
     top: 6,
     width: 23,
-  } as CSSProperties,
+  },
 };
 
 export default function CSVReader() {
@@ -227,17 +227,17 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
         setZoneHover(false);
       }}
-      onDragOver={(event: DragEvent) => {
+      onDragOver={(event) => {
         event.preventDefault();
         setZoneHover(true);
       }}
-      onDragLeave={(event: DragEvent) => {
+      onDragLeave={(event) => {
         event.preventDefault();
         setZoneHover(false);
       }}
@@ -248,7 +248,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -273,11 +273,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -325,7 +325,7 @@ export default function CSVReader() {
           </div>
           <pre>
             <code className="language-javascript">
-              {`import React, { useState, CSSProperties } from 'react';
+              {`import React, { useState } from 'react';
 
 import {
   useCSVReader,
@@ -342,7 +342,7 @@ const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
 );
 const GREY_DIM = '#686868';
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
@@ -354,7 +354,7 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     padding: 20,
-  } as CSSProperties,
+  },
   file: {
     background: 'linear-gradient(to bottom, #EEE, #DDD)',
     borderRadius: 20,
@@ -365,47 +365,47 @@ const styles = {
     zIndex: 10,
     flexDirection: 'column',
     justifyContent: 'center',
-  } as CSSProperties,
+  },
   info: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   size: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     marginBottom: '0.5em',
     justifyContent: 'center',
     display: 'flex',
-  } as CSSProperties,
+  },
   name: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     fontSize: 12,
     marginBottom: '0.5em',
-  } as CSSProperties,
+  },
   progressBar: {
     bottom: 14,
     position: 'absolute',
     width: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   zoneHover: {
     borderColor: GREY_DIM,
-  } as CSSProperties,
+  },
   default: {
     borderColor: GREY,
-  } as CSSProperties,
+  },
   remove: {
     height: 23,
     position: 'absolute',
     right: 6,
     top: 6,
     width: 23,
-  } as CSSProperties,
+  },
 };
 
 export default function CSVReader() {
@@ -417,17 +417,17 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
         setZoneHover(false);
       }}
-      onDragOver={(event: DragEvent) => {
+      onDragOver={(event) => {
         event.preventDefault();
         setZoneHover(true);
       }}
-      onDragLeave={(event: DragEvent) => {
+      onDragLeave={(event) => {
         event.preventDefault();
         setZoneHover(false);
       }}
@@ -439,7 +439,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -464,11 +464,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}
@@ -516,7 +516,7 @@ export default function CSVReader() {
           </div>
           <pre>
             <code className="language-javascript">
-              {`import React, { useState, CSSProperties } from 'react';
+              {`import React, { useState } from 'react';
 
 import {
   useCSVReader,
@@ -533,7 +533,7 @@ const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
 );
 const GREY_DIM = '#686868';
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   zone: {
     alignItems: 'center',
     borderWidth: 2,
@@ -545,7 +545,7 @@ const styles = {
     height: '100%',
     justifyContent: 'center',
     padding: 20,
-  } as CSSProperties,
+  },
   file: {
     background: 'linear-gradient(to bottom, #EEE, #DDD)',
     borderRadius: 20,
@@ -556,47 +556,47 @@ const styles = {
     zIndex: 10,
     flexDirection: 'column',
     justifyContent: 'center',
-  } as CSSProperties,
+  },
   info: {
     alignItems: 'center',
     display: 'flex',
     flexDirection: 'column',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   size: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     marginBottom: '0.5em',
     justifyContent: 'center',
     display: 'flex',
-  } as CSSProperties,
+  },
   name: {
     backgroundColor: GREY_LIGHT,
     borderRadius: 3,
     fontSize: 12,
     marginBottom: '0.5em',
-  } as CSSProperties,
+  },
   progressBar: {
     bottom: 14,
     position: 'absolute',
     width: '100%',
     paddingLeft: 10,
     paddingRight: 10,
-  } as CSSProperties,
+  },
   zoneHover: {
     borderColor: GREY_DIM,
-  } as CSSProperties,
+  },
   default: {
     borderColor: GREY,
-  } as CSSProperties,
+  },
   remove: {
     height: 23,
     position: 'absolute',
     right: 6,
     top: 6,
     width: 23,
-  } as CSSProperties,
+  },
 };
 
 export default function CSVReader() {
@@ -608,17 +608,17 @@ export default function CSVReader() {
 
   return (
     <CSVReader
-      onUploadAccepted={(results: any) => {
+      onUploadAccepted={(results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
         setZoneHover(false);
       }}
-      onDragOver={(event: DragEvent) => {
+      onDragOver={(event) => {
         event.preventDefault();
         setZoneHover(true);
       }}
-      onDragLeave={(event: DragEvent) => {
+      onDragLeave={(event) => {
         event.preventDefault();
         setZoneHover(false);
       }}
@@ -630,7 +630,7 @@ export default function CSVReader() {
         ProgressBar,
         getRemoveFileProps,
         Remove,
-      }: any) => (
+      }) => (
         <>
           <div
             {...getRootProps()}
@@ -655,11 +655,11 @@ export default function CSVReader() {
                   <div
                     {...getRemoveFileProps()}
                     style={styles.remove}
-                    onMouseOver={(event: Event) => {
+                    onMouseOver={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(REMOVE_HOVER_COLOR_LIGHT);
                     }}
-                    onMouseOut={(event: Event) => {
+                    onMouseOut={(event) => {
                       event.preventDefault();
                       setRemoveHoverColor(DEFAULT_REMOVE_HOVER_COLOR);
                     }}

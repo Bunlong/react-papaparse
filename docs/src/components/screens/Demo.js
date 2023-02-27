@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { usePapaParse, useCSVReader, lightenDarkenColor, formatFileSize } from 'react-papaparse';
@@ -169,6 +169,14 @@ export default function Demo() {
   }
 ]`);
 
+  useEffect(() => {
+    if (csvData) {
+      console.log('---------------------------');
+      console.log(csvData);
+      console.log('---------------------------');
+    }
+  }, [csvData]);
+
   const handleSelect = (index) => {
     setTabIndex(index);
   };
@@ -314,7 +322,7 @@ export default function Demo() {
                         <>
                           <div style={buttonStyles.csvReader}>
                             <button
-                              type="button"
+                              type='button'
                               {...getRootProps()}
                               style={buttonStyles.browseFile}
                             >
@@ -905,7 +913,7 @@ export default class Demo extends Component {
                               }}
                             >
                               <button
-                                type="button"
+                                type='button'
                                 onClick={this.handleOpenDialog}
                                 style={{
                                   borderRadius: 0,
