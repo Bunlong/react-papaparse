@@ -198,6 +198,7 @@ function useCSVReaderComponent<
     const openFileDialog = useCallback(() => {
       if (inputRef.current && state.displayProgressBar) {
         dispatch({ type: 'openDialog' });
+        inputRef.current.value = '';
         inputRef.current.files = null;
         inputRef.current.click();
       }
@@ -605,6 +606,7 @@ function useCSVReaderComponent<
 
     const removeFileProgrammaticallyCb = useCallback((event: Event) => {
       if (inputRef.current) {
+        inputRef.current.value = '';
         inputRef.current.files = null;
       }
       dispatch({ type: 'reset' });
