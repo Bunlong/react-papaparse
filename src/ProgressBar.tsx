@@ -22,7 +22,7 @@ const styles = {
   } as CSSProperties,
 };
 
-interface Props {
+interface IProgressBarProps {
   style?: any;
   className?: string;
   percentage: number;
@@ -30,21 +30,21 @@ interface Props {
   isButton?: boolean;
 }
 
-export default function ProgressBar(props: Props) {
-  const { style, className, display } = props;
-  const [percentage, setPercentage] = useState(0);
+export default function ProgressBar({ style, className, percentage, display, isButton }: IProgressBarProps): React.ReactElement {
+  const [displayPercentage, setDisplayPercentage] = useState<number>(0);
 
   useEffect(() => {
-    setPercentage(props.percentage);
-  }, [props.percentage]);
+    setDisplayPercentage(percentage);
+  }, [percentage]);
 
   return (
     <span
       style={Object.assign({}, styles.progressBar, styles.fill, style, {
-        width: `${percentage}%`,
+        width: `${displayPercentage}%`,
         display,
       })}
       className={className}
     />
   );
 }
+
