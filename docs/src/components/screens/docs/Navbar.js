@@ -19,7 +19,7 @@ const Navbar = () => {
         </div>
         <div className="grid-20 hide-on-mobile text-center">
           <a href="/" className="text-logo">
-            react-papaparse 3
+            react-papaparse 4
           </a>
         </div>
         <div className="grid-40 mobile-grid-50 text-right">
