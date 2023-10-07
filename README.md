@@ -886,6 +886,10 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
+Latest version 4.2.0 (2023-10-07):
+
+  * Upgrade dependencies
+
 Latest version 4.1.0 (2022-08-07):
 
   * Import readString, readRemoteFile and jsonToCSV as pure function
@@ -911,7 +915,7 @@ Details changes for each release are documented in the [CHANGELOG.md](https://gi
 
 ## 🛣️ Roadmap
 
-### 🆕 v4.1.x
+### 🆕 v4.4.x
 
   * CSVReader multiple files drag and drop
 
