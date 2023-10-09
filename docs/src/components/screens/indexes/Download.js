@@ -17,7 +17,7 @@ const Download = () => {
           <br />
           <b style={{ display: 'block', textAlign: 'center' }}>yarn</b>
           <pre>
-            <code className="language-bash">$ yarn add react-papaparse</code>
+            <code className="language-bash">$ yarn add react-papaparse --save</code>
           </pre>
         </div>
         <div className="clear" />
