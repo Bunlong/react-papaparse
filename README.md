@@ -809,7 +809,7 @@ export default function JsonToCSV() {
   const { jsonToCSV } = usePapaParse();
 
   const handleJsonToCSV = () => {
-    const jsonData = `[
+    const jsonData = [
       {
           "Column 1": "1-1",
           "Column 2": "1-2",
@@ -834,7 +834,7 @@ export default function JsonToCSV() {
           "Column 3": 6,
           "Column 4": 7
       }
-    ]`;
+    ];
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
@@ -885,6 +885,10 @@ readRemoteFile(url, {
 ```
 
 ## 📜 Changelog
+
+Latest version 4.2.1 (2023-10-09):
+
+  * Fix type
 
 Latest version 4.2.0 (2023-10-07):
 

@@ -30,7 +30,7 @@ function App() {
   };
 
   const handleJsonToCSV = () => {
-    const jsonData = `[
+    const jsonData = [
       {
           "Column 1": "1-1",
           "Column 2": "1-2",
@@ -55,7 +55,7 @@ function App() {
           "Column 3": 6,
           "Column 4": 7
       }
-    ]`;
+    ];
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
