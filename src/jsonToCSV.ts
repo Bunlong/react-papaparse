@@ -1,5 +1,8 @@
-import PapaParse, { UnparseConfig } from 'papaparse';
+import PapaParse, { UnparseObject, UnparseConfig } from 'papaparse';
 
-export function jsonToCSV(json: any, options: UnparseConfig = {}) {
+export function jsonToCSV<T>(
+  json: T[] | UnparseObject<T>,
+  options: UnparseConfig = {},
+) {
   return PapaParse.unparse(json, options);
 }
