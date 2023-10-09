@@ -886,7 +886,7 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.2.1 (2023-10-09):
+Latest version 4.2.2 (2023-10-09):
 
   * Fix type
 
