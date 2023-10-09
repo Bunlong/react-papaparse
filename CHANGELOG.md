@@ -1,3 +1,13 @@
+## 4.2.1 (2023-10-09)
+
+### ✨ Features
+
+  * Fix type
+
+Credits
+
+* [@Bunlong](https://github.com/Bunlong)
+
 ## 4.2.0 (2023-10-07)
 
 ### ✨ Features
