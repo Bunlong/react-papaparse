@@ -1217,6 +1217,15 @@ How to contribute:
         </sub>
       </a>
     </td>
+    <td align="center">
+      <a href="https://github.com/s5s5">
+        <img src="https://avatars.githubusercontent.com/u/6137499?v=4" width="100" alt="Jake Haitsma" />
+        <br />
+        <sub>
+          <b>Jake Haitsma</b>
+        </sub>
+      </a>
+    </td>
   </tr>
 </table>
 
