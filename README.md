@@ -890,11 +890,11 @@ Latest version 4.2.2 (2023-10-09):
 
   * Fix type
 
-Latest version 4.2.0 (2023-10-07):
+Version 4.2.0 (2023-10-07):
 
   * Upgrade dependencies
 
-Latest version 4.1.0 (2022-08-07):
+Version 4.1.0 (2022-08-07):
 
   * Import readString, readRemoteFile and jsonToCSV as pure function
 
