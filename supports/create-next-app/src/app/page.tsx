@@ -6,6 +6,7 @@ import {
   useCSVReader,
   lightenDarkenColor,
   formatFileSize,
+  useCSVDownloader,
 } from 'react-papaparse'
 
 const GREY = '#CCC'
@@ -83,6 +84,7 @@ const styles = {
 
 export default function Home() {
   const { CSVReader } = useCSVReader()
+  const { CSVDownloader } = useCSVDownloader()
   const [zoneHover, setZoneHover] = useState(false)
   const [removeHoverColor, setRemoveHoverColor] = useState(
     DEFAULT_REMOVE_HOVER_COLOR
@@ -157,6 +159,22 @@ export default function Home() {
           </>
         )}
       </CSVReader>
+
+      <CSVDownloader
+        filename={'filename'}
+        data={() => {
+          return [
+            {
+              "Column 1": "1-1",
+              "Column 2": "1-2",
+              "Column 3": "1-3",
+              "Column 4": "1-4",
+            }
+          ]}
+        }
+      >
+        Download
+      </CSVDownloader>
     </main>
   )
 }
