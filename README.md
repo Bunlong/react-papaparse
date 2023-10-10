@@ -886,7 +886,11 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.2.2 (2023-10-09):
+Latest version 4.3.0 (2023-10-10):
+
+  * Enable async callback function for CSVDownloader
+
+Version 4.2.2 (2023-10-09):
 
   * Fix type
 
