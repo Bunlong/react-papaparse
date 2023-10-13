@@ -149,7 +149,7 @@ class CustomApp extends App {
                 react-papaparse by{' '}
                 <a href="https://github.com/bunlong">Bunlong</a>
                 <br />
-                &copy; 2018-2022
+                &copy; 2018-2023
               </div>
 
               <div className="grid-15 mobile-grid-50 links">
@@ -160,8 +160,18 @@ class CustomApp extends App {
 
               <div className="grid-15 mobile-grid-50 links">
                 <h5>Project</h5>
+                <a href="https://github.com/Bunlong/next-qrcode" target="_blank">
+                  next-qrcode
+                </a>
                 <a href="https://github.com/Bunlong/next-share" target="_blank">
                   next-share
+                </a>
+              </div>
+
+              <div className="grid-15 mobile-grid-50 links">
+                <h5>Pattern</h5>
+                <a href="https://reactpatterns.js.org" target="_blank">
+                  React Patterns
                 </a>
               </div>
             </div>

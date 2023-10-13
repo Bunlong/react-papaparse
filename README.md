@@ -713,7 +713,7 @@ export default function CSVDownloader() {
 
 #### Data as a Function/Callback
 
-`data={}` can be a function that returns a data object.
+`data={}` can be a synchronous or asynchronous function that returns a data object.
 
 ```javascript
 import React from 'react';
@@ -809,7 +809,7 @@ export default function JsonToCSV() {
   const { jsonToCSV } = usePapaParse();
 
   const handleJsonToCSV = () => {
-    const jsonData = `[
+    const jsonData = [
       {
           "Column 1": "1-1",
           "Column 2": "1-2",
@@ -834,7 +834,7 @@ export default function JsonToCSV() {
           "Column 3": 6,
           "Column 4": 7
       }
-    ]`;
+    ];
     const results = jsonToCSV(jsonData);
     console.log('---------------------------');
     console.log('Results:', results);
@@ -886,7 +886,19 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.1.0 (2022-08-07):
+Latest version 4.3.0 (2023-10-10):
+
+  * Enable async callback function for CSVDownloader
+
+Version 4.2.2 (2023-10-09):
+
+  * Fix type
+
+Version 4.2.0 (2023-10-07):
+
+  * Upgrade dependencies
+
+Version 4.1.0 (2022-08-07):
 
   * Import readString, readRemoteFile and jsonToCSV as pure function
 
@@ -911,7 +923,7 @@ Details changes for each release are documented in the [CHANGELOG.md](https://gi
 
 ## 🛣️ Roadmap
 
-### 🆕 v4.1.x
+### 🆕 v4.4.x
 
   * CSVReader multiple files drag and drop
 
@@ -1202,6 +1214,15 @@ How to contribute:
         <br />
         <sub>
           <b>Xiaochao Liu</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/s5s5">
+        <img src="https://avatars.githubusercontent.com/u/6137499?v=4" width="100" alt="Jake Haitsma" />
+        <br />
+        <sub>
+          <b>Jake Haitsma</b>
         </sub>
       </a>
     </td>

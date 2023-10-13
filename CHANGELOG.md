@@ -1,3 +1,33 @@
+## 4.3.0 (2023-10-10)
+
+### ✨ Features
+
+  * Enable async callback function for CSVDownloader
+
+Credits
+
+* [@JakeHaitsma](https://github.com/JakeHaitsma)
+
+## 4.2.2 (2023-10-09)
+
+### ✨ Features
+
+  * Fix type
+
+Credits
+
+* [@Bunlong](https://github.com/Bunlong)
+
+## 4.2.0 (2023-10-07)
+
+### ✨ Features
+
+  * Upgrade dependencies
+
+Credits
+
+* [@Bunlong](https://github.com/Bunlong)
+
 ## 4.1.0 (2022-08-07)
 
 ### ✨ Bugs

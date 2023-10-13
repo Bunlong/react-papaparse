@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "description": "The fastest in-browser CSV (or delimited text) parser for React. It is full of useful features such as CSVReader, CSVDownloader, readString, jsonToCSV, readRemoteFile, ... etc.",
   "author": "Bunlong <bunlong.van@gmail.com>",
   "license": "MIT",
@@ -108,7 +108,7 @@
     "dist"
   ],
   "dependencies": {
-    "@types/papaparse": "^5.3.7",
+    "@types/papaparse": "^5.3.9",
     "papaparse": "^5.4.1"
   },
   "bundlesize": [
@@ -118,7 +118,7 @@
     },
     {
       "path": "./dist/*.ts",
-      "maxSize": "1000 B"
+      "maxSize": "1039 B"
     }
   ]
 }

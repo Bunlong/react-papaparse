@@ -8,7 +8,7 @@ import React, {
   useRef,
 } from 'react';
 import PapaParse, { ParseResult } from 'papaparse';
-import { CustomConfig } from './model';
+import { CSVReaderConfig } from './model';
 import {
   composeEventHandlers,
   isIeOrEdge,
@@ -30,7 +30,7 @@ const DEFAULT_ACCEPT = 'text/csv, .csv, application/vnd.ms-excel';
 export interface Props<T> {
   children: (fn: any) => void | ReactNode;
   accept?: string;
-  config?: CustomConfig<T>;
+  config?: CSVReaderConfig<T>;
   minSize?: number;
   maxSize?: number;
   maxFiles?: number;

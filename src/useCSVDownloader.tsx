@@ -28,13 +28,13 @@ function useCSVDownloaderComponent() {
     bom = false,
     config = {},
   }: Props) => {
-    const download = () => {
+    const download = async () => {
       const bomCode = bom ? '\ufeff' : '';
       let csvContent = null;
       let csvURL = null;
 
       if (typeof data === 'function') {
-        data = data();
+        data = await data();
       }
 
       if (typeof data === 'object') {
