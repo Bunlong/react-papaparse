@@ -886,7 +886,13 @@ readRemoteFile(url, {
 
 ## 📜 Changelog
 
-Latest version 4.3.0 (2023-10-10):
+Latest version 4.4.0 (2023-10-14):
+
+  * Handle parsing utf-8 bom encoded files
+  * Rename duplicate headers
+  * Improve iso-date regex
+
+Version 4.3.0 (2023-10-10):
 
   * Enable async callback function for CSVDownloader
 

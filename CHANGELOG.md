@@ -1,3 +1,15 @@
+## 4.4.0 (2023-10-14)
+
+### ✨ Features
+
+  * Handle parsing utf-8 bom encoded files
+  * Rename duplicate headers
+  * Improve iso-date regex
+
+Credits
+
+* [@Bunlong](https://github.com/Bunlong)
+
 ## 4.3.0 (2023-10-10)
 
 ### ✨ Features
