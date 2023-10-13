@@ -40,12 +40,12 @@ const CSVToJSON = () => {
               <code>csvString</code> is a string of delimited text to be parsed.
             </li>
             <li>
-              <code>config</code> is an {' '}
-              <a href="#config">config object</a>.
+              <code>config</code> is an <a href="#config">config object</a>.
             </li>
             <li>
-              Returns a <a href="#results">parse results</a> object in <code>complete</code> of config object (if not
-              streaming or using worker).
+              Returns a <a href="#results">parse results</a> object in{' '}
+              <code>complete</code> of config object (if not streaming or using
+              worker).
             </li>
           </ul>
         </div>
@@ -219,7 +219,8 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
+              <code>onUploadAccepted</code> is the function to be called passing
+              uploaded results.
             </li>
             <li>
               <code>config</code> is a <a href="#config">config object</a> which
@@ -324,7 +325,8 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
+              <code>onUploadAccepted</code> is the function to be called passing
+              uploaded results.
             </li>
             <li>
               <code>noClick</code> If true, disables click to open the native
@@ -433,7 +435,8 @@ const CSVToJSON = () => {
               <code>'text/csv, .csv, application/vnd.ms-excel'</code>.
             </li>
             <li>
-              <code>onUploadAccepted</code> is the function to be called passing uploaded results.
+              <code>onUploadAccepted</code> is the function to be called passing
+              uploaded results.
             </li>
             <li>
               <code>noDrag</code> If true, disables drag 'n' drop.

@@ -1,6 +1,6 @@
 {
   "name": "react-papaparse-docs",
-  "version": "4.2.2",
+  "version": "4.4.0",
   "description": "react-papaparse docs.",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
     "raw-loader": "^4.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-papaparse": "^4.2.2",
+    "react-papaparse": "^4.4.0",
     "react-tabs": "^3.1.0"
   },
   "devDependencies": {

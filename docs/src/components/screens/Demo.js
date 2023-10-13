@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { usePapaParse, useCSVReader, lightenDarkenColor, formatFileSize } from 'react-papaparse';
+import {
+  usePapaParse,
+  useCSVReader,
+  lightenDarkenColor,
+  formatFileSize,
+} from 'react-papaparse';
 
 // const BASE_URL = 'https://github.com/Bunlong/react-papaparse/blob/master';
-const BASE_URL = 'https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples';
+const BASE_URL =
+  'https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples';
 
 const GREY = '#CCC';
 const GREY_LIGHT = 'rgba(255, 255, 255, 0.4)';
 const DEFAULT_REMOVE_HOVER_COLOR = '#A01919';
 const REMOVE_HOVER_COLOR_LIGHT = lightenDarkenColor(
   DEFAULT_REMOVE_HOVER_COLOR,
-  40
+  40,
 );
 const GREY_DIM = '#686868';
 
@@ -128,17 +134,17 @@ export default function Demo() {
 
   const [zoneHover1, setZoneHover1] = useState(false);
   const [removeHoverColor1, setRemoveHoverColor1] = useState(
-    DEFAULT_REMOVE_HOVER_COLOR
+    DEFAULT_REMOVE_HOVER_COLOR,
   );
 
   const [zoneHover2, setZoneHover2] = useState(false);
   const [removeHoverColor2, setRemoveHoverColor2] = useState(
-    DEFAULT_REMOVE_HOVER_COLOR
+    DEFAULT_REMOVE_HOVER_COLOR,
   );
 
   const [zoneHover3, setZoneHover3] = useState(false);
   const [removeHoverColor3, setRemoveHoverColor3] = useState(
-    DEFAULT_REMOVE_HOVER_COLOR
+    DEFAULT_REMOVE_HOVER_COLOR,
   );
 
   const [url, setUrl] = useState('');
@@ -219,7 +225,7 @@ export default function Demo() {
         alert('Please enter valid JSON.');
       }
     }
-  }
+  };
 
   const handleURLChange = (event) => {
     setUrl(event.target.value);
@@ -231,7 +237,7 @@ export default function Demo() {
 
   const handleJsonDataChange = (event) => {
     setJsonData(event.target.value);
-  }
+  };
 
   return (
     <>
@@ -280,9 +286,7 @@ export default function Demo() {
               <TabPanel>
                 <div className="input-area" id="input-string">
                   <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
-                    <a href={`${BASE_URL}/readString.tsx`}>
-                      Source code
-                    </a>
+                    <a href={`${BASE_URL}/readString.tsx`}>Source code</a>
                   </div>
                   <textarea
                     id="input"
@@ -295,8 +299,8 @@ export default function Demo() {
               <TabPanel>
                 <div className="input-area" id="input-string">
                   <div className="text-center">
-                    Choose one or more delimited text files for
-                    react-papaparse to parse.
+                    Choose one or more delimited text files for react-papaparse
+                    to parse.
                   </div>
                   <div style={{ marginTop: 60, marginBottom: 46 }}>
                     <h5>Basic Upload</h5>
@@ -306,11 +310,16 @@ export default function Demo() {
                       </a>
                     </div>
                     <CSVReader
-                      onUploadAccepted={(results)=> {
+                      onUploadAccepted={(results) => {
                         setCsvData(results);
                       }}
                     >
-                      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
+                      {({
+                        getRootProps,
+                        acceptedFile,
+                        ProgressBar,
+                        getRemoveFileProps,
+                      }) => (
                         <>
                           <div style={buttonStyles.csvReader}>
                             <button
@@ -331,7 +340,9 @@ export default function Demo() {
                               Remove
                             </button>
                           </div>
-                          <ProgressBar style={buttonStyles.progressBarBackgroundColor} />
+                          <ProgressBar
+                            style={buttonStyles.progressBarBackgroundColor}
+                          />
                         </>
                       )}
                     </CSVReader>
@@ -370,7 +381,7 @@ export default function Demo() {
                             style={Object.assign(
                               {},
                               dragStyles.zone,
-                              zoneHover1 && dragStyles.zoneHover
+                              zoneHover1 && dragStyles.zoneHover,
                             )}
                           >
                             {acceptedFile ? (
@@ -380,7 +391,9 @@ export default function Demo() {
                                     <span style={dragStyles.size}>
                                       {formatFileSize(acceptedFile.size)}
                                     </span>
-                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                    <span style={dragStyles.name}>
+                                      {acceptedFile.name}
+                                    </span>
                                   </div>
                                   <div style={dragStyles.progressBar}>
                                     <ProgressBar />
@@ -390,11 +403,15 @@ export default function Demo() {
                                     style={dragStyles.remove}
                                     onMouseOver={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor1(REMOVE_HOVER_COLOR_LIGHT);
+                                      setRemoveHoverColor1(
+                                        REMOVE_HOVER_COLOR_LIGHT,
+                                      );
                                     }}
                                     onMouseOut={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor1(DEFAULT_REMOVE_HOVER_COLOR);
+                                      setRemoveHoverColor1(
+                                        DEFAULT_REMOVE_HOVER_COLOR,
+                                      );
                                     }}
                                   >
                                     <Remove color={removeHoverColor1} />
@@ -444,7 +461,7 @@ export default function Demo() {
                             style={Object.assign(
                               {},
                               dragStyles.zone,
-                              zoneHover2 && dragStyles.zoneHover
+                              zoneHover2 && dragStyles.zoneHover,
                             )}
                           >
                             {acceptedFile ? (
@@ -454,7 +471,9 @@ export default function Demo() {
                                     <span style={dragStyles.size}>
                                       {formatFileSize(acceptedFile.size)}
                                     </span>
-                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                    <span style={dragStyles.name}>
+                                      {acceptedFile.name}
+                                    </span>
                                   </div>
                                   <div style={dragStyles.progressBar}>
                                     <ProgressBar />
@@ -464,11 +483,15 @@ export default function Demo() {
                                     style={dragStyles.remove}
                                     onMouseOver={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor2(REMOVE_HOVER_COLOR_LIGHT);
+                                      setRemoveHoverColor2(
+                                        REMOVE_HOVER_COLOR_LIGHT,
+                                      );
                                     }}
                                     onMouseOut={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor2(DEFAULT_REMOVE_HOVER_COLOR);
+                                      setRemoveHoverColor2(
+                                        DEFAULT_REMOVE_HOVER_COLOR,
+                                      );
                                     }}
                                   >
                                     <Remove color={removeHoverColor2} />
@@ -518,7 +541,7 @@ export default function Demo() {
                             style={Object.assign(
                               {},
                               dragStyles.zone,
-                              zoneHover3 && dragStyles.zoneHover
+                              zoneHover3 && dragStyles.zoneHover,
                             )}
                           >
                             {acceptedFile ? (
@@ -528,7 +551,9 @@ export default function Demo() {
                                     <span style={dragStyles.size}>
                                       {formatFileSize(acceptedFile.size)}
                                     </span>
-                                    <span style={dragStyles.name}>{acceptedFile.name}</span>
+                                    <span style={dragStyles.name}>
+                                      {acceptedFile.name}
+                                    </span>
                                   </div>
                                   <div style={dragStyles.progressBar}>
                                     <ProgressBar />
@@ -538,11 +563,15 @@ export default function Demo() {
                                     style={dragStyles.remove}
                                     onMouseOver={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor3(REMOVE_HOVER_COLOR_LIGHT);
+                                      setRemoveHoverColor3(
+                                        REMOVE_HOVER_COLOR_LIGHT,
+                                      );
                                     }}
                                     onMouseOut={(event) => {
                                       event.preventDefault();
-                                      setRemoveHoverColor3(DEFAULT_REMOVE_HOVER_COLOR);
+                                      setRemoveHoverColor3(
+                                        DEFAULT_REMOVE_HOVER_COLOR,
+                                      );
                                     }}
                                   >
                                     <Remove color={removeHoverColor3} />
@@ -562,9 +591,7 @@ export default function Demo() {
               <TabPanel>
                 <div className="input-area" id="input-string">
                   <div style={{ marginBottom: 14, textAlignLast: 'end' }}>
-                    <a href={`${BASE_URL/readRemoteFile.tsx}`}>
-                      Source code
-                    </a>
+                    <a href={`${BASE_URL / readRemoteFile.tsx}`}>Source code</a>
                   </div>
                   <div>
                     <div className="text-center">
@@ -587,9 +614,7 @@ export default function Demo() {
                       <li>
                         <a
                           id="local-normal-file"
-                          onClick={() =>
-                            setURL('/static/csv/normal.csv')
-                          }
+                          onClick={() => setURL('/static/csv/normal.csv')}
                           style={{ cursor: 'pointer' }}
                         >
                           Normal file
@@ -607,9 +632,7 @@ export default function Demo() {
                       <li>
                         <a
                           id="local-malformed-file"
-                          onClick={() =>
-                            setURL('/static/csv/malformed.csv')
-                          }
+                          onClick={() => setURL('/static/csv/malformed.csv')}
                           style={{ cursor: 'pointer' }}
                         >
                           Malformed file
@@ -622,9 +645,7 @@ export default function Demo() {
               <TabPanel>
                 <div className="input-area" id="input-string">
                   <div style={{ float: 'right', marginBottom: 14 }}>
-                    <a href={`${BASE_URL}/jsonToCSV.tsx`}>
-                      Source code
-                    </a>
+                    <a href={`${BASE_URL}/jsonToCSV.tsx`}>Source code</a>
                   </div>
                   <textarea
                     id="json"
@@ -654,7 +675,6 @@ export default function Demo() {
     </>
   );
 }
-
 
 // ================================
 
