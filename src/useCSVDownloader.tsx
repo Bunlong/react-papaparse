@@ -1,12 +1,19 @@
 import React from 'react';
 import PapaParse, { UnparseConfig } from 'papaparse';
 
+type ButtonAttributes = React.ButtonHTMLAttributes<HTMLButtonElement>;
+type AnchorAttributes = React.AnchorHTMLAttributes<HTMLAnchorElement>;
+type CommonButtonAnchorProps = Pick<
+  ButtonAttributes & AnchorAttributes,
+  Exclude<keyof ButtonAttributes, keyof AnchorAttributes>
+>;
+
 const Type = {
   Link: 'link',
   Button: 'button',
 } as const;
 
-export interface Props {
+interface _Props {
   children: React.ReactNode;
   data: any;
   filename: string;
@@ -16,6 +23,7 @@ export interface Props {
   bom?: boolean;
   config?: UnparseConfig;
 }
+export type Props = _Props & CommonButtonAnchorProps;
 
 function useCSVDownloaderComponent() {
   const CSVDownloaderComponent = ({
@@ -27,6 +35,7 @@ function useCSVDownloaderComponent() {
     className = '',
     bom = false,
     config = {},
+    ...props
   }: Props) => {
     const download = async () => {
       const bomCode = bom ? '\ufeff' : '';
@@ -68,11 +77,17 @@ function useCSVDownloaderComponent() {
             onClick={() => download()}
             style={style}
             className={className}
+            {...props}
           >
             {children}
           </button>
         ) : (
-          <a onClick={() => download()} style={style} className={className}>
+          <a
+            onClick={() => download()}
+            style={style}
+            className={className}
+            {...props}
+          >
             {children}
           </a>
         )}
