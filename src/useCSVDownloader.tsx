@@ -10,16 +10,18 @@ export type Props = {
   children?: React.ReactNode;
   data: any;
   filename: string;
-  style?: any;
-  className?: string;
   bom?: boolean;
   config?: UnparseConfig;
 } & (
   | {
+      style?: any;
+      className?: string;
       type?: 'link' | 'button';
       component?: never;
     }
   | {
+      style?: never;
+      className?: never;
       type?: never;
       component?: (
         props: React.ComponentPropsWithoutRef<'button'>,
