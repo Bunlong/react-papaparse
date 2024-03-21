@@ -1,21 +1,31 @@
+import PapaParse, { type UnparseConfig } from 'papaparse';
 import React from 'react';
-import PapaParse, { UnparseConfig } from 'papaparse';
 
 const Type = {
   Link: 'link',
   Button: 'button',
 } as const;
 
-export interface Props {
-  children: React.ReactNode;
+export type Props = {
+  children?: React.ReactNode;
   data: any;
   filename: string;
-  type?: 'link' | 'button';
   style?: any;
   className?: string;
   bom?: boolean;
   config?: UnparseConfig;
-}
+} & (
+  | {
+      type?: 'link' | 'button';
+      component?: never;
+    }
+  | {
+      type?: never;
+      component?: (
+        props: React.ComponentPropsWithoutRef<'button'>,
+      ) => React.JSX.Element;
+    }
+);
 
 function useCSVDownloaderComponent() {
   const CSVDownloaderComponent = ({
@@ -27,6 +37,7 @@ function useCSVDownloaderComponent() {
     className = '',
     bom = false,
     config = {},
+    component: Component,
   }: Props) => {
     const download = async () => {
       const bomCode = bom ? '\ufeff' : '';
@@ -61,6 +72,9 @@ function useCSVDownloaderComponent() {
       link.remove();
     };
 
+    if (Component)
+      return <Component onClick={() => download()}>{children}</Component>;
+
     return (
       <>
         {type === Type.Button ? (
@@ -80,7 +94,7 @@ function useCSVDownloaderComponent() {
     );
   };
 
-  const CSVDownloader = React.useMemo(() => CSVDownloaderComponent, []) as any;
+  const CSVDownloader = React.useMemo(() => CSVDownloaderComponent, []);
 
   return CSVDownloader;
 }
