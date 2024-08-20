@@ -296,7 +296,7 @@ function useCSVReaderComponent<T = any>() {
             let configs = {} as any;
             const data: any = [];
             const errors: any = [];
-            const meta: any = [];
+            let meta: any = {};
             const reader = new window.FileReader();
             let percentage = 0;
 
@@ -321,8 +321,8 @@ function useCSVReaderComponent<T = any>() {
                       if (row.errors.length > 0) {
                         errors.push(row.errors);
                       }
-                      if (row.length > 0) {
-                        meta.push(row[0].meta);
+                      if (Object.keys(row.meta).length > 0) {
+                        meta = row.meta;
                       }
                       if (config && config.preview) {
                         percentage = Math.round(
