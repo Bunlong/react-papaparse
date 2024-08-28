@@ -39,6 +39,7 @@ export interface Props<T> {
   noDrag?: boolean;
   noDragEventsBubbling?: boolean;
   noKeyboard?: boolean;
+  noProgressBar?: boolean;
   multiple?: boolean;
   required?: boolean;
   preventDropOnDocument?: boolean;
@@ -72,6 +73,7 @@ function useCSVReaderComponent<T = any>() {
     noDrag = false,
     noDragEventsBubbling = false,
     noKeyboard = false,
+    noProgressBar = false,
     multiple = false,
     required = false,
     preventDropOnDocument = true,
@@ -282,7 +284,9 @@ function useCSVReaderComponent<T = any>() {
             type: 'setFiles',
           });
 
-          setDisplayProgressBar('block');
+          if (!noProgressBar) {
+            setDisplayProgressBar('block');
+          }
 
           // if (onDrop) {
           //   onDrop(acceptedFiles, fileRejections, event)
@@ -352,9 +356,11 @@ function useCSVReaderComponent<T = any>() {
                 PapaParse.parse(e.target.result, configs);
               };
               reader.onloadend = () => {
-                setTimeout(() => {
-                  setDisplayProgressBar('none');
-                }, 2000);
+                if (!noProgressBar) {
+                  setTimeout(() => {
+                    setDisplayProgressBar('none');
+                  }, 2000);
+                }
               };
               reader.readAsText(file, config.encoding || 'utf-8');
             });
