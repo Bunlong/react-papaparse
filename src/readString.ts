@@ -4,7 +4,7 @@ import { ReadStringConfig } from './model';
 
 export function readString<T>(
   csvString: string | typeof NODE_STREAM_INPUT,
-  config: ReadStringConfig<T> & {
+  config?: ReadStringConfig<T> & {
     download?: false | undefined;
     complete(results: ParseResult<T>): void;
   },
