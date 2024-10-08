@@ -24,7 +24,7 @@ describe('readString', () => {
     });
   });
 
-  it('should return an array as expected even without config', function() {
+  it('should return an array as expected without config', function() {
     const fixtures = `Column 1,Column 2,Column 3,Column 4
 1-1,1-2,1-3,1-4
 2-1,2-2,2-3,2-4
