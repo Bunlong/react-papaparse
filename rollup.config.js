@@ -1,10 +1,11 @@
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import dts from "rollup-plugin-dts";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
 
-const config = [
+export default [
+  // ESM + CJS build
   {
     input: "src/index.ts",
     output: [
@@ -16,30 +17,25 @@ const config = [
       {
         file: "dist/index.cjs",
         format: "cjs",
-        sourcemap: true
+        sourcemap: true,
+        exports: "named"
       }
     ],
     plugins: [
       peerDepsExternal(),
       resolve(),
       commonjs(),
-      typescript({
-        tsconfig: "./tsconfig.json",
-        declaration: false
-      })
+      typescript({ tsconfig: "./tsconfig.json" })
     ]
   },
+
+  // Type declarations
   {
-    input: "dist/types/index.d.ts",
-    output: [
-      {
-        file: "dist/index.d.ts",
-        format: "es"
-      }
-    ],
-    plugins: [dts()],
-    external: [/\.css$/]
+    input: "src/index.ts",
+    output: {
+      file: "dist/index.d.ts",
+      format: "esm"
+    },
+    plugins: [dts()]
   }
 ];
-
-export default config;
