@@ -15,7 +15,9 @@
     "skipLibCheck": true,
 
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+
+    "types": ["jest"]
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules"]
