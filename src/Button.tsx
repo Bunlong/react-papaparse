@@ -3,9 +3,5 @@ export interface ButtonProps {
 }
 
 export function Button({ label }: ButtonProps) {
-  return (
-    <button>
-      {label}
-    </button>
-  );
+  return <button>{label}</button>;
 }
