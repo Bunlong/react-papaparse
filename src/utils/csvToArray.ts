@@ -1,4 +1,4 @@
-import Papa from "papaparse";
+import Papa from 'papaparse';
 
 export function csvToArray(csv: string): Promise<string[][]> {
   return new Promise((resolve, reject) => {

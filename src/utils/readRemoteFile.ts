@@ -1,4 +1,4 @@
-import Papa, { ParseConfig } from "papaparse";
+import Papa, { ParseConfig } from 'papaparse';
 
 export function readRemoteFile<T = any>(
   url: string,

@@ -52,6 +52,7 @@
     "@types/react-dom": "^19.2.3",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
+    "prettier": "^3.8.4",
     "rollup": "^4.62.2",
     "rollup-plugin-dts": "^6.4.1",
     "rollup-plugin-peer-deps-external": "^2.2.4",
@@ -60,5 +61,8 @@
   },
   "engines": {
     "node": ">=18"
+  },
+  "dependencies": {
+    "tslib": "^2.8.1"
   }
 }
