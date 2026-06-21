@@ -25,7 +25,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "size:check": "npm run build && bundlesize"
   },
   "repository": {
     "type": "git",
@@ -50,6 +51,7 @@
     "@types/papaparse": "^5.3.9",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "bundlesize": "^0.18.2",
     "jest": "^30.4.2",
     "jest-environment-jsdom": "^30.4.1",
     "prettier": "^3.8.4",
@@ -64,5 +66,15 @@
   },
   "dependencies": {
     "tslib": "^2.8.1"
-  }
+  },
+  "bundlesize": [
+    {
+      "path": "./dist/**/*.js",
+      "maxSize": "1030 B"
+    },
+    {
+      "path": "./dist/**/*.d.ts",
+      "maxSize": "1030 B"
+    }
+  ]
 }
