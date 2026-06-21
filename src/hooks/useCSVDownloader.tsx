@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import PapaParse, { UnparseConfig } from 'papaparse';
+import Papa, { UnparseConfig } from 'papaparse';
 
 export const Type = {
   Link: 'link',
@@ -36,7 +36,7 @@ const CSVDownloaderComponent: React.FC<Props> = ({
 
     const csvContent =
       typeof resolvedData === 'object'
-        ? PapaParse.unparse(resolvedData as any, config)
+        ? Papa.unparse(resolvedData as any, config)
         : String(resolvedData);
 
     const csvBlob = new Blob([`${bomCode}${csvContent}`], {
